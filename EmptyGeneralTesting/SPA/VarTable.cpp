@@ -33,6 +33,19 @@ bool addModifiedBy(VARINDEX var){
 
 }
 
+//Need to create TNode Class First
+bool addUsedBy(VARINDEX var, TNode node){
+
+}
+
+vector<TNode> getModifiedBy(VARINDEX var){
+
+}
+
+vector<TNode> getUsedBy (VARINDEX var){
+
+}
+
 
 
 //destructor

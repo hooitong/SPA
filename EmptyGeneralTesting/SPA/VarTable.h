@@ -7,8 +7,6 @@ typedef short PROC;
 typedef int VARINDEX;
 typedef string VARNAME;
 
-class TNode;
-
 class VarTable
 {
 public:
