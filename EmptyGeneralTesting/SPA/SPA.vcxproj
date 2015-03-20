@@ -24,6 +24,7 @@
     <ClInclude Include="..\source\ProcTable.h" />
     <ClInclude Include="..\source\TNode.h" />
     <ClInclude Include="..\source\Uses.h" />
+    <ClInclude Include="VarTable.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\Affects.cpp" />
@@ -40,6 +41,7 @@
     <ClCompile Include="..\source\ProcTable.cpp" />
     <ClCompile Include="..\source\TNode.cpp" />
     <ClCompile Include="..\source\Uses.cpp" />
+    <ClCompile Include="VarTable.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DC21A1EA-D2C6-4D14-A2B4-E025B64BDE81}</ProjectGuid>
