@@ -11,3 +11,6 @@ If there is error such as
 >could not open source file "TNode.h"
 
 Right click SPA> Properties >C/C++> General> Additonal Include Directories> select the respective directory to the source folder
+
+###Things to take note
+Exit Visual Studio when committing code, as GitHub(Windows GUI) does not allow user to commit when the application is open.
