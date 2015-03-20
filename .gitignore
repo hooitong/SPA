@@ -228,19 +228,3 @@ FakesAssemblies/
 *.exe
 *.out
 *.app
-
-# Project Settings
-/AutoTester
-/lib
-/IntegrationTesting
-/EmptyGeneralTesting.sdf
-/EmptyGeneralTesting/AutoTester/
-/EmptyGeneralTEsting/Include/cppunit/
-/EmptyGeneralTesting/EmptyGeneralTesting.sln
-/EmptyGeneralTesting/IntegrationTesting/IntegrationTesting.vcxproj
-/EmptyGeneralTesting/IntegrationTesting/IntegrationTesting.vcxproj.filters
-/EmptyGeneralTesting.sln
-/EmptyGeneralTesting/UnitTesting/source.vcxproj
-/EmptyGeneralTesting/UnitTesting/source.vcxproj.filters
-
-*.pdf
