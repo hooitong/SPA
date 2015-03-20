@@ -17,6 +17,7 @@
     <ClInclude Include="..\source\CFG.h" />
     <ClInclude Include="..\source\ConstTable.h" />
     <ClInclude Include="..\source\Follows.h" />
+    <ClInclude Include="..\source\GNode.h" />
     <ClInclude Include="..\source\Modifies.h" />
     <ClInclude Include="..\source\Parent.h" />
     <ClInclude Include="..\source\Parser.h" />
@@ -34,6 +35,7 @@
     <ClCompile Include="..\source\ConstTable.cpp" />
     <ClCompile Include="..\source\DesignExtractor.cpp" />
     <ClCompile Include="..\source\Follows.cpp" />
+    <ClCompile Include="..\source\GNode.cpp" />
     <ClCompile Include="..\source\Modifies.cpp" />
     <ClCompile Include="..\source\Parent.cpp" />
     <ClCompile Include="..\source\Parser.cpp" />
