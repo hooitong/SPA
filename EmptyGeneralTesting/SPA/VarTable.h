@@ -2,13 +2,19 @@
 
 #include <vector>
 
+
 using namespace std;
 typedef short PROC;
 typedef int VARINDEX;
 typedef string VARNAME;
 
+#include "TNode.h"
+
 class VarTable
 {
+
+private:
+
 public:
 	VarTable(void);
 	~VarTable(void);
