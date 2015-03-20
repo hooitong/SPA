@@ -228,3 +228,8 @@ FakesAssemblies/
 *.exe
 *.out
 *.app
+
+# Project Settings
+/SPA/SPA.sln
+/SPA/SPA/SPA.vcxproj
+/SPA/SPA/SPA.vcxproj.filters
