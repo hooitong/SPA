@@ -242,4 +242,6 @@ FakesAssemblies/
 /EmptyGeneralTesting.sln
 /EmptyGeneralTesting/UnitTesting/source.vcxproj
 /EmptyGeneralTesting/UnitTesting/source.vcxproj.filters
+/EmptyGeneralTesting/SPA/SPA.vcxproj
+/EmptyGeneralTesting/SPA/SPA.vcxproj.filters
 
