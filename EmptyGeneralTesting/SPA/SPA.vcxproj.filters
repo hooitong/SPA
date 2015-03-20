@@ -54,7 +54,7 @@
     <ClInclude Include="..\source\Uses.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VarTable.h">
+    <ClInclude Include="..\source\VarTable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -101,7 +101,7 @@
     <ClCompile Include="..\source\Uses.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VarTable.cpp">
+    <ClCompile Include="..\source\VarTable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
