@@ -243,3 +243,4 @@ FakesAssemblies/
 /EmptyGeneralTesting/UnitTesting/source.vcxproj
 /EmptyGeneralTesting/UnitTesting/source.vcxproj.filters
 
+*.pdf
