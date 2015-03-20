@@ -9,6 +9,7 @@ typedef int PROCINDEX, VARINDEX;
 typedef string PROCNAME;
 
 #include <TNode.h>
+#include <GNode.h>
 
 
 class ProcTable
