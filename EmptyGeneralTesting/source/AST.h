@@ -12,7 +12,6 @@ public:
 	AST(void);
 	~AST(void);
 
-	TNode createTNode(TType nodeType, string name);
 	bool setSibling(TNode leftNode, TNode rightNode);
 	bool addChildTNode(TNode parent, TNode child);	
 	vector<TNode> getChildren(TNode parent);
@@ -22,15 +21,9 @@ public:
 	TNode getParentTNode(TNode node);
 	GNode getGNode(TNode node);
 	bool setGNode(TNode tNode, GNode gNode);
-	TType getTType(TNode node);
-	bool isTTYpe(TNode node, TType type);
 	TNode getTNode(STMTLine line);
 	bool setRoot(TNode root);
 	TNode getRoot();
 	string getValue(TNode node);
-
-
-
-
 };
 

@@ -19,7 +19,7 @@ public:
 	~ProcTable(void);
 
 	PROCINDEX insertProc(PROCNAME procName);
-	PROCINDEX getProcINdex(PROCNAME procName);
+	PROCINDEX getProcIndex(PROCNAME procName);
 	PROCNAME getProcName(PROCINDEX procIndex);
 	vector<PROCNAME> getAllProc();
 	bool setTRoot(PROCINDEX index, TNode node);

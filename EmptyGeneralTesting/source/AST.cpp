@@ -5,37 +5,70 @@ AST::AST(void)
 {
 }
 
-TNode createTNode(TType nodeType, string name){
+bool setSibling(TNode leftNode, TNode rightNode)
+{
+	return false;
 }
-bool setSibling(TNode leftNode, TNode rightNode){
+
+bool addChildTNode(TNode parent, TNode child)
+{
+	return false;
 }
-bool addChildTNode(TNode parent, TNode child){
+
+vector<TNode> getChildren(TNode parent)
+{
+	vector<TNode> children;
+	return children;
 }
-vector<TNode> getChildren(TNode parent){
+
+TNode getTChildNode(TNode parent, int children)
+{
+	return TNode();
 }
-TNode getTChildNode(TNode parent, int children){
+
+TNode getLeftSibling(TNode node)
+{
+	return TNode();
 }
-TNode getLeftSibling(TNode node){
+
+TNode getRightSibling(TNode node)
+{
+	return TNode();
 }
-TNode getRightSibling(TNode node){
+
+TNode getParentTNode(TNode node)
+{
+	return TNode();
 }
-TNode getParentTNode(TNode node){
+
+GNode getGNode(TNode node)
+{
+	return GNode();
 }
-GNode getGNode(TNode node){
+
+bool setGNode(TNode tNode, GNode gNode)
+{
+	return false;
 }
-bool setGNode(TNode tNode, GNode gNode){
+
+TNode getTNode(STMTLine line)
+{
+	return TNode();
 }
-TType getTType(TNode node){
+
+bool setRoot(TNode root)
+{
+	return false;
 }
-bool isTTYpe(TNode node, TType type){
+
+TNode getRoot()
+{
+	return TNode();
 }
-TNode getTNode(STMTLine line){
-}
-bool setRoot(TNode root){
-}
-TNode getRoot(){
-}
-string getValue(TNode node){
+
+string getValue(TNode node)
+{
+	return "";
 }
 
 
