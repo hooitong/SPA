@@ -13,10 +13,10 @@ public:
 	PROCTable(void);
 	~PROCTable(void);
 
-	PROCINDEX insertPROC(PROCName PROCName);
-	PROCINDEX getPROCINDEX(PROCName PROCName);
-	PROCName getPROCName(PROCINDEX PROCINDEX);
-	vector<PROCName> getAllPROC();
+	PROCINDEX insertPROC(PROCNAME PROCName);
+	PROCINDEX getPROCINDEX(PROCNAME PROCName);
+	PROCNAME getPROCName(PROCINDEX PROCINDEX);
+	vector<PROCNAME> getAllPROC();
 	bool setTRoot(PROCINDEX index, TNode node);
 	bool setGRoot(PROCINDEX index, GNode node);
 	TNode getTRoot(PROCINDEX index);

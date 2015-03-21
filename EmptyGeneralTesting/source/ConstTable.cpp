@@ -3,15 +3,21 @@
 
 ConstTable::ConstTable(void)
 {
+	
 }
 
-ConstIndex insertConst(int constant){
+CONSTINDEX insertConst(int constant){
+	return -1;
 }
-int getConst(ConstIndex index){
+int getConst(CONSTINDEX index){
+	return -1;
 }
-ConstIndex getConstIndex(int constant){
+CONSTINDEX getConstIndex(int constant){
+	return -1;	
 }
 vector<int> getAllConst(){
+	vector<int> a;
+	return a;
 }
 
 

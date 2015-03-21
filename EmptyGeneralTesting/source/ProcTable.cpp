@@ -5,24 +5,24 @@ PROCTable::PROCTable(void)
 {
 }
 
-PROCINDEX insertPROC(PROCName PROCName)
+PROCINDEX insertPROC(PROCNAME PROCName)
 {
 	return -1;
 }
 
-PROCINDEX getPROCINDEX(PROCName PROCName)
+PROCINDEX getPROCINDEX(PROCNAME PROCName)
 {
 	return -1;
 }
 
-PROCName getPROCName(PROCINDEX PROCINDEX)
+PROCNAME getPROCName(PROCINDEX PROCINDEX)
 {
 	return "";
 }
 
-vector<PROCName> getAllPROC()
+vector<PROCNAME> getAllPROC()
 {
-	vector<PROCName> PROCNameList;
+	vector<PROCNAME> PROCNameList;
 	return PROCNameList;
 }
 
