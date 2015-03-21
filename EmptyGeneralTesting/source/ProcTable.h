@@ -1,16 +1,12 @@
 #pragma once
-
-
 #include <vector>
+#include "TNode.h"
+#include "GNode.h"
 
 using namespace std;
 
-typedef int PROCINDEX, VARINDEX;
-typedef string PROCNAME;
-
-#include <TNode.h>
-#include <GNode.h>
-
+typedef int ProcIndex, VarIndex;
+typedef string ProcName;
 
 class ProcTable
 {
@@ -18,17 +14,17 @@ public:
 	ProcTable(void);
 	~ProcTable(void);
 
-	PROCINDEX insertProc(PROCNAME procName);
-	PROCINDEX getProcIndex(PROCNAME procName);
-	PROCNAME getProcName(PROCINDEX procIndex);
-	vector<PROCNAME> getAllProc();
-	bool setTRoot(PROCINDEX index, TNode node);
-	bool setGRoot(PROCINDEX index, GNode node);
-	TNode getTRoot(PROCINDEX index);
-	GNode getGNode(PROCINDEX index);
-	bool addModified(PROCINDEX proc, VARINDEX var);
-	bool addUsed(PROCINDEX proc, VARINDEX var);
-	vector<VARINDEX> getModified(PROCINDEX proc);
-	vector<VARINDEX> getUsed(PROCINDEX proc);
+	ProcIndex insertProc(ProcName ProcName);
+	ProcIndex getProcIndex(ProcName ProcName);
+	ProcName getProcName(ProcIndex ProcIndex);
+	vector<ProcName> getAllProc();
+	bool setTRoot(ProcIndex index, TNode node);
+	bool setGRoot(ProcIndex index, GNode node);
+	TNode getTRoot(ProcIndex index);
+	GNode getGNode(ProcIndex index);
+	bool addModified(ProcIndex proc, VarIndex var);
+	bool addUsed(ProcIndex proc, VarIndex var);
+	vector<VarIndex> getModified(ProcIndex proc);
+	vector<VarIndex> getUsed(ProcIndex proc);
 };
 

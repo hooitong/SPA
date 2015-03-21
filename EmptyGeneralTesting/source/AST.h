@@ -1,10 +1,13 @@
 #pragma once
+#include <vector>
+#include "TNode.h"
+#include "GNode.h"
+
+using namespace std;
 
 typedef int STMTLine;
-using namespace std;
-#include <TNode.h>
-#include <GNode.h>
-#include <vector>
+
+
 
 class AST
 {

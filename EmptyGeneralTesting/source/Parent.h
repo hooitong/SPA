@@ -1,8 +1,8 @@
 #pragma once
-
-typedef int STMTLine;
 #include <vector>
 #include "TNode.h"
+
+typedef int STMTLine;
 
 class Parent
 {

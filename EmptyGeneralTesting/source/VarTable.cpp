@@ -8,16 +8,16 @@ VarTable::VarTable(void)
 
 
 
-VARINDEX insertVar(VARNAME varName)
+VarIndex insertVar(VarName VarName)
 {
 	return -1;
 }
 
-VARNAME getVarName(VARINDEX varIndex){
+VarName getVarName(VarIndex VarIndex){
 	return "";
 }
 
-VARINDEX getVarIndex(VARNAME varName){
+VarIndex getVarIndex(VarName VarName){
 	return -1;
 }
 
@@ -25,26 +25,26 @@ int getSize(){
 	return -1;
 }
 
-vector<VARINDEX> getAllVar(){
-	vector<VARINDEX> varIndexList;
-	return varIndexList;
+vector<VarIndex> getAllVar(){
+	vector<VarIndex> VarIndexList;
+	return VarIndexList;
 }
 
-bool addModifiedBy(VARINDEX var){
+bool addModifiedBy(VarIndex var){
 	return false;
 }
 
 //Need to create TNode Class First
-bool addUsedBy(VARINDEX var, TNode node){
+bool addUsedBy(VarIndex var, TNode node){
 	return false;
 }
 
-vector<TNode> getModifiedBy(VARINDEX var){
+vector<TNode> getModifiedBy(VarIndex var){
 	vector<TNode> tNodeList;
 	return tNodeList;
 }
 
-vector<TNode> getUsedBy (VARINDEX var){
+vector<TNode> getUsedBy (VarIndex var){
 	vector<TNode> tNodeList;
 	return tNodeList;
 }

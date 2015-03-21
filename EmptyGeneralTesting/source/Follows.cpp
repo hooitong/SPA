@@ -7,13 +7,13 @@ Follows::Follows(void)
 
 TNode setFollows(STMTLine stmtLineFirst, STMTLine stmtLineSecond){
 }
-bool isFollow(STMTLine stmtLineFirst, STMTLine second){
+bool isFollow(STMTLine stmtLineFirst, STMTLine stmtLineSecond){
 }
-bool isFollowStar(STMTLine stmtLineFirst, STMTLine second){
+bool isFollowStar(STMTLine stmtLineFirst, STMTLine stmtLineSecond){
 }
-vector<TNode> getFollowedByStar(STMTLine line){
+vector<TNode> getFollowedByStar(STMTLine currentLine){
 }
-vector<TNode> getFollowsFromStar(STMTLine line){
+vector<TNode> getFollowsFromStar(STMTLine currentLine){
 }
 
 

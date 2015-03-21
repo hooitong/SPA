@@ -1,7 +1,9 @@
 #pragma once
-
-#include "TNode.h"
 #include <vector>
+#include "TNode.h"
+
+using namespace std;
+
 typedef int STMTLine;
 
 class Follows
@@ -11,9 +13,9 @@ public:
 	~Follows(void);
 
 	TNode setFollows(STMTLine stmtLineFirst, STMTLine stmtLineSecond);
-	bool isFollow(STMTLine stmtLineFirst, STMTLine second);
-	bool isFollowStar(STMTLine stmtLineFirst, STMTLine second);
-	vector<TNode> getFollowedByStar(STMTLine line);
-	vector<TNode> getFollowsFromStar(STMTLine line);
+	bool isFollow(STMTLine stmtLineFirst, STMTLine stmtLineSecond);
+	bool isFollowStar(STMTLine stmtLineFirst, STMTLine stmtLineSecond);
+	vector<TNode> getFollowedByStar(STMTLine currentLine);
+	vector<TNode> getFollowsFromStar(STMTLine currentLine);
 };
 
