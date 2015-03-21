@@ -6,19 +6,19 @@ Parent::Parent(void)
 }
 
 
-bool setParent(STMTLine parent, STMTLine child){
+bool setParent(STMTLINE parent, STMTLINE child){
 }
-bool isParent(STMTLine first, STMTLine second){
+bool isParent(STMTLINE first, STMTLINE second){
 }
-bool isParentStar(STMTLine first, STMTLine second){
+bool isParentStar(STMTLINE first, STMTLINE second){
 }
-TNode getParent(STMTLine child){
+TNode getParent(STMTLINE child){
 }
-vector<TNode> getParentStar(STMTLine child){
+vector<TNode> getParentStar(STMTLINE child){
 }
-vector<TNode> getChildOf(STMTLine parent){
+vector<TNode> getChildOf(STMTLINE parent){
 }
-vector<TNode> getChildOfStar(STMTLine parent){
+vector<TNode> getChildOfStar(STMTLINE parent){
 }
 
 Parent::~Parent(void)

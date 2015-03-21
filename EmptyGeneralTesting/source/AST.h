@@ -1,11 +1,11 @@
 #pragma once
 #include <vector>
+#include "GlobalTypedef.h"
 #include "TNode.h"
 #include "GNode.h"
 
 using namespace std;
 
-typedef int STMTLine;
 
 
 
@@ -24,7 +24,7 @@ public:
 	TNode getParentTNode(TNode node);
 	GNode getGNode(TNode node);
 	bool setGNode(TNode tNode, GNode gNode);
-	TNode getTNode(STMTLine line);
+	TNode getTNode(STMTLINE line);
 	bool setRoot(TNode root);
 	TNode getRoot();
 	string getValue(TNode node);

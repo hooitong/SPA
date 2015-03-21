@@ -51,7 +51,7 @@ bool setGNode(TNode tNode, GNode gNode)
 	return false;
 }
 
-TNode getTNode(STMTLine line)
+TNode getTNode(STMTLINE line)
 {
 	return TNode();
 }

@@ -5,15 +5,15 @@ Follows::Follows(void)
 {
 }
 
-TNode setFollows(STMTLine stmtLineFirst, STMTLine stmtLineSecond){
+TNode setFollows(STMTLINE STMTLINEFirst, STMTLINE STMTLINESecond){
 }
-bool isFollow(STMTLine stmtLineFirst, STMTLine stmtLineSecond){
+bool isFollow(STMTLINE STMTLINEFirst, STMTLINE STMTLINESecond){
 }
-bool isFollowStar(STMTLine stmtLineFirst, STMTLine stmtLineSecond){
+bool isFollowStar(STMTLINE STMTLINEFirst, STMTLINE STMTLINESecond){
 }
-vector<TNode> getFollowedByStar(STMTLine currentLine){
+vector<TNode> getFollowedByStar(STMTLINE currentLine){
 }
-vector<TNode> getFollowsFromStar(STMTLine currentLine){
+vector<TNode> getFollowsFromStar(STMTLINE currentLine){
 }
 
 

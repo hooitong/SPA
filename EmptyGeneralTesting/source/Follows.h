@@ -1,10 +1,10 @@
 #pragma once
 #include <vector>
+#include "GlobalTypedef.h"
 #include "TNode.h"
 
 using namespace std;
 
-typedef int STMTLine;
 
 class Follows
 {
@@ -12,10 +12,10 @@ public:
 	Follows(void);
 	~Follows(void);
 
-	TNode setFollows(STMTLine stmtLineFirst, STMTLine stmtLineSecond);
-	bool isFollow(STMTLine stmtLineFirst, STMTLine stmtLineSecond);
-	bool isFollowStar(STMTLine stmtLineFirst, STMTLine stmtLineSecond);
-	vector<TNode> getFollowedByStar(STMTLine currentLine);
-	vector<TNode> getFollowsFromStar(STMTLine currentLine);
+	TNode setFollows(STMTLINE STMTLINEFirst, STMTLINE STMTLINESecond);
+	bool isFollow(STMTLINE STMTLINEFirst, STMTLINE STMTLINESecond);
+	bool isFollowStar(STMTLINE STMTLINEFirst, STMTLINE STMTLINESecond);
+	vector<TNode> getFollowedByStar(STMTLINE currentLine);
+	vector<TNode> getFollowsFromStar(STMTLINE currentLine);
 };
 

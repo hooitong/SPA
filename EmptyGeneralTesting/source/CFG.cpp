@@ -7,13 +7,13 @@ CFG::CFG(void)
 
 
 
-GNode createGNode(ProgLine nodeRoot){
+GNode createGNode(PROGLINE nodeRoot){
 }
-bool setStmtNumber(ProgLine progLine){
+bool setStmtNumber(PROGLINE PROGLINE){
 }
-bool addProgLine(GNode node, ProgLine progLine){
+bool addPROGLINE(GNode node, PROGLINE PROGLINE){
 }
-GNode getGNode(ProgLine progLine){
+GNode getGNode(PROGLINE PROGLINE){
 }
 GNode getNextGNode(GNode current, bool getRight){
 }
@@ -23,24 +23,24 @@ bool setNextGNode(GNode current, GNode next, bool direction){
 }
 bool setPreviousGNode(GNode current, GNode prevous, bool direction){
 }
-vector<ProgLine> getAllLine(GNode node){
+vector<PROGLINE> getAllLine(GNode node){
 }
 bool setGRoot(GNode root){
 }
 vector<GNode> getGRoots(){
 }
 
-bool isNext(ProgLine firstLine, ProgLine secondLine){
+bool isNext(PROGLINE firstLine, PROGLINE secondLine){
 }
-bool isNextStar(ProgLine firstLine, ProgLine secondLine){
+bool isNextStar(PROGLINE firstLine, PROGLINE secondLine){
 }
-vector<ProgLine> getBefore(ProgLine currentLine){
+vector<PROGLINE> getBefore(PROGLINE currentLine){
 }
-vector<ProgLine> getBeforeStar (ProgLine currentLine){
+vector<PROGLINE> getBeforeStar (PROGLINE currentLine){
 }
-vector <ProgLine> getNext(ProgLine currentLine){
+vector <PROGLINE> getNext(PROGLINE currentLine){
 }
-vector <ProgLine> getNextStar(ProgLine currentLine){
+vector <PROGLINE> getNextStar(PROGLINE currentLine){
 }
 CFG::~CFG(void)
 {

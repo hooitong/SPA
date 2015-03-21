@@ -113,5 +113,8 @@
     <ClInclude Include="..\source\VarTable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\GlobalTypedef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

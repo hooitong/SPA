@@ -1,75 +1,75 @@
-#include "ProcTable.h"
+#include "PROCTable.h"
 
 //constructor
-ProcTable::ProcTable(void)
+PROCTable::PROCTable(void)
 {
 }
 
-ProcIndex insertProc(ProcName ProcName)
-{
-	return -1;
-}
-
-ProcIndex getProcIndex(ProcName ProcName)
+PROCINDEX insertPROC(PROCName PROCName)
 {
 	return -1;
 }
 
-ProcName getProcName(ProcIndex ProcIndex)
+PROCINDEX getPROCINDEX(PROCName PROCName)
+{
+	return -1;
+}
+
+PROCName getPROCName(PROCINDEX PROCINDEX)
 {
 	return "";
 }
 
-vector<ProcName> getAllProc()
+vector<PROCName> getAllPROC()
 {
-	vector<ProcName> ProcNameList;
-	return ProcNameList;
+	vector<PROCName> PROCNameList;
+	return PROCNameList;
 }
 
-bool setTRoot(ProcIndex index, TNode node)
-{
-	return false;
-}
-
-bool setGRoot(ProcIndex index, GNode node)
+bool setTRoot(PROCINDEX index, TNode node)
 {
 	return false;
 }
 
-TNode getTRoot(ProcIndex index)
+bool setGRoot(PROCINDEX index, GNode node)
+{
+	return false;
+}
+
+TNode getTRoot(PROCINDEX index)
 {
 	return TNode();
 }
 
-GNode getGNode(ProcIndex index)
+GNode getGNode(PROCINDEX index)
 {
 	return GNode();
 }
 
-bool addModified(ProcIndex proc, VarIndex var)
+bool addModified(PROCINDEX PROC, VARINDEX var)
 {
 	return false;
 }
 
-bool addUsed(ProcIndex proc, VarIndex var)
+bool addUsed(PROCINDEX PROC, VARINDEX var)
 {
 	return false;
 }
 
-vector<VarIndex> getModified(ProcIndex proc)
+vector<VARINDEX> getModified(PROCINDEX PROC)
 {
-	vector<VarIndex> VarIndexList;
-	return VarIndexList;
+	vector<VARINDEX> VARINDEXList;
+	return VARINDEXList;
 }
 
-vector<VarIndex> getUsed(ProcIndex proc)
+vector<VARINDEX> getUsed(PROCINDEX PROC)
 {
-	vector<VarIndex> VarIndexList;
-	return VarIndexList;
+	vector<VARINDEX> VARINDEXList;
+	return VARINDEXList;
 }
 
 //destructor
-ProcTable::~ProcTable(void)
+PROCTable::~PROCTable(void)
 {
 
 }

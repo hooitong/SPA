@@ -1,9 +1,9 @@
 #pragma once
 #include <vector>
+#include "GlobalTypedef.h"
 
 using namespace std;
 
-typedef ConstIndex;
 
 class ConstTable
 {
@@ -11,9 +11,9 @@ public:
 	ConstTable(void);
 	~ConstTable(void);
 
-	ConstIndex insertConst(int constant);
-	int getConst(ConstIndex index);
-	ConstIndex getConstIndex(int constant);
+	CONSTINDEX insertConst(int constant);
+	int getConst(CONSTINDEX index);
+	CONSTINDEX getConstIndex(int constant);
 	vector<int> getAllConst();
 
 	

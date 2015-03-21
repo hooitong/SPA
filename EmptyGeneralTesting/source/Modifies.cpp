@@ -6,15 +6,15 @@ Modifies::Modifies(void)
 }
 
 
-bool setModifiesInProc(ProcIndex ProcIndex, VarIndex VarIndex){
+bool setModifiesInPROC(PROCINDEX PROCINDEX, VARINDEX VARINDEX){
 }
-bool setModifiesInStmt(STMTLine stmt, VarIndex VarIndex){
+bool setModifiesInStmt(STMTLINE stmt, VARINDEX VARINDEX){
 }
-vector<VarIndex> getModifiedByProc(ProcIndex ProcIndex){
+vector<VARINDEX> getModifiedByPROC(PROCINDEX PROCINDEX){
 }
-vector<VarIndex> getModifiedByStmt(STMTLine stmtLine){
+vector<VARINDEX> getModifiedByStmt(STMTLINE STMTLINE){
 }
-vector<TNode> getModifies(VarIndex VarIndex){
+vector<TNode> getModifies(VARINDEX VARINDEX){
 }
 
 Modifies::~Modifies(void)

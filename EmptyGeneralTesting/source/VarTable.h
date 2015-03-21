@@ -1,12 +1,10 @@
 #pragma once
 #include <vector>
+#include "GlobalTypedef.h"
 #include "TNode.h"
 
 using namespace std;
 
-typedef short Proc;
-typedef int VarIndex;
-typedef string VarName;
 
 
 
@@ -19,15 +17,15 @@ public:
 	VarTable(void);
 	~VarTable(void);
 
-	static VarIndex insertVar(VarName VarName);
-	static VarName getVarName(VarIndex VarIndex);
-	static VarIndex getVarIndex(VarName VarName);
+	static VARINDEX insertVar(VARNAME VARNAME);
+	static VARNAME getVARNAME(VARINDEX VARINDEX);
+	static VARINDEX getVARINDEX(VARNAME VARNAME);
 	static int getSize();
-	static vector<VarIndex> getAllVar();
-	static bool addModifiedBy(VarIndex var, TNode node);
-	static bool addUsedBy (VarIndex var, TNode node);
-	static vector<TNode> getModifiedBy(VarIndex var);
-	static vector<TNode> getUsedBy(VarIndex var);
+	static vector<VARINDEX> getAllVar();
+	static bool addModifiedBy(VARINDEX var, TNode node);
+	static bool addUsedBy (VARINDEX var, TNode node);
+	static vector<TNode> getModifiedBy(VARINDEX var);
+	static vector<TNode> getUsedBy(VARINDEX var);
 
 };
 

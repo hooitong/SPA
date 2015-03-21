@@ -1,8 +1,8 @@
 #pragma once
 #include <vector>
+#include "GlobalTypedef.h"
 #include "TNode.h"
 
-typedef int ProcIndex, VarIndex, STMTLine;
 
 class Uses
 {
@@ -10,10 +10,10 @@ public:
 	Uses(void);
 	~Uses(void);
 
-	bool setUsesInProc(ProcIndex ProcIndex, VarIndex VarIndex);
-	bool setUsesInStmt(STMTLine stmtLine, VarIndex VarIndex);
-	vector<VarIndex> getUsedByProc (ProcIndex ProcIndex);
-	vector<VarIndex> getUsedByStmt (STMTLine stmtLine);
-	vector<TNode> getUses(VarIndex VarIndex);
+	bool setUsesInPROC(PROCINDEX PROCINDEX, VARINDEX VARINDEX);
+	bool setUsesInStmt(STMTLINE STMTLINE, VARINDEX VARINDEX);
+	vector<VARINDEX> getUsedByPROC (PROCINDEX PROCINDEX);
+	vector<VARINDEX> getUsedByStmt (STMTLINE STMTLINE);
+	vector<TNode> getUses(VARINDEX VARINDEX);
 };
 

@@ -5,15 +5,15 @@ Uses::Uses(void)
 {
 }
 
-bool setUsesInProc(ProcIndex ProcIndex, VarIndex VarIndex){
+bool setUsesInPROC(PROCINDEX PROCINDEX, VARINDEX VARINDEX){
 }
-bool setUsesInStmt(STMTLine stmtLine, VarIndex VarIndex){
+bool setUsesInStmt(STMTLINE STMTLINE, VARINDEX VARINDEX){
 }
-vector<VarIndex> getUsedByProc (ProcIndex ProcIndex){
+vector<VARINDEX> getUsedByPROC (PROCINDEX PROCINDEX){
 }
-vector<VarIndex> getUsedByStmt (STMTLine stmtLine){
+vector<VARINDEX> getUsedByStmt (STMTLINE STMTLINE){
 }
-vector<TNode> getUses(VarIndex VarIndex){
+vector<TNode> getUses(VARINDEX VARINDEX){
 }
 
 
