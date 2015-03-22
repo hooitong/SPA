@@ -68,7 +68,7 @@ vector<VARNAME> VarTable::getAllVarName(){
 	return listOfVarName;
 }
 
-bool VarTable::addModifiedBy(VARINDEX varIndex, TNode node){
+bool VarTable::addModifiedBy(VARINDEX varIndex, TNode* node){
 	if(varIndex < 0 || varIndex >= currentMapIndex) {
 		return false;
 	} else {
@@ -77,7 +77,7 @@ bool VarTable::addModifiedBy(VARINDEX varIndex, TNode node){
 	}
 }
 
-bool VarTable::addUsedBy(VARINDEX varIndex, TNode node){
+bool VarTable::addUsedBy(VARINDEX varIndex, TNode* node){
 	if(varIndex < 0 || varIndex >= currentMapIndex) {
 		return false;
 	} else {
@@ -86,7 +86,7 @@ bool VarTable::addUsedBy(VARINDEX varIndex, TNode node){
 	}
 }
 
-vector<TNode> VarTable::getModifiedBy(VARINDEX varIndex){
+vector<TNode*> VarTable::getModifiedBy(VARINDEX varIndex){
 	if(varIndex < 0 || varIndex >= currentMapIndex) {
 		//return NULL;
 	} else {
@@ -94,7 +94,7 @@ vector<TNode> VarTable::getModifiedBy(VARINDEX varIndex){
 	}
 }
 
-vector<TNode> VarTable::getUsedBy (VARINDEX varIndex){
+vector<TNode*> VarTable::getUsedBy (VARINDEX varIndex){
 	if(varIndex < 0 || varIndex >= currentMapIndex) {
 		//return NULL;
 	} else {

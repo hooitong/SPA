@@ -9,8 +9,8 @@ using namespace std;
 struct varInfo{
 	VARINDEX var_index;
 	VARNAME var_name;
-	std::vector<TNode> modified_by;
-	std::vector<TNode> used_by;	
+	std::vector<TNode*> modified_by;
+	std::vector<TNode*> used_by;	
 };
 
 class VarTable
@@ -31,10 +31,10 @@ public:
 	static int getSize();
 	static vector<VARINDEX> getAllVarIndex();
 	static vector<VARNAME> getAllVarName();
-	static bool addModifiedBy(VARINDEX varIndex, TNode node);
-	static bool addUsedBy (VARINDEX varIndex, TNode node);
-	static vector<TNode> getModifiedBy(VARINDEX varIndex);
-	static vector<TNode> getUsedBy(VARINDEX varIndex);
+	static bool addModifiedBy(VARINDEX varIndex, TNode* node);
+	static bool addUsedBy (VARINDEX varIndex, TNode* node);
+	static vector<TNode*> getModifiedBy(VARINDEX varIndex);
+	static vector<TNode*> getUsedBy(VARINDEX varIndex);
 
 };
 
