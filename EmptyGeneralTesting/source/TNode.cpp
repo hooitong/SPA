@@ -6,6 +6,12 @@ TNode::TNode(void){
 TNode::TNode(TType typeOfNode, string nodeValue){
 	type = typeOfNode;
 	value = nodeValue;
+	root = false;
+}
+
+bool TNode:: addChild(TNode node){
+	childrenNodes.push_back(&node);
+	return true;
 }
 
 bool TNode::setParentNode(TNode node){
@@ -42,7 +48,7 @@ TNode* TNode::getLeftSibling(){
 TNode::~TNode(void){
 	type = NONE;
 	parentNode = NULL;
-	childNodes.clear();
+	childrenNodes.clear();
 }
 
 TType TNode::getTType() {
@@ -51,4 +57,16 @@ TType TNode::getTType() {
 
 bool TNode::isTType(TNode node, TType type){
 	return (node.getTType()==type);
+}
+
+vector<TNode*> TNode:: getChildren(){
+	return childrenNodes;
+}
+
+void TNode::setRoot(bool rootValue){
+	root = rootValue;
+}
+
+bool TNode::isRoot(){
+	return root;
 }

@@ -19,10 +19,11 @@ class TNode{
 private:
 	string value;
 	TNode* parentNode;
-	vector<TNode*> childNodes;	
+	vector<TNode*> childrenNodes;	
 	TNode* leftSiblingNode;
 	TNode* rightSiblingNode;
 	TType type;
+	bool root;
 
 public:
 	TNode(void);
@@ -37,4 +38,9 @@ public:
 	TNode* getRightSibling();
 	bool setParentNode(TNode parentNode);
 	TNode* getParentNode();
+	bool addChild(TNode child);
+	vector<TNode*> getChildren();
+	void setRoot(bool isRoot);
+	bool isRoot();
+
 };

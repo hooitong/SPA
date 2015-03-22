@@ -5,73 +5,69 @@ AST::AST(void)
 {
 }
 
-bool setSibling(TNode leftNode, TNode rightNode)
-{
-	return false;
+bool AST:: setSibling(TNode leftNode, TNode rightNode){
+	if(leftNode.getRightSibling()!=NULL){
+		return false;
+	}
+	if(rightNode.getLeftSibling()!=NULL){
+		return false;
+	}
+	leftNode.setRightSibling(rightNode);
+	rightNode.setLeftSibling(leftNode);
+	return true;
 }
 
-bool addChildTNode(TNode parent, TNode child)
-{
-	return false;
+bool AST::addChildTNode(TNode parent, TNode child){
+	if(child.getParentNode()!=NULL){
+		return false;
+	}
+
+	child.setParentNode(parent);
+	return true;
 }
 
-vector<TNode> getChildren(TNode parent)
-{
-	vector<TNode> children;
-	return children;
+
+
+vector<TNode*> AST::getChildren(TNode parent){
+	return parent.getChildren();
 }
 
-TNode getTChildNode(TNode parent, int children)
-{
+
+vector<TNode*> AST::getTChildrenNode(TNode parent, int children){
+	//todo
+}
+TNode* AST::getLeftSibling(TNode node){
+	return node.getLeftSibling();
+}
+
+TNode* AST::getRightSibling(TNode node){
+	return node.getRightSibling();
+}
+
+TNode* AST::getParentTNode(TNode node){
+	return node.getParentNode();
+}
+
+TNode getTNode(STMTLINE line){
+	//todo
 	return TNode();
 }
 
-TNode getLeftSibling(TNode node)
-{
+bool setRoot(TNode root){
+	root.setRoot(true);
+	return root.isRoot();
+}
+
+TNode getRoot(){
+	//todo
 	return TNode();
 }
 
-TNode getRightSibling(TNode node)
-{
-	return TNode();
-}
-
-TNode getParentTNode(TNode node)
-{
-	return TNode();
-}
-
-GNode getGNode(TNode node)
-{
-	return GNode();
-}
-
-bool setGNode(TNode tNode, GNode gNode)
-{
-	return false;
-}
-
-TNode getTNode(STMTLINE line)
-{
-	return TNode();
-}
-
-bool setRoot(TNode root)
-{
-	return false;
-}
-
-TNode getRoot()
-{
-	return TNode();
-}
-
-string getValue(TNode node)
-{
+string getValue(TNode node){
+	//todo
 	return "";
 }
 
 
-AST::~AST(void)
-{
+AST::~AST(void){
 }
