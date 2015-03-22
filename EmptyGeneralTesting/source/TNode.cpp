@@ -3,12 +3,12 @@
 
 TNode::TNode(void){
 }
-TNode::TNode(TNodeType typeOfNode, string nodeName){
+TNode::TNode(TType typeOfNode, string nodeValue){
 	type = typeOfNode;
-	name = nodeName;
+	value = nodeValue;
 }
 
-bool TNode::setParent(TNode node){
+bool TNode::setParentNode(TNode node){
 	if(&parentNode){
 		return false;
 		//already has parent, prevent it from resetting parent
@@ -17,27 +17,38 @@ bool TNode::setParent(TNode node){
 	return true;
 }
 
-bool TNode:: addSibling(TNode siblingNode){
-	
-	TNode::getSiblingsNodes().push_back(&siblingNode);
+TNode* TNode::getParentNode() {
+	return parentNode;
+}
+
+bool TNode::setLeftSibling(TNode leftSibling){
+	leftSiblingNode = &leftSibling;
 	return true;	
 }
 
-vector<TNode*> TNode::getSiblingsNodes(){
-	return siblingNodes;
+bool TNode::setRightSibling(TNode rightSibling){
+	rightSiblingNode = &rightSibling;
+	return true;	
+}
+
+TNode* TNode::getLeftSibling(){
+	return leftSiblingNode;
+}
+
+TNode* TNode::getLeftSibling(){
+	return rightSiblingNode;
 }
 
 TNode::~TNode(void){
 	type = NONE;
 	parentNode = NULL;
 	childNodes.clear();
-	siblingNodes.clear();
 }
 
-TNodeType TNode::getTType() {
+TType TNode::getTType() {
 	return type;
 }
 
-bool TNode::isTTYpe(TNode node, TNodeType type){
+bool TNode::isTType(TNode node, TType type){
 	return (node.getTType()==type);
 }

@@ -4,7 +4,7 @@
 
 using namespace std;
 
-enum TNodeType {
+enum TType {
 	PROCEDURE_NODE,
 	STMTLST_NODE,
 	ASSIGN_NODE,
@@ -17,21 +17,24 @@ enum TNodeType {
 class TNode{
 
 private:
-	string name;
+	string value;
 	TNode* parentNode;
 	vector<TNode*> childNodes;	
-	vector<TNode*> siblingNodes;
-	TNodeType type;
+	TNode* leftSiblingNode;
+	TNode* rightSiblingNode;
+	TType type;
 
 public:
 	TNode(void);
-	TNode(TNodeType,string);
+	TNode(TType,string);
 	~TNode(void);
 
-	TNodeType getTType();
-	bool isTTYpe(TNode node, TNodeType type);
-	bool addSibling(TNode siblingNode);
-	vector<TNode*> getSiblingsNodes();
-	TNode getNext();
-	bool setParent(TNode parentNode);
+	TType getTType();
+	bool isTType(TNode node, TType type);
+	bool setLeftSibling(TNode leftSibling);
+	bool setRightSibling(TNode rightSibling);
+	TNode* getLeftSibling();
+	TNode* getRightSibling();
+	bool setParentNode(TNode parentNode);
+	TNode* getParentNode();
 };
