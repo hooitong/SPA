@@ -16,7 +16,6 @@ struct varInfo{
 class VarTable
 {
 private:
-	static int test;
 	static map<VARINDEX, varInfo> varIndexMap;
 	static map<VARNAME, varInfo> varNameMap;
 	static VARINDEX currentMapIndex;
