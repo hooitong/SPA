@@ -1,33 +1,31 @@
 #include "Modifies.h"
+#include "VarTable.h"
 
-
+/* Constructor & Destructor */
 Modifies::Modifies(void)
 {
 }
 
-
-bool setModifiesInPROC(PROCINDEX PROCINDEX, VARINDEX VARINDEX){
-
-	return true;
-}
-bool setModifiesInStmt(STMTLINE stmt, VARINDEX VARINDEX){
-	return true;
-}
-vector<VARINDEX> getModifiedByPROC(PROCINDEX PROCINDEX){
-	vector<int> a;
-	return a;
-}
-vector<VARINDEX> getModifiedByStmt(STMTLINE STMTLINE){
-vector<int> a;
-	return a;
-	
-}
-vector<TNode> getModifies(VARINDEX VARINDEX){
-vector<TNode> a;
-	return a;
-
-}
-
 Modifies::~Modifies(void)
 {
+}
+
+bool Modifies::setModifiesStmt(VARINDEX varIndex, STMTLINE stmt){
+	//TODO Implement Validation
+	VarTable::addModifiedBy(varIndex, stmt);
+	stmt2VarMap.insert(std::pair<STMTLINE, VARINDEX>(stmt, varIndex));
+	return true;
+}
+
+vector<VARINDEX> Modifies::getModifiedByStmt(STMTLINE stmtLine) {
+	vector<STMTLINE> varList;
+	ret = stmt2VarMap.equal_range(stmtLine);
+	for(it = ret.first; it != ret.second; ++it) {
+		varList.push_back((*it).second);
+	}
+	return varList;
+}
+
+vector<STMTLINE> Modifies::getModifies(VARINDEX varIndex){
+	return VarTable::getModifiedBy(varIndex);
 }
