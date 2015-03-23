@@ -25,6 +25,8 @@
     <ClCompile Include="..\source\Parser.cpp" />
     <ClCompile Include="..\source\PKB.cpp" />
     <ClCompile Include="..\source\ProcTable.cpp" />
+    <ClCompile Include="..\source\QNode.cpp" />
+    <ClCompile Include="..\source\QueryPreprocessor.cpp" />
     <ClCompile Include="..\source\TNode.cpp" />
     <ClCompile Include="..\source\Uses.cpp" />
     <ClCompile Include="..\source\VarTable.cpp" />
@@ -43,9 +45,13 @@
     <ClInclude Include="..\source\Parser.h" />
     <ClInclude Include="..\source\PKB.h" />
     <ClInclude Include="..\source\ProcTable.h" />
+    <ClInclude Include="..\source\QNode.h" />
+    <ClInclude Include="..\source\QueryPreprocessor.h" />
+    <ClInclude Include="..\source\QueryTree.h" />
     <ClInclude Include="..\source\TNode.h" />
     <ClInclude Include="..\source\Uses.h" />
     <ClInclude Include="..\source\VarTable.h" />
+    <ClInclude Include="tmp.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DC21A1EA-D2C6-4D14-A2B4-E025B64BDE81}</ProjectGuid>

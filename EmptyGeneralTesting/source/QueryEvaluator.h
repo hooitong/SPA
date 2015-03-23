@@ -1,9 +1,10 @@
 #pragma once
 #include "QueryTree.h"
 #include <string>
+
 using namespace std;
 
-class QueryPreprocessor {
+class QueryEvaluator {
 public:
-	QueryTree* parseQuery(string query);
+	string evaluate(QueryTree* tree);
 };

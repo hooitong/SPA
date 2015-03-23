@@ -14,4 +14,4 @@ class QueryTree {
 	void addChild(QNode* parent, QNode* child);
 	vector<QNode*> getChildren(QNode* parent);
 	QNode* getRoot(void);
-}
+};
