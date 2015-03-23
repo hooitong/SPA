@@ -1,5 +1,5 @@
 #pragma once
-#include "GlobalTypedef.h"
+#include "GlobalType.h"
 #include <string>
 #include <vector>
 

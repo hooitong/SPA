@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "GlobalTypedef.h"
+#include "GlobalType.h"
 
 using namespace std;
 

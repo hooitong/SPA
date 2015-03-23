@@ -2,7 +2,7 @@
 #include<string>
 
 using namespace std;
-typedef string PROC, PROCNAME, VARNAME;
+typedef string PROCNAME, VARNAME;
 typedef int PROCINDEX, PROGLINE, STMTLINE, VARINDEX, CONSTINDEX;
 enum TType {
 	PROCEDURE_NODE,
@@ -13,6 +13,7 @@ enum TType {
 	PLUS_NODE,
 	NONE
 };
+
 enum QNodeType {
 	QUERY,
 	SUCHTHATLIST,

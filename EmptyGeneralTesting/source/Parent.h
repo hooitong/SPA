@@ -1,7 +1,7 @@
 #pragma once
 #include <map>
 #include <vector>
-#include "GlobalTypedef.h"
+#include "GlobalType.h"
 #include "TNode.h"
 
 
