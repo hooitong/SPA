@@ -5,7 +5,10 @@
 using namespace std;
 
 class QueryTree {
-	public:
+private:
+	QNode* queryRoot;
+
+public:
 	QueryTree(void);
 	~QueryTree(void);
 
