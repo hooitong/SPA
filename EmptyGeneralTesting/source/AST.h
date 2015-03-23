@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <map>
-#include "GlobalTypedef.h"
+#include "GlobalType.h"
 #include "TNode.h"
 
 class AST

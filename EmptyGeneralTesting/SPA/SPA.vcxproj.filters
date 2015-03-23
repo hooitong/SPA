@@ -104,9 +104,6 @@
     <ClInclude Include="..\source\VarTable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\GlobalTypedef.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="tmp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -117,6 +114,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryTree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\GlobalType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

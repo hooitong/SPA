@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include "TNode.h"
-#include "GlobalTypedef.h"
+#include "GlobalType.h"
 
 class Calls
 {
