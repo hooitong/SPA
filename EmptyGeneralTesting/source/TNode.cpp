@@ -6,7 +6,6 @@ TNode::TNode(void){
 TNode::TNode(TType typeOfNode, string nodeValue){
 	type = typeOfNode;
 	value = nodeValue;
-	root = false;
 }
 
 bool TNode:: addChild(TNode node){
@@ -41,7 +40,7 @@ TNode* TNode::getLeftSibling(){
 	return leftSiblingNode;
 }
 
-TNode* TNode::getLeftSibling(){
+TNode* TNode::getRightSibling(){
 	return rightSiblingNode;
 }
 
@@ -63,10 +62,3 @@ vector<TNode*> TNode:: getChildren(){
 	return childrenNodes;
 }
 
-void TNode::setRoot(bool rootValue){
-	root = rootValue;
-}
-
-bool TNode::isRoot(){
-	return root;
-}

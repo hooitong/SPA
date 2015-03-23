@@ -35,6 +35,8 @@ vector<TNode*> AST::getChildren(TNode parent){
 
 vector<TNode*> AST::getTChildrenNode(TNode parent, int children){
 	//todo
+	vector<TNode*> a;
+	return a;
 }
 TNode* AST::getLeftSibling(TNode node){
 	return node.getLeftSibling();
@@ -53,15 +55,7 @@ TNode getTNode(STMTLINE line){
 	return TNode();
 }
 
-bool setRoot(TNode root){
-	root.setRoot(true);
-	return root.isRoot();
-}
 
-TNode getRoot(){
-	//todo
-	return TNode();
-}
 
 string getValue(TNode node){
 	//todo

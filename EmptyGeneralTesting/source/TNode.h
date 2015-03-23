@@ -23,7 +23,6 @@ private:
 	TNode* leftSiblingNode;
 	TNode* rightSiblingNode;
 	TType type;
-	bool root;
 
 public:
 	TNode(void);
@@ -40,7 +39,6 @@ public:
 	TNode* getParentNode();
 	bool addChild(TNode child);
 	vector<TNode*> getChildren();
-	void setRoot(bool isRoot);
-	bool isRoot();
+
 
 };
