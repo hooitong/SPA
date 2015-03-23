@@ -24,6 +24,7 @@
     <ClCompile Include="..\source\ProcTable.cpp" />
     <ClCompile Include="..\source\QNode.cpp" />
     <ClCompile Include="..\source\QueryPreprocessor.cpp" />
+    <ClCompile Include="..\source\QueryTree.cpp" />
     <ClCompile Include="..\source\TNode.cpp" />
     <ClCompile Include="..\source\Uses.cpp" />
     <ClCompile Include="..\source\VarTable.cpp" />
