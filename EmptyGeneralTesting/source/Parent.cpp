@@ -11,7 +11,7 @@ Parent::~Parent(void)
 
 bool Parent::setParent(STMTLINE parent, STMTLINE child){
 	parent2ChildMap.insert(std::pair<STMTLINE, STMTLINE>(parent, child));
-	child2ParentMap.insert(child, parent);
+	child2ParentMap[child] = parent;
 	parent2ChildMapStar.insert(std::pair<STMTLINE, STMTLINE>(parent, child));
 	child2ParentMapStar.insert(std::pair<STMTLINE, STMTLINE>(child, parent));
 	return true;
@@ -65,7 +65,7 @@ STMTLINE Parent::getParent(STMTLINE child){
 
 vector<STMTLINE> Parent::getParentStar(STMTLINE child){
 	vector<STMTLINE> parentList;
-	ret = child2ParentMap.equal_range(child);
+	ret = child2ParentMapStar.equal_range(child);
 	for(it = ret.first; it != ret.second; ++it) {
 		parentList.push_back((*it).second);
 	}
