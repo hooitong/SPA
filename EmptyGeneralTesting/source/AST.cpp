@@ -71,6 +71,7 @@ bool AST::setStmtLine(TNode node, STMTLINE stmtNumber) {
 
 bool AST::setRoot(TNode root){
 	procedureRoot = &root;
+	return true;
 }
 
 TNode* AST::getRoot(){

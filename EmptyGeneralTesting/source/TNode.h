@@ -1,23 +1,13 @@
 #pragma once
+#include "GlobalTypedef.h"
 #include <string>
 #include <vector>
-
-using namespace std;
-
-enum TType {
-	PROCEDURE_NODE,
-	STMTLST_NODE,
-	ASSIGN_NODE,
-	VAR_NODE,
-	CONST_NODE,
-	PLUS_NODE,
-	NONE
-};
 
 class TNode{
 
 private:
 	string value;
+	STMTLINE stmtNumber;
 	TNode* parentNode;
 	vector<TNode*> childrenNodes;	
 	TNode* leftSiblingNode;
@@ -39,6 +29,7 @@ public:
 	TNode* getParentNode();
 	bool addChild(TNode child);
 	vector<TNode*> getChildren();
-
-
+	bool setStmtLine(STMTLINE stmtNo);
+	STMTLINE getStmtLine();
+	string getValue();
 };
