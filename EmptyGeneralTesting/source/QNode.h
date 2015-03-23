@@ -13,12 +13,12 @@ private:
 
 public:
 	QNode(void);
-	QNode(name, type);
+	QNode(QNodeType, string);
 	~QNode(void);
 
-	QNodeType getQType(QNode node);
-	string getString(QNode node);
-	vector<QNode*> getChildren(QNode node);
+	QNodeType getQType();
+	string getString();
+	vector<QNode*> getChildren();
 
 	void addChild(QNode* node);
 };
