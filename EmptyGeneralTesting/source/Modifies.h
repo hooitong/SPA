@@ -18,7 +18,4 @@ public:
 	static bool setModifiesStmt(VARINDEX varIndex, STMTLINE stmt);
 	static vector<VARINDEX> getModifiedByStmt(STMTLINE stmtLine);
 	static vector<STMTLINE> getModifies(VARINDEX varIndex);
-
-	static vector<VARINDEX> getModifiedByStmtWildCard();
-	static vector<STMTLINE> getModifesWildCard();
 };
