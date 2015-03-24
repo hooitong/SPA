@@ -28,7 +28,7 @@ vector<VARINDEX> Modifies::getModifiedByStmt(STMTLINE stmtLine) {
 
 vector<STMTLINE> Modifies::getModifies(VARINDEX varIndex){
 	vector<STMTLINE> stmtList;
-	varRet = stmt2VarMap.equal_range(varIndex);
+	varRet = var2StmtMap.equal_range(varIndex);
 	for(varIt = varRet.first; varIt != varRet.second; ++varIt) {
 		stmtList.push_back((*varIt).second);
 	}
@@ -45,7 +45,7 @@ vector<VARINDEX> Modifies:: getModifiedByStmtWildCard(){
 
 vector<STMTLINE> Modifies:: getModifesWildCard(){
 	vector<STMTLINE> stmtList;
-	for(varIt = stmt2VarMap.begin(); varIt != stmt2VarMap.end(); ++varIt) {
+	for(varIt = var2StmtMap.begin(); varIt != stmt2VarMap.end(); ++varIt) {
 		stmtList.push_back((*varIt).first);
 	}
 	return stmtList;
