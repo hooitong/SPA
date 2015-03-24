@@ -4,8 +4,6 @@
 #include "GlobalType.h"
 #include "TNode.h"
 
-using namespace std;
-
 struct varInfo{
 	VARINDEX var_index;
 	VARNAME var_name;
