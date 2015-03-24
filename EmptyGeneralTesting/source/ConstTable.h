@@ -1,11 +1,12 @@
 #pragma once
 #include <vector>
+#include <map>
 #include "GlobalType.h"
-
-using namespace std;
 
 class ConstTable
 {
+private:
+
 public:
 	ConstTable(void);
 	~ConstTable(void);

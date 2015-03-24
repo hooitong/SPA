@@ -7,15 +7,19 @@
 class Uses
 {
 private:
-	static std::multimap<STMTLINE,VARINDEX> stmt2VarMap;
-	static std::multimap<STMTLINE,VARINDEX>::iterator it;
-	static std::pair <std::multimap<STMTLINE,VARINDEX>::iterator, std::multimap<STMTLINE,VARINDEX>::iterator> ret;
+	std::multimap<VARINDEX,STMTLINE> var2StmtMap;
+	std::multimap<VARINDEX,STMTLINE>::iterator varIt;
+	std::pair <std::multimap<VARINDEX,STMTLINE>::iterator, std::multimap<VARINDEX,STMTLINE>::iterator> varRet;
+
+	std::multimap<STMTLINE,VARINDEX> stmt2VarMap;
+	std::multimap<STMTLINE,VARINDEX>::iterator stmtIt;
+	std::pair <std::multimap<STMTLINE,VARINDEX>::iterator, std::multimap<STMTLINE,VARINDEX>::iterator> stmtRet;
 
 public:
 	Uses(void);
 	~Uses(void);
 
-	static bool setUsesStmt(VARINDEX varIndex, STMTLINE stmt);
-	static vector<VARINDEX> getUsedByStmt(STMTLINE stmtLine);
-	static vector<STMTLINE> getUses(VARINDEX varIndex);
+	bool setUsesStmt(VARINDEX varIndex, STMTLINE stmt);
+	vector<VARINDEX> getUsedByStmt(STMTLINE stmtLine);
+	vector<STMTLINE> getUses(VARINDEX varIndex);
 };
