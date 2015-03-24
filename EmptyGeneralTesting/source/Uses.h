@@ -22,4 +22,7 @@ public:
 	bool setUsesStmt(VARINDEX varIndex, STMTLINE stmt);
 	vector<VARINDEX> getUsedByStmt(STMTLINE stmtLine);
 	vector<STMTLINE> getUses(VARINDEX varIndex);
+
+	vector<VARINDEX> getUsedByStmtWildCard();
+	vector<STMTLINE> getUsesWildCard();
 };
