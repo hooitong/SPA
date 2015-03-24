@@ -29,3 +29,18 @@ vector<VARINDEX> Modifies::getModifiedByStmt(STMTLINE stmtLine) {
 vector<STMTLINE> Modifies::getModifies(VARINDEX varIndex){
 	return VarTable::getModifiedBy(varIndex);
 }
+
+vector<VARINDEX> Modifies:: getModifiedByStmtWildCard(){
+	vector<VARINDEX> varList;
+	for(it = stmt2VarMap.begin(); it != stmt2VarMap.end(); ++it) {
+		varList.push_back((*it).second);
+	}
+	return varList;
+}
+
+vector<STMTLINE> Modifies:: getModifesWildCard(){
+	vector<STMTLINE> stmtList;
+	for(it = stmt2VarMap.begin(); it != stmt2VarMap.end(); ++it) {
+		stmtList.push_back((*it).first);
+	}
+}
