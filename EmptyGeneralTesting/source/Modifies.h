@@ -23,6 +23,4 @@ public:
 	vector<VARINDEX> getModifiedByStmt(STMTLINE stmtLine);
 	vector<STMTLINE> getModifies(VARINDEX varIndex);
 
-	vector<VARINDEX> getModifiedByStmtWildCard();
-	vector<STMTLINE> getModifiesWildCard();
 };

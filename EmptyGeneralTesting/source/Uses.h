@@ -23,6 +23,4 @@ public:
 	vector<VARINDEX> getUsedByStmt(STMTLINE stmtLine);
 	vector<STMTLINE> getUses(VARINDEX varIndex);
 
-	vector<VARINDEX> getUsedByStmtWildCard();
-	vector<STMTLINE> getUsesWildCard();
 };

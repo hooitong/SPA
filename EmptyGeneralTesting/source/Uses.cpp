@@ -34,17 +34,3 @@ vector<STMTLINE> Uses::getUses(VARINDEX varIndex){
 	return stmtList;
 }
 
-vector<VARINDEX> Uses::getUsedByStmtWildCard(){
-	vector<VARINDEX> varList;
-	for(stmtIt = stmt2VarMap.begin(); stmtIt != stmt2VarMap.end(); ++stmtIt) {
-		varList.push_back((*stmtIt).second);
-	}
-	return varList;
-}
-vector<STMTLINE> Uses::getUsesWildCard(){
-	vector<STMTLINE> stmtList;
-	for(varIt = var2StmtMap.begin(); varIt != stmt2VarMap.end(); ++varIt) {
-		stmtList.push_back((*varIt).first);
-	}
-	return stmtList;
-}

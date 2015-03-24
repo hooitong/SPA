@@ -35,19 +35,4 @@ vector<STMTLINE> Modifies::getModifies(VARINDEX varIndex){
 	return stmtList;
 }
 
-vector<VARINDEX> Modifies:: getModifiedByStmtWildCard(){
-	vector<VARINDEX> varList;
-	for(stmtIt = stmt2VarMap.begin(); stmtIt != stmt2VarMap.end(); ++stmtIt) {
-		varList.push_back((*stmtIt).second);
-	}
 
-	return varList;
-}
-
-vector<STMTLINE> Modifies:: getModifiesWildCard(){
-	vector<STMTLINE> stmtList;
-	for(varIt = var2StmtMap.begin(); varIt != stmt2VarMap.end(); ++varIt) {
-		stmtList.push_back((*varIt).first);
-	}
-	return stmtList;
-}
