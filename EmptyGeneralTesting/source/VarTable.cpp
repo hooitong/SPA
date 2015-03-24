@@ -67,24 +67,7 @@ vector<VARNAME> VarTable::getAllVarName(){
 	return listOfVarName;
 }
 
-bool VarTable::addModifiedBy(VARINDEX varIndex, STMTLINE node){
-	if(varIndex < 0 || varIndex >= currentMapIndex) {
-		return false;
-	} else {
-		varIndexMap[varIndex].modified_by.push_back(node);
-		return true;
-	}
-}
-
-bool VarTable::addUsedBy(VARINDEX varIndex, STMTLINE node){
-	if(varIndex < 0 || varIndex >= currentMapIndex) {
-		return false;
-	} else {
-		varIndexMap[varIndex].used_by.push_back(node);
-		return false;
-	}
-}
-
+/*
 vector<STMTLINE> VarTable::getModifiedBy(VARINDEX varIndex){
 	if(varIndex < 0 || varIndex >= currentMapIndex) {
 		//return NULL;
@@ -100,3 +83,4 @@ vector<STMTLINE> VarTable::getUsedBy (VARINDEX varIndex){
 		return varIndexMap[varIndex].used_by;
 	}
 }
+*/
