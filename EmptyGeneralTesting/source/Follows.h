@@ -24,4 +24,3 @@ public:
 	static vector<STMTLINE> getFollowedByStar(STMTLINE currentLine);
 	static vector<STMTLINE> getFollowsFromStar(STMTLINE currentLine);
 };
-

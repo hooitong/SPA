@@ -1,13 +1,10 @@
 #include "Calls.h"
 
-
 typedef int PROCINDEX;
-
 
 Calls::Calls(void)
 {
 }
-
 
 bool setCalls(PROCINDEX caller, PROCINDEX called){
 	return true;

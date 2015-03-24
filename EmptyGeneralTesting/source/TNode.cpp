@@ -37,12 +37,12 @@ TNode* TNode::getParentNode() {
 
 bool TNode::setLeftSibling(TNode leftSibling){
 	leftSiblingNode = &leftSibling;
-	return true;	
+	return true;
 }
 
 bool TNode::setRightSibling(TNode rightSibling){
 	rightSiblingNode = &rightSibling;
-	return true;	
+	return true;
 }
 
 TNode* TNode::getLeftSibling(){

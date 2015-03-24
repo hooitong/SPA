@@ -19,4 +19,3 @@ public:
 	static vector<VARINDEX> getUsedByStmt(STMTLINE stmtLine);
 	static vector<STMTLINE> getUses(VARINDEX varIndex);
 };
-

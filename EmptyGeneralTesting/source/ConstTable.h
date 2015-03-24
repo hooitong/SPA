@@ -4,7 +4,6 @@
 
 using namespace std;
 
-
 class ConstTable
 {
 public:
@@ -15,7 +14,4 @@ public:
 	int getConst(CONSTINDEX index);
 	CONSTINDEX getConstIndex(int constant);
 	vector<int> getAllConst();
-
-	
 };
-

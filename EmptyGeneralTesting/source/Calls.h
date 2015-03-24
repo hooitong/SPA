@@ -15,6 +15,4 @@ public:
 	vector<TNode> getCalledBy(PROCINDEX caller);
 	vector<TNode> getCalledByStar(PROCINDEX called);
 	vector<TNode> getCallsToStar(PROCINDEX called);
-
 };
-

@@ -2,7 +2,6 @@
 #include <cppunit/ui/text/TestRunner.h>
 #include <iostream>
 
-
 using namespace std;
 
 int main(int argc, char* argv[])
@@ -19,7 +18,6 @@ CppUnit::TextUi::TestRunner runner;
 
 runner.addTest(suite);
 bool wasSucessful = runner.run();
-
 
 //getchar();
 

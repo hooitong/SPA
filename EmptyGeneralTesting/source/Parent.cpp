@@ -1,6 +1,5 @@
 #include "Parent.h"
 
-
 /* Constructor & Destructor */
 Parent::Parent(void){
 }
@@ -24,7 +23,7 @@ bool Parent::setParentStar(STMTLINE parent, STMTLINE child){
 }
 
 bool Parent::isParent(STMTLINE first, STMTLINE second){
-	ret = parent2ChildMap.equal_range(first); 
+	ret = parent2ChildMap.equal_range(first);
 	/* If first is not a parent, return false */
 	if(ret.first == ret.second) {
 		return false;
@@ -39,7 +38,7 @@ bool Parent::isParent(STMTLINE first, STMTLINE second){
 	}
 }
 bool Parent::isParentStar(STMTLINE first, STMTLINE second){
-	ret = parent2ChildMapStar.equal_range(first); 
+	ret = parent2ChildMapStar.equal_range(first);
 	/* If first is not a parent, return false */
 	if(ret.first == ret.second) {
 		return false;
@@ -89,4 +88,3 @@ vector<STMTLINE> Parent::getChildOfStar(STMTLINE parent){
 	}
 	return childList;
 }
-

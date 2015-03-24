@@ -5,7 +5,6 @@
 
 using namespace std;
 
-
 class Affects
 {
 public:
@@ -17,7 +16,5 @@ public:
 	vector<TNode> getAffectedBy(STMTLINE current);
 	vector<TNode> getAffectedByStar(STMTLINE current);
 	vector<TNode> getAffects(STMTLINE current);
-	vector<TNode> getAffectsStar(STMTLINE current); 
-	
+	vector<TNode> getAffectsStar(STMTLINE current);
 };
-

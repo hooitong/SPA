@@ -28,6 +28,4 @@ public:
 	vector<PROGLINE> getBeforeStar (PROGLINE currentLine);
 	vector <PROGLINE> getNext(PROGLINE currentLine);
 	vector <PROGLINE> getNextStar(PROGLINE currentLine);
-
 };
-

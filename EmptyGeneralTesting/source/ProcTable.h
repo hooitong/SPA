@@ -6,7 +6,6 @@
 
 using namespace std;
 
-
 class PROCTable
 {
 public:
@@ -26,4 +25,3 @@ public:
 	vector<VARINDEX> getModified(PROCINDEX PROC);
 	vector<VARINDEX> getUsed(PROCINDEX PROC);
 };
-

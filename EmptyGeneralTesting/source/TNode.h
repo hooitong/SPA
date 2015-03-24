@@ -4,12 +4,11 @@
 #include <vector>
 
 class TNode{
-
 private:
 	string value;
 	STMTLINE stmtNumber;
 	TNode* parentNode;
-	vector<TNode*> childrenNodes;	
+	vector<TNode*> childrenNodes;
 	TNode* leftSiblingNode;
 	TNode* rightSiblingNode;
 	TType type;

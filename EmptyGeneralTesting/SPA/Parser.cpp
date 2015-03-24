@@ -2,7 +2,6 @@
 
 class SyntaxErrorException : public exception
 {
-
 };
 
 /*

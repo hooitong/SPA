@@ -8,7 +8,7 @@ struct varInfo{
 	VARINDEX var_index;
 	VARNAME var_name;
 	std::vector<STMTLINE> modified_by;
-	std::vector<STMTLINE> used_by;	
+	std::vector<STMTLINE> used_by;
 };
 
 class VarTable
@@ -21,7 +21,7 @@ private:
 public:
 	VarTable(void);
 	~VarTable(void);
-	
+
 	static VARINDEX insertVar(VARNAME varName);
 	static VARNAME getVarName(VARINDEX varIndex);
 	static VARINDEX getVarIndex(VARNAME varName);
@@ -33,4 +33,3 @@ public:
 	static vector<STMTLINE> getModifiedBy(VARINDEX varIndex);
 	static vector<STMTLINE> getUsedBy(VARINDEX varIndex);
 };
-

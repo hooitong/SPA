@@ -1,6 +1,5 @@
 #include "Affects.h"
 
-
 Affects::Affects(void)
 {
 }
@@ -26,9 +25,7 @@ vector<TNode> getAffects(STMTLINE current){
 vector<TNode> getAffectsStar(STMTLINE current){
 	vector<TNode> t;
 	return t;
-
 }
-
 
 Affects::~Affects(void)
 {

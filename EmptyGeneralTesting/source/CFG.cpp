@@ -1,11 +1,8 @@
 #include "CFG.h"
 
-
 CFG::CFG(void)
 {
 }
-
-
 
 GNode createGNode(PROGLINE nodeRoot){
 	return GNode();
@@ -20,7 +17,7 @@ GNode getGNode(PROGLINE PROGLINE){
 	return GNode();
 }
 GNode getNextGNode(GNode current, bool getRight){
-	return GNode();	
+	return GNode();
 }
 GNode getPreviousGNode(GNode current, bool getRight){
 	return GNode();
@@ -56,12 +53,10 @@ vector<PROGLINE> getBefore(PROGLINE currentLine){
 vector<PROGLINE> getBeforeStar (PROGLINE currentLine){
 	vector<PROGLINE>p;
 	return p;
-
 }
 vector <PROGLINE> getNext(PROGLINE currentLine){
 	vector<PROGLINE>p;
 	return p;
-
 }
 vector <PROGLINE> getNextStar(PROGLINE currentLine){
 	vector<PROGLINE>p;

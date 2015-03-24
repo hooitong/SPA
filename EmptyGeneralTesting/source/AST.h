@@ -16,7 +16,7 @@ public:
 
 	static TNode* createTNode(TType nodeType, std::string value);
 	static bool setSibling(TNode leftNode, TNode rightNode);
-	static bool addChildTNode(TNode parent, TNode child);	
+	static bool addChildTNode(TNode parent, TNode child);
 	static std::vector<TNode*> getChildren(TNode parent);
 	static TNode* getLeftSibling(TNode node);
 	static TNode* getRightSibling(TNode node);
@@ -27,4 +27,3 @@ public:
 	static std::string getValue(TNode node);
 	static bool setStmtLine(TNode node, STMTLINE stmtNumber);
 };
-

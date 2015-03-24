@@ -71,5 +71,4 @@ vector<VARINDEX> getUsed(PROCINDEX PROC)
 //destructor
 PROCTable::~PROCTable(void)
 {
-
 }

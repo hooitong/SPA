@@ -4,7 +4,6 @@
 #include "GlobalType.h"
 #include "TNode.h"
 
-
 class Parent
 {
 private:
@@ -28,4 +27,3 @@ public:
 	static vector<STMTLINE> getChildOf(STMTLINE parent);
 	static vector<STMTLINE> getChildOfStar(STMTLINE parent);
 };
-

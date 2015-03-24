@@ -5,7 +5,6 @@ enum GNodeType {
 	IF_NODE,
 	END_NODE,
 	START_NODE
-
 };
 
 class GNode
@@ -13,5 +12,4 @@ class GNode
 public:
 	GNode(void);
 	~GNode(void);
-
 };

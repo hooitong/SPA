@@ -7,7 +7,6 @@ VarTable::VarTable(void)
 
 VarTable::~VarTable(void)
 {
-
 }
 
 VARINDEX VarTable::insertVar(VARNAME varName)
@@ -17,7 +16,7 @@ VARINDEX VarTable::insertVar(VARNAME varName)
 	if(v != -1){
 		return v;
 	}
-	
+
 	/* Create new varInfo and insert into both index and name maps */
 	varInfo variable = {};
 	variable.var_name = varName;
@@ -90,7 +89,7 @@ vector<STMTLINE> VarTable::getModifiedBy(VARINDEX varIndex){
 	if(varIndex < 0 || varIndex >= currentMapIndex) {
 		//return NULL;
 	} else {
-		return varIndexMap[varIndex].modified_by; 
+		return varIndexMap[varIndex].modified_by;
 	}
 }
 
@@ -98,6 +97,6 @@ vector<STMTLINE> VarTable::getUsedBy (VARINDEX varIndex){
 	if(varIndex < 0 || varIndex >= currentMapIndex) {
 		//return NULL;
 	} else {
-		return varIndexMap[varIndex].used_by; 
+		return varIndexMap[varIndex].used_by;
 	}
 }

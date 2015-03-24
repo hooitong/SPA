@@ -19,4 +19,3 @@ public:
 	static vector<VARINDEX> getModifiedByStmt(STMTLINE stmtLine);
 	static vector<STMTLINE> getModifies(VARINDEX varIndex);
 };
-
