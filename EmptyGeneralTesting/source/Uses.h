@@ -18,4 +18,8 @@ public:
 	static bool setUsesStmt(VARINDEX varIndex, STMTLINE stmt);
 	static vector<VARINDEX> getUsedByStmt(STMTLINE stmtLine);
 	static vector<STMTLINE> getUses(VARINDEX varIndex);
+
+	static vector<VARINDEX> getUsedByStmtWildCard();
+	static vector<STMTLINE> getUsesWildCard();
+
 };
