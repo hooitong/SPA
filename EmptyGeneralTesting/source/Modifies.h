@@ -24,5 +24,5 @@ public:
 	vector<STMTLINE> getModifies(VARINDEX varIndex);
 
 	vector<VARINDEX> getModifiedByStmtWildCard();
-	vector<STMTLINE> getModifesWildCard();
+	vector<STMTLINE> getModifiesWildCard();
 };
