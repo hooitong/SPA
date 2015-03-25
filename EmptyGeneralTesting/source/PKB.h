@@ -9,23 +9,23 @@
 #include "Modifies.h"
 #include "Uses.h"
 
-class PKB{
-private:
-	VarTable* varTable;
-	AST* ast;
-	Follows* follows;
-	Parent* parent;
-	Modifies* modifies;
-	Uses* uses;
+class PKB {
+  private:
+    VarTable* varTable;
+    AST* ast;
+    Follows* follows;
+    Parent* parent;
+    Modifies* modifies;
+    Uses* uses;
 
-public:
-	/* Accessors methods to Design Abstractions */
-	PKB();
-	~PKB();
-	VarTable* getVarTable();
-	AST* getAst();
-	Follows* getFollows();
-	Parent* getParent();
-	Modifies* getModifies();
-	Uses* getUses();
+  public:
+    /* Accessors methods to Design Abstractions */
+    PKB();
+    ~PKB();
+    VarTable* getVarTable();
+    AST* getAst();
+    Follows* getFollows();
+    Parent* getParent();
+    Modifies* getModifies();
+    Uses* getUses();
 };

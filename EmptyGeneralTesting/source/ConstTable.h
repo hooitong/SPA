@@ -5,16 +5,15 @@
 
 #include "GlobalType.h"
 
-class ConstTable
-{
-private:
+class ConstTable {
+  private:
 
-public:
-	ConstTable(void);
-	~ConstTable(void);
+  public:
+    ConstTable(void);
+    ~ConstTable(void);
 
-	CONSTINDEX insertConst(int constant);
-	int getConst(CONSTINDEX index);
-	CONSTINDEX getConstIndex(int constant);
-	vector<int> getAllConst();
+    CONSTINDEX insertConst(int constant);
+    int getConst(CONSTINDEX index);
+    CONSTINDEX getConstIndex(int constant);
+    vector<int> getAllConst();
 };

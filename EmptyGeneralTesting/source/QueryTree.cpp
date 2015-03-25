@@ -10,22 +10,22 @@ QueryTree::~QueryTree(void) {
 }
 
 QNode* QueryTree::createNode(QNodeType type, string name) {
-	QNode* newNode = new QNode(type, name);
-	return newNode;
+    QNode* newNode = new QNode(type, name);
+    return newNode;
 }
 
 void QueryTree::setAsRoot(QNode* node) {
-	this->queryRoot = node;
+    this->queryRoot = node;
 }
 
 void QueryTree::addChild(QNode* parent, QNode* child) {
-	parent->addChild(child);
+    parent->addChild(child);
 }
 
 vector<QNode*> QueryTree::getChildren(QNode* parent) {
-	return parent->getChildren();
+    return parent->getChildren();
 }
 
 QNode* QueryTree::getRoot(void) {
-	return this->queryRoot;
+    return this->queryRoot;
 }

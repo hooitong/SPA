@@ -5,23 +5,22 @@
 
 #include "GlobalType.h"
 
-class Modifies
-{
-private:
-	std::multimap<VARINDEX,STMTLINE> var2StmtMap;
-	std::multimap<VARINDEX,STMTLINE>::iterator varIt;
-	std::pair <std::multimap<VARINDEX,STMTLINE>::iterator, std::multimap<VARINDEX,STMTLINE>::iterator> varRet;
+class Modifies {
+  private:
+    std::multimap<VARINDEX,STMTLINE> var2StmtMap;
+    std::multimap<VARINDEX,STMTLINE>::iterator varIt;
+    std::pair <std::multimap<VARINDEX,STMTLINE>::iterator, std::multimap<VARINDEX,STMTLINE>::iterator> varRet;
 
-	std::multimap<STMTLINE,VARINDEX> stmt2VarMap;
-	std::multimap<STMTLINE,VARINDEX>::iterator stmtIt;
-	std::pair <std::multimap<STMTLINE,VARINDEX>::iterator, std::multimap<STMTLINE,VARINDEX>::iterator> stmtRet;
+    std::multimap<STMTLINE,VARINDEX> stmt2VarMap;
+    std::multimap<STMTLINE,VARINDEX>::iterator stmtIt;
+    std::pair <std::multimap<STMTLINE,VARINDEX>::iterator, std::multimap<STMTLINE,VARINDEX>::iterator> stmtRet;
 
-public:
-	Modifies(void);
-	~Modifies(void);
+  public:
+    Modifies(void);
+    ~Modifies(void);
 
-	bool setModifiesStmt(VARINDEX varIndex, STMTLINE stmt);
-	vector<VARINDEX> getModifiedByStmt(STMTLINE stmtLine);
-	vector<STMTLINE> getModifies(VARINDEX varIndex);
+    bool setModifiesStmt(VARINDEX varIndex, STMTLINE stmt);
+    vector<VARINDEX> getModifiedByStmt(STMTLINE stmtLine);
+    vector<STMTLINE> getModifies(VARINDEX varIndex);
 
 };
