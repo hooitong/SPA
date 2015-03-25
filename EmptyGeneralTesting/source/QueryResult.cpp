@@ -1,0 +1,124 @@
+#include "QueryResult.h"
+#include <ostream>
+using namespace std;
+
+QueryResult::QueryResult(vector<string> synonyms) {
+	this->synonyms = synonyms;
+	numSynonyms = synonyms.size();
+	for (int i = 0; i < numSynonyms; i++) {
+		indexMap[synonyms[i]] = i;
+	}
+	solutions.clear();
+}
+
+QueryResult::~QueryResult() {
+}
+
+void QueryResult::addSolution(vector <int> solution) {
+	solutions.push_back(solution);
+}
+
+//TODO: Implement this
+string toString(map <string, QNodeType> mp) {
+	return "";
+}
+
+pair<QueryResult::CROSS_INDEX_LIST, QueryResult::CROSS_INDEX_LIST > 
+	QueryResult::matchingSynonyms(QueryResult result2) {
+
+	vector <int> matchThis;
+	vector <int> matchResult2;
+	for (int i = 0; i < numSynonyms; i++) {
+		if (result2.indexMap.find(synonyms[i]) == result2.indexMap.end()) {
+			matchThis.push_back(NO_MATCH);
+		} else {
+			matchThis.push_back(result2.indexMap[synonyms[i]]);
+		}
+	}
+
+	for (int i = 0; i < result2.numSynonyms; i++) {
+		if (indexMap.find(result2.synonyms[i]) == indexMap.end()) {
+			matchResult2.push_back(NO_MATCH);
+		} else {
+			matchResult2.push_back(indexMap[result2.synonyms[i]]);
+		}
+	}
+	return make_pair(matchThis, matchResult2);;
+}
+
+QueryResult::R_TUPLE QueryResult::getSubResult (const QueryResult::R_TUPLE &tuple, 
+	const QueryResult::INDEX_LIST &indexes) {
+
+	R_TUPLE subResult;
+	for (int i = 0; i < (int) indexes.size(); i++) {
+		subResult.push_back(tuple[indexes[i]]);
+	}
+	return subResult;
+}
+
+QueryResult QueryResult::merge(QueryResult result2) {
+	pair<vector<int>, vector<int> > matchingIndex = matchingSynonyms(result2);
+
+	vector <string> newSynonyms;
+	for (int i = 0; i < numSynonyms; i++) {
+		newSynonyms.push_back(synonyms[i]);
+	}
+
+	for (int i = 0; i < result2.numSynonyms; i++) {
+		if (matchingIndex.second[i] == NO_MATCH) {
+			newSynonyms.push_back(result2.synonyms[i]);
+		}
+	}
+
+	INDEX_LIST matchingInThis;
+	for (int i = 0; i < result2.numSynonyms; i++) {
+		if (matchingIndex.second[i] != -1) {
+			matchingInThis.push_back(matchingIndex.second[i]);
+		}
+	}
+
+	map<R_TUPLE, vector<R_TUPLE> > extensionMap = result2.createExtensionMap(matchingIndex.second);
+	QueryResult newResult = QueryResult(newSynonyms);
+
+	for (int i = 0; i < (int) solutions.size(); i++) {
+		R_TUPLE matchingSubResult = getSubResult(solutions[i], matchingInThis);
+		if (extensionMap.find(matchingSubResult) != extensionMap.end()) {
+			R_TUPLE newTuple = solutions[i];
+			for (int j = 0; j < extensionMap[matchingSubResult].size(); j++) {
+				for (int k = 0; k < extensionMap[matchingSubResult][j]; k++) {
+					newTuple.push_back(extensionMap[matchingSubResult][j][k]);
+				}
+			}
+			newResult.addSolution(newTuple);
+		}
+	}
+
+	return newResult;
+
+}
+
+map<QueryResult::R_TUPLE, vector<QueryResult::R_TUPLE> > 
+	QueryResult::createExtensionMap(CROSS_INDEX_LIST matchingIndex) {
+
+	INDEX_LIST matchIndexes;
+	INDEX_LIST noMatchIndexes;
+	for (int i = 0; i < numSynonyms; i++) {
+		if (matchingIndex[i] == NO_MATCH) {
+			noMatchIndexes.push_back(i);
+		} else {
+			matchIndexes.push_back(i);
+		}
+	}
+
+	map <vector<int>, vector<vector<int> > > extensionMap;
+
+	for (int i = 0; i < (int) solutions.size(); i++) {
+		vector <int> subResultMatch = getSubResult(solutions[i], matchIndexes);
+		vector <int> subResultNoMatch = getSubResult(solutions[i], noMatchIndexes);
+		if (extensionMap.find(subResultMatch) == extensionMap.end()) {
+			extensionMap[subResultMatch] = vector<vector<int> >();
+		}
+		extensionMap[subResultMatch].push_back(subResultNoMatch);
+	}
+	return extensionMap;
+}
