@@ -73,6 +73,20 @@ bool AST::setRoot(TNode root) {
     procedureRoot = &root;
     return true;
 }
+void AST::addToStmtLineMap(STMTLINE stmtNumber, TType type){
+	stmtLine2TTypeMap.insert( std::pair<STMTLINE,TType>(stmtNumber, type));
+}
+vector<STMTLINE> AST::getSTMTLineOfTType(TType type){
+	vector<STMTLINE> stmtList;
+	stmtRet = stmtLine2TTypeMap.equal_range(type);
+	for(stmtIt = stmtRet.first; stmtIt != stmtRet.second; ++stmtIt) {	
+		stmtList.push_back((*stmtIt).first);
+	}
+}
+TType AST:: getTTypeOfSTMTLine(STMTLINE stmtNumber){
+	return stmtLine2TTypeMap.find(stmtNumber)->second;
+}
+
 
 TNode* AST::getRoot() {
     return procedureRoot;
