@@ -58,7 +58,7 @@ bool TNode::setParentNode(TNode node) {
 }
 
 TNode* TNode::getParentNode() {
-    return parentNode
+    return parentNode;
 }
 
 bool TNode:: addChild(TNode node) {

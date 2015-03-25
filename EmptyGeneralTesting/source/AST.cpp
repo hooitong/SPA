@@ -51,8 +51,8 @@ TNode* AST::getParentTNode(TNode node) {
 }
 
 TNode* AST::getTNode(STMTLINE line) {
-    std::map<STMTLINE,TNode*>::iterator it = stmtLine2NodeMap.find(line);
-    if(it == stmtLine2NodeMap.end()) {
+    std::map<STMTLINE,TNode*>::iterator it = stmt2NodeMap.find(line);
+    if(it == stmt2NodeMap.end()) {
         return NULL;
     } else {
         return it->second;
@@ -64,7 +64,7 @@ string AST::getValue(TNode node) {
 }
 
 bool AST::setStmtLine(TNode node, STMTLINE stmtNumber) {
-    stmtLine2NodeMap[stmtNumber] = &node;
+    stmt2NodeMap[stmtNumber] = &node;
     node.setStmtLine(stmtNumber);
     return true;
 }
@@ -73,21 +73,25 @@ bool AST::setRoot(TNode root) {
     procedureRoot = &root;
     return true;
 }
-void AST::addToStmtLineMap(STMTLINE stmtNumber, TType type){
-	stmtLine2TTypeMap.insert( std::pair<STMTLINE,TType>(stmtNumber, type));
-}
-vector<STMTLINE> AST::getSTMTLineOfTType(TType type){
-	vector<STMTLINE> stmtList;
-	stmtRet = stmtLine2TTypeMap.equal_range(type);
-	for(stmtIt = stmtRet.first; stmtIt != stmtRet.second; ++stmtIt) {	
-		stmtList.push_back((*stmtIt).first);
-	}
-}
-TType AST:: getTTypeOfSTMTLine(STMTLINE stmtNumber){
-	return stmtLine2TTypeMap.find(stmtNumber)->second;
-}
-
 
 TNode* AST::getRoot() {
     return procedureRoot;
 }
+
+void AST::addToStmtLineMap(STMTLINE stmtNumber, TType type) {
+    TType2StmtMap.insert( std::pair<STMTLINE,TType>(stmtNumber, type));
+}
+
+vector<STMTLINE> AST::getStmtLines(TType type) {
+    vector<STMTLINE> stmtList;
+    stmtRet = TType2StmtMap.equal_range(type);
+    for(stmtIt = stmtRet.first; stmtIt != stmtRet.second; ++stmtIt) {
+        stmtList.push_back((*stmtIt).first);
+    }
+	return stmtList;
+}
+
+bool AST::isMatch(TNode node, TType type) {
+    return node.getTType() == type;
+}
+

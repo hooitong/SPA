@@ -8,12 +8,10 @@
 
 class AST {
   private:
-    std::map<STMTLINE, TNode*> stmtLine2NodeMap;
-	std::map<STMTLINE, TType> stmtLine2TTypeMap;
-	std::multimap<STMTLINE,TType>::iterator stmtIt;
-
-	std::pair <std::multimap<STMTLINE,TType>::iterator, std::multimap<STMTLINE,TType>::iterator> stmtRet;
-
+    std::map<STMTLINE, TNode*> stmt2NodeMap;
+    std::multimap<STMTLINE, TType> TType2StmtMap;
+    std::multimap<STMTLINE,TType>::iterator stmtIt;
+    std::pair <std::multimap<STMTLINE,TType>::iterator, std::multimap<STMTLINE,TType>::iterator> stmtRet;
     TNode* procedureRoot; //temp solution until ProcTable is complete
 
   public:
@@ -32,8 +30,7 @@ class AST {
     TNode* getRoot();
     std::string getValue(TNode node);
     bool setStmtLine(TNode node, STMTLINE stmtNumber);
-
-	void addToStmtLineMap(STMTLINE stmtNumber, TType type);
-	vector<STMTLINE> getSTMTLineOfTType(TType type);
-	TType getTTypeOfSTMTLine(STMTLINE stmtNumber);
+    void addToStmtLineMap(STMTLINE stmtNumber, TType type);
+    vector<STMTLINE> getStmtLines(TType type);
+    bool isMatch(TNode node, TType type);
 };
