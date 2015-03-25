@@ -12,7 +12,7 @@ vector<string> Parser::tokenizeLine(string line)
 	vector<string> tokenList;
 
 	string currStr = "";
-	for (int i=0; i<line.size(); i++) {
+	for (size_t i=0; i<line.size(); i++) {
 		char nextChar = line.at(i);
 		if (nextChar == ' ' || nextChar == '\t') {
 			if (currStr.size() > 0) {

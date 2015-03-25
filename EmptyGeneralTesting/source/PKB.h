@@ -1,4 +1,5 @@
 #pragma once
+
 #include "GlobalType.h"
 #include "ConstTable.h"
 #include "VarTable.h"

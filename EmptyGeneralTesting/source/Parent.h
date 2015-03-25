@@ -1,8 +1,9 @@
 #pragma once
+
 #include <map>
 #include <vector>
+
 #include "GlobalType.h"
-#include "TNode.h"
 
 class Parent
 {

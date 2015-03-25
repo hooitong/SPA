@@ -4,16 +4,21 @@
 using namespace std;
 typedef string PROCNAME, VARNAME;
 typedef int PROCINDEX, PROGLINE, STMTLINE, VARINDEX, CONSTINDEX;
+
+//Used to represent the type of the TNode
 enum TType {
-	PROCEDURE_NODE,
-	STMTLST_NODE,
-	ASSIGN_NODE,
-	VAR_NODE,
-	CONST_NODE,
-	PLUS_NODE,
-	NONE
+	PROCEDUREN,
+	STMTLSTN,
+	ASSIGNN,
+	WHILEN,
+	VARN,
+	CONSTN,
+	PLUSN,
+	MINUSN,
+	TIMESN
 };
 
+// Used to represent the type of the QNode
 enum QNodeType {
 	QUERY,
 	SUCHTHATLIST,

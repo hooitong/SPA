@@ -12,7 +12,6 @@ TNode::TNode(TType typeOfNode, string nodeValue){
 }
 
 TNode::~TNode(void){
-	type = NONE;
 	parentNode = NULL;
 	childrenNodes.clear();
 }

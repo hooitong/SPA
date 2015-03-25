@@ -1,6 +1,8 @@
 #pragma once
+
 #include <vector>
 #include <map>
+
 #include "GlobalType.h"
 #include "TNode.h"
 
@@ -26,9 +28,4 @@ public:
 	int getSize();
 	vector<VARINDEX> getAllVarIndex();
 	vector<VARNAME> getAllVarName();
-
-	/* TODO: Figure out how to call Modifies without making PKB static
-	vector<STMTLINE> getModifiedBy(VARINDEX varIndex);
-	vector<STMTLINE> getUsedBy(VARINDEX varIndex);
-	*/
 };

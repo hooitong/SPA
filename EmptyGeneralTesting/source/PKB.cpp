@@ -11,6 +11,7 @@ PKB::PKB(void){
 }
 
 PKB::~PKB(void){
+	/* Release all design abstraction back to the memory */
 	delete varTable;
 	delete ast;
 	delete follows;
