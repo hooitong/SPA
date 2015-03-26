@@ -96,83 +96,74 @@ bool AST::isMatch(TNode node, TType type) {
 }
 
 bool AST::patternMatch(STMTLINE assignRoot, std::string expression, bool strict) {
-	// stub method
-	TNode* astNode = getTNode(assignRoot);
-	TNode* queryExpression = createExprTree(expression);
+    TNode* astNode = getTNode(assignRoot);
+    TNode* queryExpression = createExprTree(expression);
 
-	vector<TNode*> depthTraversalOfAstNode=getDFS(*astNode);
-	vector<TNode*> depthTraversalOfQuery=getDFS(*createExprTree(expression));
-	int lengthOfTraversedAST = depthTraversalOfAstNode.size();
-	int lengthOfPattern = depthTraversalOfQuery.size();
-	if(strict){
-		//first check; fast
-		if(lengthOfTraversedAST != lengthOfPattern){
-			return false;
-		}
-
-		for(int i = 0; i<depthTraversalOfAstNode.size();i++){
-			if(depthTraversalOfAstNode[i]!=depthTraversalOfQuery[i]){
-				return false;
-			}
-		}
-		return true;
-	}else{
-		string traversedASTString = convertTNodeListValueToString(depthTraversalOfAstNode);
-		string traversedQueryString = convertTNodeListValueToString(depthTraversalOfQuery);
-		if(traversedASTString.find( traversedQueryString) != string::npos){
-			return true;
-		}	
-	}
-	return false;
+    vector<TNode*> depthTraversalOfAstNode = getDFS(*astNode);
+    vector<TNode*> depthTraversalOfQuery = getDFS(*createExprTree(expression));
+    int lengthOfTraversedAST = depthTraversalOfAstNode.size();
+    int lengthOfPattern = depthTraversalOfQuery.size();
+    if(strict && lengthOfTraversedAST == lengthOfPattern) {
+        for(int i = 0; i < depthTraversalOfAstNode.size(); i++) {
+            if(depthTraversalOfAstNode[i]!= depthTraversalOfQuery[i]) {
+                return false;
+            }
+        }
+        return true;
+    } else {
+        string traversedASTString = convertTNodeListValueToString(depthTraversalOfAstNode);
+        string traversedQueryString = convertTNodeListValueToString(depthTraversalOfQuery);
+        return traversedASTString.find(traversedQueryString) != string::npos;
+    }
 }
 
-string AST::convertTNodeListValueToString(vector<TNode*> nodes){
-	string result;
-	for(int i = 0 ; i <nodes.size(); i++){
-			result+=getValue(*nodes[i]);
-	}
-	return result;
+string AST::convertTNodeListValueToString(vector<TNode*> nodes) {
+    string result;
+    for(int i = 0 ; i < nodes.size(); i++) {
+        result += getValue(*nodes[i]);
+    }
+    return result;
 }
 
-vector<TNode*> AST::getDFS(TNode node){
-	vector<TNode*> stack;
-	stack.push_back(&node);
-	vector<TNode*> returnVector;
-	vector<TNode*> discoveredNode;
-	TNode* currentNode = &node;
+vector<TNode*> AST::getDFS(TNode node) {
+    vector<TNode*> stack;
+    stack.push_back(&node);
+    vector<TNode*> returnVector;
+    vector<TNode*> discoveredNode;
+    TNode* currentNode = &node;
 
-	while(stack.size()>0){
-		//getting the last item
-		currentNode = stack[stack.size()-1];
-		stack.pop_back();
-		if(!ifNodeVisited(discoveredNode, currentNode)){
-			discoveredNode.push_back(currentNode);
-			returnVector.push_back(currentNode);
-		}
+    while(stack.size() > 0) {
+        //getting the last item
+        currentNode = stack[stack.size()-1];
+        stack.pop_back();
+        if(!ifNodeVisited(discoveredNode, currentNode)) {
+            discoveredNode.push_back(currentNode);
+            returnVector.push_back(currentNode);
+        }
 
-		TNode *rightChild =getRightSibling(*currentNode); 
-		TNode *leftChild = getLeftSibling(*currentNode);
-		
-		//keep pushing right child first so when popping we always retrieve the left child 
-		if(rightChild!=NULL)
-			stack.push_back(rightChild);
-		if(leftChild!=NULL)
-			stack.push_back(leftChild);
-	}
+        TNode *rightChild =getRightSibling(*currentNode);
+        TNode *leftChild = getLeftSibling(*currentNode);
 
-	return returnVector;
-}
- 
-bool ifNodeVisited(vector<TNode*> nodeList, TNode* node){
-	for(int i = 0 ; i <nodeList.size() ; i++){
-		if(nodeList[i]==node){
-			return true;
-		}
-	}
-	return false;
+        //keep pushing right child first so when popping we always retrieve the left child
+        if(rightChild != NULL)
+            stack.push_back(rightChild);
+        if(leftChild != NULL)
+            stack.push_back(leftChild);
+    }
+
+    return returnVector;
 }
 
-TNode* createExprTree(std::string expression) {
-	// stub method
-	return NULL;
+bool AST::ifNodeVisited(vector<TNode*> nodeList, TNode* node) {
+    for(int i = 0; i < nodeList.size(); i++) {
+        if(nodeList[i] == node) {
+            return true;
+        }
+    }
+    return false;
+}
+
+TNode* AST::createExprTree(std::string expression) {
+    // stub method
+    return NULL;
 }
