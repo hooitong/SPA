@@ -1,11 +1,14 @@
 #include "QueryResult.h"
-#include <ostream>
+#include <cassert>
+#include <algorithm>
+
 using namespace std;
 
 QueryResult::QueryResult(vector<string> synonyms) {
 	this->synonyms = synonyms;
 	numSynonyms = synonyms.size();
 	for (int i = 0; i < numSynonyms; i++) {
+		assert(indexMap.find(synonyms[i]) == indexMap.end());
 		indexMap[synonyms[i]] = i;
 	}
 	solutions.clear();
@@ -15,7 +18,47 @@ QueryResult::~QueryResult() {
 }
 
 void QueryResult::addSolution(vector <int> solution) {
+	assert(solution.size() == numSynonyms);
 	solutions.push_back(solution);
+}
+
+int QueryResult::getIndex(string synonym) {
+	if (indexMap.find(synonym) == indexMap.end()) {
+		return -1;
+	} else {
+		return indexMap[synonym];
+	}
+}
+
+bool QueryResult::operator==(QueryResult result2) {
+	if (numSynonyms != result2.numSynonyms) {
+		return false;
+	}
+
+	pair<CROSS_INDEX_LIST, CROSS_INDEX_LIST> crossIndex = matchingSynonyms(result2);
+	for (int i = 0; i < numSynonyms; i++) {
+		if (crossIndex.first[i] == -1) {
+			return false;
+		}
+		if (crossIndex.second[i] == -1) {
+			return false;
+		}
+	}
+
+	vector <R_TUPLE> reorderedSolutions1;
+	for (int i = 0; i < (int) solutions.size(); i++) {
+		reorderedSolutions1.push_back(solutions[i]);
+	}
+	vector <R_TUPLE> reorderedSolutions2;
+	for (int i = 0; i < (int) result2.solutions.size(); i++) {
+		reorderedSolutions2.push_back(
+			getSubResult(result2.solutions[i], crossIndex.first));
+	}
+
+	sort(reorderedSolutions1.begin(), reorderedSolutions1.end());
+	sort(reorderedSolutions2.begin(), reorderedSolutions2.end());
+
+	return reorderedSolutions1 == reorderedSolutions2;
 }
 
 //TODO: Implement this
@@ -56,6 +99,10 @@ QueryResult::R_TUPLE QueryResult::getSubResult (const QueryResult::R_TUPLE &tupl
 	return subResult;
 }
 
+vector<string> QueryResult::getSynonyms() {
+	return synonyms;
+}
+
 QueryResult QueryResult::merge(QueryResult result2) {
 	pair<vector<int>, vector<int> > matchingIndex = matchingSynonyms(result2);
 
@@ -83,13 +130,13 @@ QueryResult QueryResult::merge(QueryResult result2) {
 	for (int i = 0; i < (int) solutions.size(); i++) {
 		R_TUPLE matchingSubResult = getSubResult(solutions[i], matchingInThis);
 		if (extensionMap.find(matchingSubResult) != extensionMap.end()) {
-			R_TUPLE newTuple = solutions[i];
-			for (int j = 0; j < extensionMap[matchingSubResult].size(); j++) {
-				for (int k = 0; k < extensionMap[matchingSubResult][j]; k++) {
+			for (int j = 0; j < (int)extensionMap[matchingSubResult].size(); j++) {
+				R_TUPLE newTuple = solutions[i];
+				for (int k = 0; k < (int)extensionMap[matchingSubResult][j].size(); k++) {
 					newTuple.push_back(extensionMap[matchingSubResult][j][k]);
 				}
+				newResult.addSolution(newTuple);
 			}
-			newResult.addSolution(newTuple);
 		}
 	}
 
