@@ -36,4 +36,7 @@ class AST {
     bool isMatch(TNode node, TType type);
     bool patternMatch(STMTLINE assignRoot, std::string expression, bool strict);
     TNode* createExprTree(std::string expression);
+	vector<TNode*> AST::getDFS(TNode node);
+	string convertTNodeListValueToString(vector<TNode*> nodes);
+	bool ifNodeVisited(vector<TNode*> nodeList, TNode* node); 
 };
