@@ -88,10 +88,19 @@ vector<STMTLINE> AST::getStmtLines(TType type) {
     for(stmtIt = stmtRet.first; stmtIt != stmtRet.second; ++stmtIt) {
         stmtList.push_back((*stmtIt).first);
     }
-	return stmtList;
+    return stmtList;
 }
 
 bool AST::isMatch(TNode node, TType type) {
     return node.getTType() == type;
 }
 
+bool AST::patternMatch(STMTLINE assignRoot, std::string expression, bool strict) {
+	// stub method
+	return false;
+}
+
+TNode* createExprTree(std::string expression) {
+	// stub method
+	return NULL;
+}

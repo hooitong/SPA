@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <map>
+#include <string>
 
 #include "GlobalType.h"
 #include "TNode.h"
@@ -33,4 +34,6 @@ class AST {
     void addToStmtLineMap(STMTLINE stmtNumber, TType type);
     vector<STMTLINE> getStmtLines(TType type);
     bool isMatch(TNode node, TType type);
+    bool patternMatch(STMTLINE assignRoot, std::string expression, bool strict);
+    TNode* createExprTree(std::string expression);
 };
