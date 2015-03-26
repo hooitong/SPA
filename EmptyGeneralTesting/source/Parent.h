@@ -1,29 +1,29 @@
 #pragma once
+
 #include <map>
 #include <vector>
+
 #include "GlobalType.h"
-#include "TNode.h"
 
-class Parent
-{
-private:
-	static std::multimap<STMTLINE, STMTLINE> parent2ChildMap;
-	static std::map<STMTLINE, STMTLINE> child2ParentMap;
-	static std::multimap<STMTLINE, STMTLINE> parent2ChildMapStar;
-	static std::multimap<STMTLINE, STMTLINE> child2ParentMapStar;
-	static std::multimap<STMTLINE,STMTLINE>::iterator it;
-	static std::map<STMTLINE,STMTLINE>::iterator it2;
-	static std::pair <std::multimap<STMTLINE,STMTLINE>::iterator, std::multimap<STMTLINE,STMTLINE>::iterator> ret;
+class Parent {
+  private:
+    std::multimap<STMTLINE, STMTLINE> parent2ChildMap;
+    std::map<STMTLINE, STMTLINE> child2ParentMap;
+    std::multimap<STMTLINE, STMTLINE> parent2ChildMapStar;
+    std::multimap<STMTLINE, STMTLINE> child2ParentMapStar;
+    std::multimap<STMTLINE,STMTLINE>::iterator it;
+    std::map<STMTLINE,STMTLINE>::iterator it2;
+    std::pair <std::multimap<STMTLINE,STMTLINE>::iterator, std::multimap<STMTLINE,STMTLINE>::iterator> ret;
 
-public:
-	Parent(void);
-	~Parent(void);
-	static bool setParent(STMTLINE parent, STMTLINE child);
-	static bool setParentStar(STMTLINE parent, STMTLINE child);
-	static bool isParent(STMTLINE first, STMTLINE second);
-	static bool isParentStar(STMTLINE first, STMTLINE second);
-	static STMTLINE getParent(STMTLINE child);
-	static vector<STMTLINE> getParentStar(STMTLINE child);
-	static vector<STMTLINE> getChildOf(STMTLINE parent);
-	static vector<STMTLINE> getChildOfStar(STMTLINE parent);
+  public:
+    Parent(void);
+    ~Parent(void);
+    bool setParent(STMTLINE parent, STMTLINE child);
+    bool setParentStar(STMTLINE parent, STMTLINE child);
+    bool isParent(STMTLINE first, STMTLINE second);
+    bool isParentStar(STMTLINE first, STMTLINE second);
+    STMTLINE getParent(STMTLINE child);
+    vector<STMTLINE> getParentStar(STMTLINE child);
+    vector<STMTLINE> getChildOf(STMTLINE parent);
+    vector<STMTLINE> getChildOfStar(STMTLINE parent);
 };

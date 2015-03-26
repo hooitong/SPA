@@ -1,35 +1,30 @@
 #pragma once
+
 #include <vector>
 #include <map>
+
 #include "GlobalType.h"
 #include "TNode.h"
 
-struct varInfo{
-	VARINDEX var_index;
-	VARNAME var_name;
-	std::vector<STMTLINE> modified_by;
-	std::vector<STMTLINE> used_by;
+struct varInfo {
+    VARINDEX var_index;
+    VARNAME var_name;
 };
 
-class VarTable
-{
-private:
-	static map<VARINDEX, varInfo> varIndexMap;
-	static map<VARNAME, varInfo> varNameMap;
-	static VARINDEX currentMapIndex;
+class VarTable {
+  private:
+    map<VARINDEX, varInfo> varIndexMap;
+    map<VARNAME, varInfo> varNameMap;
+    VARINDEX currentMapIndex;
 
-public:
-	VarTable(void);
-	~VarTable(void);
+  public:
+    VarTable(void);
+    ~VarTable(void);
 
-	static VARINDEX insertVar(VARNAME varName);
-	static VARNAME getVarName(VARINDEX varIndex);
-	static VARINDEX getVarIndex(VARNAME varName);
-	static int getSize();
-	static vector<VARINDEX> getAllVarIndex();
-	static vector<VARNAME> getAllVarName();
-	static bool addModifiedBy(VARINDEX varIndex, STMTLINE node);
-	static bool addUsedBy (VARINDEX varIndex, STMTLINE node);
-	static vector<STMTLINE> getModifiedBy(VARINDEX varIndex);
-	static vector<STMTLINE> getUsedBy(VARINDEX varIndex);
+    VARINDEX insertVar(VARNAME varName);
+    VARNAME getVarName(VARINDEX varIndex);
+    VARINDEX getVarIndex(VARNAME varName);
+    int getSize();
+    vector<VARINDEX> getAllVarIndex();
+    vector<VARNAME> getAllVarName();
 };

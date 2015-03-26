@@ -4,6 +4,6 @@
 using namespace std;
 
 class QueryPreprocessor {
-public:
-	QueryTree* parseQuery(string query);
+  public:
+    QueryTree* parseQuery(string query);
 };

@@ -1,29 +1,31 @@
 #pragma once
-#include<stdio.h>
-#include <iostream>
-#include <string>
-#include <vector>
+
 #include "GlobalType.h"
-
-using namespace std;
-
-
-class TNode;
-class VarTable;
+#include "ConstTable.h"
+#include "VarTable.h"
+#include "AST.h"
+#include "Follows.h"
+#include "Parent.h"
+#include "Modifies.h"
+#include "Uses.h"
 
 class PKB {
-public:
-	static VarTable* varTable; 
-	static int setPROCToAST(PROC p, TNode* r);
-	static TNode* getRootAST (PROC p);
-	static VARINDEX insertVar(VARNAME VARNAME);
-	static VARNAME getVARNAME(VARINDEX VARINDEX);
-	static VARINDEX getVARINDEX(VARNAME VARNAME);
-	static int getSize();
-	static vector<VARINDEX> getAllVar();
-	static bool addModifiedBy(VARINDEX var, TNode node);
-	static bool addUsedBy (VARINDEX var, TNode node);
-	static vector<TNode> getModifiedBy(VARINDEX var);
-	static vector<TNode> getUsedBy(VARINDEX var);
+  private:
+    VarTable* varTable;
+    AST* ast;
+    Follows* follows;
+    Parent* parent;
+    Modifies* modifies;
+    Uses* uses;
 
+  public:
+    /* Accessors methods to Design Abstractions */
+    PKB();
+    ~PKB();
+    VarTable* getVarTable();
+    AST* getAst();
+    Follows* getFollows();
+    Parent* getParent();
+    Modifies* getModifies();
+    Uses* getUses();
 };

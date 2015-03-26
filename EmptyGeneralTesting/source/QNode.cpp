@@ -8,25 +8,25 @@ QNode::QNode(void) {
 }
 
 QNode::QNode(QNodeType type, string name) {
-	this->type = type;
-	this->name = name;
+    this->type = type;
+    this->name = name;
 }
 
 QNode::~QNode(void) {
 }
 
 QNodeType QNode::getQType() {
-	return this->type;
+    return this->type;
 }
 
 string QNode::getString() {
-	return this->name;
+    return this->name;
 }
 
 vector<QNode*> QNode::getChildren(void) {
-	return this->childrenNodes;
+    return this->childrenNodes;
 }
 
 void QNode::addChild(QNode* node) {
-	this->childrenNodes.push_back(node);
+    this->childrenNodes.push_back(node);
 }

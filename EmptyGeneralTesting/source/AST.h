@@ -1,29 +1,36 @@
 #pragma once
+
 #include <vector>
 #include <map>
+
 #include "GlobalType.h"
 #include "TNode.h"
 
-class AST
-{
-private:
-	static std::map<STMTLINE, TNode*> stmtLine2NodeMap;
-	static TNode* procedureRoot; //temp solution until ProcTable is complete
+class AST {
+  private:
+    std::map<STMTLINE, TNode*> stmt2NodeMap;
+    std::multimap<STMTLINE, TType> TType2StmtMap;
+    std::multimap<STMTLINE,TType>::iterator stmtIt;
+    std::pair <std::multimap<STMTLINE,TType>::iterator, std::multimap<STMTLINE,TType>::iterator> stmtRet;
+    TNode* procedureRoot; //temp solution until ProcTable is complete
 
-public:
-	AST(void);
-	~AST(void);
+  public:
+    AST(void);
+    ~AST(void);
 
-	static TNode* createTNode(TType nodeType, std::string value);
-	static bool setSibling(TNode leftNode, TNode rightNode);
-	static bool addChildTNode(TNode parent, TNode child);
-	static std::vector<TNode*> getChildren(TNode parent);
-	static TNode* getLeftSibling(TNode node);
-	static TNode* getRightSibling(TNode node);
-	static TNode* getParentTNode(TNode node);
-	static TNode* getTNode(STMTLINE line);
-	static bool setRoot(TNode root);
-	static TNode* getRoot();
-	static std::string getValue(TNode node);
-	static bool setStmtLine(TNode node, STMTLINE stmtNumber);
+    TNode* createTNode(TType nodeType, std::string value);
+    bool setSibling(TNode leftNode, TNode rightNode);
+    bool addChildTNode(TNode parent, TNode child);
+    std::vector<TNode*> getChildren(TNode parent);
+    TNode* getLeftSibling(TNode node);
+    TNode* getRightSibling(TNode node);
+    TNode* getParentTNode(TNode node);
+    TNode* getTNode(STMTLINE line);
+    bool setRoot(TNode root);
+    TNode* getRoot();
+    std::string getValue(TNode node);
+    bool setStmtLine(TNode node, STMTLINE stmtNumber);
+    void addToStmtLineMap(STMTLINE stmtNumber, TType type);
+    vector<STMTLINE> getStmtLines(TType type);
+    bool isMatch(TNode node, TType type);
 };

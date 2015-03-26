@@ -1,21 +1,27 @@
 #pragma once
+
 #include <vector>
 #include <map>
+
 #include "GlobalType.h"
 #include "TNode.h"
 
-class Uses
-{
-private:
-	static std::multimap<STMTLINE,VARINDEX> stmt2VarMap;
-	static std::multimap<STMTLINE,VARINDEX>::iterator it;
-	static std::pair <std::multimap<STMTLINE,VARINDEX>::iterator, std::multimap<STMTLINE,VARINDEX>::iterator> ret;
+class Uses {
+  private:
+    std::multimap<VARINDEX,STMTLINE> var2StmtMap;
+    std::multimap<VARINDEX,STMTLINE>::iterator varIt;
+    std::pair <std::multimap<VARINDEX,STMTLINE>::iterator, std::multimap<VARINDEX,STMTLINE>::iterator> varRet;
 
-public:
-	Uses(void);
-	~Uses(void);
+    std::multimap<STMTLINE,VARINDEX> stmt2VarMap;
+    std::multimap<STMTLINE,VARINDEX>::iterator stmtIt;
+    std::pair <std::multimap<STMTLINE,VARINDEX>::iterator, std::multimap<STMTLINE,VARINDEX>::iterator> stmtRet;
 
-	static bool setUsesStmt(VARINDEX varIndex, STMTLINE stmt);
-	static vector<VARINDEX> getUsedByStmt(STMTLINE stmtLine);
-	static vector<STMTLINE> getUses(VARINDEX varIndex);
+  public:
+    Uses(void);
+    ~Uses(void);
+
+    bool setUsesStmt(VARINDEX varIndex, STMTLINE stmt);
+    vector<VARINDEX> getUsedByStmt(STMTLINE stmtLine);
+    vector<STMTLINE> getUses(VARINDEX varIndex);
+
 };
