@@ -9,22 +9,23 @@ class InvalidNameException : public exception {
 /*
 	Remove comment in a line and return a list of tokens from that line
 */
-vector<string> Parser::tokenizeLine(string line) {
-    vector<string> tokenList;
+vector<ParsingToken> Parser::tokenizeLine(string line) {
+    vector<ParsingToken> tokenList;
 
     string currStr = "";
     for (size_t i=0; i<line.size(); i++) {
         char nextChar = line.at(i);
         if (nextChar == ' ' || nextChar == '\t') {
             if (currStr.size() > 0) {
-                tokenList.push_back(currStr);
+                tokenList.push_back(Parser::convertStringToToken(currStr));
                 currStr = "";
             }
         } else if (nextChar == '=' || nextChar == '+' || nextChar == '-' || nextChar == ';' || nextChar == '{' || nextChar == '}') {
             if (currStr.size() > 0) {
-                tokenList.push_back(currStr);
+                tokenList.push_back(Parser::convertStringToToken(currStr));
             }
-            tokenList.push_back(string(1, nextChar));
+			currStr = string(1, nextChar);
+            tokenList.push_back(Parser::convertStringToToken(currStr));
             currStr = "";
         } else if (nextChar == '\\') {
             if (i == line.size() - 1) {
