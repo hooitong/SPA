@@ -1,6 +1,8 @@
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/ui/text/TestRunner.h>
 #include <iostream>
+#include <fstream>
+#include <Parser.h>
 
 using namespace std;
 
@@ -20,6 +22,23 @@ int main(int argc, char* argv[])
 	bool wasSucessful = runner.run();
 
 	//getchar();
+
+	// test parser
+	cout << "Enter name of the source file:";
+	string fileName;
+	getline(cin, fileName);
+	ifstream sourceFile(fileName);
+
+	string line;
+	while (getline(sourceFile, line)) {
+		vector<string> tokenList = Parser::tokenizeLine(line);
+		for (int i=0; i<tokenList.size(); i++) {
+			cout << tokenList.at(i) << " ";
+		}
+		cout << "\n";
+	}
+
+	sourceFile.close();
 
 	return wasSucessful ? 0 : 1;
 }

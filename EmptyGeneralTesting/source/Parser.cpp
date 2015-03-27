@@ -38,24 +38,3 @@ vector<string> Parser::tokenizeLine(string line) {
 
     return tokenList;
 }
-
-/* Need to move testing to UnitTesting / AutoTester
-void testTokenize() {
-cout << "Enter name of the source file:";
-	string fileName;
-	getline(cin, fileName);
-
-	ifstream sourceFile(fileName);
-
-	string line;
-	while (getline(sourceFile, line)) {
-		vector<string> tokenList = tokenizeLine(line);
-		for (int i=0; i<tokenList.size(); i++) {
-			cout << tokenList.at(i) << " ";
-		}
-		cout << "\n";
-	}
-
-	sourceFile.close();
-}
-*/
