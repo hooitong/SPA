@@ -11,6 +11,7 @@ enum TType {
     STMTLSTN,
     ASSIGNN,
     WHILEN,
+	STMTN,
     VARN,
     CONSTN,
     PLUSN,
