@@ -3,6 +3,9 @@
 class SyntaxErrorException : public exception {
 };
 
+class InvalidNameException : public exception {
+};
+
 /*
 	Remove comment in a line and return a list of tokens from that line
 */
@@ -61,7 +64,15 @@ ParsingToken Parser::convertStringToToken(string aString) {
 		token.setTokenType(TokenType::OPEN_CURLY_BRACKET);
 	} else if (aString.compare("}") == 0) {
 		token.setTokenType(TokenType::CLOSE_CURLY_BRACKET);
-	} 
+	} else if (Parser::isNumeric(aString)) {
+		token.setTokenType(TokenType::CONSTANT);
+		token.setIntValue(atoi(aString.c_str()));
+	} else if (Parser::isValidName(aString)) {
+		token.setTokenType(TokenType::NAME);
+		token.setStringValue(aString);
+	} else {
+		throw InvalidNameException();
+	}
 
 	return token;
 }
