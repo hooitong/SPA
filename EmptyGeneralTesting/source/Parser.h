@@ -13,4 +13,6 @@ public:
     ~Parser(void);
     static vector<string> tokenizeLine(string line);
 	static ParsingToken convertStringToToken(string aString);
+	static bool isNumeric(string aString);
+	static bool isValidName(string aString);
 };

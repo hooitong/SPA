@@ -52,7 +52,7 @@ enum TokenType {
 	WHILE_TOKEN, // while
 	IF_TOKEN, // if
 	ELSE_TOKEN, // else
-	ID, // identifier
+	NAME, // name
 	CONSTANT, // 1
 	ASSIGNMENT_TOKEN, // =
 	PLUS, // +

@@ -17,7 +17,7 @@ vector<string> Parser::tokenizeLine(string line) {
                 tokenList.push_back(currStr);
                 currStr = "";
             }
-        } else if (nextChar == '=' || nextChar == '+' || nextChar == ';' || nextChar == '{' || nextChar == '}') {
+        } else if (nextChar == '=' || nextChar == '+' || nextChar == '-' || nextChar == ';' || nextChar == '{' || nextChar == '}') {
             if (currStr.size() > 0) {
                 tokenList.push_back(currStr);
             }
@@ -66,3 +66,36 @@ ParsingToken Parser::convertStringToToken(string aString) {
 	return token;
 }
 
+bool Parser::isNumeric(string aString) {
+	for (int i=0; i<aString.size(); i++) {
+		if (aString.at(i) < '0' || aString.at(i) > '9')
+			return false;
+	}
+	return true;
+}
+
+bool Parser::isValidName(string aString) {
+	if (aString.size() == 0)
+		return false;
+	else if (aString.compare("while") == 0 || aString.compare("if") == 0 
+		|| aString.compare("else") == 0 || aString.compare("procedure") == 0) {
+		// name cannot be one of reserved words
+		return false;
+	} else {
+		if (aString.at(0) < 'A' || (aString.at(0) > 'Z' && aString.at(0) < 'a') || (aString.at(0) > 'z')) { 
+			// first character is not a letter 
+			return false;
+		}
+		else {
+			for (int i=1; i<aString.size(); i++) {
+				if ((aString.at(i) >= '0' && aString.at(i) <= '9') || (aString.at(i) >= 'a' && aString.at(i) <= 'z') 
+					|| (aString.at(i) >= 'A' && aString.at(i) <= 'Z')) {
+					// if ith character is a digit or a letter, then continue
+				} else {
+					return false;
+				}
+			}
+			return true;
+		}
+	}
+}

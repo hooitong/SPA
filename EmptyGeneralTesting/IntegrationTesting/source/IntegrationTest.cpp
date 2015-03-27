@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
 	//getchar();
 
 	// test parser
-	cout << "Enter name of the source file:";
+	/*cout << "Enter name of the source file:";
 	string fileName;
 	getline(cin, fileName);
 	ifstream sourceFile(fileName);
@@ -38,7 +38,23 @@ int main(int argc, char* argv[])
 		cout << "\n";
 	}
 
-	sourceFile.close();
+	sourceFile.close();*/
+
+	/*while (true) {
+		cout << "Enter a string: ";
+		string aString;
+		getline(cin, aString);
+		if (Parser::isNumeric(aString)) {
+			cout << "is numeric\n";
+		} else {
+			cout << "is not numeric\n";
+		}
+		if (Parser::isValidName(aString)) {
+			cout << "is a valid name\n";
+		} else {
+			cout << "is not a valid name\n";
+		}
+	}*/
 
 	return wasSucessful ? 0 : 1;
 }
