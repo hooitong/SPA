@@ -7,6 +7,10 @@ ParsingToken::ParsingToken(TokenType type, string sValue, int iValue) {
 	intValue = iValue;
 }
 
+ParsingToken::ParsingToken(void) {
+
+}
+
 ParsingToken::~ParsingToken(void) {
 
 }
@@ -21,4 +25,16 @@ string ParsingToken::getStringValue() {
 
 int ParsingToken::getIntValue() {
 	return intValue;
+}
+
+void ParsingToken::setTokenType(TokenType type) {
+	tokenType = type;
+}
+
+void ParsingToken::setStringValue(string sValue) {
+	stringValue = sValue;
+}
+
+void ParsingToken::setIntValue(int iValue) {
+	intValue = iValue;
 }

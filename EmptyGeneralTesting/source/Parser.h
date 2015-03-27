@@ -4,10 +4,13 @@
 #include <string>
 #include <exception>
 #include "GlobalType.h"
+#include "ParsingToken.h"
 
 class Parser {
-  public:
-    Parser(void);
+
+public:
+	Parser(void);
     ~Parser(void);
     static vector<string> tokenizeLine(string line);
+	static ParsingToken convertStringToToken(string aString);
 };

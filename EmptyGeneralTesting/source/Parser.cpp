@@ -39,3 +39,30 @@ vector<string> Parser::tokenizeLine(string line) {
     return tokenList;
 }
 
+ParsingToken Parser::convertStringToToken(string aString) {
+	ParsingToken token;
+	if (aString.compare("procedure") == 0) {
+		token.setTokenType(TokenType::PROCEDURE_TOKEN);
+	} else if (aString.compare("while") == 0) {
+		token.setTokenType(TokenType::WHILE_TOKEN);
+	} else if (aString.compare("if") == 0) {
+		token.setTokenType(TokenType::IF_TOKEN);
+	} else if (aString.compare("else") == 0) {
+		token.setTokenType(TokenType::ELSE_TOKEN);
+	} else if (aString.compare("=") == 0) {
+		token.setTokenType(TokenType::ASSIGNMENT_TOKEN);
+	} else if (aString.compare("+") == 0) {
+		token.setTokenType(TokenType::PLUS);
+	} else if (aString.compare("-") == 0) {
+		token.setTokenType(TokenType::MINUS);
+	} else if (aString.compare(";") == 0) {
+		token.setTokenType(TokenType::SEMICOLON);
+	} else if (aString.compare("{") == 0) {
+		token.setTokenType(TokenType::OPEN_CURLY_BRACKET);
+	} else if (aString.compare("}") == 0) {
+		token.setTokenType(TokenType::CLOSE_CURLY_BRACKET);
+	} 
+
+	return token;
+}
+
