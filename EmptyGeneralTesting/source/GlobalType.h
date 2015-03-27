@@ -44,3 +44,19 @@ enum QNodeType {
     PROC,
     IF
 };
+
+// Used to represent the type of ParsingToken
+enum TokenType {
+	PROCEDURE_TOKEN, // procedure
+	WHILE_TOKEN, // while
+	IF_TOKEN, // if
+	ELSE_TOKEN, // else
+	ID, // identifier
+	CONSTANT, // 1
+	ASSIGNMENT_TOKEN, // =
+	PLUS, // +
+	MINUS, // -
+	SEMICOLON,  // ;
+	OPEN_CURLY_BRACKET, // {
+	CLOSE_CURLY_BRACKET // }
+};
