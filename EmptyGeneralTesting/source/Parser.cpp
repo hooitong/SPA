@@ -13,6 +13,9 @@ class InvalidProcedureException : public SyntaxErrorException {
 class InvalidExpressionException : public SyntaxErrorException {
 };
 
+class InvalidWhileStmtException: public SyntaxErrorException {
+};
+
 /*
 	Remove comment in a line and return a list of tokens from that line
 */
@@ -164,6 +167,38 @@ AST* Parser::buildProcedureAST(vector<ParsingToken> tokenList) {
 			stmtLine++;
 			Parser::linkTNodes(assignNode, varNode, exprNode);
 			
+			// link assignNode to previous nodes on the AST
+			Parser::linkTNodeToPrevNodes(assignNode, prevNode, expectedRelation);
+			
+			// prevNode now points to assignNode to parse the next statement
+			prevNode = assignNode;
+			expectedRelation = TNodeRelation::RIGHT_SIBLING;
+		} else if (tokenList.at(i).getTokenType() == TokenType::WHILE_TOKEN) { // while statement
+			if (tokenList.at(i+1).getTokenType() != TokenType::NAME || tokenList.at(i+2).getTokenType() != TokenType::OPEN_CURLY_BRACKET) {
+				// if the statement does not follow the format 'while var_name {' then thow exception
+				throw InvalidWhileStmtException();
+			} else {
+				i = i+3; // move i to after the open curly bracket
+				TNode *whileNode = new TNode(TType::WHILEN, "");
+				whileNode->setStmtLine(stmtLine);
+				stmtLine++;
+				
+				// link whileNode to varNode
+				TNode *varNode = new TNode(TType::VARN, tokenList.at(i).getStringValue());
+				whileNode->addChild(*varNode);
+				varNode->setParentNode(*whileNode);
+
+				// link whileNode to previous nodes on the AST
+				linkTNodeToPrevNodes(whileNode, prevNode, expectedRelation);
+
+				// prevNode now points to whileNode to parse the next statement
+				prevNode = whileNode;
+				expectedRelation = TNodeRelation::CHILD;
+			}
+		} else if (tokenList.at(i).getTokenType() == TokenType::CLOSE_CURLY_BRACKET) { // end of a while loop
+			// prevNode now points to its parent
+			prevNode = prevNode->getParentNode();
+			expectedRelation = TNodeRelation::RIGHT_SIBLING;
 		}
 	}
 
@@ -228,4 +263,18 @@ void Parser::linkTNodes(TNode *parentNode, TNode *leftNode, TNode *rightNode)
 	rightNode->setParentNode(*parentNode);
 	leftNode->setRightSibling(*rightNode);
 	rightNode->setLeftSibling(*leftNode);
+}
+
+void Parser::linkTNodeToPrevNodes(TNode *currNode, TNode *prevNode, TNodeRelation expectedRelation)
+{
+	if (expectedRelation == TNodeRelation::CHILD) {
+		prevNode->addChild(*currNode);
+		currNode->setParentNode(*prevNode);
+	} else if (expectedRelation == TNodeRelation::RIGHT_SIBLING) {
+		prevNode->setRightSibling(*currNode);
+		currNode->setLeftSibling(*prevNode);
+		TNode *parentNode = prevNode->getParentNode();
+		parentNode->addChild(*currNode);
+		currNode->setParentNode(*parentNode);
+	}
 }

@@ -19,4 +19,5 @@ public:
 	static AST* buildProcedureAST(vector<ParsingToken> tokenList);
 	static TNode* buildExprAST(vector<ParsingToken> exprTokenList);
 	static void linkTNodes(TNode *parentNode, TNode *leftNode, TNode *rightNode);
+	static void linkTNodeToPrevNodes(TNode *currNode, TNode *prevNode, TNodeRelation expectedRelation);
 };
