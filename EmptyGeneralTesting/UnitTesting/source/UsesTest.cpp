@@ -1,6 +1,6 @@
 #include <cppunit/config/SourcePrefix.h>
 #include "UsesTest.h"
-#include "Uses.h"
+
 
 void UsesTest::setUp() {
     uses = new Uses;
@@ -65,5 +65,3 @@ void UsesTest::testGetUses() {
     v = (*uses).getUses(2);
     CPPUNIT_ASSERT(v.empty());
 }
-
-
