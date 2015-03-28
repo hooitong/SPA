@@ -137,20 +137,20 @@ void ParentTest::testGetChildOf() {
 
 // Test whether the getChildOfStar function works as intended.
 void ParentTest::testGetChildOfStar() {
-	testSet();
-	testSetStar();
+    testSet();
+    testSetStar();
 
-	/* Valid inputs which should return the correct child* */
-	vector<STMTLINE> resultVector = (*pTest).getChildOfStar(1);
-	CPPUNIT_ASSERT(resultVector[0] == 2);
-	CPPUNIT_ASSERT(resultVector[1] == 8);
-	resultVector = (*pTest).getChildOfStar(2);
-	CPPUNIT_ASSERT(resultVector[0] == 3);
-	resultVector = (*pTest).getChildOfStar(4);
-	CPPUNIT_ASSERT(resultVector[0] == 8);
-	CPPUNIT_ASSERT(resultVector[1] == 5);
+    /* Valid inputs which should return the correct child* */
+    vector<STMTLINE> resultVector = (*pTest).getChildOfStar(1);
+    CPPUNIT_ASSERT(resultVector[0] == 2);
+    CPPUNIT_ASSERT(resultVector[1] == 8);
+    resultVector = (*pTest).getChildOfStar(2);
+    CPPUNIT_ASSERT(resultVector[0] == 3);
+    resultVector = (*pTest).getChildOfStar(4);
+    CPPUNIT_ASSERT(resultVector[0] == 8);
+    CPPUNIT_ASSERT(resultVector[1] == 5);
 
-	/* Invalid inputs which should not return any child* */
-	resultVector = (*pTest).getChildOfStar(3);
-	CPPUNIT_ASSERT(resultVector.empty());
+    /* Invalid inputs which should not return any child* */
+    resultVector = (*pTest).getChildOfStar(3);
+    CPPUNIT_ASSERT(resultVector.empty());
 }
