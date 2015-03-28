@@ -19,8 +19,8 @@ class InvalidWhileStmtException: public SyntaxErrorException {
 /*
 	Remove comment in a line and return a list of tokens from that line
 */
-vector<ParsingToken> Parser::tokenizeLine(string line) {
-    vector<ParsingToken> tokenList;
+vector<ParsingToken*> Parser::tokenizeLine(string line) {
+    vector<ParsingToken*> tokenList;
 
     string currStr = "";
     for (size_t i=0; i<line.size(); i++) {
@@ -53,34 +53,34 @@ vector<ParsingToken> Parser::tokenizeLine(string line) {
     return tokenList;
 }
 
-ParsingToken Parser::convertStringToToken(string aString) {
-	ParsingToken token;
+ParsingToken* Parser::convertStringToToken(string aString) {
+	ParsingToken* token = new ParsingToken();
 	if (aString.compare("procedure") == 0) {
-		token.setTokenType(TokenType::PROCEDURE_TOKEN);
+		token->setTokenType(TokenType::PROCEDURE_TOKEN);
 	} else if (aString.compare("while") == 0) {
-		token.setTokenType(TokenType::WHILE_TOKEN);
+		token->setTokenType(TokenType::WHILE_TOKEN);
 	} else if (aString.compare("if") == 0) {
-		token.setTokenType(TokenType::IF_TOKEN);
+		token->setTokenType(TokenType::IF_TOKEN);
 	} else if (aString.compare("else") == 0) {
-		token.setTokenType(TokenType::ELSE_TOKEN);
+		token->setTokenType(TokenType::ELSE_TOKEN);
 	} else if (aString.compare("=") == 0) {
-		token.setTokenType(TokenType::ASSIGNMENT_TOKEN);
+		token->setTokenType(TokenType::ASSIGNMENT_TOKEN);
 	} else if (aString.compare("+") == 0) {
-		token.setTokenType(TokenType::PLUS);
+		token->setTokenType(TokenType::PLUS);
 	} else if (aString.compare("-") == 0) {
-		token.setTokenType(TokenType::MINUS);
+		token->setTokenType(TokenType::MINUS);
 	} else if (aString.compare(";") == 0) {
-		token.setTokenType(TokenType::SEMICOLON);
+		token->setTokenType(TokenType::SEMICOLON);
 	} else if (aString.compare("{") == 0) {
-		token.setTokenType(TokenType::OPEN_CURLY_BRACKET);
+		token->setTokenType(TokenType::OPEN_CURLY_BRACKET);
 	} else if (aString.compare("}") == 0) {
-		token.setTokenType(TokenType::CLOSE_CURLY_BRACKET);
+		token->setTokenType(TokenType::CLOSE_CURLY_BRACKET);
 	} else if (Parser::isNumeric(aString)) {
-		token.setTokenType(TokenType::CONSTANT);
-		token.setIntValue(atoi(aString.c_str()));
+		token->setTokenType(TokenType::CONSTANT);
+		token->setIntValue(atoi(aString.c_str()));
 	} else if (Parser::isValidName(aString)) {
-		token.setTokenType(TokenType::NAME);
-		token.setStringValue(aString);
+		token->setTokenType(TokenType::NAME);
+		token->setStringValue(aString);
 	} else {
 		throw InvalidNameException();
 	}
@@ -137,11 +137,11 @@ AST* Parser::buildProcedureAST(vector<ParsingToken> tokenList) {
 	}
 
 	// set up the AST 
-	TNode procedureNode = TNode(TType::PROCEDUREN, tokenList.at(1).getStringValue());
+	TNode *procedureNode = new TNode(TType::PROCEDUREN, tokenList.at(1).getStringValue());
 	ast->setRoot(procedureNode);
-	TNode stmtLstNode = TNode(TType::STMTLSTN, "");
+	TNode *stmtLstNode = new TNode(TType::STMTLSTN, "");
 	ast->addChildTNode(procedureNode, stmtLstNode);
-	TNode *prevNode = &stmtLstNode;
+	TNode *prevNode = stmtLstNode;
 	TNodeRelation expectedRelation = TNodeRelation::CHILD;
 
 	int i=3;
@@ -185,8 +185,8 @@ AST* Parser::buildProcedureAST(vector<ParsingToken> tokenList) {
 				
 				// link whileNode to varNode
 				TNode *varNode = new TNode(TType::VARN, tokenList.at(i).getStringValue());
-				whileNode->addChild(*varNode);
-				varNode->setParentNode(*whileNode);
+				whileNode->addChild(varNode);
+				varNode->setParentNode(whileNode);
 
 				// link whileNode to previous nodes on the AST
 				linkTNodeToPrevNodes(whileNode, prevNode, expectedRelation);
@@ -257,24 +257,24 @@ TNode* Parser::buildExprAST(vector<ParsingToken> exprTokenList) {
 
 void Parser::linkTNodes(TNode *parentNode, TNode *leftNode, TNode *rightNode)
 {
-	parentNode->addChild(*leftNode);
-	parentNode->addChild(*rightNode);
-	leftNode->setParentNode(*parentNode);
-	rightNode->setParentNode(*parentNode);
-	leftNode->setRightSibling(*rightNode);
-	rightNode->setLeftSibling(*leftNode);
+	parentNode->addChild(leftNode);
+	parentNode->addChild(rightNode);
+	leftNode->setParentNode(parentNode);
+	rightNode->setParentNode(parentNode);
+	leftNode->setRightSibling(rightNode);
+	rightNode->setLeftSibling(leftNode);
 }
 
 void Parser::linkTNodeToPrevNodes(TNode *currNode, TNode *prevNode, TNodeRelation expectedRelation)
 {
 	if (expectedRelation == TNodeRelation::CHILD) {
-		prevNode->addChild(*currNode);
-		currNode->setParentNode(*prevNode);
+		prevNode->addChild(currNode);
+		currNode->setParentNode(prevNode);
 	} else if (expectedRelation == TNodeRelation::RIGHT_SIBLING) {
-		prevNode->setRightSibling(*currNode);
-		currNode->setLeftSibling(*prevNode);
+		prevNode->setRightSibling(currNode);
+		currNode->setLeftSibling(prevNode);
 		TNode *parentNode = prevNode->getParentNode();
-		parentNode->addChild(*currNode);
-		currNode->setParentNode(*parentNode);
+		parentNode->addChild(currNode);
+		currNode->setParentNode(parentNode);
 	}
 }

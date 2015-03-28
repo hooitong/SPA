@@ -12,8 +12,8 @@ class Parser {
 public:
 	Parser(void);
     ~Parser(void);
-    static vector<ParsingToken> tokenizeLine(string line);
-	static ParsingToken convertStringToToken(string aString);
+    static vector<ParsingToken*> tokenizeLine(string line);
+	static ParsingToken* convertStringToToken(string aString);
 	static bool isNumeric(string aString);
 	static bool isValidName(string aString);
 	static AST* buildProcedureAST(vector<ParsingToken> tokenList);
