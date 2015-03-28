@@ -13,6 +13,7 @@ public:
 	VarTable* varTable;
 	void setUp();
 	void tearDown();
+
 	void testStoreRetrieveName();
 
 };
