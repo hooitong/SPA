@@ -8,7 +8,8 @@ int main(int argc, char* argv[])
 {
 	// Get the top level suite from the registry
 	CppUnit::TestSuite *unitSuite = new CppUnit::TestSuite( "All unit test" );
-	unitSuite->addTest(CppUnit::TestFactoryRegistry::getRegistry("TestQueryResult").makeTest());/*
+	unitSuite->addTest(CppUnit::TestFactoryRegistry::getRegistry("TestQueryResult").makeTest());
+	unitSuite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParentTest").makeTest());/*
 	unitSuite->addTest(CppUnit::TestFactoryRegistry::getRegistry("VarTableTest").makeTest());
 	unitSuite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserTest").makeTest());
 	unitSuite->addTest(CppUnit::TestFactoryRegistry::getRegistry("QueryPreprocessorTest").makeTest());
