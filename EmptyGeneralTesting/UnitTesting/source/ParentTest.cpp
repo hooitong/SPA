@@ -78,7 +78,7 @@ void ParentTest::testIsParentStar() {
     CPPUNIT_ASSERT((*pTest).isParentStar(4, 5));
 
     /* Should be invalid for the following inputs */
-    CPPUNIT_ASSERT(!(*pTest).isParent(10, 12));
+    CPPUNIT_ASSERT(!(*pTest).isParentStar(10, 12));
 }
 
 // Test whether the getParent function works as intended.
@@ -108,8 +108,7 @@ void ParentTest::testGetParentStar() {
     CPPUNIT_ASSERT(resultVector[0] == 2);
     resultVector = (*pTest).getParentStar(8);
     CPPUNIT_ASSERT(resultVector[0] == 4);
-    CPPUNIT_ASSERT(resultVector[1
-                               ] == 1);
+    CPPUNIT_ASSERT(resultVector[1] == 1);
     resultVector = (*pTest).getParentStar(5);
     CPPUNIT_ASSERT(resultVector[0] == 4);
 

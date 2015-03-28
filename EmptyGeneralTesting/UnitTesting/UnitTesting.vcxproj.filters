@@ -33,6 +33,9 @@
     <ClCompile Include="ModifiesTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FollowsTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\ParentTest.h">
@@ -48,6 +51,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ModifiesTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FollowsTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

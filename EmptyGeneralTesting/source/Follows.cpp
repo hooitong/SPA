@@ -8,12 +8,12 @@ Follows::~Follows(void) {
 }
 
 bool Follows::setFollows(STMTLINE first, STMTLINE second) {
-    leftSiblingMap[first] = second;
-    rightSiblingMap[second] = first;
+    rightSiblingMap[first] = second;
+    leftSiblingMap[second] = first;
     return true;
 }
 
-bool Follows::isFollow(STMTLINE first, STMTLINE second) {
+bool Follows::isFollows(STMTLINE first, STMTLINE second) {
     it = rightSiblingMap.find(first);
     if(it == rightSiblingMap.end()) {
         return false;
@@ -26,7 +26,7 @@ bool Follows::isFollow(STMTLINE first, STMTLINE second) {
     }
 }
 
-bool Follows::isFollowStar(STMTLINE first, STMTLINE second) {
+bool Follows::isFollowsStar(STMTLINE first, STMTLINE second) {
     STMTLINE current = first;
     do {
         it = rightSiblingMap.find(current);
