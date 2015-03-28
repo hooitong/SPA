@@ -2,6 +2,8 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
+#include "Parent.h"
+
 class ParentTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(ParentTest);
     CPPUNIT_TEST(testSet);
@@ -15,6 +17,7 @@ class ParentTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE_END();
 
   public:
+    Parent* pTest;
     void setUp();
     void tearDown();
 
