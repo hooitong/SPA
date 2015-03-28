@@ -4,15 +4,17 @@
 	
 
 
-void VarTableTest::setUp() {	
+void VarTableTest::setUp() {
+	varTable = new VarTable;
 }
 
 void VarTableTest::tearDown() {
+	delete varTable;
 }
 
 CPPUNIT_TEST_SUITE_REGISTRATION(VarTableTest);
 
 void VarTableTest::testStoreRetrieveName() {
-	//VARINDEX indexOfX  = (*varTable).insertVar("x");
-	//CPPUNIT_ASSERT(indexOfX == 1);
+	VARINDEX indexOfX  = (*varTable).insertVar("ab");
+	CPPUNIT_ASSERT(indexOfX == 0);
 }

@@ -21,10 +21,10 @@
     <ClCompile Include="source\ParentTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\VarTableTest.cpp">
+    <ClCompile Include="source\QueryResultTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\QueryResultTest.cpp">
+    <ClCompile Include="source\VarTableTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -32,10 +32,10 @@
     <ClInclude Include="source\ParentTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\VarTableTest.h">
+    <ClInclude Include="source\QueryResultTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\QueryResultTest.h">
+    <ClInclude Include="source\VarTableTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
