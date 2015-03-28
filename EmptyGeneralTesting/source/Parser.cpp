@@ -1,9 +1,16 @@
 #include "Parser.h"
+#include <stack>
 
 class SyntaxErrorException : public exception {
 };
 
 class InvalidNameException : public exception {
+};
+
+class InvalidProcedureException : public SyntaxErrorException {
+};
+
+class InvalidExpressionException : public SyntaxErrorException {
 };
 
 /*
@@ -110,4 +117,115 @@ bool Parser::isValidName(string aString) {
 			return true;
 		}
 	}
+}
+
+// build the AST for a procedure
+AST* Parser::buildProcedureAST(vector<ParsingToken> tokenList) {
+	AST *ast = new AST();
+
+	if (tokenList.size() < 8) {  // if the number of tokens in the procedure is less than 8, then the procedure is invalid
+		throw InvalidProcedureException();
+	}
+
+	// if the procedure does not start with the format procedure proc_name {, then return invalid
+	if (tokenList.at(0).getTokenType() != TokenType::PROCEDURE_TOKEN || tokenList.at(1).getTokenType() != TokenType::NAME
+		|| tokenList.at(2).getTokenType() != TokenType::OPEN_CURLY_BRACKET) {
+		throw InvalidProcedureException();
+	}
+
+	// set up the AST 
+	TNode procedureNode = TNode(TType::PROCEDUREN, tokenList.at(1).getStringValue());
+	ast->setRoot(procedureNode);
+	TNode stmtLstNode = TNode(TType::STMTLSTN, "");
+	ast->addChildTNode(procedureNode, stmtLstNode);
+	TNode *prevNode = &stmtLstNode;
+	TNodeRelation expectedRelation = TNodeRelation::CHILD;
+
+	int i=3;
+	int stmtLine = 1;
+	while (i < tokenList.size()) {
+		if (tokenList.at(i).getTokenType() == TokenType::NAME) { // assignment statement  
+			// if the fisrt token of the statement is a name, then the statement is an assignment
+			if (tokenList.at(i+1).getTokenType() != TokenType::ASSIGNMENT_TOKEN)
+				throw SyntaxErrorException();
+			
+			// parse the expression on the right hand side of the assignment
+			int j = i+2;
+			vector<ParsingToken> exprTokenList;
+			while (tokenList.at(j).getTokenType() != TokenType::SEMICOLON) {
+				exprTokenList.push_back(tokenList.at(j));
+				j++;
+			}
+			i = j+1; // move i to after the SEMICOLON position
+			TNode *exprNode = Parser::buildExprAST(exprTokenList);
+			TNode *varNode = new TNode(TType::VARN, tokenList.at(i).getStringValue());
+			TNode *assignNode = new TNode(TType::ASSIGNN, "");
+			assignNode->setStmtLine(stmtLine);
+			stmtLine++;
+			Parser::linkTNodes(assignNode, varNode, exprNode);
+			
+		}
+	}
+
+	return ast;
+}
+
+// build the AST for an expression, e.g. x + y + z
+TNode* Parser::buildExprAST(vector<ParsingToken> exprTokenList) {
+	if (exprTokenList.size() == 0)
+		throw InvalidExpressionException();
+
+	stack<TNode*> operandStack;
+	stack<OperatorType> operatorStack;
+
+	for (int i=0; i<exprTokenList.size(); i++) {
+		ParsingToken currToken = exprTokenList.at(i);
+		if (currToken.getTokenType() == TokenType::PLUS) // if token is + then put it to the operator stack
+			operatorStack.push(OperatorType::PLUS_OP);
+		else if (currToken.getTokenType() == TokenType::NAME) {
+			if (!operatorStack.empty()) { 
+				OperatorType opType = operatorStack.top();
+				operatorStack.pop();
+
+				if (operandStack.empty())
+					throw InvalidExpressionException();
+				TNode* fNode = operandStack.top();
+				operandStack.pop();
+
+				if (opType == OperatorType::PLUS_OP) {
+					TNode *plusNode = new TNode(TType::PLUSN, "");
+					TNode *sNode = new TNode(TType::VARN, "");
+					Parser::linkTNodes(plusNode, fNode, sNode);
+					operandStack.push(plusNode);
+				}
+			} else {
+				TNode *varNode = new TNode(TType::VARN, currToken.getStringValue());
+				operandStack.push(varNode);
+			}
+		}
+	}
+
+	if (!operatorStack.empty()) // if there are more operators than necessary, then the expression is invalid
+		throw InvalidExpressionException();
+
+	if (operandStack.empty()) // after finishing parsing, there should be only one operand in the operand stack
+		throw InvalidExpressionException();
+
+	TNode *exprRootNode = operandStack.top();
+	operandStack.pop();
+
+	if (!operandStack.empty())
+		throw InvalidExpressionException();
+
+	return exprRootNode;
+}
+
+void Parser::linkTNodes(TNode *parentNode, TNode *leftNode, TNode *rightNode)
+{
+	parentNode->addChild(*leftNode);
+	parentNode->addChild(*rightNode);
+	leftNode->setParentNode(*parentNode);
+	rightNode->setParentNode(*parentNode);
+	leftNode->setRightSibling(*rightNode);
+	rightNode->setLeftSibling(*leftNode);
 }

@@ -5,6 +5,7 @@
 #include <exception>
 #include "GlobalType.h"
 #include "ParsingToken.h"
+#include "AST.h"
 
 class Parser {
 
@@ -15,4 +16,7 @@ public:
 	static ParsingToken convertStringToToken(string aString);
 	static bool isNumeric(string aString);
 	static bool isValidName(string aString);
+	static AST* buildProcedureAST(vector<ParsingToken> tokenList);
+	static TNode* buildExprAST(vector<ParsingToken> exprTokenList);
+	static void linkTNodes(TNode *parentNode, TNode *leftNode, TNode *rightNode);
 };
