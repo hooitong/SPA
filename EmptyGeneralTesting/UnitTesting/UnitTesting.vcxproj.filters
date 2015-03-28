@@ -21,9 +21,15 @@
     <ClCompile Include="QueryResultTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\ParentTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="QueryResultTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ParentTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

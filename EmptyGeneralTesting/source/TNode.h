@@ -21,15 +21,15 @@ class TNode {
     ~TNode(void);
 
     TType getTType();
-    bool isTType(TNode node, TType type);
+    bool isTType(TNode* node, TType type);
     string getValue();
-    bool setLeftSibling(TNode leftSibling);
-    bool setRightSibling(TNode rightSibling);
+    bool setLeftSibling(TNode* leftSibling);
+    bool setRightSibling(TNode* rightSibling);
     TNode* getLeftSibling();
     TNode* getRightSibling();
-    bool setParentNode(TNode parentNode);
+    bool setParentNode(TNode* parentNode);
     TNode* getParentNode();
-    bool addChild(TNode child);
+    bool addChild(TNode* child);
     vector<TNode*> getChildren();
     bool setStmtLine(STMTLINE stmtNo);
     STMTLINE getStmtLine();
