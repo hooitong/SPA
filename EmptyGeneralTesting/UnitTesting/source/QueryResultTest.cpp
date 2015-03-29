@@ -312,3 +312,52 @@ void QueryResultTest::testMultipleMerge() {
 
     CPPUNIT_ASSERT(expected == result);
 }
+
+void QueryResultTest::testFilter() {
+    vector <string> synonym1;
+    synonym1.push_back("a");
+    synonym1.push_back("b");
+    synonym1.push_back("c");
+    synonym1.push_back("d");
+    QueryResult one(synonym1);
+
+    vector<int> resultone1;
+    resultone1.push_back(1);
+    resultone1.push_back(2);
+    resultone1.push_back(3);
+    resultone1.push_back(4);
+
+    vector<int> resultone2;
+    resultone2.push_back(4);
+    resultone2.push_back(6);
+    resultone2.push_back(5);
+    resultone2.push_back(7);
+
+    vector <int> resultone3;
+    resultone3.push_back(1);
+    resultone3.push_back(2);
+    resultone3.push_back(10);
+    resultone3.push_back(11);
+
+    one.addSolution(resultone1);
+    one.addSolution(resultone2);
+    one.addSolution(resultone3);
+
+	vector <string> expectedSynonym;
+	expectedSynonym.push_back("b");
+	expectedSynonym.push_back("a");
+	QueryResult expected(expectedSynonym);
+
+	vector <int> expected1;
+	expected1.push_back(2);
+	expected1.push_back(1);
+
+	vector <int> expected2;
+	expected2.push_back(6);
+	expected2.push_back(4);
+
+	expected.addSolution(expected1);
+	expected.addSolution(expected2);
+
+	CPPUNIT_ASSERT(one.filter(expectedSynonym) == expected);
+}

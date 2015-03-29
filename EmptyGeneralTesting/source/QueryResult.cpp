@@ -141,6 +141,29 @@ vector<string> QueryResult::getSynonyms() {
 	return synonyms;
 }
 
+QueryResult QueryResult::filter(vector<string> newSynonyms) {
+	QueryResult newResult(newSynonyms);
+	pair<vector<int>, vector<int> > matchingIndex = matchingSynonyms(newResult);
+
+	INDEX_LIST matchingInThis;
+	for (int i = 0; i < newResult.numSynonyms; i++) {
+		if (matchingIndex.second[i] != -1) {
+			matchingInThis.push_back(matchingIndex.second[i]);
+		}
+	}
+
+	for (int i = 0; i < (int) solutions.size(); i++) {
+		R_TUPLE subResult = getSubResult(solutions[i], matchingInThis);
+		newResult.addSolution(subResult);
+	}
+	sort(newResult.solutions.begin(), newResult.solutions.end());
+	newResult.solutions.erase(unique(newResult.solutions.begin(),
+		newResult.solutions.end()),
+		newResult.solutions.end());
+
+	return newResult;
+}
+
 QueryResult QueryResult::merge(QueryResult result2) {
 	pair<vector<int>, vector<int> > matchingIndex = matchingSynonyms(result2);
 

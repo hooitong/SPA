@@ -31,6 +31,7 @@ public:
 	void addSolution(R_TUPLE solution);
 	string toString(map<string, QNodeType> typeMap);
 	QueryResult merge(QueryResult result2);
+	QueryResult filter(vector<string> synonyms);
 	map<R_TUPLE, vector<R_TUPLE > > createExtensionMap(INDEX_LIST matchIndex);
 	bool operator==(QueryResult result2);
 };
