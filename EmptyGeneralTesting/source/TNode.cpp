@@ -22,21 +22,21 @@ TType TNode::getTType() {
     return type;
 }
 
-bool TNode::isTType(TNode node, TType type) {
-    return (node.getTType()==type);
+bool TNode::isTType(TNode* node, TType type) {
+    return (*node).getTType() == type;
 }
 
 string TNode::getValue() {
     return value;
 }
 
-bool TNode::setLeftSibling(TNode leftSibling) {
-    leftSiblingNode = &leftSibling;
+bool TNode::setLeftSibling(TNode* leftSibling) {
+    leftSiblingNode = leftSibling;
     return true;
 }
 
-bool TNode::setRightSibling(TNode rightSibling) {
-    rightSiblingNode = &rightSibling;
+bool TNode::setRightSibling(TNode* rightSibling) {
+    rightSiblingNode = rightSibling;
     return true;
 }
 
@@ -48,12 +48,12 @@ TNode* TNode::getRightSibling() {
     return rightSiblingNode;
 }
 
-bool TNode::setParentNode(TNode node) {
+bool TNode::setParentNode(TNode* node) {
     if(&parentNode) {
         return false;
         //already has parent, prevent it from resetting parent
     }
-    parentNode = &node;
+    parentNode = node;
     return true;
 }
 
@@ -61,8 +61,8 @@ TNode* TNode::getParentNode() {
     return parentNode;
 }
 
-bool TNode:: addChild(TNode node) {
-    childrenNodes.push_back(&node);
+bool TNode:: addChild(TNode* node) {
+    childrenNodes.push_back(node);
     return true;
 }
 

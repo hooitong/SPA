@@ -66,11 +66,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FollowsTest.cpp" />
+    <ClCompile Include="ModifiesTest.cpp" />
+    <ClCompile Include="source\ParentTest.cpp" />
+    <ClCompile Include="source\QueryResultTest.cpp" />
     <ClCompile Include="source\UnitTest.cpp" />
-    <ClCompile Include="QueryResultTest.cpp" />
+    <ClCompile Include="source\UsesTest.cpp" />
+    <ClCompile Include="source\VarTableTest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="QueryResultTest.h" />
+    <ClInclude Include="FollowsTest.h" />
+    <ClInclude Include="ModifiesTest.h" />
+    <ClInclude Include="source\ParentTest.h" />
+    <ClInclude Include="source\QueryResultTest.h" />
+    <ClInclude Include="source\UsesTest.h" />
+    <ClInclude Include="source\VarTableTest.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

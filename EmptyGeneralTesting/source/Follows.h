@@ -16,9 +16,8 @@ class Follows {
     ~Follows(void);
 
     bool setFollows(STMTLINE first, STMTLINE second);
-    bool setFollowsStar(STMTLINE first, STMTLINE second);
-    bool isFollow(STMTLINE first, STMTLINE second);
-    bool isFollowStar(STMTLINE first, STMTLINE second);
+    bool isFollows(STMTLINE first, STMTLINE second);
+    bool isFollowsStar(STMTLINE first, STMTLINE second);
     STMTLINE getFollowedBy(STMTLINE currentLine);
     STMTLINE getFollowsFrom(STMTLINE currentLine);
     vector<STMTLINE> getFollowedByStar(STMTLINE currentLine);

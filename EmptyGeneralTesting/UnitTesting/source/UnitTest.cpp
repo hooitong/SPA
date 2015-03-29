@@ -4,22 +4,20 @@
 
 using namespace std;
 
-int main(int argc, char* argv[])
-{
-// Get the top level suite from the registry
-CppUnit::TestSuite *unitSuite = new CppUnit::TestSuite( "All unit test" );
-unitSuite->addTest(CppUnit::TestFactoryRegistry::getRegistry("TestQueryResult").makeTest());/*
-unitSuite->addTest(CppUnit::TestFactoryRegistry::getRegistry("VarTableTest").makeTest());
-unitSuite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserTest").makeTest());
-unitSuite->addTest(CppUnit::TestFactoryRegistry::getRegistry("QueryPreprocessorTest").makeTest());
-unitSuite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ProcTableTest").makeTest());*/
-CppUnit::TestFactoryRegistry::getRegistry().addTestToSuite(unitSuite);
-CppUnit::TextUi::TestRunner runner;
+int main(int argc, char* argv[]) {
+    // Get the top level suite from the registry
+    CppUnit::TestSuite *unitSuite = new CppUnit::TestSuite( "All unit test" );
+    unitSuite->addTest(CppUnit::TestFactoryRegistry::getRegistry("TestQueryResult").makeTest());
+    unitSuite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParentTest").makeTest());
+    unitSuite->addTest(CppUnit::TestFactoryRegistry::getRegistry("VarTableTest").makeTest());
+    unitSuite->addTest(CppUnit::TestFactoryRegistry::getRegistry("UsesTest").makeTest());
+    CppUnit::TestFactoryRegistry::getRegistry().addTestToSuite(unitSuite);
+    CppUnit::TextUi::TestRunner runner;
 
-runner.addTest(unitSuite);
-bool wasSucessful = runner.run();
+    runner.addTest(unitSuite);
+    bool wasSucessful = runner.run();
 
-getchar();
+    getchar();
 
-return wasSucessful ? 0 : 1;
+    return wasSucessful ? 0 : 1;
 }

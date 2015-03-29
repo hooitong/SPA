@@ -1,5 +1,7 @@
 #include "AST.h"
 
+#include <stack>
+
 /* Constructor & Destructor */
 AST::AST(void) {
 }
@@ -11,43 +13,43 @@ TNode* AST::createTNode(TType nodeType, std::string value) {
     return new TNode(nodeType, value);
 }
 
-bool AST::setSibling(TNode leftNode, TNode rightNode) {
-    if(leftNode.getRightSibling()!= NULL) {
+bool AST::setSibling(TNode* leftNode, TNode* rightNode) {
+    if((*leftNode).getRightSibling() != NULL) {
         return false;
     }
-    if(rightNode.getLeftSibling()!= NULL) {
+    if((*rightNode).getLeftSibling() != NULL) {
         return false;
     }
-    leftNode.setRightSibling(rightNode);
-    rightNode.setLeftSibling(leftNode);
+    (*leftNode).setRightSibling(rightNode);
+    (*rightNode).setLeftSibling(leftNode);
     return true;
 }
 
-bool AST::addChildTNode(TNode parent, TNode child) {
-    if(child.getParentNode()!= NULL) {
+bool AST::addChildTNode(TNode* parent, TNode* child) {
+    if((*child).getParentNode()!= NULL) {
         return false;
     }
 
     /* Set two-way link of parent and child */
-    parent.addChild(child);
-    child.setParentNode(parent);
+    (*parent).addChild(child);
+    (*child).setParentNode(parent);
     return true;
 }
 
-vector<TNode*> AST::getChildren(TNode parent) {
-    return parent.getChildren();
+vector<TNode*> AST::getChildren(TNode* parent) {
+    return (*parent).getChildren();
 }
 
-TNode* AST::getLeftSibling(TNode node) {
-    return node.getLeftSibling();
+TNode* AST::getLeftSibling(TNode* node) {
+    return (*node).getLeftSibling();
 }
 
-TNode* AST::getRightSibling(TNode node) {
-    return node.getRightSibling();
+TNode* AST::getRightSibling(TNode* node) {
+    return (*node).getRightSibling();
 }
 
-TNode* AST::getParentTNode(TNode node) {
-    return node.getParentNode();
+TNode* AST::getParentTNode(TNode* node) {
+    return (*node).getParentNode();
 }
 
 TNode* AST::getTNode(STMTLINE line) {
@@ -59,18 +61,18 @@ TNode* AST::getTNode(STMTLINE line) {
     }
 }
 
-string AST::getValue(TNode node) {
-    return node.getValue();
+string AST::getValue(TNode* node) {
+    return (*node).getValue();
 }
 
-bool AST::setStmtLine(TNode node, STMTLINE stmtNumber) {
-    stmt2NodeMap[stmtNumber] = &node;
-    node.setStmtLine(stmtNumber);
+bool AST::setStmtLine(TNode* node, STMTLINE stmtNumber) {
+    stmt2NodeMap[stmtNumber] = node;
+    (*node).setStmtLine(stmtNumber);
     return true;
 }
 
-bool AST::setRoot(TNode root) {
-    procedureRoot = &root;
+bool AST::setRoot(TNode* root) {
+    procedureRoot = root;
     return true;
 }
 
@@ -84,23 +86,29 @@ void AST::addToStmtLineMap(STMTLINE stmtNumber, TType type) {
 
 vector<STMTLINE> AST::getStmtLines(TType type) {
     vector<STMTLINE> stmtList;
-    stmtRet = TType2StmtMap.equal_range(type);
-    for(stmtIt = stmtRet.first; stmtIt != stmtRet.second; ++stmtIt) {
-        stmtList.push_back((*stmtIt).first);
+    if(type == TType::STMTN) {
+        for(stmtIt = TType2StmtMap.begin(); stmtIt != TType2StmtMap.end(); ++stmtIt) {
+            stmtList.push_back(stmtIt->second);
+        }
+    } else {
+        stmtRet = TType2StmtMap.equal_range(type);
+        for(stmtIt = stmtRet.first; stmtIt != stmtRet.second; ++stmtIt) {
+            stmtList.push_back((*stmtIt).first);
+        }
     }
     return stmtList;
 }
 
-bool AST::isMatch(TNode node, TType type) {
-    return node.getTType() == type;
+bool AST::isMatch(TNode* node, TType type) {
+    return (*node).getTType() == type;
 }
 
 bool AST::patternMatch(STMTLINE assignRoot, std::string expression, bool strict) {
     TNode* astNode = getTNode(assignRoot);
     TNode* queryExpression = createExprTree(expression);
 
-    vector<TNode*> depthTraversalOfAstNode = getDFS(*astNode);
-    vector<TNode*> depthTraversalOfQuery = getDFS(*createExprTree(expression));
+    vector<TNode*> depthTraversalOfAstNode = getDFS(astNode);
+    vector<TNode*> depthTraversalOfQuery = getDFS(createExprTree(expression));
     int lengthOfTraversedAST = depthTraversalOfAstNode.size();
     int lengthOfPattern = depthTraversalOfQuery.size();
     if(strict && lengthOfTraversedAST == lengthOfPattern) {
@@ -120,17 +128,17 @@ bool AST::patternMatch(STMTLINE assignRoot, std::string expression, bool strict)
 string AST::convertTNodeListValueToString(vector<TNode*> nodes) {
     string result;
     for(int i = 0 ; i < nodes.size(); i++) {
-        result += getValue(*nodes[i]);
+        result += getValue(nodes[i]);
     }
     return result;
 }
 
-vector<TNode*> AST::getDFS(TNode node) {
+vector<TNode*> AST::getDFS(TNode* node) {
     vector<TNode*> stack;
-    stack.push_back(&node);
+    stack.push_back(node);
     vector<TNode*> returnVector;
     vector<TNode*> discoveredNode;
-    TNode* currentNode = &node;
+    TNode* currentNode = node;
 
     while(stack.size() > 0) {
         //getting the last item
@@ -141,8 +149,8 @@ vector<TNode*> AST::getDFS(TNode node) {
             returnVector.push_back(currentNode);
         }
 
-        TNode *rightChild =getRightSibling(*currentNode);
-        TNode *leftChild = getLeftSibling(*currentNode);
+        TNode *rightChild = getRightSibling(currentNode);
+        TNode *leftChild = getLeftSibling(currentNode);
 
         //keep pushing right child first so when popping we always retrieve the left child
         if(rightChild != NULL)
@@ -163,7 +171,50 @@ bool AST::ifNodeVisited(vector<TNode*> nodeList, TNode* node) {
     return false;
 }
 
+// convert infix expression into binary expression tree and return root pointer.
+// currently support: +   todo: () * -, constant
 TNode* AST::createExprTree(std::string expression) {
-    // stub method
-    return NULL;
+    // use two stacks during parsing of infix expression
+    std::stack<TNode*> operandStack;
+    std::stack<TNode*> operatorStack;
+
+    // parse each character in the expression
+    string currStr = "";
+    for(std::string::size_type i = 0; i < expression.size(); ++i) {
+        char* c = &expression[i];
+        if(*c == '+') {
+            operandStack.push(createTNode(VARN, currStr));
+            currStr = "";
+
+            while(!operatorStack.empty()) {
+                TNode* current = operatorStack.top();
+                operatorStack.pop();
+                current->addChild(operandStack.top());
+                operandStack.pop();
+                current->addChild(operandStack.top());
+                operandStack.pop();
+                operandStack.push(current);
+            }
+            operatorStack.push(createTNode(PLUSN, ""));
+        } else if ((*c >= 'a' && *c <= 'z') || (*c >= 'A' && *c <= 'Z') || (*c >= '0' && *c <= '9')) {
+            currStr.append(c);
+        }
+    }
+
+    if(currStr != "") {
+        operandStack.push(createTNode(VARN, currStr));
+    }
+
+    TNode* root = operatorStack.top();
+    while(!operatorStack.empty()) {
+        TNode* current = operatorStack.top();
+        operatorStack.pop();
+        current->addChild(operandStack.top());
+        operandStack.pop();
+        current->addChild(operandStack.top());
+        operandStack.pop();
+        operandStack.push(current);
+    }
+
+    return root;
 }
