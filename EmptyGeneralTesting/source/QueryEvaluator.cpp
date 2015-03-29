@@ -12,7 +12,7 @@ QueryResult QueryEvaluator::evaluate(QNode* node) {
 		QueryResult result =QueryResult(emptySynonym);
 
 		vector<QNode*> children = node->getChildren();
-		for (int i = 0; i < children.size(); i++) {
+		for (int i = 0; i < (int)children.size(); i++) {
 			result = result.merge(evaluate(children[i]));
 		}
 
@@ -50,7 +50,7 @@ QueryResult QueryEvaluator::solveFollows(QNode* node) {
 	} else {
 		int line1 = getInteger(leftChild);
 		int line2 = getInteger(rightChild);
-		return boolToResult(pkbInstance.getFollows()->isFollow(line1, line2));
+		return boolToResult(pkbInstance.getFollows()->isFollows(line1, line2));
 	}
 }
 
