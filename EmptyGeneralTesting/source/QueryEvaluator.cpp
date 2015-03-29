@@ -37,20 +37,20 @@ QueryResult QueryEvaluator::solveFollows(QNode* node) {
 	if (isSynonym(leftChild->getQType()) && isSynonym(rightChild->getQType())) {
 		TType type1 = synonymToTType(leftChild->getQType());
 		TType type2 = synonymToTType(rightChild->getQType());
-		return pairsToResult(Follows(type1, type2), 
+		return QueryResult(Follows(type1, type2), 
 			leftChild->getString(), rightChild->getString());
 	} else if (isSynonym(leftChild->getQType())) {
 		int line = getInteger(rightChild);
 		int resultLine = pkbInstance.getFollows()->getFollowsFrom(line);
-		return oneToResult(resultLine, leftChild->getString());
+		return QueryResult(resultLine, leftChild->getString());
 	} else if (isSynonym(rightChild->getQType())) {
 		int line = getInteger(leftChild);
 		int resultLine = pkbInstance.getFollows()->getFollowedBy(line);
-		return oneToResult(resultLine, leftChild->getString());
+		return QueryResult(resultLine, leftChild->getString());
 	} else {
 		int line1 = getInteger(leftChild);
 		int line2 = getInteger(rightChild);
-		return boolToResult(pkbInstance.getFollows()->isFollows(line1, line2));
+		return QueryResult(pkbInstance.getFollows()->isFollows(line1, line2));
 	}
 }
 
@@ -83,49 +83,6 @@ bool QueryEvaluator::isSynonym(QNodeType type) {
 		type == IFSYNONYM;
 }
 
-QueryResult QueryEvaluator::boolToResult(bool boolResult) {
-	vector <string> synonyms;
-	QueryResult result = QueryResult(synonyms);
-
-	if (boolResult) {
-		result.addSolution(vector<int>());
-	}
-	return result;
-}
-
-QueryResult QueryEvaluator::pairsToResult(vector<pair<int,int> > pairs, string synonym1, string synonym2) {
-	vector <string> synonyms;
-	synonyms.push_back(synonym1);
-	synonyms.push_back(synonym2);
-	QueryResult result = QueryResult(synonyms);
-
-	for (int i = 0; i < (int) pairs.size(); i++) {
-		vector <int> resultTuple;
-		resultTuple.push_back(pairs[i].first);
-		resultTuple.push_back(pairs[i].second);
-		result.addSolution(resultTuple);
-	}
-	return result;
-}
-
-QueryResult QueryEvaluator::oneToResult(int oneresult, string synonym) {
-	vector <int> singles;
-	singles.push_back(oneresult);
-
-	return singlesToResult(singles, synonym);
-}
-
-QueryResult QueryEvaluator::singlesToResult(vector<int> singles, string synonym) {
-	vector<string> synonyms;
-	synonyms.push_back(synonym);
-	QueryResult result(synonyms);
-	for (int i = 0; i < (int)singles.size(); i++) {
-		vector<int> tuple;
-		tuple.push_back(singles[i]);
-		result.addSolution(tuple);
-	}
-	return result;	
-}
 
 QueryResult QueryEvaluator::getAllOfType(TType t, string synonym) {
 	vector <int> possibleResult;
@@ -137,7 +94,7 @@ QueryResult QueryEvaluator::getAllOfType(TType t, string synonym) {
 		possibleResult = pkbInstance.getVarTable()->getAllVarIndex();
 	}
 
-	return singlesToResult(possibleResult, synonym);
+	return QueryResult(possibleResult, synonym);
 }
 
 vector<std::pair<STMTLINE, STMTLINE>> QueryEvaluator::Follows(TType firstType, TType secondType) {

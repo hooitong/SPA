@@ -4,6 +4,44 @@
 
 using namespace std;
 
+QueryResult::QueryResult(bool possible) {
+	this->synonyms = vector<string>();
+	this->solutions.clear();
+}
+
+QueryResult::QueryResult(int result, string synonym) {
+	this->synonyms.clear();
+	this->synonyms.push_back(synonym);
+	
+	R_TUPLE tuple;
+	tuple.push_back(result);
+	this->addSolution(tuple);
+}
+
+QueryResult::QueryResult(vector<int> results, string synonym) {
+	this->synonyms.clear();
+	this->synonyms.push_back(synonym);
+
+	for (int i = 0; i < (int)results.size(); i++) {
+		R_TUPLE tuple;
+		tuple.push_back(results[i]);
+		this->addSolution(tuple);
+	}
+}
+
+QueryResult::QueryResult(vector<pair<int, int> > results, string synonym1, string synonym2) {
+	this->synonyms.clear();
+	this->synonyms.push_back(synonym1);
+	this->synonyms.push_back(synonym2);
+
+	for (int i = 0; i < (int)results.size(); i++) {
+		R_TUPLE tuple;
+		tuple.push_back(results[i].first);
+		tuple.push_back(results[i].second);
+		this->addSolution(tuple);
+	}
+}
+
 QueryResult::QueryResult(vector<string> synonyms) {
 	this->synonyms = synonyms;
 	numSynonyms = synonyms.size();

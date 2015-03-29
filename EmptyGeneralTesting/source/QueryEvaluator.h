@@ -28,9 +28,5 @@ class QueryEvaluator {
 	QueryResult solveFollows(QNode* node);
 	QueryResult solveParent(QNode* node);
 	bool isSynonym(QNodeType type);
-	QueryResult pairsToResult(vector<pair<int,int> > pairs, string synonym1, string synonym2);
-	QueryResult singlesToResult(vector<int> singles, string synonym);
-	QueryResult oneToResult(int oneResult, string synonym);
-	QueryResult boolToResult(bool boolResult);
 	QueryResult getAllOfType(TType t, string synonym);
 };

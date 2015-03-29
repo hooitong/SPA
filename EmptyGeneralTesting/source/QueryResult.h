@@ -20,6 +20,10 @@ private:
 	R_TUPLE getSubResult(const R_TUPLE&, const INDEX_LIST&);
 	static const int NO_MATCH = -1;
 public:
+	QueryResult(bool possible);
+	QueryResult(int result, string synonym);
+	QueryResult(vector<int> results, string synonym);
+	QueryResult(vector<pair<int, int> > results, string synonym1, string synonym2);
 	QueryResult(vector<string> synonyms);
 	~QueryResult();
 	vector<string> getSynonyms();
