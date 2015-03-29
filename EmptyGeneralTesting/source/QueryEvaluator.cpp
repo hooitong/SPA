@@ -16,7 +16,7 @@ vector<std::pair<STMTLINE, STMTLINE>> QueryEvaluator::Follows(TType firstType, T
     // double for loop based on both vector of stmt#, check Follows() is true then keep into vector as tuple.
     for(std::vector<STMTLINE>::iterator j = firstResult.begin(); j != firstResult.end(); ++j) {
         for(std::vector<STMTLINE>::iterator k = firstResult.begin(); k != firstResult.end(); ++k) {
-            if(pkbInstance.getFollows()->isFollow(*j, *k)) {
+            if(pkbInstance.getFollows()->isFollows(*j, *k)) {
                 result.push_back(std::make_pair(*j, *k));
             }
         }
