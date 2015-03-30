@@ -1,24 +1,19 @@
 #include <cppunit/config/SourcePrefix.h>
 #include "TNodeTest.h"
-#include "TNode.h"
-	
 
+
+TNode* node = new TNode(VARN, "x");
+TNode* nodePlus = new TNode(PLUSN,"+");//added to assist testing
+TNode* nodeParent = new TNode(MINUSN,"-");//added to assist testing
 
 void TNodeTest::setUp() {
-	node = new TNode;
-	node = new TNode(VARN, "x");
-	nodePlus = new TNode;
-	nodePlus = new TNode(PLUSN,"+");
-	nodeParent = new TNode;
-	nodeParent = new TNode(MINUSN,"-");
 	
 }
 
 void TNodeTest::tearDown() {
-	delete node;
-	delete nodePlus;
-	delete nodeParent;
-	
+	//delete node;
+	//delete nodePlus;
+	//delete nodeParent;
 }
 
 CPPUNIT_TEST_SUITE_REGISTRATION(TNodeTest);
@@ -39,25 +34,25 @@ void TNodeTest::testIsTType(){
 
 void TNodeTest::testSetSiblings(){
 	
-	bool value = (*node).setLeftSibling(node);
+	bool value = (*node).setLeftSibling(nodePlus);
 	CPPUNIT_ASSERT ( value == true );
 	value = (*node).setRightSibling(NULL);
-	CPPUNIT_ASSERT ( value == false );
+	CPPUNIT_ASSERT ( value == true );
 }
 
 void TNodeTest::testGetLeftSibling(){
-	TNode* node = (*node).getLeftSibling();
-	CPPUNIT_ASSERT ( node == nodePlus);	
+	TNode* nodeLeftSibling = (*node).getLeftSibling();
+	CPPUNIT_ASSERT ( nodeLeftSibling == nodePlus);	
 }
 
 void TNodeTest::testGetRightSibling(){
-	TNode* node = (*node).getRightSibling();
-	CPPUNIT_ASSERT ( node == NULL);	
+	TNode* nodeRightSibling = (*node).getRightSibling();
+	CPPUNIT_ASSERT ( nodeRightSibling == NULL);	
 }
 
 void TNodeTest::testSetParentNode(){
-	bool value = (*node).setParentNode(nodeParent);
-	CPPUNIT_ASSERT ( value == true);
+	bool valueBoolSetParent = (*node).setParentNode(nodeParent);
+	CPPUNIT_ASSERT ( valueBoolSetParent == true);
 }
 
 void TNodeTest::testGetParentNode(){

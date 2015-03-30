@@ -5,13 +5,14 @@ TNode::TNode(TType typeOfNode, string nodeValue) {
     stmtNumber = -1;
     type = typeOfNode;
     value = nodeValue;
+	parentNode = NULL;
 }
 
 TNode::TNode(void) {
     stmtNumber = -1;
 }
 
-TNode::~TNode(void) {
+TNode::~TNode(void) { 
     delete parentNode;
     delete leftSiblingNode;
     delete rightSiblingNode;
@@ -23,6 +24,8 @@ TType TNode::getTType() {
 }
 
 bool TNode::isTType(TNode* node, TType type) {
+	//might need to change parameter, to remove reference to node
+	//input type will do
     return (*node).getTType() == type;
 }
 
@@ -49,7 +52,7 @@ TNode* TNode::getRightSibling() {
 }
 
 bool TNode::setParentNode(TNode* node) {
-    if(&parentNode) {
+    if(parentNode!=NULL) {
         return false;
         //already has parent, prevent it from resetting parent
     }

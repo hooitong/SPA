@@ -1,11 +1,11 @@
 #pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
-class TNode;
+#include <TNode.h>	
 
 class TNodeTest : public CPPUNIT_NS::TestFixture
 {
-	CPPUNIT_TEST_SUITE(TNodeTest);/*
+	CPPUNIT_TEST_SUITE(TNodeTest);
 	CPPUNIT_TEST(testCreateNode);
 	CPPUNIT_TEST(testIsTType);
 	CPPUNIT_TEST(testSetSiblings);
@@ -16,13 +16,10 @@ class TNodeTest : public CPPUNIT_NS::TestFixture
 	CPPUNIT_TEST(testAddChildren);
 	CPPUNIT_TEST(testGetChildren);
 	CPPUNIT_TEST(testSetStmtLine);
-	CPPUNIT_TEST(testGetStmtLine);*/
+	CPPUNIT_TEST(testGetStmtLine);
 	CPPUNIT_TEST_SUITE_END();
 
 public:
-	TNode* node;
-	TNode* nodePlus;//added to assist testing
-	TNode* nodeParent;//added to assist testing
 	void setUp();
 	void tearDown();
 

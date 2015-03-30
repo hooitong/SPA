@@ -30,10 +30,16 @@
     <ClCompile Include="source\UsesTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ModifiesTest.cpp">
+    <ClCompile Include="source\TNodeTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\TNodeTest.cpp">
+    <ClCompile Include="source\FollowsTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ModifiesTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ProcTableTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,10 +56,16 @@
     <ClInclude Include="source\UsesTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ModifiesTest.h">
+    <ClInclude Include="source\TNodeTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\TNodeTest.h">
+    <ClInclude Include="source\FollowsTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ModifiesTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ProcTableTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
