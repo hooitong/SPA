@@ -22,7 +22,6 @@ PKB::~PKB(void) {
 
 VarTable* PKB::getVarTable() {
     return varTable;
-
 }
 
 AST* PKB::getAst() {

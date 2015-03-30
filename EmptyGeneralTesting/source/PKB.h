@@ -19,7 +19,7 @@ class PKB {
     Uses* uses;
 
   public:
-    /* Accessors methods to Design Abstractions */
+    /* Accessors methods to Design Abstractions in PKB */
     PKB();
     ~PKB();
     VarTable* getVarTable();

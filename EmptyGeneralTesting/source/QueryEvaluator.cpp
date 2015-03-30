@@ -54,6 +54,7 @@ vector<string> QueryEvaluator::getResultSynonyms(QNode* node) {
 	for (int i = 0; i < (int) children.size(); i++) {
 		result.push_back(children[i]->getString());	
 	}
+	return result;
 }
 
 map<string, TType> QueryEvaluator::getSynonymMap(QNode* node) {
