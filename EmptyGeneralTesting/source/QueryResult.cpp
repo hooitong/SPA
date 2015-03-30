@@ -4,6 +4,48 @@
 
 using namespace std;
 
+QueryResult::QueryResult(bool possible) {
+	this->synonyms = vector<string>();
+	this->solutions.clear();
+}
+
+QueryResult::QueryResult(int result, string synonym) {
+	this->synonyms.clear();
+	this->synonyms.push_back(synonym);
+	
+	R_TUPLE tuple;
+	tuple.push_back(result);
+	this->addSolution(tuple);
+}
+
+vector<QueryResult::R_TUPLE> QueryResult::getResult() {
+	return solutions;
+}
+
+QueryResult::QueryResult(vector<int> results, string synonym) {
+	this->synonyms.clear();
+	this->synonyms.push_back(synonym);
+
+	for (int i = 0; i < (int)results.size(); i++) {
+		R_TUPLE tuple;
+		tuple.push_back(results[i]);
+		this->addSolution(tuple);
+	}
+}
+
+QueryResult::QueryResult(vector<pair<int, int> > results, string synonym1, string synonym2) {
+	this->synonyms.clear();
+	this->synonyms.push_back(synonym1);
+	this->synonyms.push_back(synonym2);
+
+	for (int i = 0; i < (int)results.size(); i++) {
+		R_TUPLE tuple;
+		tuple.push_back(results[i].first);
+		tuple.push_back(results[i].second);
+		this->addSolution(tuple);
+	}
+}
+
 QueryResult::QueryResult(vector<string> synonyms) {
 	this->synonyms = synonyms;
 	numSynonyms = synonyms.size();
@@ -101,6 +143,29 @@ QueryResult::R_TUPLE QueryResult::getSubResult (const QueryResult::R_TUPLE &tupl
 
 vector<string> QueryResult::getSynonyms() {
 	return synonyms;
+}
+
+QueryResult QueryResult::filter(vector<string> newSynonyms) {
+	QueryResult newResult(newSynonyms);
+	pair<vector<int>, vector<int> > matchingIndex = matchingSynonyms(newResult);
+
+	INDEX_LIST matchingInThis;
+	for (int i = 0; i < newResult.numSynonyms; i++) {
+		if (matchingIndex.second[i] != -1) {
+			matchingInThis.push_back(matchingIndex.second[i]);
+		}
+	}
+
+	for (int i = 0; i < (int) solutions.size(); i++) {
+		R_TUPLE subResult = getSubResult(solutions[i], matchingInThis);
+		newResult.addSolution(subResult);
+	}
+	sort(newResult.solutions.begin(), newResult.solutions.end());
+	newResult.solutions.erase(unique(newResult.solutions.begin(),
+		newResult.solutions.end()),
+		newResult.solutions.end());
+
+	return newResult;
 }
 
 QueryResult QueryResult::merge(QueryResult result2) {
