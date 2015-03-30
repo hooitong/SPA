@@ -29,6 +29,7 @@
     <ClCompile Include="..\source\QueryPreprocessor.cpp" />
     <ClCompile Include="..\source\QueryResult.cpp" />
     <ClCompile Include="..\source\QueryTree.cpp" />
+    <ClCompile Include="..\source\SPAFrontEnd.cpp" />
     <ClCompile Include="..\source\TNode.cpp" />
     <ClCompile Include="..\source\Uses.cpp" />
     <ClCompile Include="..\source\VarTable.cpp" />
@@ -53,6 +54,7 @@
     <ClInclude Include="..\source\QueryPreprocessor.h" />
     <ClInclude Include="..\source\QueryResult.h" />
     <ClInclude Include="..\source\QueryTree.h" />
+    <ClInclude Include="..\source\SPAFrontEnd.h" />
     <ClInclude Include="..\source\TNode.h" />
     <ClInclude Include="..\source\Uses.h" />
     <ClInclude Include="..\source\VarTable.h" />
