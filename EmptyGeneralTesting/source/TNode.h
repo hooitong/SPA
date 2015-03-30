@@ -21,7 +21,6 @@ class TNode {
     ~TNode(void);
 
     TType getTType();
-    bool isTType(TNode* node, TType type);
     string getValue();
     bool setLeftSibling(TNode* leftSibling);
     bool setRightSibling(TNode* rightSibling);
