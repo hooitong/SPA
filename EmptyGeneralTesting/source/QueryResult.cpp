@@ -18,6 +18,10 @@ QueryResult::QueryResult(int result, string synonym) {
 	this->addSolution(tuple);
 }
 
+vector<QueryResult::R_TUPLE> QueryResult::getResult() {
+	return solutions;
+}
+
 QueryResult::QueryResult(vector<int> results, string synonym) {
 	this->synonyms.clear();
 	this->synonyms.push_back(synonym);

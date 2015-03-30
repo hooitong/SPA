@@ -29,4 +29,6 @@ class QueryEvaluator {
 	QueryResult solveParent(QNode* node);
 	bool isSynonym(QNodeType type);
 	QueryResult getAllOfType(TType t, string synonym);
+	vector<string> getResultSynonyms(QNode* node);
+	map<string, TType> getSynonymMap(QNode* node);
 };
