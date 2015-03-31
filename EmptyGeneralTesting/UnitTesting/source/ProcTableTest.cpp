@@ -4,11 +4,10 @@
 
 	
 void ProcTableTest::setUp() {
-	procTable = new ProcTable;
 }
 
 void ProcTableTest::tearDown() {
-	delete procTable;
+//	delete procTable;
 }
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ProcTableTest);

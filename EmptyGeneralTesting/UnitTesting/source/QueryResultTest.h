@@ -10,6 +10,7 @@ class QueryResultTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testFirstEmptySynonym);
     CPPUNIT_TEST(testSecondEmptySynonym);
     CPPUNIT_TEST(testMultipleMerge);
+    CPPUNIT_TEST(testFilter);
     CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -22,5 +23,5 @@ class QueryResultTest : public CPPUNIT_NS::TestFixture {
     void testFirstEmptySynonym();
     void testSecondEmptySynonym();
     void testMultipleMerge();
-}
-;
+    void testFilter();
+};

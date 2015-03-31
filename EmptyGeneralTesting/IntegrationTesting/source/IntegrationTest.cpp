@@ -23,23 +23,6 @@ int main(int argc, char* argv[])
 
 	//getchar();
 
-	// test parser
-	/*cout << "Enter name of the source file:";
-	string fileName;
-	getline(cin, fileName);
-	ifstream sourceFile(fileName);
-
-	string line;
-	while (getline(sourceFile, line)) {
-		vector<string> tokenList = Parser::tokenizeLine(line);
-		for (int i=0; i<tokenList.size(); i++) {
-			cout << tokenList.at(i) << " ";
-		}
-		cout << "\n";
-	}
-
-	sourceFile.close();*/
-
 	/*while (true) {
 		cout << "Enter a string: ";
 		string aString;

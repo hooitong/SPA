@@ -18,6 +18,10 @@ QueryResult::QueryResult(int result, string synonym) {
 	this->addSolution(tuple);
 }
 
+vector<QueryResult::R_TUPLE> QueryResult::getResult() {
+	return solutions;
+}
+
 QueryResult::QueryResult(vector<int> results, string synonym) {
 	this->synonyms.clear();
 	this->synonyms.push_back(synonym);
@@ -139,6 +143,29 @@ QueryResult::R_TUPLE QueryResult::getSubResult (const QueryResult::R_TUPLE &tupl
 
 vector<string> QueryResult::getSynonyms() {
 	return synonyms;
+}
+
+QueryResult QueryResult::filter(vector<string> newSynonyms) {
+	QueryResult newResult(newSynonyms);
+	pair<vector<int>, vector<int> > matchingIndex = matchingSynonyms(newResult);
+
+	INDEX_LIST matchingInThis;
+	for (int i = 0; i < newResult.numSynonyms; i++) {
+		if (matchingIndex.second[i] != -1) {
+			matchingInThis.push_back(matchingIndex.second[i]);
+		}
+	}
+
+	for (int i = 0; i < (int) solutions.size(); i++) {
+		R_TUPLE subResult = getSubResult(solutions[i], matchingInThis);
+		newResult.addSolution(subResult);
+	}
+	sort(newResult.solutions.begin(), newResult.solutions.end());
+	newResult.solutions.erase(unique(newResult.solutions.begin(),
+		newResult.solutions.end()),
+		newResult.solutions.end());
+
+	return newResult;
 }
 
 QueryResult QueryResult::merge(QueryResult result2) {

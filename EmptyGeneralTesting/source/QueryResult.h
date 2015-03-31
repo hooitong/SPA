@@ -18,6 +18,7 @@ private:
 	vector <R_TUPLE> solutions;
 	pair<CROSS_INDEX_LIST, CROSS_INDEX_LIST> matchingSynonyms(QueryResult result2);
 	R_TUPLE getSubResult(const R_TUPLE&, const INDEX_LIST&);
+	map<R_TUPLE, vector<R_TUPLE > > createExtensionMap(INDEX_LIST matchIndex);
 	static const int NO_MATCH = -1;
 public:
 	QueryResult(bool possible);
@@ -29,8 +30,8 @@ public:
 	vector<string> getSynonyms();
 	int getIndex(string synonym);
 	void addSolution(R_TUPLE solution);
-	string toString(map<string, QNodeType> typeMap);
 	QueryResult merge(QueryResult result2);
-	map<R_TUPLE, vector<R_TUPLE > > createExtensionMap(INDEX_LIST matchIndex);
+	QueryResult filter(vector<string> synonyms);
 	bool operator==(QueryResult result2);
+	vector<R_TUPLE> getResult();
 };
