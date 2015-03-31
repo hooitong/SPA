@@ -11,6 +11,8 @@
 
 class PKB {
   private:
+    static PKB* pkbInstance;
+
     VarTable* varTable;
     AST* ast;
     Follows* follows;
@@ -19,6 +21,9 @@ class PKB {
     Uses* uses;
 
   public:
+    /* Static method to retrieve singleton instance */
+    static PKB* getPKB();
+
     /* Accessors methods to Design Abstractions in PKB */
     PKB();
     ~PKB();

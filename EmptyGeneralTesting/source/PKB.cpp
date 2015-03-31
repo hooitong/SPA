@@ -1,5 +1,12 @@
 #include "PKB.h"
 
+PKB* PKB::getPKB() {
+    if(pkbInstance == NULL) {
+        pkbInstance = new PKB;
+    }
+    return pkbInstance;
+}
+
 /* Constructor & Destructor */
 PKB::PKB(void) {
     varTable = new VarTable;
