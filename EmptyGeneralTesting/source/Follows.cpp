@@ -13,6 +13,12 @@ bool Follows::setFollows(STMTLINE first, STMTLINE second) {
     return true;
 }
 
+bool Follows::setFollowsStar(STMTLINE first, STMTLINE second) {
+	rightSiblingsMap.insert(std::pair<STMTLINE, STMTLINE>(first, second));
+	leftSiblingsMap.insert(std::pair<STMTLINE, STMTLINE>(second, first));
+	return true;
+}
+
 bool Follows::isFollows(STMTLINE first, STMTLINE second) {
     it = rightSiblingMap.find(first);
     if(it == rightSiblingMap.end()) {
