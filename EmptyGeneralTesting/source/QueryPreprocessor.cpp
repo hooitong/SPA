@@ -2,6 +2,7 @@
 #include "QueryPreprocessor.h"
 #include <string>
 #include <iostream>
+#include <vector>
 using namespace std;
 
 	static string designEntity[] = {"procedure","stmtLst", "stmt", "assign", "call", "while", "if", "variable", "constant", "prog_line"};
@@ -158,43 +159,43 @@ using namespace std;
 			string s1 = trim(clause.substr(0,p));
 			string s2 = trim(clause.substr(p+5,clause.size()-p-5));
 
-		switch(num){
-			case 4:
-				if(!checkAttribute(s1))
+			switch(num){
+				case 4:
+					if(!checkAttribute(s1))
+						return false;
+					break;
+				case 7:
+					if(!checkPattern(s1))
+						return false;
+					break;
+				case 9:
+					if(!checkRelation(s1))
+						return false;
+					break;
+				default:
 					return false;
-				break;
-			case 7:
-				if(!checkPattern(s1))
-					return false;
-				break;
-			case 9:
-				if(!checkRelation(s1))
-					return false;
-				break;
-			default:
-				return false;
-				break;
-			}
-		return splitAndCheckClause(s2, num);
+					break;
+				}
+			return splitAndCheckClause(s2, num);
 	
 		}else{
 
-		switch(num){
-			case 4:
-				return checkAttribute(clause);
-				break;
-			case 7:
-				return checkPattern(clause);
-				break;
-			case 9:
-				return checkRelation(clause);
-				break;
-			default:
-				return false;
-				break;
-		}
+			switch(num){
+				case 4:
+					return checkAttribute(clause);
+					break;
+				case 7:
+					return checkPattern(clause);
+					break;
+				case 9:
+					return checkRelation(clause);
+					break;
+				default:
+					return false;
+					break;
+			}
 
-		}		
+		}	
 
 	}
 	bool QueryPreprocessor::checkAttribute(string attribute){
@@ -235,6 +236,55 @@ using namespace std;
 
 	}
 
+	bool QueryPreprocessor::checkDeclaration(string declaration){
+		//psc = pointer of semicolon
+		declaration = trim(declaration);
+		if(declaration =="") return true;
+		int psc = declaration.find(";");
+		string declar_clause =  trim(declaration.substr(0, psc));
+		while(psc < declaration.length()){
+			declar_clause = trim(declar_clause);
+			//ps = pointer of space
+			int ps = declar_clause.find(" ");
+			string type = declar_clause.substr(0,p);
+			if(checkDesignEntity(type)){
+				int pc = ps;
+				do{
+				//pc = pointer of comma
+					int pnc = declar_clause.find(",", pc + 1);
+					if(pnc - pc <= 1) return false;
+					string synonym;
+					if(pnc>declaration.size()){
+						synonym = trim(declar_clause.substr(pc + 1, declar_clause.length() - pc - 1));
+					}else{
+						synonym = trim(declar_clause.substr(pc + 1, pnc - pc - 1));
+					}
+					if(checkIdent(synonym) && (!existsRef(synonym))){
+						entity e  = {type, synonym};
+						refDeclared.pushback(e);
+					}else{
+						return false;
+					}
+
+				int pc = pnc;
+				}while(pc < refDeclared.size());
+
+			}else{
+				return false;
+			}
+			//pnsc = pointer of next semicolon
+			int pnsc = declaration.find(";", psc+1);
+			if(pnsc - psc <= 1) return false;
+			if(pnsc < declaration.length()){
+				declar_clause = declaration.substr(psc + 1, pnsc - psc -1);
+			}
+			psc = pnsc;
+
+		}
+		return true;
+
+
+	}
 
 
 

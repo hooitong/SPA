@@ -39,6 +39,7 @@ class QueryPreprocessor {
 	bool checkIf(string pattern);
 	bool checkAssign(string pattern);
 	string getType(string synonym);
+	bool checkDeclaration(string declaration);
 
 
 
