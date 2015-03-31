@@ -81,7 +81,7 @@ TNode* AST::getRoot() {
 }
 
 void AST::addToStmtLineMap(STMTLINE stmtNumber, TType type) {
-    TType2StmtMap.insert( std::pair<STMTLINE,TType>(stmtNumber, type));
+    TType2StmtMap.insert(std::pair<TType,STMTLINE>(type, stmtNumber));
 }
 
 vector<STMTLINE> AST::getStmtLines(TType type) {
@@ -93,7 +93,7 @@ vector<STMTLINE> AST::getStmtLines(TType type) {
     } else {
         stmtRet = TType2StmtMap.equal_range(type);
         for(stmtIt = stmtRet.first; stmtIt != stmtRet.second; ++stmtIt) {
-            stmtList.push_back((*stmtIt).first);
+            stmtList.push_back((*stmtIt).second);
         }
     }
     return stmtList;

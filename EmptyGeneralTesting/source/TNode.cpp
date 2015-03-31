@@ -6,6 +6,8 @@ TNode::TNode(TType typeOfNode, string nodeValue) {
     type = typeOfNode;
     value = nodeValue;
 	parentNode = NULL;
+	leftSiblingNode = NULL;
+	rightSiblingNode = NULL;
 }
 
 TNode::TNode(void) {

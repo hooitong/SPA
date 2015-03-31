@@ -10,9 +10,9 @@
 class AST {
 private:
 	std::map<STMTLINE, TNode*> stmt2NodeMap;
-	std::multimap<STMTLINE, TType> TType2StmtMap;
-	std::multimap<STMTLINE,TType>::iterator stmtIt;
-	std::pair <std::multimap<STMTLINE,TType>::iterator, std::multimap<STMTLINE,TType>::iterator> stmtRet;
+	std::multimap<TType, STMTLINE> TType2StmtMap;
+	std::multimap<TType,STMTLINE>::iterator stmtIt;
+	std::pair <std::multimap<TType,STMTLINE>::iterator, std::multimap<TType,STMTLINE>::iterator> stmtRet;
 	TNode* procedureRoot; //temp solution until ProcTable is complete
 
 	// private methods for pattern matching
