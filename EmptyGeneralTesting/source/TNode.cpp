@@ -14,21 +14,14 @@ TNode::TNode(void) {
     stmtNumber = -1;
 }
 
+//The destructor should be first called by the root of the AST.
 TNode::~TNode(void) { 
-    delete parentNode;
-    delete leftSiblingNode;
     delete rightSiblingNode;
     childrenNodes.clear();
 }
 
 TType TNode::getTType() {
     return type;
-}
-
-bool TNode::isTType(TNode* node, TType type) {
-	//might need to change parameter, to remove reference to node
-	//input type will do
-    return (*node).getTType() == type;
 }
 
 string TNode::getValue() {
