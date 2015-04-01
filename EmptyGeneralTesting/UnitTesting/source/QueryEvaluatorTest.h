@@ -3,7 +3,7 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include "QueryEvaluator.h"
-#include "PKB.h";
+#include "PKB.h"
 
 class QueryEvaluatorTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(QueryEvaluatorTest);
@@ -15,7 +15,7 @@ class QueryEvaluatorTest : public CPPUNIT_NS::TestFixture {
 
   private:
     PKB* pkbObj;
-	QueryEvaluator qeObj;
+    QueryEvaluator qeObj;
     void setupTestData();
 
   public:
@@ -26,4 +26,4 @@ class QueryEvaluatorTest : public CPPUNIT_NS::TestFixture {
     void testParentTuple();
     void testModifiesTuple();
     void testUsesTuple();
-}
+};
