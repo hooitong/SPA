@@ -11,8 +11,10 @@ class VarTableTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testGetAllVarName);
     CPPUNIT_TEST_SUITE_END();
 
-  public:
+  private:
     VarTable* varTable;
+
+  public:
     void setUp();
     void tearDown();
 

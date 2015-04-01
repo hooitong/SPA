@@ -16,8 +16,10 @@ class ParentTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testGetChildOfStar);
     CPPUNIT_TEST_SUITE_END();
 
-  public:
+  private:
     Parent* pTest;
+
+  public:
     void setUp();
     void tearDown();
 

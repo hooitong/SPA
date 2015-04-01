@@ -22,6 +22,15 @@ void FollowsTest::testSet() {
 	(*fTest).setFollows(7, 8);
 }
 
+// Test whether the setFollowsStar function works as intended.
+void FollowsTest::testSetStar() {
+	(*fTest).setFollowsStar(1, 2);
+	(*fTest).setFollowsStar(2, 3);
+	(*fTest).setFollowsStar(3, 4);
+	(*fTest).setFollowsStar(6, 7);
+	(*fTest).setFollowsStar(7, 8);
+}
+
 // Test whether the isFollows function works as intended.
 void FollowsTest::testIsFollows() {
 	testSet();
@@ -78,7 +87,7 @@ void FollowsTest::testGetFollowsFrom() {
 
 // Test whether the testGetFollowsFromStar function works as intended.
 void FollowsTest::testGetFollowsFromStar() {
-	testSet();
+	testSetStar();
 
 	/* Valid inputs which should return the correct left siblings */
 	vector<STMTLINE> resultVector = (*fTest).getFollowsFromStar(2);
@@ -118,7 +127,7 @@ void FollowsTest::testGetFollowedBy() {
 
 // Test whether the getFollowedByStar function works as intended.
 void FollowsTest::testGetFollowedByStar() {
-	testSet();
+	testSetStar();
 
 	/* Valid inputs which should return the correct right siblings */
 	vector<STMTLINE> resultVector = (*fTest).getFollowedByStar(1);

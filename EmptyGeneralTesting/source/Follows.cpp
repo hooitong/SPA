@@ -14,9 +14,9 @@ bool Follows::setFollows(STMTLINE first, STMTLINE second) {
 }
 
 bool Follows::setFollowsStar(STMTLINE first, STMTLINE second) {
-	rightSiblingsMap.insert(std::pair<STMTLINE, STMTLINE>(first, second));
-	leftSiblingsMap.insert(std::pair<STMTLINE, STMTLINE>(second, first));
-	return true;
+    rightSiblingsMap.insert(std::pair<STMTLINE, STMTLINE>(first, second));
+    leftSiblingsMap.insert(std::pair<STMTLINE, STMTLINE>(second, first));
+    return true;
 }
 
 bool Follows::isFollows(STMTLINE first, STMTLINE second) {
@@ -64,21 +64,19 @@ STMTLINE Follows::getFollowsFrom(STMTLINE currentLine) {
 }
 
 vector<STMTLINE> Follows::getFollowedByStar(STMTLINE currentLine) {
-    vector<STMTLINE> followedByList;
-    STMTLINE current = currentLine;
-    while((it = rightSiblingMap.find(current)) != rightSiblingMap.end()) {
-        followedByList.push_back(it->second);
-        current = it->second;
+    vector<STMTLINE> rightSiblings;
+    ret = rightSiblingsMap.equal_range(currentLine);
+    for(it2 = ret.first; it2 != ret.second; ++it2) {
+        rightSiblings.push_back((*it2).second);
     }
-    return followedByList;
+    return rightSiblings;
 }
 
 vector<STMTLINE> Follows::getFollowsFromStar(STMTLINE currentLine) {
-    vector<STMTLINE> followedFromList;
-    STMTLINE current = currentLine;
-    while((it = leftSiblingMap.find(current)) != leftSiblingMap.end()) {
-        followedFromList.push_back(it->second);
-        current = it->second;
+    vector<STMTLINE> leftSiblings;
+    ret = leftSiblingMap.equal_range(currentLine);
+    for(it2 = ret.first; it2 != ret.second; ++it2) {
+        leftSiblings.push_back((*it2).second);
     }
-    return followedFromList;
+    return leftSiblings;
 }
