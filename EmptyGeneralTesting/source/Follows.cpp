@@ -74,7 +74,7 @@ vector<STMTLINE> Follows::getFollowedByStar(STMTLINE currentLine) {
 
 vector<STMTLINE> Follows::getFollowsFromStar(STMTLINE currentLine) {
     vector<STMTLINE> leftSiblings;
-    ret = leftSiblingsMap.equal_range(currentLine);
+    ret = leftSiblingMap.equal_range(currentLine);
     for(it2 = ret.first; it2 != ret.second; ++it2) {
         leftSiblings.push_back((*it2).second);
     }
