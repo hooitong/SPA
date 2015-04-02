@@ -236,6 +236,19 @@ using namespace std;
 
 	}
 
+	bool QueryPreprocessor:: checkExpression(string expression){
+
+		expression = trim(expression);
+		if((expression.at(0) == '_') && (expression.at(expression.length() - 1) == '_')){
+			expression = expression.substr(1,expression.length() -2);
+			//create expression tree node
+
+		}else if((expression.at(0) == '"') && (expression.at(expression.length() - 1) == '"')){
+			//create expression tree node
+		}else{
+			return false;
+		}
+	}
 	bool QueryPreprocessor::checkDeclaration(string declaration){
 		//psc = pointer of semicolon
 		declaration = trim(declaration);

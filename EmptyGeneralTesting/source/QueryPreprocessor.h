@@ -1,6 +1,7 @@
 
 #include "QueryTree.h"
 #include <string>
+#include <map>
 using namespace std;
 
 class QueryPreprocessor {
@@ -30,6 +31,7 @@ class QueryPreprocessor {
 
 
 
+	bool checkConditionPositions(string query);
 	bool trimAndCheckClause(string clause, int num);
 	bool splitAndCheckClause(string clause, int num);
 	bool checkAttribute(string attribute);
@@ -40,6 +42,11 @@ class QueryPreprocessor {
 	bool checkAssign(string pattern);
 	string getType(string synonym);
 	bool checkDeclaration(string declaration);
+	bool checkExpression(string expression);
+
+  private:
+	map<string, int> positions;
+	 
 
 
 
