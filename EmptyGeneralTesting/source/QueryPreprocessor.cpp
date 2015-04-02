@@ -8,7 +8,78 @@ using namespace std;
 	static string designEntity[] = {"procedure","stmtLst", "stmt", "assign", "call", "while", "if", "variable", "constant", "prog_line"};
 	QueryTree* QueryPreprocessor::parseQuery(string query){
 
-    return NULL;
+		int p = query.find("Select");
+		if(p == -1) return false;
+		string result_cl;
+		string declaration = query.substr(0,p);
+		if(!checkConditionExists(query)){
+			if(checkDeclaration(declaration)){
+				 result_cl = query.substr(p+6, query.length()-p-6);
+				checkTuple(result_cl);
+			}else{
+				cout << "error";				
+			}
+		}
+		map<int,int>::iterator it = posOfConds.begin();
+		//pointer  to first condition/clause
+		int ptf = it -> first;
+		int type = it -> second;
+
+		result_cl = query.substr(p+6, ptf-p-6);
+		if(!(checkDeclaration(declaration) && checkTuple(result_cl))){
+			cout << "error";
+		}
+		it++;
+		//pointer to second condition/clause
+		int pts;
+		if(it != posOfConds.end()) pts = it-> first;
+
+		while( it != posOfConds.end()){
+			string clause = query.substr(ptf, pts - ptf);
+			if(trimAndCheckClause(clause, type)){
+				ptf = pts;
+				type = it->second;
+			}else{
+				return false;
+			}
+			it++;
+			if(it != posOfConds.end()) pts = it->first;
+		}
+		
+		string clause = query.substr(ptf, query.length() - ptf);
+		if(!trimAndCheckClause(clause, type)) return false;
+
+
+		
+		return NULL;
+	}
+
+	bool QueryPreprocessor::checkConditionExists(string query){
+		//pointer of such that condition
+		int pst = query.find("such that");
+		//pointer of pattern condition
+		int pp = query.find("pattern");
+		//pointer of with condition
+		int pw = query.find("with");
+		int l = query.length();
+		if(pst > l && pp > l && pw> l) return false;
+
+		while(pst < l){
+			posOfConds.insert(pair<int,int>(pst, 9));
+			pst = query.find("such that",pst + 1);
+		}
+
+		while(pp < l){
+			posOfConds.insert(pair<int,int>(pp, 7));
+			pp = query.find("pattern", pp + 1);
+		}
+
+		while(pw < l){
+			posOfConds.insert(pair<int,int>(pw, 4));
+			pw = query.find("with", pw + 1);
+		}
+
+		return true;
 	}
 
 	bool QueryPreprocessor::checkAttributeName(string attName){

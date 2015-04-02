@@ -31,7 +31,7 @@ class QueryPreprocessor {
 
 
 
-	bool checkConditionPositions(string query);
+	bool checkConditionExists(string query);
 	bool trimAndCheckClause(string clause, int num);
 	bool splitAndCheckClause(string clause, int num);
 	bool checkAttribute(string attribute);
@@ -45,7 +45,7 @@ class QueryPreprocessor {
 	bool checkExpression(string expression);
 
   private:
-	map<string, int> positions;
+	map<int, int> posOfConds;
 	 
 
 
