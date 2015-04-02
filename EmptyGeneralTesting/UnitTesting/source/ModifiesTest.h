@@ -10,8 +10,10 @@ class ModifiesTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testGetModifies);
     CPPUNIT_TEST_SUITE_END();
 
-  public:
+  private:
     Modifies* modifies;
+
+  public:
     void setUp();
     void tearDown();
 

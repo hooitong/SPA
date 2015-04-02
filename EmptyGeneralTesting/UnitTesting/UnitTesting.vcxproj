@@ -66,10 +66,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\ASTTest.cpp" />
+    <ClCompile Include="source\DesignExtractorTest.cpp" />
     <ClCompile Include="source\FollowsTest.cpp" />
     <ClCompile Include="source\ModifiesTest.cpp" />
     <ClCompile Include="source\ParentTest.cpp" />
-    <ClCompile Include="source\ProcTableTest.cpp" />
     <ClCompile Include="source\QueryEvaluatorTest.cpp" />
     <ClCompile Include="source\QueryResultTest.cpp" />
     <ClCompile Include="source\TNodeTest.cpp" />
@@ -78,10 +79,11 @@
     <ClCompile Include="source\VarTableTest.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\ASTTest.h" />
+    <ClInclude Include="source\DesignExtractorTest.h" />
     <ClInclude Include="source\FollowsTest.h" />
     <ClInclude Include="source\ModifiesTest.h" />
     <ClInclude Include="source\ParentTest.h" />
-    <ClInclude Include="source\ProcTableTest.h" />
     <ClInclude Include="source\QueryEvaluatorTest.h" />
     <ClInclude Include="source\QueryResultTest.h" />
     <ClInclude Include="source\TNodeTest.h" />

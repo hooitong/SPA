@@ -11,11 +11,17 @@ class Follows {
     std::map<STMTLINE, STMTLINE> leftSiblingMap;
     std::map<STMTLINE,STMTLINE>::iterator it;
 
+    std::multimap<STMTLINE, STMTLINE> rightSiblingsMap;
+    std::multimap<STMTLINE, STMTLINE> leftSiblingsMap;
+    std::multimap<STMTLINE,STMTLINE>::iterator it2;
+    std::pair<std::multimap<STMTLINE,STMTLINE>::iterator, std::multimap<STMTLINE,STMTLINE>::iterator> ret;
+
   public:
     Follows(void);
     ~Follows(void);
 
     bool setFollows(STMTLINE first, STMTLINE second);
+    bool setFollowsStar(STMTLINE first, STMTLINE second);
     bool isFollows(STMTLINE first, STMTLINE second);
     bool isFollowsStar(STMTLINE first, STMTLINE second);
     STMTLINE getFollowedBy(STMTLINE currentLine);

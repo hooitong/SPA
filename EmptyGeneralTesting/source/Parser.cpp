@@ -1,4 +1,5 @@
 #include "Parser.h"
+#include "PKB.h"
 #include <stack>
 
 class SyntaxErrorException : public exception {
@@ -123,21 +124,22 @@ bool Parser::isValidName(string aString) {
 }
 
 // build the AST for a procedure
-AST* Parser::buildProcedureAST(vector<ParsingToken> tokenList) {
-	AST *ast = new AST();
+AST* Parser::buildProcedureAST(vector<ParsingToken *> tokenList) {
+	PKB *pkb = PKB::getPKB();
+	AST *ast = pkb->getAst();
 
 	if (tokenList.size() < 8) {  // if the number of tokens in the procedure is less than 8, then the procedure is invalid
 		throw InvalidProcedureException();
 	}
 
 	// if the procedure does not start with the format procedure proc_name {, then return invalid
-	if (tokenList.at(0).getTokenType() != TokenType::PROCEDURE_TOKEN || tokenList.at(1).getTokenType() != TokenType::NAME
-		|| tokenList.at(2).getTokenType() != TokenType::OPEN_CURLY_BRACKET) {
+	if (tokenList.at(0)->getTokenType() != TokenType::PROCEDURE_TOKEN || tokenList.at(1)->getTokenType() != TokenType::NAME
+		|| tokenList.at(2)->getTokenType() != TokenType::OPEN_CURLY_BRACKET) {
 		throw InvalidProcedureException();
 	}
 
 	// set up the AST 
-	TNode *procedureNode = new TNode(TType::PROCEDUREN, tokenList.at(1).getStringValue());
+	TNode *procedureNode = new TNode(TType::PROCEDUREN, tokenList.at(1)->getStringValue());
 	ast->setRoot(procedureNode);
 	TNode *stmtLstNode = new TNode(TType::STMTLSTN, "");
 	ast->addChildTNode(procedureNode, stmtLstNode);
@@ -147,21 +149,25 @@ AST* Parser::buildProcedureAST(vector<ParsingToken> tokenList) {
 	int i=3;
 	int stmtLine = 1;
 	while (i < tokenList.size()) {
-		if (tokenList.at(i).getTokenType() == TokenType::NAME) { // assignment statement  
+		if (tokenList.at(i)->getTokenType() == TokenType::NAME) { // assignment statement  
 			// if the fisrt token of the statement is a name, then the statement is an assignment
-			if (tokenList.at(i+1).getTokenType() != TokenType::ASSIGNMENT_TOKEN)
+			if (tokenList.at(i+1)->getTokenType() != TokenType::ASSIGNMENT_TOKEN)
 				throw SyntaxErrorException();
 			
+			// add the variable to varTable and Modifies Table
+			PKB::getPKB()->getVarTable()->insertVar(tokenList.at(i)->getStringValue());
+			Parser::addVarToModifies(tokenList.at(i)->getStringValue(), stmtLine);
+
 			// parse the expression on the right hand side of the assignment
 			int j = i+2;
-			vector<ParsingToken> exprTokenList;
-			while (tokenList.at(j).getTokenType() != TokenType::SEMICOLON) {
+			vector<ParsingToken *> exprTokenList;
+			while (tokenList.at(j)->getTokenType() != TokenType::SEMICOLON) {
 				exprTokenList.push_back(tokenList.at(j));
 				j++;
 			}
 			i = j+1; // move i to after the SEMICOLON position
-			TNode *exprNode = Parser::buildExprAST(exprTokenList);
-			TNode *varNode = new TNode(TType::VARN, tokenList.at(i).getStringValue());
+			TNode *exprNode = Parser::buildExprAST(exprTokenList, stmtLine);
+			TNode *varNode = new TNode(TType::VARN, tokenList.at(i)->getStringValue());
 			TNode *assignNode = new TNode(TType::ASSIGNN, "");
 			assignNode->setStmtLine(stmtLine);
 			stmtLine++;
@@ -173,8 +179,8 @@ AST* Parser::buildProcedureAST(vector<ParsingToken> tokenList) {
 			// prevNode now points to assignNode to parse the next statement
 			prevNode = assignNode;
 			expectedRelation = TNodeRelation::RIGHT_SIBLING;
-		} else if (tokenList.at(i).getTokenType() == TokenType::WHILE_TOKEN) { // while statement
-			if (tokenList.at(i+1).getTokenType() != TokenType::NAME || tokenList.at(i+2).getTokenType() != TokenType::OPEN_CURLY_BRACKET) {
+		} else if (tokenList.at(i)->getTokenType() == TokenType::WHILE_TOKEN) { // while statement
+			if (tokenList.at(i+1)->getTokenType() != TokenType::NAME || tokenList.at(i+2)->getTokenType() != TokenType::OPEN_CURLY_BRACKET) {
 				// if the statement does not follow the format 'while var_name {' then thow exception
 				throw InvalidWhileStmtException();
 			} else {
@@ -184,18 +190,19 @@ AST* Parser::buildProcedureAST(vector<ParsingToken> tokenList) {
 				stmtLine++;
 				
 				// link whileNode to varNode
-				TNode *varNode = new TNode(TType::VARN, tokenList.at(i).getStringValue());
-				whileNode->addChild(varNode);
-				varNode->setParentNode(whileNode);
+				TNode *varNode = new TNode(TType::VARN, tokenList.at(i)->getStringValue());
+				TNode *whileStmtLstNode = new TNode(TType::STMTLSTN, "");
+				whileStmtLstNode->setStmtLine(whileNode->getStmtLine());
+				Parser::linkTNodes(whileNode, varNode, whileStmtLstNode);
 
 				// link whileNode to previous nodes on the AST
 				linkTNodeToPrevNodes(whileNode, prevNode, expectedRelation);
 
 				// prevNode now points to whileNode to parse the next statement
-				prevNode = whileNode;
+				prevNode = whileStmtLstNode;
 				expectedRelation = TNodeRelation::CHILD;
 			}
-		} else if (tokenList.at(i).getTokenType() == TokenType::CLOSE_CURLY_BRACKET) { // end of a while loop
+		} else if (tokenList.at(i)->getTokenType() == TokenType::CLOSE_CURLY_BRACKET) { // end of a while loop
 			// prevNode now points to its parent
 			prevNode = prevNode->getParentNode();
 			expectedRelation = TNodeRelation::RIGHT_SIBLING;
@@ -206,7 +213,7 @@ AST* Parser::buildProcedureAST(vector<ParsingToken> tokenList) {
 }
 
 // build the AST for an expression, e.g. x + y + z
-TNode* Parser::buildExprAST(vector<ParsingToken> exprTokenList) {
+TNode* Parser::buildExprAST(vector<ParsingToken *> exprTokenList, STMTLINE stmtLine) {
 	if (exprTokenList.size() == 0)
 		throw InvalidExpressionException();
 
@@ -214,10 +221,10 @@ TNode* Parser::buildExprAST(vector<ParsingToken> exprTokenList) {
 	stack<OperatorType> operatorStack;
 
 	for (int i=0; i<exprTokenList.size(); i++) {
-		ParsingToken currToken = exprTokenList.at(i);
-		if (currToken.getTokenType() == TokenType::PLUS) // if token is + then put it to the operator stack
+		ParsingToken* currToken = exprTokenList.at(i);
+		if (currToken->getTokenType() == TokenType::PLUS) // if token is + then put it to the operator stack
 			operatorStack.push(OperatorType::PLUS_OP);
-		else if (currToken.getTokenType() == TokenType::NAME) {
+		else if (currToken->getTokenType() == TokenType::NAME) {
 			if (!operatorStack.empty()) { 
 				OperatorType opType = operatorStack.top();
 				operatorStack.pop();
@@ -234,9 +241,13 @@ TNode* Parser::buildExprAST(vector<ParsingToken> exprTokenList) {
 					operandStack.push(plusNode);
 				}
 			} else {
-				TNode *varNode = new TNode(TType::VARN, currToken.getStringValue());
+				TNode *varNode = new TNode(TType::VARN, currToken->getStringValue());
 				operandStack.push(varNode);
 			}
+
+			// Add variable to varTable and Uses Table
+			PKB::getPKB()->getVarTable()->insertVar(currToken->getStringValue());
+			Parser::addVarToUses(currToken->getStringValue(), stmtLine);
 		}
 	}
 
@@ -255,6 +266,26 @@ TNode* Parser::buildExprAST(vector<ParsingToken> exprTokenList) {
 	return exprRootNode;
 }
 
+void Parser::addVarToUses(VARNAME varName, STMTLINE stmt)
+{
+	VARINDEX varIndex = PKB::getPKB()->getVarTable()->getVarIndex(varName);
+	if (varIndex < 0) {
+		PKB::getPKB()->getVarTable()->insertVar(varName);
+	} else {
+		PKB::getPKB()->getUses()->setUsesStmt(varIndex, stmt);
+	}
+}
+
+void Parser::addVarToModifies(VARNAME varName, STMTLINE stmt)
+{
+	VARINDEX varIndex = PKB::getPKB()->getVarTable()->getVarIndex(varName);
+	if (varIndex < 0) {
+		PKB::getPKB()->getVarTable()->insertVar(varName);
+	} else {
+		PKB::getPKB()->getModifies()->setModifiesStmt(varIndex, stmt);
+	}
+}
+
 void Parser::linkTNodes(TNode *parentNode, TNode *leftNode, TNode *rightNode)
 {
 	parentNode->addChild(leftNode);
@@ -268,13 +299,44 @@ void Parser::linkTNodes(TNode *parentNode, TNode *leftNode, TNode *rightNode)
 void Parser::linkTNodeToPrevNodes(TNode *currNode, TNode *prevNode, TNodeRelation expectedRelation)
 {
 	if (expectedRelation == TNodeRelation::CHILD) {
+		// link back to previous node and its parent
 		prevNode->addChild(currNode);
 		currNode->setParentNode(prevNode);
+
+		// since the expected relation is CHILD, we know that the previous node is a stmtLst node
+		// if the stmtLst is not the first stmtLst after precodure node, then we need to set parent and parent star for current statement
+		if (prevNode->getStmtLine() > 0) {
+			vector<STMTLINE> prevStmtParentStarList = PKB::getPKB()->getParent()->getParentStar(prevNode->getStmtLine());
+			for (int i=0; i<prevStmtParentStarList.size(); i++) {
+				PKB::getPKB()->getParent()->setParentStar(prevStmtParentStarList.at(i), currNode->getStmtLine());
+			}
+
+			// set Parent(prevStmt, currStmt)
+			PKB::getPKB()->getParent()->setParent(prevNode->getStmtLine(), currNode->getStmtLine());
+		}
 	} else if (expectedRelation == TNodeRelation::RIGHT_SIBLING) {
+		// link back to previous node and its parent
 		prevNode->setRightSibling(currNode);
 		currNode->setLeftSibling(prevNode);
 		TNode *parentNode = prevNode->getParentNode();
 		parentNode->addChild(currNode);
 		currNode->setParentNode(parentNode);
+
+		// set Parent and Parent star for current statement based on previous statement
+		// we know that previous statement is an assignment or a while statement
+		STMTLINE prevParentStmt = PKB::getPKB()->getParent()->getParent(prevNode->getStmtLine());
+		PKB::getPKB()->getParent()->setParent(prevParentStmt, currNode->getStmtLine());
+		vector<STMTLINE> prevStmtParentStarList = PKB::getPKB()->getParent()->getParentStar(prevNode->getStmtLine());
+		for (int i=0; i<prevStmtParentStarList.size(); i++) {
+			PKB::getPKB()->getParent()->setParentStar(prevStmtParentStarList.at(i), currNode->getStmtLine());
+		}
+
+		// set Follows for current statement based on previous statement
+		vector<STMTLINE> prevStmtFollowsStarList = PKB::getPKB()->getFollows()->getFollowedByStar(prevNode->getStmtLine());
+		for (int i=0; i<prevStmtFollowsStarList.size(); i++) {
+			PKB::getPKB()->getFollows()->setFollowsStar(prevStmtFollowsStarList.at(i), currNode->getStmtLine());
+		}
+		// set Follows(currStmt, prevStmt)
+		PKB::getPKB()->getFollows()->setFollows(prevNode->getStmtLine(), currNode->getStmtLine());
 	}
 }

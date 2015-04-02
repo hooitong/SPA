@@ -10,8 +10,10 @@ class UsesTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testGetUses);
     CPPUNIT_TEST_SUITE_END();
 
-  public:
+  private:
     Uses* uses;
+
+  public:
     void setUp();
     void tearDown();
 

@@ -39,10 +39,13 @@
     <ClCompile Include="source\ModifiesTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\ProcTableTest.cpp">
+    <ClCompile Include="source\ASTTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\QueryEvaluatorTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\DesignExtractorTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -68,10 +71,13 @@
     <ClInclude Include="source\ModifiesTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\ProcTableTest.h">
+    <ClInclude Include="source\ASTTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\QueryEvaluatorTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\DesignExtractorTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

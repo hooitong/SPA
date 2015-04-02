@@ -1,8 +1,6 @@
 #include <cppunit/config/SourcePrefix.h>
+
 #include "TNodeTest.h"
-
-
-
 
 void TNodeTest::setUp() {
     node = new TNode(VARN, "x");
@@ -10,25 +8,24 @@ void TNodeTest::setUp() {
     nodeParent = new TNode(MINUSN, "-");//added to assist testing
 }
 
-
 void TNodeTest::tearDown() {
-	node->getChildren().clear();
-	node->setLeftSibling(NULL);
-	node->setRightSibling(NULL);
-	node->setParentNode(NULL);
-	delete node;
+    node->getChildren().clear();
+    node->setLeftSibling(NULL);
+    node->setRightSibling(NULL);
+    node->setParentNode(NULL);
+    delete node;
 
-	nodePlus->getChildren().clear();
-	nodePlus->setLeftSibling(NULL);
-	nodePlus->setRightSibling(NULL);
-	nodePlus->setParentNode(NULL);
+    nodePlus->getChildren().clear();
+    nodePlus->setLeftSibling(NULL);
+    nodePlus->setRightSibling(NULL);
+    nodePlus->setParentNode(NULL);
     delete nodePlus;
 
 
-	nodeParent->getChildren().clear();
-	nodeParent->setLeftSibling(NULL);
-	nodeParent->setRightSibling(NULL);
-	nodeParent->setParentNode(NULL);
+    nodeParent->getChildren().clear();
+    nodeParent->setLeftSibling(NULL);
+    nodeParent->setRightSibling(NULL);
+    nodeParent->setParentNode(NULL);
     delete nodeParent;
 }
 

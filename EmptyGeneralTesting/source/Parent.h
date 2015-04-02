@@ -13,7 +13,7 @@ class Parent {
     std::multimap<STMTLINE, STMTLINE> child2ParentMapStar;
     std::multimap<STMTLINE,STMTLINE>::iterator it;
     std::map<STMTLINE,STMTLINE>::iterator it2;
-    std::pair <std::multimap<STMTLINE,STMTLINE>::iterator, std::multimap<STMTLINE,STMTLINE>::iterator> ret;
+    std::pair<std::multimap<STMTLINE,STMTLINE>::iterator, std::multimap<STMTLINE,STMTLINE>::iterator> ret;
 
   public:
     Parent(void);
