@@ -191,14 +191,14 @@ AST* Parser::buildProcedureAST(vector<ParsingToken *> tokenList) {
 				
 				// link whileNode to varNode
 				TNode *varNode = new TNode(TType::VARN, tokenList.at(i)->getStringValue());
-				whileNode->addChild(varNode);
-				varNode->setParentNode(whileNode);
+				TNode *whileStmtLstNode = new TNode(TType::STMTLSTN, "");
+				Parser::linkTNodes(whileNode, varNode, whileStmtLstNode);
 
 				// link whileNode to previous nodes on the AST
 				linkTNodeToPrevNodes(whileNode, prevNode, expectedRelation);
 
 				// prevNode now points to whileNode to parse the next statement
-				prevNode = whileNode;
+				prevNode = whileStmtLstNode;
 				expectedRelation = TNodeRelation::CHILD;
 			}
 		} else if (tokenList.at(i)->getTokenType() == TokenType::CLOSE_CURLY_BRACKET) { // end of a while loop
