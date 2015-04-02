@@ -192,6 +192,7 @@ AST* Parser::buildProcedureAST(vector<ParsingToken *> tokenList) {
 				// link whileNode to varNode
 				TNode *varNode = new TNode(TType::VARN, tokenList.at(i)->getStringValue());
 				TNode *whileStmtLstNode = new TNode(TType::STMTLSTN, "");
+				whileStmtLstNode->setStmtLine(whileNode->getStmtLine());
 				Parser::linkTNodes(whileNode, varNode, whileStmtLstNode);
 
 				// link whileNode to previous nodes on the AST
@@ -298,13 +299,44 @@ void Parser::linkTNodes(TNode *parentNode, TNode *leftNode, TNode *rightNode)
 void Parser::linkTNodeToPrevNodes(TNode *currNode, TNode *prevNode, TNodeRelation expectedRelation)
 {
 	if (expectedRelation == TNodeRelation::CHILD) {
+		// link back to previous node and its parent
 		prevNode->addChild(currNode);
 		currNode->setParentNode(prevNode);
+
+		// since the expected relation is CHILD, we know that the previous node is a stmtLst node
+		// if the stmtLst is not the first stmtLst after precodure node, then we need to set parent and parent star for current statement
+		if (prevNode->getStmtLine() > 0) {
+			vector<STMTLINE> prevStmtParentStarList = PKB::getPKB()->getParent()->getParentStar(prevNode->getStmtLine());
+			for (int i=0; i<prevStmtParentStarList.size(); i++) {
+				PKB::getPKB()->getParent()->setParentStar(prevStmtParentStarList.at(i), currNode->getStmtLine());
+			}
+
+			// set Parent(prevStmt, currStmt)
+			PKB::getPKB()->getParent()->setParent(prevNode->getStmtLine(), currNode->getStmtLine());
+		}
 	} else if (expectedRelation == TNodeRelation::RIGHT_SIBLING) {
+		// link back to previous node and its parent
 		prevNode->setRightSibling(currNode);
 		currNode->setLeftSibling(prevNode);
 		TNode *parentNode = prevNode->getParentNode();
 		parentNode->addChild(currNode);
 		currNode->setParentNode(parentNode);
+
+		// set Parent and Parent star for current statement based on previous statement
+		// we know that previous statement is an assignment or a while statement
+		STMTLINE prevParentStmt = PKB::getPKB()->getParent()->getParent(prevNode->getStmtLine());
+		PKB::getPKB()->getParent()->setParent(prevParentStmt, currNode->getStmtLine());
+		vector<STMTLINE> prevStmtParentStarList = PKB::getPKB()->getParent()->getParentStar(prevNode->getStmtLine());
+		for (int i=0; i<prevStmtParentStarList.size(); i++) {
+			PKB::getPKB()->getParent()->setParentStar(prevStmtParentStarList.at(i), currNode->getStmtLine());
+		}
+
+		// set Follows for current statement based on previous statement
+		vector<STMTLINE> prevStmtFollowsStarList = PKB::getPKB()->getFollows()->getFollowedByStar(prevNode->getStmtLine());
+		for (int i=0; i<prevStmtFollowsStarList.size(); i++) {
+			PKB::getPKB()->getFollows()->setFollowsStar(prevStmtFollowsStarList.at(i), currNode->getStmtLine());
+		}
+		// set Follows(currStmt, prevStmt)
+		PKB::getPKB()->getFollows()->setFollows(prevNode->getStmtLine(), currNode->getStmtLine());
 	}
 }
