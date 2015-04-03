@@ -1,6 +1,7 @@
 #include "Parser.h"
 #include "PKB.h"
 #include <stack>
+#include <fstream>
 
 class SyntaxErrorException : public exception {
 };
@@ -16,6 +17,18 @@ class InvalidExpressionException : public SyntaxErrorException {
 
 class InvalidWhileStmtException: public SyntaxErrorException {
 };
+
+// parse source code from file
+void Parser::parse(string filename) {
+	ifstream sourceFile;
+	sourceFile.open(filename);
+	string line;
+	while (getline(sourceFile, line)) {
+		Parser::tokenizeLine(line);
+	}
+
+	Parser::buildProcedureAST();
+}
 
 /*
 	Remove comment in a line and return a list of tokens from that line
@@ -122,7 +135,7 @@ bool Parser::isValidName(string aString) {
 }
 
 // build the AST for a procedure
-AST* Parser::buildProcedureAST() {
+void Parser::buildProcedureAST() {
 	PKB *pkb = PKB::getPKB();
 	AST *ast = pkb->getAst();
 
@@ -206,8 +219,6 @@ AST* Parser::buildProcedureAST() {
 			expectedRelation = TNodeRelation::RIGHT_SIBLING;
 		}
 	}
-
-	return ast;
 }
 
 // build the AST for an expression, e.g. x + y + z
