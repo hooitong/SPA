@@ -1,6 +1,7 @@
 #include "AST.h"
 
 #include <stack>
+#include <stdlib.h>
 
 /* Constructor & Destructor */
 AST::AST(void) {
@@ -103,8 +104,17 @@ bool AST::isMatch(TNode* node, TType type) {
     return (*node).getTType() == type;
 }
 
-bool AST::patternMatch(STMTLINE assignRoot, std::string expression, bool strict) {
-    TNode* astNode = getTNode(assignRoot);
+bool AST::matchLeftPattern(STMTLINE stmtRoot, VARINDEX varToMatch) {
+	TNode* p = getTNode(stmtRoot)->getLeftSibling();
+	if(p == NULL && p->getTType() != VARN) {
+		return false;
+	} else {
+		return std::atoi(p->getValue().c_str()) == varToMatch;
+	}
+}
+
+bool AST::matchRightPattern(STMTLINE stmtRoot, std::string expression, bool strict) {
+    TNode* astNode = getTNode(stmtRoot);
     TNode* queryExpression = createExprTree(expression);
 
     vector<TNode*> depthTraversalOfAstNode = getDFS(astNode);
