@@ -32,6 +32,7 @@ public:
 	void addSolution(R_TUPLE solution);
 	QueryResult merge(QueryResult result2);
 	QueryResult filter(vector<string> synonyms);
+	void append(QueryResult result2);
 	bool operator==(QueryResult result2);
 	vector<R_TUPLE> getResult();
 };
