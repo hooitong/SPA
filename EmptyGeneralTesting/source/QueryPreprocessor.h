@@ -7,6 +7,8 @@ using namespace std;
 class QueryPreprocessor {
   public:
     QueryTree* parseQuery(string query);
+	 QueryPreprocessor(void);
+    ~QueryPreprocessor(void);
 
 	struct entity{
 		string type;
@@ -25,6 +27,9 @@ class QueryPreprocessor {
 	bool checkDesignEntity(string entity);
 	bool checkTuple(string tuple);
 	bool existsRef(string reference);
+
+	bool checkFactor(string factor);
+
 	/*------------------------------------------------*/
 
 	string trim(string s);
@@ -39,13 +44,18 @@ class QueryPreprocessor {
 	bool checkRelation(string relation);
 	bool checkWhile(string pattern);
 	bool checkIf(string pattern);
-	bool checkAssign(string pattern);
+	bool checkAssign(string pattern, string patternName);
 	string getType(string synonym);
 	bool checkDeclaration(string declaration);
 	bool checkExpression(string expression);
+	void buildTable();
+	int findIndexOfTable(string relationType);
+	int findIndexOfType(string type);
 
   private:
 	map<int, int> posOfConds;
+	int table[5][24];
+	QueryTree tree;
 	 
 
 
