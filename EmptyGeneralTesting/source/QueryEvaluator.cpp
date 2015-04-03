@@ -5,13 +5,19 @@ string QueryEvaluator::evaluate(QueryTree* tree) {
 	
 	vector <string> resultSynonym;
 	map <string, TType> synonymMap;
+	vector<QueryResult> resultFilters;
 
 	vector <QNode*> children = tree->getRoot()->getChildren();
 	for (int i = 0; i < (int) children.size(); i++) {
 		if (children[i]->getQType() == RESULTLIST) {
 			resultSynonym = getResultSynonyms(children[i]);
 			synonymMap = getSynonymMap(children[i]);
+			resultFilters = getResultFilters(children[i]);
 		}
+	}
+
+	for (int i = 0; i < (int) resultFilters.size(); i++) {
+		result = result.merge(resultFilters[i]);
 	}
 
 	result.filter(resultSynonym);
@@ -32,7 +38,7 @@ string QueryEvaluator::evaluate(QueryTree* tree) {
 			}
 
 			if (synonymMap[resultSynonym[j]] == VARN) {
-				oss << pkbInstance.getVarTable()->getVarName(solutions[i][j]);
+				oss << pkbInstance->getVarTable()->getVarName(solutions[i][j]);
 			} else if (synonymMap[resultSynonym[j]] == PROCEDUREN) {
 				//TODO: link to procedure
 			} else {
@@ -45,6 +51,47 @@ string QueryEvaluator::evaluate(QueryTree* tree) {
 	}
 
 	return oss.str();
+}
+
+vector<QueryResult> QueryEvaluator::getResultFilters(QNode* node) {
+	assert(node->getQType() == RESULTLIST);
+	
+	vector <QNode*> children = node->getChildren();
+	vector <QueryResult> resultList;
+	for (int i = 0; i < (int) children.size(); i++) {
+		vector <int> result;
+		if (children[i]->getQType() == WHILESYNONYM) {
+			result = pkbInstance->getAst()->getStmtLines(WHILEN);
+		} else if (children[i]->getQType() == STMTSYNONYM) {
+			result = pkbInstance->getAst()->getStmtLines(STMTN);
+		} else if (children[i]->getQType() == ASSIGNSYNONYM) {
+			result = pkbInstance->getAst()->getStmtLines(ASSIGNN);
+		} else if (children[i]->getQType() == PROCEDURESYNONYM) {
+			//TODO
+		} else if (children[i]->getQType() == VARIABLESYNONYM) {
+			result = pkbInstance->getVarTable()->getAllVarIndex();
+		} else if (children[i]->getQType() == PROGLINESYNONYM) {
+			result = pkbInstance->getAst()->getStmtLines(STMTN);
+		}
+		vector<string> synonyms;
+		resultList.push_back(QueryResult(result, children[i]->getString()));
+	}
+	return resultList;
+}
+
+vector<STMTLINE> QueryEvaluator::filter(vector<STMTLINE> original, TType type) {
+	if (type == STMTN) {
+		return original;
+	}
+	vector <STMTLINE> result;
+	for (vector<STMTLINE>::iterator it = original.begin(); 
+		it != original.end(); it++) {
+		TType lineType = pkbInstance->getAst()->getTNode(*it)->getTType();
+		if (lineType == type) {
+			result.push_back(lineType);
+		}
+	}
+	return result;
 }
 
 vector<string> QueryEvaluator::getResultSynonyms(QNode* node) {
@@ -91,10 +138,16 @@ QueryResult QueryEvaluator::solveRelation(QNode* node) {
 	assert(node->getQType() == RELATION);
 	if (node->getString() == "Follows") {
 		return solveFollows(node);
+	} else if (node->getString() == "Follows*") {
+		return solveFollowsStar(node);
 	} else if (node->getString() == "Parent") {
 		return solveParent(node);
+	} else if (node->getString() == "Parent*") {
+		return solveParentStar(node);
 	} else if (node->getString() == "Modifies") {
-		//TODO: Link to modifies
+		return solveModifies(node);
+	} else if (node->getString() == "Uses") {
+		return solveUses(node);
 	}
 }
 
@@ -110,16 +163,57 @@ QueryResult QueryEvaluator::solveFollows(QNode* node) {
 			leftChild->getString(), rightChild->getString());
 	} else if (isSynonym(leftChild->getQType())) {
 		int line = getInteger(rightChild);
-		int resultLine = pkbInstance.getFollows()->getFollowsFrom(line);
-		return QueryResult(resultLine, leftChild->getString());
+		int resultLine = pkbInstance->getFollows()->getFollowsFrom(line);
+		TType type = synonymToTType(leftChild->getQType());
+
+		if (type != STMTN && 
+			pkbInstance->getAst()->getTNode(resultLine)->getTType() != type) {
+			return QueryResult(false);
+		} else {
+			return QueryResult(resultLine, leftChild->getString());
+		}
 	} else if (isSynonym(rightChild->getQType())) {
 		int line = getInteger(leftChild);
-		int resultLine = pkbInstance.getFollows()->getFollowedBy(line);
-		return QueryResult(resultLine, leftChild->getString());
+		int resultLine = pkbInstance->getFollows()->getFollowedBy(line);
+		TType type = synonymToTType(rightChild->getQType());
+
+		if (type != STMTN && 
+			pkbInstance->getAst()->getTNode(resultLine)->getTType() != type) {
+			return QueryResult(false);
+		} else {
+			return QueryResult(resultLine, leftChild->getString());
+		}
 	} else {
 		int line1 = getInteger(leftChild);
 		int line2 = getInteger(rightChild);
-		return QueryResult(pkbInstance.getFollows()->isFollows(line1, line2));
+		return QueryResult(pkbInstance->getFollows()->isFollows(line1, line2));
+	}
+}
+
+QueryResult QueryEvaluator::solveFollowsStar(QNode* node) {
+	assert(node->getQType() == RELATION && node->getString() == "Follows*");
+	QNode* leftChild = node->getChildren()[0];
+	QNode* rightChild = node->getChildren()[1];
+	if (isSynonym(leftChild->getQType()) && isSynonym(rightChild->getQType())) {
+		TType type1 = synonymToTType(leftChild->getQType());
+		TType type2 = synonymToTType(rightChild->getQType());
+
+		return QueryResult(FollowsStar(type1, type2), 
+			leftChild->getString(), rightChild->getString());
+	} else if (isSynonym(leftChild->getQType())) {
+		int line = getInteger(rightChild);
+		vector<int> resultLines = pkbInstance->getFollows()->getFollowsFromStar(line);
+		resultLines = filter(resultLines, synonymToTType(leftChild->getQType()));
+		return QueryResult(resultLines, leftChild->getString());
+	} else if (isSynonym(rightChild->getQType())) {
+		int line = getInteger(leftChild);
+		vector<int> resultLines = pkbInstance->getFollows()->getFollowedByStar(line);
+		resultLines = filter(resultLines, synonymToTType(rightChild->getQType()));
+		return QueryResult(resultLines, leftChild->getString());
+	} else {
+		int line1 = getInteger(leftChild);
+		int line2 = getInteger(rightChild);
+		return QueryResult(pkbInstance->getFollows()->isFollowsStar(line1, line2));
 	}
 }
 
@@ -134,16 +228,132 @@ QueryResult QueryEvaluator::solveParent(QNode* node) {
 			leftChild->getString(), rightChild->getString());
 	} else if (isSynonym(leftChild->getQType())) {
 		int line = getInteger(rightChild);
-		int resultLine = pkbInstance.getParent()->getParent(line);
+		int resultLine = pkbInstance->getParent()->getParent(line);
+		TType type = synonymToTType(leftChild->getQType());
+
+		if (type != STMTN && 
+			pkbInstance->getAst()->getTNode(resultLine)->getTType() != type) {
+			return QueryResult(false);
+		}
 		return QueryResult(resultLine, leftChild->getString());
 	} else if (isSynonym(rightChild->getQType())) {
 		int line = getInteger(leftChild);
-		vector<int> resultLines = pkbInstance.getParent()->getChildOf(line);
+		vector<int> resultLines = pkbInstance->getParent()->getChildOf(line);
+		resultLines = filter(resultLines, synonymToTType(rightChild->getQType()));
 		return QueryResult(resultLines, leftChild->getString());
 	} else {
 		int line1 = getInteger(leftChild);
 		int line2 = getInteger(rightChild);
-		return QueryResult(pkbInstance.getParent()->isParent(line1, line2));
+		return QueryResult(pkbInstance->getParent()->isParent(line1, line2));
+	}
+}
+
+QueryResult QueryEvaluator::solveParentStar(QNode* node) {
+	assert(node->getQType() == RELATION && node->getString() == "Parent*");
+	QNode* leftChild = node->getChildren()[0];
+	QNode* rightChild = node->getChildren()[1];
+	if (isSynonym(leftChild->getQType()) && isSynonym(rightChild->getQType())) {
+		TType type1 = synonymToTType(leftChild->getQType());
+		TType type2 = synonymToTType(rightChild->getQType());
+
+		return QueryResult(ParentStar(type1, type2), 
+			leftChild->getString(), rightChild->getString());
+	} else if (isSynonym(leftChild->getQType())) {
+		int line = getInteger(rightChild);
+		vector<int> resultLines = pkbInstance->getParent()->getParentStar(line);
+		resultLines = filter(resultLines, synonymToTType(leftChild->getQType()));
+		return QueryResult(resultLines, leftChild->getString());
+	} else if (isSynonym(rightChild->getQType())) {
+		int line = getInteger(leftChild);
+		vector<int> resultLines = pkbInstance->getParent()->getChildOfStar(line);
+		resultLines = filter(resultLines, synonymToTType(rightChild->getQType()));
+		return QueryResult(resultLines, leftChild->getString());
+	} else {
+		int line1 = getInteger(leftChild);
+		int line2 = getInteger(rightChild);
+		return QueryResult(pkbInstance->getParent()->isParentStar(line1, line2));
+	}
+}
+
+QueryResult QueryEvaluator::solveModifies(QNode* node) {
+	assert(node->getQType() == RELATION && node->getString() == "Modifies");
+	QNode* leftChild = node->getChildren()[0];
+	QNode* rightChild = node->getChildren()[1];
+	if (isSynonym(leftChild->getQType()) && isSynonym(rightChild->getQType())) {
+		TType type = synonymToTType(leftChild->getQType());
+
+		return QueryResult(Modifies(type), 
+			leftChild->getString(), rightChild->getString());
+	} else if (isSynonym(leftChild->getQType())) {
+		VARNAME var = rightChild->getString();
+		int varIndex = pkbInstance->getVarTable()->getVarIndex(var);
+
+		vector<STMTLINE> lines = pkbInstance->getModifies()->getModifies(varIndex);
+
+		lines = filter(lines, synonymToTType(leftChild->getQType()));
+
+		return QueryResult(lines, leftChild->getString());
+	} else if (isSynonym(rightChild->getQType())) {
+		STMTLINE line = getInteger(leftChild);
+
+		return QueryResult(pkbInstance->getModifies()->getModifiedByStmt(line),
+			rightChild->getString());
+	} else {
+		VARNAME var = rightChild->getString();
+		int varIndex = pkbInstance->getVarTable()->getVarIndex(var);
+
+		STMTLINE line = getInteger(leftChild);
+		vector <VARINDEX> possibleVarIndex = 
+			pkbInstance->getModifies()->getModifiedByStmt(line);
+
+		vector<VARINDEX>::iterator location;
+		location = find(possibleVarIndex.begin(), 
+			possibleVarIndex.end(), 
+			varIndex);
+		bool result = (location != possibleVarIndex.end());
+
+		return QueryResult(result);
+	}
+}
+
+QueryResult QueryEvaluator::solveUses(QNode* node) {
+	assert(node->getQType() == RELATION && node->getString() == "Uses");
+	QNode* leftChild = node->getChildren()[0];
+	QNode* rightChild = node->getChildren()[1];
+	if (isSynonym(leftChild->getQType()) && isSynonym(rightChild->getQType())) {
+		TType type = synonymToTType(leftChild->getQType());
+
+		return QueryResult(Uses(type), 
+			leftChild->getString(), rightChild->getString());
+	} else if (isSynonym(leftChild->getQType())) {
+		VARNAME var = rightChild->getString();
+		int varIndex = pkbInstance->getVarTable()->getVarIndex(var);
+
+		vector<STMTLINE> lines = pkbInstance->getUses()->getUses(varIndex);
+
+		lines = filter(lines, synonymToTType(leftChild->getQType()));
+
+		return QueryResult(lines, leftChild->getString());
+	} else if (isSynonym(rightChild->getQType())) {
+		STMTLINE line = getInteger(leftChild);
+
+		return QueryResult(pkbInstance->getUses()->getUsedByStmt(line),
+			rightChild->getString());
+	} else {
+		VARNAME var = rightChild->getString();
+		int varIndex = pkbInstance->getVarTable()->getVarIndex(var);
+
+		STMTLINE line = getInteger(leftChild);
+		vector <VARINDEX> possibleVarIndex = 
+			pkbInstance->getUses()->getUsedByStmt(line);
+
+		vector<VARINDEX>::iterator location;
+		location = find(possibleVarIndex.begin(), 
+			possibleVarIndex.end(), 
+			varIndex);
+		bool result = (location != possibleVarIndex.end());
+
+		return QueryResult(result);
 	}
 }
 
@@ -163,6 +373,8 @@ TType QueryEvaluator::synonymToTType(QNodeType type) {
 		return VARN;
 	} else if (type == PROCEDURESYNONYM) {
 		return PROCEDUREN;
+	} else if (type == STMTSYNONYM) {
+		return STMTN;
 	}
 }
 
@@ -180,11 +392,11 @@ bool QueryEvaluator::isSynonym(QNodeType type) {
 QueryResult QueryEvaluator::getAllOfType(TType t, string synonym) {
 	vector <int> possibleResult;
 	if (t == WHILEN || t == ASSIGNN) {
-		possibleResult = pkbInstance.getAst()->getStmtLines(t);
+		possibleResult = pkbInstance->getAst()->getStmtLines(t);
 	} else if (t == PROCEDUREN) {
 		//TODO
 	} else if (t == VARN) {
-		possibleResult = pkbInstance.getVarTable()->getAllVarIndex();
+		possibleResult = pkbInstance->getVarTable()->getAllVarIndex();
 	}
 
 	return QueryResult(possibleResult, synonym);
@@ -192,17 +404,17 @@ QueryResult QueryEvaluator::getAllOfType(TType t, string synonym) {
 
 vector<std::pair<STMTLINE, STMTLINE>> QueryEvaluator::Follows(TType firstType, TType secondType) {
     // retrieve all stmt# from AST that belongs to the firstType
-    vector<STMTLINE> firstResult = pkbInstance.getAst()->getStmtLines(firstType);
+    vector<STMTLINE> firstResult = pkbInstance->getAst()->getStmtLines(firstType);
 
     // retrieve all stmt# from AST that belongs to the secondType
-    vector<STMTLINE> secondResult = pkbInstance.getAst()->getStmtLines(secondType);
+    vector<STMTLINE> secondResult = pkbInstance->getAst()->getStmtLines(secondType);
 
     vector<std::pair<STMTLINE, STMTLINE>> result;
 
     // double for loop based on both vector of stmt#, check Follows() is true then keep into vector as tuple.
     for(std::vector<STMTLINE>::iterator j = firstResult.begin(); j != firstResult.end(); ++j) {
         for(std::vector<STMTLINE>::iterator k = firstResult.begin(); k != firstResult.end(); ++k) {
-            if(pkbInstance.getFollows()->isFollows(*j, *k)) {
+            if(pkbInstance->getFollows()->isFollows(*j, *k)) {
                 result.push_back(std::make_pair(*j, *k));
             }
         }
@@ -212,19 +424,64 @@ vector<std::pair<STMTLINE, STMTLINE>> QueryEvaluator::Follows(TType firstType, T
     return result;
 }
 
-vector<std::pair<STMTLINE, STMTLINE>> QueryEvaluator::Parent(TType firstType, TType secondType) {
+vector<std::pair<STMTLINE, STMTLINE>> QueryEvaluator::FollowsStar(TType firstType, TType secondType) {
     // retrieve all stmt# from AST that belongs to the firstType
-    vector<STMTLINE> firstResult = pkbInstance.getAst()->getStmtLines(firstType);
+    vector<STMTLINE> firstResult = pkbInstance->getAst()->getStmtLines(firstType);
 
     // retrieve all stmt# from AST that belongs to the secondType
-    vector<STMTLINE> secondResult = pkbInstance.getAst()->getStmtLines(secondType);
+    vector<STMTLINE> secondResult = pkbInstance->getAst()->getStmtLines(secondType);
+
+    vector<std::pair<STMTLINE, STMTLINE>> result;
+
+    // double for loop based on both vector of stmt#, check Follows() is true then keep into vector as tuple.
+    for(std::vector<STMTLINE>::iterator j = firstResult.begin(); j != firstResult.end(); ++j) {
+        for(std::vector<STMTLINE>::iterator k = firstResult.begin(); k != firstResult.end(); ++k) {
+            if(pkbInstance->getFollows()->isFollowsStar(*j, *k)) {
+                result.push_back(std::make_pair(*j, *k));
+            }
+        }
+    }
+
+    // return the vector of tuples
+    return result;
+}
+
+
+vector<std::pair<STMTLINE, STMTLINE>> QueryEvaluator::Parent(TType firstType, TType secondType) {
+    // retrieve all stmt# from AST that belongs to the firstType
+    vector<STMTLINE> firstResult = pkbInstance->getAst()->getStmtLines(firstType);
+
+    // retrieve all stmt# from AST that belongs to the secondType
+    vector<STMTLINE> secondResult = pkbInstance->getAst()->getStmtLines(secondType);
 
     vector<std::pair<STMTLINE, STMTLINE>> result;
 
     // double for loop based on both vector of stmt#, check Parent() is true then keep into vector as tuple.
     for(std::vector<STMTLINE>::iterator j = firstResult.begin(); j != firstResult.end(); ++j) {
         for(std::vector<STMTLINE>::iterator k = firstResult.begin(); k != firstResult.end(); ++k) {
-            if(pkbInstance.getParent()->isParent(*j, *k)) {
+            if(pkbInstance->getParent()->isParent(*j, *k)) {
+                result.push_back(std::make_pair(*j, *k));
+            }
+        }
+    }
+
+    // return the vector of tuples
+    return result;
+}
+
+vector<std::pair<STMTLINE, STMTLINE>> QueryEvaluator::ParentStar(TType firstType, TType secondType) {
+    // retrieve all stmt# from AST that belongs to the firstType
+    vector<STMTLINE> firstResult = pkbInstance->getAst()->getStmtLines(firstType);
+
+    // retrieve all stmt# from AST that belongs to the secondType
+    vector<STMTLINE> secondResult = pkbInstance->getAst()->getStmtLines(secondType);
+
+    vector<std::pair<STMTLINE, STMTLINE>> result;
+
+    // double for loop based on both vector of stmt#, check Parent() is true then keep into vector as tuple.
+    for(std::vector<STMTLINE>::iterator j = firstResult.begin(); j != firstResult.end(); ++j) {
+        for(std::vector<STMTLINE>::iterator k = firstResult.begin(); k != firstResult.end(); ++k) {
+            if(pkbInstance->getParent()->isParentStar(*j, *k)) {
                 result.push_back(std::make_pair(*j, *k));
             }
         }
@@ -236,13 +493,13 @@ vector<std::pair<STMTLINE, STMTLINE>> QueryEvaluator::Parent(TType firstType, TT
 
 vector<std::pair<STMTLINE, VARINDEX>> QueryEvaluator::Modifies(TType firstType) {
     // retrieve all stmt# from AST that belongs to the firstType
-    vector<STMTLINE> firstResult = pkbInstance.getAst()->getStmtLines(firstType);
+    vector<STMTLINE> firstResult = pkbInstance->getAst()->getStmtLines(firstType);
 
     vector<std::pair<STMTLINE, VARINDEX>> result;
 
     // for each stmt#, store all combination tuple of the # and var that it modifies
     for(std::vector<STMTLINE>::iterator j = firstResult.begin(); j != firstResult.end(); ++j) {
-        vector<VARINDEX> jResult = pkbInstance.getModifies()->getModifiedByStmt(*j);
+        vector<VARINDEX> jResult = pkbInstance->getModifies()->getModifiedByStmt(*j);
         for(std::vector<VARINDEX>::iterator k = jResult.begin(); k != jResult.end(); ++k) {
             result.push_back(std::make_pair(*j, *k));
         }
@@ -255,13 +512,13 @@ vector<std::pair<STMTLINE, VARINDEX>> QueryEvaluator::Modifies(TType firstType) 
 
 vector<std::pair<STMTLINE, VARINDEX>> QueryEvaluator::Uses(TType firstType) {
     // retrieve all stmt# from AST that belongs to the firstType
-    vector<STMTLINE> firstResult = pkbInstance.getAst()->getStmtLines(firstType);
+    vector<STMTLINE> firstResult = pkbInstance->getAst()->getStmtLines(firstType);
 
     vector<std::pair<STMTLINE, VARINDEX>> result;
 
     // for each stmt#, store all combination tuple of the # and var that it uses
     for(std::vector<STMTLINE>::iterator j = firstResult.begin(); j != firstResult.end(); ++j) {
-        vector<VARINDEX> jResult = pkbInstance.getUses()->getUsedByStmt(*j);
+        vector<VARINDEX> jResult = pkbInstance->getUses()->getUsedByStmt(*j);
         for(std::vector<VARINDEX>::iterator k = jResult.begin(); k != jResult.end(); ++k) {
             result.push_back(std::make_pair(*j, *k));
         }
