@@ -50,7 +50,7 @@ void Parser::tokenizeLine(string line, vector<ParsingToken*> *tokenList) {
             }
 			currStr = string(1, nextChar);
             tokenList->push_back(Parser::convertStringToToken(currStr));
-            currStr = "";
+			currStr = "";
         } else if (nextChar == '\\') {
             if (i == line.size() - 1) {
                 throw SyntaxErrorException();
@@ -63,6 +63,11 @@ void Parser::tokenizeLine(string line, vector<ParsingToken*> *tokenList) {
             currStr.push_back(nextChar);
         }
     }
+
+	if(currStr.size() > 0) {
+		tokenList->push_back(Parser::convertStringToToken(currStr));
+		currStr = "";
+	}
 
     return;
 }

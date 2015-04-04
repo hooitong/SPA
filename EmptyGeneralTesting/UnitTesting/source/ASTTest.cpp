@@ -76,35 +76,26 @@ void ASTTest::testIsMatch() {
 
 }
 
-
 void ASTTest::testMatchLeftPattern() {
     VarTable vTable;
     VARINDEX x = vTable.insertVar("x");
     TNode* root = (*ast).createTNode(ASSIGNN, "");
     stringstream ss;
-	ss << x;
+    ss << x;
     TNode* leftChild = (*ast).createTNode(VARN, ss.str());
     root->addChild(leftChild);
     (*ast).setStmtLine(root, 1);
     CPPUNIT_ASSERT((*ast).matchLeftPattern(1, x));
 }
 
-
-
 void ASTTest::testMatchRightPattern() {
-    TNode* node = (*ast).createTNode(PLUSN, "");	
-    TNode* nodeSiblingLeft = (*ast).createTNode(VARN, "x");
-    TNode* nodeSiblingRight = (*ast).createTNode(VARN, "y");
-	(*node).addChild(nodeSiblingLeft);
-	(*node).addChild(nodeSiblingRight);
+    TNode* node = (*ast).createTNode(PLUSN, "");
+    TNode* nodeSiblingLeft = (*ast).createTNode(VARN, "0");
+    TNode* nodeSiblingRight = (*ast).createTNode(VARN, "1");
+    (*node).addChild(nodeSiblingLeft);
+    (*node).addChild(nodeSiblingRight);
     (*ast).setSibling(nodeSiblingLeft, nodeSiblingRight);
-	(*ast).setStmtLine(node, 2);
-
-	//TNode* exprTreeRoot = (*ast).createExprTree("x + y");
-	
-	
-
-	CPPUNIT_ASSERT((*ast).matchRightPattern(2, "x + y", true));
-
+    (*ast).setStmtLine(node, 2);
+    CPPUNIT_ASSERT((*ast).matchRightPattern(2, "x + y", true));
 }
 
