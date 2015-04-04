@@ -15,10 +15,12 @@ class AST {
     std::pair <std::multimap<TType,STMTLINE>::iterator, std::multimap<TType,STMTLINE>::iterator> stmtRet;
     TNode* procedureRoot; // only support 1 procedure at the current iteration.
 
-    // private methods for pattern matching
-    vector<TNode*> AST::getDFS(TNode* node);
+	// private methods for pattern matching
+    vector<TNode*> getDFS(TNode* node);
     string convertTNodeListValueToString(vector<TNode*> nodes);
     bool ifNodeVisited(vector<TNode*> nodeList, TNode* node);
+
+
 
   public:
     AST(void);
@@ -41,6 +43,8 @@ class AST {
     bool isMatch(TNode* node, TType type);
 	bool matchLeftPattern(STMTLINE stmtRoot, VARINDEX varToMatch);
     bool matchRightPattern(STMTLINE stmtRoot, std::string expression, bool strict);
-    TNode* createExprTree(std::string expression);
+
+
+
 
 };
