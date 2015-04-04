@@ -18,6 +18,8 @@ class InvalidExpressionException : public SyntaxErrorException {
 class InvalidWhileStmtException: public SyntaxErrorException {
 };
 
+vector<ParsingToken*> Parser::programTokenList;
+
 // parse source code from file
 void Parser::parse(string filename) {
 	ifstream sourceFile;
