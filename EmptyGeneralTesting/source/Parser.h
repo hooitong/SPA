@@ -32,5 +32,6 @@ private:
 	static void addVarToUses(VARNAME varName, STMTLINE stmt);
 	static void addVarToModifies(VARNAME varName, STMTLINE stmt);
 
-	static string getStringIndexOfVar(string varName);
+	static string getStringIndexOfVar(VARNAME varName);
+	static string convertIntToString(int i);
 };
