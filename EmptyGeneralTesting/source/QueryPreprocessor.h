@@ -55,7 +55,8 @@ class QueryPreprocessor {
   private:
 	map<int, int> posOfConds;
 	int table[5][24];
-	QueryTree tree;
+	QueryTree *queryTree;
+	QNode *resultListNode, *suchthatListNode, *patternListNode;
 	 
 
 
