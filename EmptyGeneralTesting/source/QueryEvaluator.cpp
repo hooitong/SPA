@@ -621,11 +621,15 @@ QueryResult QueryEvaluator::solvePattern(QNode* node) {
 	QNode* varNode = node->getChildren()[1];
 	string expression = node->getChildren()[2]->getString();
 	bool strict = true;
-	if (expression[0] == '_') {
+	bool any = false;
+	if (expression[0] == '_' && (int) expression.length() > 1) {
 		//non-strict
 		expression = expression.substr(1, expression.length() - 1);
 		strict = false;
+	} else if (expression[0] == '_') {
+		any = true;
 	}
+
 	if (isSynonym(varNode->getQType())) {
 		vector<pair<int,int> > resultPairs;
 		vector<STMTLINE> assignments = pkbInstance->getAst()->getStmtLines(ASSIGNN);
@@ -633,7 +637,7 @@ QueryResult QueryEvaluator::solvePattern(QNode* node) {
 			vector<VARINDEX> variables = pkbInstance->getVarTable()->getAllVarIndex();
 			for (int j = 0; j < (int) variables.size(); j++) {
 				if (pkbInstance->getAst()->matchLeftPattern(assignments[i], variables[j]) && 
-					pkbInstance->getAst()->matchRightPattern(assignments[i], expression, false)) {
+					(!any || pkbInstance->getAst()->matchRightPattern(assignments[i], expression, false))) {
 					resultPairs.push_back(make_pair(assignments[i], variables[j]));
 				}
 			}
@@ -645,7 +649,7 @@ QueryResult QueryEvaluator::solvePattern(QNode* node) {
 		VARINDEX variable = pkbInstance->getVarTable()->getVarIndex(varNode->getString());
 		for (int i = 0; i < (int) assignments.size(); i++) {
 			if (pkbInstance->getAst()->matchLeftPattern(assignments[i], variable) && 
-				pkbInstance->getAst()->matchRightPattern(assignments[i], expression, false)) {
+				(!any || pkbInstance->getAst()->matchRightPattern(assignments[i], expression, false))) {
 				resultList.push_back(assignments[i]);
 			}
 		}
