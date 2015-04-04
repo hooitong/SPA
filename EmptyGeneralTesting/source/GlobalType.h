@@ -43,7 +43,8 @@ enum QNodeType {
     VAR,
     CONST,
     PROC,
-    IF
+    IF,
+	ANY
 };
 
 // Used to represent the type of ParsingToken

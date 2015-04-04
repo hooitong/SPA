@@ -39,16 +39,16 @@
     <ClCompile Include="source\ModifiesTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\ASTTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\QueryEvaluatorTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\DesignExtractorTest.cpp">
+    <ClCompile Include="QueryTreeTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QueryTreeTest.cpp">
+    <ClCompile Include="source\ASTTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\DesignExtractorTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -74,16 +74,16 @@
     <ClInclude Include="source\ModifiesTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\ASTTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\QueryEvaluatorTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\DesignExtractorTest.h">
+    <ClInclude Include="QueryTreeTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="QueryTreeTest.h">
+    <ClInclude Include="source\ASTTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\DesignExtractorTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
