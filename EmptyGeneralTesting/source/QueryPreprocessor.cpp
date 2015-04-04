@@ -369,33 +369,35 @@ using namespace std;
 				string expr = trim(pattern.substr(pob + 1, pcb - pob - 1));
 				if(expr == "_"){
 					cout <<"pattern 1" << endl; 
-					
+					// Qnode* exprNode = tree.createNode(ANY, NULL);
 
-				}else if(expr.at(0) == '_' && expr.at(expr.length()-1) == '_' && expr.at(1) == '\"' && expr.at(expr.length()-2) == '\"') {
-					expr = trim(expr.substr(2 , expr.length() - 4));
+				}else if(expr.at(0) == '_' && expr.at(expr.length()-1) == '_' ) {
+					string temp = trim(expr.substr(1 , expr.length() - 2));
 					//pointer of plus
 					int pp = expr.find("+");
 					if(pp > expr.length()){
-						if(!checkFactor(expr)) return false;
+						if(!checkFactor(temp)) return false;
 						cout <<" pattern 2" << endl;
 					}else{
 
-						string expr1 = trim(expr.substr(0,pp));
-						string expr2 = trim(expr.substr(pp + 1,expr.length() - pp -1 ));
+						string expr1 = trim(temp.substr(0,pp));
+						string expr2 = trim(temp.substr(pp + 1, temp.length() - pp -1 ));
 						if(!(checkFactor(expr1) && checkFactor(expr2))) return false;
 							cout <<"pattern 3" << endl; 						
 
 					}
+					// Qnode* exprNode = tree.createNode(EXPRESSION, expr);
 				}else{
 					return false;
 				}
 				cout <<"creating pattern node : " <<patternName << endl; 
 				cout <<" ( " << synonym << "," << expr << ")"<< endl; 
 				// find root and get PATTERNLIST node
-				// Qnode* patternNode = tree createNode(PATTERN, patternName);
-				// Qnode* varNode = tree createNode(VAR, synonym);
-				// Qnode* exprNode = tree createNode(EXPRESSION, expr);
+				// Qnode* patternNode = tree.createNode(PATTERN, NULL);
+			    // Qnode* assignNode = tree.createNode(ASSIGN, patternName);
+				// Qnode* varNode = tree.createNode(VAR, synonym);
 				// tree.addChild(patternListNode, patternNode);
+				// tree.addChild(patternNode, assignNode);
 				// tree.addChild(patternNode, varNode);
 				// tree.addChild(patternNode, exprNode);
 
