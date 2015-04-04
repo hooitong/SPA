@@ -6,7 +6,6 @@
 #include <list>
 
 // include your other headers here
-#include "AbstractWrapper.h"
 
 class TestWrapper : public AbstractWrapper {
  public:
