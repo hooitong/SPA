@@ -29,7 +29,7 @@ void Parser::parse(string filename) {
 		Parser::tokenizeLine(line);
 	}
 
-	//Parser::buildProcedureAST();
+	Parser::buildProcedureAST();
 }
 
 /*
@@ -183,6 +183,7 @@ void Parser::buildProcedureAST() {
 			TNode *varNode = new TNode(TType::VARN, programTokenList.at(i)->getStringValue());
 			TNode *assignNode = new TNode(TType::ASSIGNN, "");
 			assignNode->setStmtLine(stmtLine);
+			ast->setStmtLine(assignNode, stmtLine);
 			stmtLine++;
 			Parser::linkTNodes(assignNode, varNode, exprNode);
 			
@@ -235,7 +236,7 @@ TNode* Parser::buildExprAST(vector<ParsingToken *> exprTokenList, STMTLINE stmtL
 		ParsingToken* currToken = exprTokenList.at(i);
 		if (currToken->getTokenType() == TokenType::PLUS) // if token is + then put it to the operator stack
 			operatorStack.push(OperatorType::PLUS_OP);
-		else if (currToken->getTokenType() == TokenType::NAME) {
+		else if (currToken->getTokenType() == TokenType::NAME || currToken->getTokenType() == TokenType::CONSTANT) {
 			if (!operatorStack.empty()) { 
 				OperatorType opType = operatorStack.top();
 				operatorStack.pop();
@@ -248,15 +249,23 @@ TNode* Parser::buildExprAST(vector<ParsingToken *> exprTokenList, STMTLINE stmtL
 				if (opType == OperatorType::PLUS_OP) {
 					TNode *plusNode = new TNode(TType::PLUSN, "");
 					plusNode->setStmtLine(stmtLine);
-					TNode *sNode = new TNode(TType::VARN, currToken->getStringValue());
+					TNode *sNode;
+					if (currToken->getTokenType() == TokenType::NAME)
+						sNode = new TNode(TType::VARN, currToken->getStringValue());
+					else 
+						sNode = new TNode(TType::CONSTN, currToken->getStringValue());
 					sNode->setStmtLine(stmtLine);
 					Parser::linkTNodes(plusNode, fNode, sNode);
 					operandStack.push(plusNode);
 				}
 			} else {
-				TNode *varNode = new TNode(TType::VARN, currToken->getStringValue());
-				varNode->setStmtLine(stmtLine);
-				operandStack.push(varNode);
+				TNode *aNode; 
+				if (currToken->getTokenType() == TokenType::NAME)
+					aNode = new TNode(TType::VARN, currToken->getStringValue());
+				else 
+					aNode = new TNode(TType::CONSTN, currToken->getStringValue());
+				aNode->setStmtLine(stmtLine);
+				operandStack.push(aNode);
 			}
 
 			// Add variable to varTable and Uses Table

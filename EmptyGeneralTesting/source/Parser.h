@@ -14,6 +14,7 @@ public:
     ~Parser(void);
 
 	static void parse(string filename);
+	static TNode* buildExprAST(vector<ParsingToken *> exprTokenList, STMTLINE stmtLine);
 	
 private:
 	static vector<ParsingToken*> programTokenList; 
@@ -25,10 +26,11 @@ private:
 	static bool isNumeric(string aString);
 	static bool isValidName(string aString);
 
-	static TNode* buildExprAST(vector<ParsingToken *> exprTokenList, STMTLINE stmtLine);
 	static void linkTNodes(TNode *parentNode, TNode *leftNode, TNode *rightNode);
 	static void linkTNodeToPrevNodes(TNode *currNode, TNode *prevNode, TNodeRelation expectedRelation);
 
 	static void addVarToUses(VARNAME varName, STMTLINE stmt);
 	static void addVarToModifies(VARNAME varName, STMTLINE stmt);
+
+	static string getStringIndexOfVar(string varName);
 };

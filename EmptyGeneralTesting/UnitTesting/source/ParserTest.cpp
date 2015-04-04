@@ -3,6 +3,7 @@
 #include "ParserTest.h"
 #include "PKB.h"
 #include "Parser.h"
+#include "GlobalType.h"
 
 void ParserTest::setUp()
 {
@@ -18,7 +19,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION(ParserTest);
 
 void ParserTest::testAST()
 {
-	//AST* ast = PKB::getPKB()->getAst();
-	//TNode* root = ast->getRoot();
-	//CPPUNIT_ASSERT(root->getTType() == TType::PROCEDUREN); 
+	AST* ast = PKB::getPKB()->getAst();
+	TNode* root = ast->getRoot();
+	CPPUNIT_ASSERT(root->getTType() == TType::PROCEDUREN); 
 }
