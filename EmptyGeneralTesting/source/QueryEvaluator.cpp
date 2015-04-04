@@ -4,7 +4,7 @@ QueryEvaluator::QueryEvaluator() {
 	pkbInstance = PKB::getPKB();
 }
 
-string QueryEvaluator::evaluate(QueryTree* tree) {
+std::list<string> QueryEvaluator::evaluate(QueryTree* tree) {
     QueryResult result = evaluate(tree->getRoot());
 	
 	vector <string> resultSynonym;
@@ -28,17 +28,12 @@ string QueryEvaluator::evaluate(QueryTree* tree) {
 
 	vector <vector<int> > solutions = result.getResult();
 
-	ostringstream oss;
+	std::list<string> resultList;
 	for (int i = 0; i < (int)solutions.size(); i++) {
-		if (i > 0) {
-			oss << ", ";
-		}
-		if (solutions[i].size() > 1) {
-			oss << "<";
-		}
+		ostringstream oss;
 		for (int j = 0; j < (int) solutions[i].size(); j++) {
 			if (j > 0) {
-				oss << ", ";
+				oss << " ";
 			}
 
 			if (synonymMap[resultSynonym[j]] == VARN) {
@@ -49,12 +44,10 @@ string QueryEvaluator::evaluate(QueryTree* tree) {
 				oss << solutions[i][j];
 			}
 		}
-		if (solutions[i].size() > 1) {
-			oss << ">";
-		}
+		resultList.push_back(oss.str());
 	}
 
-	return oss.str();
+	return resultList;
 }
 
 vector<QueryResult> QueryEvaluator::getResultFilters(QNode* node) {
