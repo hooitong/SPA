@@ -1,7 +1,8 @@
 #pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
-class AST;
+
+#include "AST.h"
 
 class ASTTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(ASTTest);
@@ -11,6 +12,8 @@ class ASTTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testSetStmtLine);
     CPPUNIT_TEST(testSetRoot);
     CPPUNIT_TEST(testIsMatch);
+    CPPUNIT_TEST(testMatchLeftPattern);
+    CPPUNIT_TEST(testMatchRightPattern);
     CPPUNIT_TEST_SUITE_END();
 
   private:
@@ -26,6 +29,6 @@ class ASTTest : public CPPUNIT_NS::TestFixture {
     void testSetStmtLine();
     void testSetRoot();
     void testIsMatch();
-    void testPatternMatch();
-
+    void testMatchLeftPattern();
+    void testMatchRightPattern();
 };

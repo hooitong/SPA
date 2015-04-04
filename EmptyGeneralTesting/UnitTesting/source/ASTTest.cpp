@@ -1,8 +1,9 @@
 #include <cppunit/config/SourcePrefix.h>
 #include <vector>
+#include <string>
 
 #include "ASTTest.h"
-#include "AST.h"
+#include "VarTable.h"
 
 void ASTTest::setUp() {
     ast = new AST;
@@ -74,7 +75,20 @@ void ASTTest::testIsMatch() {
     CPPUNIT_ASSERT((*ast).isMatch(node, VARN));
 
 }
-void ASTTest::testPatternMatch() {
+
+void ASTTest::testMatchLeftPattern() {
+    VarTable vTable;
+    VARINDEX x = vTable.insertVar("x");
+    TNode* root = (*ast).createTNode(ASSIGNN, "");
+    stringstream ss;
+    ss << x;
+    TNode* leftChild = (*ast).createTNode(VARN, ss.str());
+    root->addChild(leftChild);
+    (*ast).setStmtLine(root, 1);
+    CPPUNIT_ASSERT((*ast).matchLeftPattern(1, x));
+}
+
+void ASTTest::testMatchRightPattern() {
     TNode* nodeStmtLst = (*ast).createTNode(STMTLSTN, "");
     vector<TNode*> childrenLocal;
     TNode* node = (*ast).createTNode(PLUSN, "+");
@@ -86,6 +100,6 @@ void ASTTest::testPatternMatch() {
     (*ast).setSibling(nodeSiblingLeft, nodeSiblingRight);
     (*nodeStmtLst).addChild(node);
 
-    CPPUNIT_ASSERT((*ast).patternMatch(2, "x+y",true));
+    CPPUNIT_ASSERT((*ast).matchRightPattern(2, "x+y",true));
 }
 
