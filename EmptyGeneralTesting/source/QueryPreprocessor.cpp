@@ -31,7 +31,7 @@ using namespace std;
 		cout << "Created Root node and children "<< endl;
 
 		int p = query.find("Select");
-		if(p == -1){
+		if(p == string::npos){
 			cout << "error";
 		}
 		string result_cl;
@@ -95,20 +95,20 @@ using namespace std;
 		int pp = query.find("pattern");
 		//pointer of with condition
 		int pw = query.find("with");
-		int l = query.length();
-		if(pst > l && pp > l && pw> l) return false;
+	
+		if(pst == string::npos && pp == string::npos && pw == string::npos) return false;
 
-		while(pst < l){
+		while(pst != string::npos){
 			posOfConds.insert(pair<int,int>(pst, 9));
 			pst = query.find("such that",pst + 1);
 		}
 
-		while(pp < l){
+		while(pp != string::npos){
 			posOfConds.insert(pair<int,int>(pp, 7));
 			pp = query.find("pattern", pp + 1);
 		}
 
-		while(pw < l){
+		while(pw != string::npos){
 			posOfConds.insert(pair<int,int>(pw, 4));
 			pw = query.find("with", pw + 1);
 		}
@@ -126,7 +126,7 @@ using namespace std;
 		int p = clause.find(" and ");
 		// there doesn't exist "and"
 		
-		if(p < clause.length()){
+		if(p != string::npos){
 			string s1 = trim(clause.substr(0,p));
 			string s2 = trim(clause.substr(p+5,clause.size()-p-5));
 
@@ -198,7 +198,7 @@ using namespace std;
 	bool QueryPreprocessor::checkAttReference(string attReference){
 
 		int p = attReference.find(".");
-		if(p == -1) return false;
+		if(p == string::npos) return false;
 		string s =  attReference.substr(0,p);
 		string attribute = attReference.substr(p+1,attReference.length() - p - 1);
 		return (checkIdent(s)&&checkAttributeName(attribute));
@@ -272,27 +272,40 @@ using namespace std;
 
 		string type1 = getType(argument1);
 		if(table[index][findIndexOfType(type1)]){
-			if(checkIdent(argument1) || argument1 == "_"){
+			if(checkIdent(argument1)){
 				arg1_flag = true;
+				// Qnode* argumentNode1 = tree.createNode(VARIABLESYNONYM, argument1);
+			}else if( argument1 == "_"){
+				arg1_flag = true;
+				// Qnode* argumentNode1 = tree.createNode(ANY, NULL);
 			}else if((table[index][10] == 1) && (argument1[0] == '"') && (argument1[argument1.length()-1] == '"' )){
 				argument1 = trim(argument1.substr(1,argument1.length() -2));
-				
+				if(checkIdent(argument2)){
+					arg2_flag = true;
+					// Qnode* argumentNode1 = tree.createNode(VARIABLE, argument1);
+				}
 			}else if(table[index][11] == 1 && checkInteger(argument1)){
+				// Qnode* argumentNode1 = tree.createNode(PROGLINESYNONYM, argument1);
 				arg1_flag = true;
 			}
 		}
 		
 		string type2 = getType(argument2);
 		if(table[index][findIndexOfType(type2)+12]){
-			if(checkIdent(argument2) || argument2 == "_"){
+			if(checkIdent(argument2)){
+				arg1_flag = true;
+				// Qnode* argumentNode1 = tree.createNode(VARIABLESYNONYM, argument1);
+			}else if(argument2 == "_"){
 				arg2_flag = true;
+				// Qnode* argumentNode1 = tree.createNode(ANY, NULL);
 			}else if(table[index][22] == 1 && argument2[0] == '"' && argument1[argument2.length()-1] == '"' ){
 				argument2 = trim(argument2.substr(1,argument1.length() -2));
 				if(checkIdent(argument2)){
 					arg2_flag = true;
+					// Qnode* argumentNode1 = tree.createNode(VARIABLE, argument1);
 				}
-		
 			}else if(table[index][23] == 1 && checkInteger(argument2)){
+				// Qnode* argumentNode1 = tree.createNode(PROGLINESYNONYM, argument1);
 				arg2_flag = true;
 			}
 		}
@@ -353,49 +366,51 @@ using namespace std;
 		pattern = trim(pattern);
 		//pointer of open bracket
 		int pob = pattern.find("(");
-		if(pob > pattern.length()) return false;
+		if(pob == string::npos) return false;
 		string synonym = trim(pattern.substr(0,pob));
 		if(checkIdent(synonym)){
 			//pointer of comma
 			int pc = pattern.find(",");
-			if(pc > pattern.length()) return false;
+			if(pc == string::npos) return false;
 			string varRef = trim(pattern.substr(pob + 1, pc - pob - 1));
 			string varRefType;
 			if(checkVarReference(varRef)){
 				//countinue to check expression-spec
 				//pointer to close bracket
 				int pcb = pattern.find_last_of(")");
-				if(pcb > pattern.length() || pcb != pattern.length() - 1) return false;
+				if(pcb == string::npos || pcb != pattern.length() - 1) return false;
 				string expr = trim(pattern.substr(pob + 1, pcb - pob - 1));
 				if(expr == "_"){
 					cout <<"pattern 1" << endl; 
-					
+					// Qnode* exprNode = tree.createNode(ANY, NULL);
 
-				}else if(expr.at(0) == '_' && expr.at(expr.length()-1) == '_' && expr.at(1) == '\"' && expr.at(expr.length()-2) == '\"') {
-					expr = trim(expr.substr(2 , expr.length() - 4));
+				}else if(expr.at(0) == '_' && expr.at(expr.length()-1) == '_' ) {
+					string temp = trim(expr.substr(1 , expr.length() - 2));
 					//pointer of plus
 					int pp = expr.find("+");
-					if(pp > expr.length()){
-						if(!checkFactor(expr)) return false;
+					if(pp == string::npos){
+						if(!checkFactor(temp)) return false;
 						cout <<" pattern 2" << endl;
 					}else{
 
-						string expr1 = trim(expr.substr(0,pp));
-						string expr2 = trim(expr.substr(pp + 1,expr.length() - pp -1 ));
+						string expr1 = trim(temp.substr(0,pp));
+						string expr2 = trim(temp.substr(pp + 1, temp.length() - pp -1 ));
 						if(!(checkFactor(expr1) && checkFactor(expr2))) return false;
 							cout <<"pattern 3" << endl; 						
 
 					}
+					// Qnode* exprNode = tree.createNode(EXPRESSION, expr);
 				}else{
 					return false;
 				}
 				cout <<"creating pattern node : " <<patternName << endl; 
 				cout <<" ( " << synonym << "," << expr << ")"<< endl; 
 				// find root and get PATTERNLIST node
-				// Qnode* patternNode = tree createNode(PATTERN, patternName);
-				// Qnode* varNode = tree createNode(VAR, synonym);
-				// Qnode* exprNode = tree createNode(EXPRESSION, expr);
+				// Qnode* patternNode = tree.createNode(PATTERN, NULL);
+			    // Qnode* assignNode = tree.createNode(ASSIGN, patternName);
+				// Qnode* varNode = tree.createNode(VAR, synonym);
 				// tree.addChild(patternListNode, patternNode);
+				// tree.addChild(patternNode, assignNode);
 				// tree.addChild(patternNode, varNode);
 				// tree.addChild(patternNode, exprNode);
 
@@ -443,7 +458,7 @@ using namespace std;
 		int psc = declaration.find(";");
 		cout << "Getting the first declaration"  << endl;
 		string declar_clause =  trim(declaration.substr(0, psc));
-		while(psc < declaration.length()){
+		while(psc != string::npos){
 			cout << "Looping through the declarations"  << endl;
 			declar_clause = trim(declar_clause);
 			//ps = pointer of space
@@ -469,7 +484,7 @@ using namespace std;
 						return false;
 					}
 
-				int pc = pnc;
+				pc = pnc;
 				}while(pc < refDeclared.size());
 
 			}else{
@@ -539,7 +554,7 @@ using namespace std;
 	string QueryPreprocessor::trim(string s){
 		  cout << " Before trim :" << s << endl;
 		int p = s.find_first_not_of(" ");
-		if(p > s.length()){
+		if(p != string::npos){
 			s.erase(s.begin(), s.end() -p);
 		}else{
 			return "";

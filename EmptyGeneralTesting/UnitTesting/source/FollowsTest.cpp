@@ -29,6 +29,11 @@ void FollowsTest::testSetStar() {
     (*fTest).setFollowsStar(3, 4);
     (*fTest).setFollowsStar(6, 7);
     (*fTest).setFollowsStar(7, 8);
+
+	(*fTest).setFollowsStar(1, 3);
+	(*fTest).setFollowsStar(1, 4);
+	(*fTest).setFollowsStar(2, 4);
+	(*fTest).setFollowsStar(6, 8);
 }
 
 // Test whether the isFollows function works as intended.
@@ -52,21 +57,21 @@ void FollowsTest::testIsFollows() {
 
 // Test whether the isFollowsStar function works as intended.
 void FollowsTest::testIsFollowsStar() {
-    testSet();
+    testSetStar();
 
     /* Based on previous insertion, check the relationship whether it is valid */
     /* Should be valid for the following inputs */
-    CPPUNIT_ASSERT((*fTest).isFollows(1, 2));
-    CPPUNIT_ASSERT((*fTest).isFollows(2, 3));
-    CPPUNIT_ASSERT((*fTest).isFollows(3, 4));
-    CPPUNIT_ASSERT((*fTest).isFollows(6, 7));
-    CPPUNIT_ASSERT((*fTest).isFollows(7, 8));
-    CPPUNIT_ASSERT(!(*fTest).isFollows(1, 3));
-    CPPUNIT_ASSERT(!(*fTest).isFollows(1, 4));
+    CPPUNIT_ASSERT((*fTest).isFollowsStar(1, 2));
+    CPPUNIT_ASSERT((*fTest).isFollowsStar(2, 3));
+    CPPUNIT_ASSERT((*fTest).isFollowsStar(3, 4));
+    CPPUNIT_ASSERT((*fTest).isFollowsStar(6, 7));
+    CPPUNIT_ASSERT((*fTest).isFollowsStar(7, 8));
+    CPPUNIT_ASSERT((*fTest).isFollowsStar(1, 3));
+    CPPUNIT_ASSERT((*fTest).isFollowsStar(1, 4));
 
     /* Should be invalid for the following inputs */
     CPPUNIT_ASSERT(!(*fTest).isFollowsStar(10, 12));
-    CPPUNIT_ASSERT(!(*fTest).isFollows(3, 7));
+    CPPUNIT_ASSERT(!(*fTest).isFollowsStar(3, 7));
 }
 
 // Test whether the testGetFollowsFrom function works as intended.
@@ -88,8 +93,8 @@ void FollowsTest::testGetFollowsFrom() {
 // Test whether the testGetFollowsFromStar function works as intended.
 void FollowsTest::testGetFollowsFromStar() {
     testSetStar();
-
-    /* Valid inputs which should return the correct left siblings */
+	
+	/* Valid inputs which should return the correct left siblings */
     vector<STMTLINE> resultVector = (*fTest).getFollowsFromStar(2);
     CPPUNIT_ASSERT(resultVector[0] == 1);
     resultVector = (*fTest).getFollowsFromStar(3);
@@ -97,8 +102,8 @@ void FollowsTest::testGetFollowsFromStar() {
     CPPUNIT_ASSERT(resultVector[1] == 1);
     resultVector = (*fTest).getFollowsFromStar(4);
     CPPUNIT_ASSERT(resultVector[0] == 3);
-    CPPUNIT_ASSERT(resultVector[1] == 2);
-    CPPUNIT_ASSERT(resultVector[2] == 1);
+    CPPUNIT_ASSERT(resultVector[1] == 1);
+    CPPUNIT_ASSERT(resultVector[2] == 2);
     resultVector = (*fTest).getFollowsFromStar(8);
     CPPUNIT_ASSERT(resultVector[0] == 7);
     CPPUNIT_ASSERT(resultVector[1] == 6);

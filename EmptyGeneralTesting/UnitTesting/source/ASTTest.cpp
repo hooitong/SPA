@@ -76,6 +76,7 @@ void ASTTest::testIsMatch() {
 
 }
 
+
 void ASTTest::testMatchLeftPattern() {
     VarTable vTable;
     VARINDEX x = vTable.insertVar("x");
@@ -89,28 +90,16 @@ void ASTTest::testMatchLeftPattern() {
 }
 
 void ASTTest::testMatchRightPattern() {
-	VarTable vTable;
-	VARINDEX x = vTable.insertVar("x");
-	VARINDEX y = vTable.insertVar("y");
-	
 
     TNode* nodeStmtLst = (*ast).createTNode(STMTLSTN, "");
-    vector<TNode*> childrenLocal;
     TNode* node = (*ast).createTNode(PLUSN, "+");
-    childrenLocal.push_back(node);
-
     TNode* nodeSiblingLeft = (*ast).createTNode(VARN, "x");
-    childrenLocal.push_back(nodeSiblingLeft);
-
     TNode* nodeSiblingRight = (*ast).createTNode(VARN, "y");
-    childrenLocal.push_back(nodeSiblingRight);
+
     (*ast).setSibling(nodeSiblingLeft, nodeSiblingRight);
     (*nodeStmtLst).addChild(node);
-    CPPUNIT_ASSERT((*ast).matchRightPattern(2, "x+y",true));
-}
+	(*ast).setStmtLine(node, 2);
 
-void ASTTest::testMatchRightPattern2() {
-	//test pattern 2
-
+    CPPUNIT_ASSERT((*ast).matchRightPattern(2, "x+y", true));
 }
 
