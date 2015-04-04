@@ -33,16 +33,19 @@ bool Follows::isFollows(STMTLINE first, STMTLINE second) {
 }
 
 bool Follows::isFollowsStar(STMTLINE first, STMTLINE second) {
-    STMTLINE current = first;
-    do {
-        it = rightSiblingMap.find(current);
-        if(it == rightSiblingMap.end()) {
-            return false;
-        } else {
-            current = it->second;
+    ret = rightSiblingsMap.equal_range(first);
+    /* If first is not a parent, return false */
+    if(ret.first == ret.second) {
+        return false;
+    } else {
+        for(it2 = ret.first; it2 != ret.second; ++it2) {
+            if((*it2).second == second) {
+                return true;
+            }
         }
-    } while(current != second);
-    return true;
+        /* second is not found, return false */
+        return false;
+    }
 }
 
 STMTLINE Follows::getFollowedBy(STMTLINE currentLine) {
