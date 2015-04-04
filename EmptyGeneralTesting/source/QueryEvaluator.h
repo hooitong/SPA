@@ -13,6 +13,7 @@
 
 class QueryEvaluator {
   public:
+	QueryEvaluator();
     string evaluate(QueryTree* tree);
 
 // Handle evaluation with wildcards of a certain type. (May be relocated in the future)

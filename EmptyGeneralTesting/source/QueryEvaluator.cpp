@@ -1,5 +1,9 @@
 #include "QueryEvaluator.h"
 
+QueryEvaluator::QueryEvaluator() {
+	pkbInstance = PKB::getPKB();
+}
+
 string QueryEvaluator::evaluate(QueryTree* tree) {
     QueryResult result = evaluate(tree->getRoot());
 	
@@ -119,12 +123,18 @@ map<string, TType> QueryEvaluator::getSynonymMap(QNode* node) {
 QueryResult QueryEvaluator::evaluate(QNode* node) {
 	if (node->getQType() == SUCHTHATLIST ||
 		node->getQType() == WITHLIST ||
-		node->getQType() == PATTERNLIST) {
+		node->getQType() == PATTERNLIST || 
+		node->getQType() == QUERY) {
 		vector <string> emptySynonym;
-		QueryResult result =QueryResult(emptySynonym);
+		QueryResult result =QueryResult(true);
 
 		vector<QNode*> children = node->getChildren();
 		for (int i = 0; i < (int)children.size(); i++) {
+			if (children[i]->getQType() == SUCHTHATLIST || 
+				children[i]->getQType() == WITHLIST ||
+				children[i]->getQType() == RELATION ||
+				children[i]->getQType() == PATTERNLIST ||
+				children[i]->getQType() == PATTERN)
 			result = result.merge(evaluate(children[i]));
 		}
 
@@ -369,7 +379,7 @@ QueryResult QueryEvaluator::solvePattern(QNode* node) {
 			vector<VARINDEX> variables = pkbInstance->getVarTable()->getAllVarIndex();
 			for (int j = 0; j < (int) variables.size(); j++) {
 				if (pkbInstance->getAst()->matchLeftPattern(assignments[i], variables[j]) && 
-					pkbInstance->getAst()->matchRightPattern(assignments[i], expression), true) {
+					pkbInstance->getAst()->matchRightPattern(assignments[i], expression, true)) {
 					resultPairs.push_back(make_pair(assignments[i], variables[j]));
 				}
 			}
@@ -418,7 +428,8 @@ bool QueryEvaluator::isSynonym(QNodeType type) {
 		type == PROCEDURESYNONYM ||
 		type == CONSTSYNONYM ||
 		type == PROGLINESYNONYM ||
-		type == IFSYNONYM;
+		type == IFSYNONYM || 
+		type == STMTSYNONYM;
 }
 
 
