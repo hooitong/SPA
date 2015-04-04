@@ -180,7 +180,8 @@ void Parser::buildProcedureAST() {
 			}
 			i = j+1; // move i to after the SEMICOLON position
 			TNode *exprNode = Parser::buildExprAST(exprTokenList, stmtLine);
-			TNode *varNode = new TNode(TType::VARN, programTokenList.at(i)->getStringValue());
+			string varName = programTokenList.at(i)->getStringValue();
+			TNode *varNode = new TNode(TType::VARN, Parser::getStringIndexOfVar(varName));
 			TNode *assignNode = new TNode(TType::ASSIGNN, "");
 			assignNode->setStmtLine(stmtLine);
 			ast->setStmtLine(assignNode, stmtLine);
@@ -201,10 +202,12 @@ void Parser::buildProcedureAST() {
 				i = i+3; // move i to after the open curly bracket
 				TNode *whileNode = new TNode(TType::WHILEN, "");
 				whileNode->setStmtLine(stmtLine);
+				ast->setStmtLine(whileNode, stmtLine);
 				stmtLine++;
 				
 				// link whileNode to varNode
-				TNode *varNode = new TNode(TType::VARN, programTokenList.at(i)->getStringValue());
+				string varName = programTokenList.at(i)->getStringValue();
+				TNode *varNode = new TNode(TType::VARN, Parser::getStringIndexOfVar(varName));
 				TNode *whileStmtLstNode = new TNode(TType::STMTLSTN, "");
 				whileStmtLstNode->setStmtLine(whileNode->getStmtLine());
 				Parser::linkTNodes(whileNode, varNode, whileStmtLstNode);
@@ -251,9 +254,9 @@ TNode* Parser::buildExprAST(vector<ParsingToken *> exprTokenList, STMTLINE stmtL
 					plusNode->setStmtLine(stmtLine);
 					TNode *sNode;
 					if (currToken->getTokenType() == TokenType::NAME)
-						sNode = new TNode(TType::VARN, currToken->getStringValue());
+						sNode = new TNode(TType::VARN, Parser::getStringIndexOfVar(currToken->getStringValue()));
 					else 
-						sNode = new TNode(TType::CONSTN, currToken->getStringValue());
+						sNode = new TNode(TType::CONSTN, Parser::convertIntToString(currToken->getIntValue()));
 					sNode->setStmtLine(stmtLine);
 					Parser::linkTNodes(plusNode, fNode, sNode);
 					operandStack.push(plusNode);
@@ -261,9 +264,9 @@ TNode* Parser::buildExprAST(vector<ParsingToken *> exprTokenList, STMTLINE stmtL
 			} else {
 				TNode *aNode; 
 				if (currToken->getTokenType() == TokenType::NAME)
-					aNode = new TNode(TType::VARN, currToken->getStringValue());
+					aNode = new TNode(TType::VARN, Parser::getStringIndexOfVar(currToken->getStringValue()));
 				else 
-					aNode = new TNode(TType::CONSTN, currToken->getStringValue());
+					aNode = new TNode(TType::CONSTN, Parser::convertIntToString(currToken->getIntValue()));
 				aNode->setStmtLine(stmtLine);
 				operandStack.push(aNode);
 			}
@@ -307,6 +310,18 @@ void Parser::addVarToModifies(VARNAME varName, STMTLINE stmt)
 	} else {
 		PKB::getPKB()->getModifies()->setModifiesStmt(varIndex, stmt);
 	}
+}
+
+string Parser::getStringIndexOfVar(VARNAME varName)
+{
+	VARINDEX varIndex = PKB::getPKB()->getVarTable()->getVarIndex(varName);
+	
+	return std::to_string(static_cast<long long>(varIndex));
+}
+
+string Parser::convertIntToString(int i) 
+{
+	return std::to_string(static_cast<long long>(i));
 }
 
 void Parser::linkTNodes(TNode *parentNode, TNode *leftNode, TNode *rightNode)
