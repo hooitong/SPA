@@ -11,28 +11,26 @@ using namespace std;
 	static QueryTree* tree;
 	/**************************General *********************************/
 	QueryPreprocessor::QueryPreprocessor(void) {
+		queryTree = new QueryTree();
+		QNode* root = queryTree->createNode(QUERY, "");
+		queryTree->setAsRoot(root);
+		resultListNode = queryTree->createNode(RESULTLIST, "");
+		suchthatListNode = queryTree->createNode(SUCHTHATLIST, "");
+		patternListNode = queryTree->createNode(PATTERNLIST, "");
+		queryTree->addChild(root, resultListNode);
+		queryTree->addChild(root, suchthatListNode);
+		queryTree->addChild(root, patternListNode);
+		cout << "Created Root node and children "<< endl;
 	}
+
 	QueryPreprocessor::~QueryPreprocessor(void) {
 	}
+
 	QueryTree* QueryPreprocessor::parseQuery(string query){
-		//add root node
-		
-		//QNode* node = tree.createNode(QUERY, "query");
-		//tree.setAsRoot(node);
-		//QNode* resultNode = tree.createNode(RESULTLIST, "result");
-		//QNode* suchthatNode = tree.createNode(SUCHTHATLIST, "such that");
-		//QNode* patternListNode = tree.createNode(PATTERNLIST, "pattern");
-		//getRoot
-		//tree.addchild(Root, resultNode);
-		//tree.addchild(Root, suchthatNode);
-		//tree.addchild(Root, patternListNode);
-
-
-		cout << "Created Root node and children "<< endl;
-
 		int p = query.find("Select");
 		if(p == string::npos){
 			cout << "error";
+			return NULL;
 		}
 		string result_cl;
 		string declaration = query.substr(0,p);
@@ -46,11 +44,12 @@ using namespace std;
 				 cout << " Going to check result "<< endl;
 				 checkTuple(result_cl);
 			}else{
-				 cout << "error";				
+				 cout << "error";
+				 return NULL;
 			}
+			return queryTree;
 		}
 
-		
 		map<int,int>::iterator it = posOfConds.begin();
 		//pointer  to first condition/clause
 		int ptf = it -> first;
@@ -60,34 +59,36 @@ using namespace std;
 		
 		if(!(checkDeclaration(declaration) && checkTuple(result_cl))){
 			cout << "error";
+			return NULL;
 		}
 		it++;
 		//pointer to second condition/clause
 		int pts;
 		if(it != posOfConds.end()) pts = it-> first;
 
-
 		while( it != posOfConds.end()){
-
-			  cout << " Looping through conditions "<< endl;
+			cout << " Looping through conditions "<< endl;
 			string clause = query.substr(ptf, pts - ptf);
 			if(trimAndCheckClause(clause, type)){
 				ptf = pts;
 				type = it->second;
 			}else{
 				cout << "error";
+				return NULL;
 			}
 			it++;
 			if(it != posOfConds.end()) pts = it->first;
 		}
 		
 		string clause = query.substr(ptf, query.length() - ptf);
-		if(!trimAndCheckClause(clause, type)) cout << "error";
+		if(!trimAndCheckClause(clause, type)) {
+			cout << "error";
+			return NULL;
+		}
 
-
-		
-		return NULL;
+		return queryTree;
 	}
+
 	bool QueryPreprocessor::checkConditionExists(string query){
 		//pointer of such that condition
 		int pst = query.find("such that");
@@ -123,6 +124,7 @@ using namespace std;
 
 	}
 	bool QueryPreprocessor::splitAndCheckClause(string clause, int num){
+		clause = trim(clause);
 		int p = clause.find(" and ");
 		// there doesn't exist "and"
 		
@@ -130,22 +132,23 @@ using namespace std;
 			string s1 = trim(clause.substr(0,p));
 			string s2 = trim(clause.substr(p+5,clause.size()-p-5));
 
+			bool valid = true;
 			switch(num){
 				case 4:
 					return false;
 					//return checkAttribute(s1);
 					break;
 				case 7:
-					return checkPattern(s1);
+					valid = valid && checkPattern(s1);
 					break;
 				case 9:
-					checkRelation(s1);
+					valid = valid && checkRelation(s1);
 					break;
 				default:
 					return false;
 					break;
 				}
-			return splitAndCheckClause(s2, num);
+			return valid && splitAndCheckClause(s2, num);
 	
 		}else{
 
@@ -208,8 +211,10 @@ using namespace std;
 
 		if(varReference.at(0) == '\"' && varReference.at(varReference.length()) == '\"'){
 			 varReference = varReference.substr(1,varReference.length() - 2);			
+		} else {
+			return false;
 		}
-		return (checkIdent(varReference) || varReference == "_" );
+		return (checkIdent(varReference));
 	}
 	bool QueryPreprocessor::checkDesignEntity(string entity){
 		for(int i = 0; i < 10; i++){
@@ -258,6 +263,30 @@ using namespace std;
 	}
 
 /**************************Relation *********************************/
+	QNode* QueryPreprocessor::parseStmtRef(string argument) {
+		if (argument == "_") {
+			return queryTree->createNode(ANY,"");
+		} else if (isdigit(argument.at(0))) {
+			return queryTree->createNode(CONST,argument);
+		} else if (existsRef(argument) && getType(argument) == "stmt") {
+			return queryTree->createNode(STMTSYNONYM,argument);
+		} else if (existsRef(argument) && getType(argument) == "while") {
+			return queryTree->createNode(WHILESYNONYM,argument);
+		}
+		return NULL;
+	}
+
+	QNode* QueryPreprocessor::parseEntRef(string argument) {
+		if (argument == "_") {
+			return queryTree->createNode(ANY,"");
+		} else if (argument.at(0) == '\"' && argument.at((int)argument.size()-1) == '\"') {
+			return queryTree->createNode(VAR,trim(argument.substr(1,(int)argument.size()-2)));
+		} else if (existsRef(argument) && getType(argument) == "variable") {
+			return queryTree->createNode(VARIABLESYNONYM,argument);
+		}
+		return NULL;
+	}
+
 	bool QueryPreprocessor::checkRelation(string relation){
 		int p1 = relation.find("(");
 		string relationType = trim(relation.substr(0,p1));
@@ -267,10 +296,26 @@ using namespace std;
 		string argument2 = trim(relation.substr(p2+1,p3-p2-1));
 
 		int index  = findIndexOfTable(relationType);
-		bool arg1_flag = false;
-		bool arg2_flag = false;
 
-		string type1 = getType(argument1);
+		QNode* relationNode = queryTree->createNode(RELATION,relationType);
+		QNode* leftHandSide;
+		QNode* rightHandSide;
+
+		leftHandSide = parseStmtRef(argument1);
+
+		if (index == 0) { //Modifies or Uses for now
+			rightHandSide = parseEntRef(argument2);
+		} else if (index == 2 || index == 3) { //Parent and Follow for now
+			rightHandSide = parseStmtRef(argument2);
+		} else {
+			//TODO. Not covered in CS3201
+			return false;
+		}
+
+		queryTree->addChild(relationNode,leftHandSide);
+		queryTree->addChild(relationNode,rightHandSide);
+
+		/*string type1 = getType(argument1);
 		if(table[index][findIndexOfType(type1)]){
 			if(checkIdent(argument1)){
 				arg1_flag = true;
@@ -323,10 +368,8 @@ using namespace std;
 				// tree.addChild(relationNode, argumentNode1);
 				// tree.addChild(relationNode, argumentNode2);
 			return true;
-		}
-		return false;
-
-
+		}*/
+		return true;
 	}
 	int QueryPreprocessor::findIndexOfType(string type){
 		for(int i = 0; i < num; i++){
@@ -374,49 +417,35 @@ using namespace std;
 			if(pc == string::npos) return false;
 			string varRef = trim(pattern.substr(pob + 1, pc - pob - 1));
 			string varRefType;
+			QNode* patternNode = queryTree->createNode(PATTERN,"");
+			QNode* assignSynonymNode = queryTree->createNode(ASSIGNSYNONYM,synonym);
+			QNode* leftHandSide;
+			QNode* rightHandSide;
+
 			if(checkVarReference(varRef)){
-				//countinue to check expression-spec
-				//pointer to close bracket
-				int pcb = pattern.find_last_of(")");
-				if(pcb == string::npos || pcb != pattern.length() - 1) return false;
-				string expr = trim(pattern.substr(pob + 1, pcb - pob - 1));
-				if(expr == "_"){
-					cout <<"pattern 1" << endl; 
-					// Qnode* exprNode = tree.createNode(ANY, NULL);
-
-				}else if(expr.at(0) == '_' && expr.at(expr.length()-1) == '_' ) {
-					string temp = trim(expr.substr(1 , expr.length() - 2));
-					//pointer of plus
-					int pp = expr.find("+");
-					if(pp == string::npos){
-						if(!checkFactor(temp)) return false;
-						cout <<" pattern 2" << endl;
-					}else{
-
-						string expr1 = trim(temp.substr(0,pp));
-						string expr2 = trim(temp.substr(pp + 1, temp.length() - pp -1 ));
-						if(!(checkFactor(expr1) && checkFactor(expr2))) return false;
-							cout <<"pattern 3" << endl; 						
-
-					}
-					// Qnode* exprNode = tree.createNode(EXPRESSION, expr);
-				}else{
-					return false;
-				}
-				cout <<"creating pattern node : " <<patternName << endl; 
-				cout <<" ( " << synonym << "," << expr << ")"<< endl; 
-				// find root and get PATTERNLIST node
-				// Qnode* patternNode = tree.createNode(PATTERN, NULL);
-			    // Qnode* assignNode = tree.createNode(ASSIGN, patternName);
-				// Qnode* varNode = tree.createNode(VAR, synonym);
-				// tree.addChild(patternListNode, patternNode);
-				// tree.addChild(patternNode, assignNode);
-				// tree.addChild(patternNode, varNode);
-				// tree.addChild(patternNode, exprNode);
-
-				cout << "*****************************end Assign pattern ****************************" << endl;
-				return true;
+				leftHandSide = queryTree->createNode(VAR,varRef.substr(1,(int)varRef.size()-2));
+			} else if (varRef == "_") {
+				leftHandSide = queryTree->createNode(ANY,"");
+			} else if (checkIdent(varRef) && existsRef(varRef) && getType(varRef) == "variable") {
+				leftHandSide = queryTree->createNode(VARIABLESYNONYM,varRef);
+			} else {
+				return false;
 			}
+			int pcb = pattern.find_last_of(")");
+			if(pcb == string::npos || pcb != pattern.length() - 1) return false;
+			string expr = trim(pattern.substr(pc + 1, pcb - pc - 1));
+			string exprRemoveQuote = "";
+			for (int i = 0; i < (int)expr.size(); ++i) {
+				if (expr.at(i) != '\"') {
+					exprRemoveQuote += expr.at(i);
+				}
+			}
+			rightHandSide = queryTree->createNode(EXPRESSION,exprRemoveQuote);
+			cout << "*****************************end Assign pattern ****************************" << endl;
+			queryTree->addChild(patternNode,assignSynonymNode);
+			queryTree->addChild(patternNode,leftHandSide);
+			queryTree->addChild(patternNode,rightHandSide);
+			queryTree->addChild(patternListNode,patternNode);
 		}
 		return false;
 	}
@@ -457,7 +486,7 @@ using namespace std;
 		if(declaration == "") return true;
 		int psc = declaration.find(";");
 		cout << "Getting the first declaration"  << endl;
-		string declar_clause =  trim(declaration.substr(0, psc));
+		string declar_clause = trim(declaration.substr(0, psc));
 		while(psc != string::npos){
 			cout << "Looping through the declarations"  << endl;
 			declar_clause = trim(declar_clause);
@@ -468,31 +497,29 @@ using namespace std;
 				int pc = ps;
 				do{
 					cout << "Looping through each variable of the declaration clause"  << endl;
-				//pc = pointer of comma
+					//pc = pointer of comma
 					int pnc = declar_clause.find(",", pc + 1);
-					if(pnc - pc <= 1) return false;
-					string synonym;
-					if(pnc>declaration.size()){
-						synonym = trim(declar_clause.substr(pc + 1, declar_clause.length() - pc - 1));
-					}else{
-						synonym = trim(declar_clause.substr(pc + 1, pnc - pc - 1));
+					if (pnc == string::npos) {
+						pnc = declar_clause.length();
 					}
+					string synonym = trim(declar_clause.substr(pc + 1, pnc - pc - 1));
 					if(checkIdent(synonym) && (!existsRef(synonym))){
-						entity e  = {type, synonym};
+						entity e = {type, synonym};
 						refDeclared.push_back(e);
 					}else{
 						return false;
 					}
+					pc = pnc;
+				} while (pc < declar_clause.size());
 
-				pc = pnc;
-				}while(pc < refDeclared.size());
-
-			}else{
+			} else {
 				return false;
 			}
 			//pnsc = pointer of next semicolon
 			int pnsc = declaration.find(";", psc+1);
-			if(pnsc - psc <= 1) return false;
+			if(pnsc == string::npos) {
+				break;
+			}
 			if(pnsc < declaration.length()){
 				declar_clause = declaration.substr(psc + 1, pnsc - psc -1);
 			}
@@ -519,11 +546,26 @@ using namespace std;
 			if(existsRef(tuple)){
 				cout << " creating result node"<< endl;
 				
-				string type = getType(tuple); 
-				//get root and find RESULTLIST node
-				//conver type to enum
-				//Qnode* resultNode = tree.createNode(type, tuple);
-				//tree.addChild(resultListNode, node);
+				string type = getType(tuple);
+				QNode* resultNode;
+				if (type == "assignment") {
+					resultNode = queryTree->createNode(ASSIGNSYNONYM, tuple);
+				} else if (type == "stmt") {
+					resultNode = queryTree->createNode(STMTSYNONYM, tuple);
+				} else if (type == "while") {
+					resultNode = queryTree->createNode(WHILESYNONYM, tuple);
+				} else if (type == "variable") {
+					resultNode = queryTree->createNode(VARIABLESYNONYM, tuple);
+				} else if (type == "constant") {
+					resultNode = queryTree->createNode(CONSTSYNONYM, tuple);
+				} else if (type == "prog_line") {
+					resultNode = queryTree->createNode(PROGLINESYNONYM, tuple);
+				} else if (type == "procedure") {
+					resultNode = queryTree->createNode(PROCEDURESYNONYM, tuple);
+				} else if (type == "if") {
+					resultNode = queryTree->createNode(IFSYNONYM, tuple);
+				}
+				queryTree->addChild(resultListNode, resultNode);
 
 				cout << tuple << ":" << type << endl;
 			
