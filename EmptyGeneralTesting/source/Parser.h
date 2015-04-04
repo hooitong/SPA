@@ -12,11 +12,14 @@ class Parser {
 public:
 	Parser(void);
     ~Parser(void);
-    static void tokenizeLine(string line);
-	static AST* buildProcedureAST();
+
+	static void parse(string filename);
 	
 private:
 	static vector<ParsingToken*> programTokenList; 
+
+	static void tokenizeLine(string line);
+	static void buildProcedureAST();
 
 	static ParsingToken* convertStringToToken(string aString);
 	static bool isNumeric(string aString);
