@@ -26,7 +26,7 @@ void Parser::parse(string filename) {
 	sourceFile.open(filename);
 	string line;
 	while (getline(sourceFile, line)) {
-		Parser::tokenizeLine(line);
+		Parser::tokenizeLine(line, &programTokenList);
 	}
 
 	Parser::buildProcedureAST();
@@ -35,21 +35,21 @@ void Parser::parse(string filename) {
 /*
 	Remove comment in a line and return a list of tokens from that line
 */
-void Parser::tokenizeLine(string line) {
+void Parser::tokenizeLine(string line, vector<ParsingToken*> *tokenList) {
     string currStr = "";
     for (size_t i=0; i<line.size(); i++) {
         char nextChar = line.at(i);
         if (nextChar == ' ' || nextChar == '\t') {
             if (currStr.size() > 0) {
-                programTokenList.push_back(Parser::convertStringToToken(currStr));
+                tokenList->push_back(Parser::convertStringToToken(currStr));
                 currStr = "";
             }
         } else if (nextChar == '=' || nextChar == '+' || nextChar == '-' || nextChar == ';' || nextChar == '{' || nextChar == '}') {
             if (currStr.size() > 0) {
-                programTokenList.push_back(Parser::convertStringToToken(currStr));
+                tokenList->push_back(Parser::convertStringToToken(currStr));
             }
 			currStr = string(1, nextChar);
-            programTokenList.push_back(Parser::convertStringToToken(currStr));
+            tokenList->push_back(Parser::convertStringToToken(currStr));
             currStr = "";
         } else if (nextChar == '\\') {
             if (i == line.size() - 1) {
@@ -378,4 +378,10 @@ void Parser::linkTNodeToPrevNodes(TNode *currNode, TNode *prevNode, TNodeRelatio
 		// set Follows(currStmt, prevStmt)
 		PKB::getPKB()->getFollows()->setFollows(prevNode->getStmtLine(), currNode->getStmtLine());
 	}
+}
+
+TNode* Parser::buildExprAST(string expression) {
+	vector<ParsingToken*> exprToken;
+	tokenizeLine(expression, &exprToken);
+	return buildExprAST(exprToken, -1);
 }

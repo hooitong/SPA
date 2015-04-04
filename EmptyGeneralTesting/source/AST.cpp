@@ -2,6 +2,7 @@
 
 #include <stack>
 #include <stdlib.h>
+#include <Parser.h>
 
 /* Constructor & Destructor */
 AST::AST(void) {
@@ -115,10 +116,10 @@ bool AST::matchLeftPattern(STMTLINE stmtRoot, VARINDEX varToMatch) {
 
 bool AST::matchRightPattern(STMTLINE stmtRoot, std::string expression, bool strict) {
     TNode* astNode = getTNode(stmtRoot);
-    TNode* queryExpression = createExprTree(expression);
+    TNode* queryExpression = Parser::buildExprAST(expression);
 
     vector<TNode*> depthTraversalOfAstNode = getDFS(astNode);
-    vector<TNode*> depthTraversalOfQuery = getDFS(createExprTree(expression));
+    vector<TNode*> depthTraversalOfQuery = getDFS(Parser::buildExprAST(expression));
     int lengthOfTraversedAST = depthTraversalOfAstNode.size();
     int lengthOfPattern = depthTraversalOfQuery.size();
     if(strict && lengthOfTraversedAST == lengthOfPattern) {
@@ -190,4 +191,3 @@ bool AST::ifNodeVisited(vector<TNode*> nodeList, TNode* node) {
     }
     return false;
 }
-

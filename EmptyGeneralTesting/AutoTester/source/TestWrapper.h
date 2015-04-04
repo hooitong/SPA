@@ -1,6 +1,8 @@
 #ifndef TESTWRAPPER_H
 #define TESTWRAPPER_H
 
+#include "AbstractWrapper.h"
+
 #include <string>
 #include <iostream>
 #include <list>

@@ -14,13 +14,14 @@ public:
     ~Parser(void);
 
 	static void parse(string filename);
-	static TNode* buildExprAST(vector<ParsingToken *> exprTokenList, STMTLINE stmtLine);
-	
+	static TNode* buildExprAST(string expression);
+
 private:
 	static vector<ParsingToken*> programTokenList; 
-
-	static void tokenizeLine(string line);
+	
+	static void tokenizeLine(string line, vector<ParsingToken*> *tokenList);
 	static void buildProcedureAST();
+	static TNode* buildExprAST(vector<ParsingToken *> exprTokenList, STMTLINE stmtLine);
 
 	static ParsingToken* convertStringToToken(string aString);
 	static bool isNumeric(string aString);
