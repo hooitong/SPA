@@ -89,17 +89,22 @@ void ASTTest::testMatchLeftPattern() {
     CPPUNIT_ASSERT((*ast).matchLeftPattern(1, x));
 }
 
-void ASTTest::testMatchRightPattern() {
 
-    TNode* nodeStmtLst = (*ast).createTNode(STMTLSTN, "");
-    TNode* node = (*ast).createTNode(PLUSN, "+");
+
+void ASTTest::testMatchRightPattern() {
+    TNode* node = (*ast).createTNode(PLUSN, "");	
     TNode* nodeSiblingLeft = (*ast).createTNode(VARN, "x");
     TNode* nodeSiblingRight = (*ast).createTNode(VARN, "y");
-
+	(*node).addChild(nodeSiblingLeft);
+	(*node).addChild(nodeSiblingRight);
     (*ast).setSibling(nodeSiblingLeft, nodeSiblingRight);
-    (*nodeStmtLst).addChild(node);
 	(*ast).setStmtLine(node, 2);
 
-    CPPUNIT_ASSERT((*ast).matchRightPattern(2, "x+y", true));
+	//TNode* exprTreeRoot = (*ast).createExprTree("x + y");
+	
+	
+
+	CPPUNIT_ASSERT((*ast).matchRightPattern(2, "x + y", true));
+
 }
 

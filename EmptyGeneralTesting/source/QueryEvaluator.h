@@ -5,6 +5,7 @@
 #include <cassert>
 #include <sstream>
 #include <algorithm>
+#include <list>
 
 #include "PKB.h"
 #include "QueryTree.h"
@@ -14,7 +15,7 @@
 class QueryEvaluator {
   public:
 	QueryEvaluator();
-    string evaluate(QueryTree* tree);
+    std::list<string> evaluate(QueryTree* tree);
 
 // Handle evaluation with wildcards of a certain type. (May be relocated in the future)
   private:

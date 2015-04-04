@@ -138,7 +138,15 @@ bool AST::matchRightPattern(STMTLINE stmtRoot, std::string expression, bool stri
 string AST::convertTNodeListValueToString(vector<TNode*> nodes) {
     string result;
     for(int i = 0 ; i < nodes.size(); i++) {
-        result += getValue(nodes[i]);
+        TNode * currentNode = nodes[i];
+		if(currentNode->getTType() == PLUSN){
+			result+="+";
+		}else if(currentNode->getTType() == MINUSN){
+			result+="-";
+		}else {
+			result+=getValue(nodes[i]);
+		}
+
     }
     return result;
 }
@@ -159,16 +167,18 @@ vector<TNode*> AST::getDFS(TNode* node) {
             returnVector.push_back(currentNode);
         }
 
-        TNode *rightChild = getRightSibling(currentNode);
-        TNode *leftChild = getLeftSibling(currentNode);
+		vector<TNode*> childrenList = currentNode->getChildren();
+		if(childrenList.size() > 0){
+			TNode *leftChild = childrenList[0];
+			TNode *rightChild = childrenList[1];
 
-        //keep pushing right child first so when popping we always retrieve the left child
-        if(rightChild != NULL)
-            stack.push_back(rightChild);
-        if(leftChild != NULL)
-            stack.push_back(leftChild);
+	        //keep pushing right child first so when popping we always retrieve the left child
+			if(rightChild != NULL)
+				stack.push_back(rightChild);
+			if(leftChild != NULL)
+				stack.push_back(leftChild);
+		}      
     }
-
     return returnVector;
 }
 
@@ -181,50 +191,3 @@ bool AST::ifNodeVisited(vector<TNode*> nodeList, TNode* node) {
     return false;
 }
 
-// convert infix expression into binary expression tree and return root pointer.
-// currently support: +   todo: () * -, constant
-TNode* AST::createExprTree(std::string expression) {
-    // use two stacks during parsing of infix expression
-    std::stack<TNode*> operandStack;
-    std::stack<TNode*> operatorStack;
-
-    // parse each character in the expression
-    string currStr = "";
-    for(std::string::size_type i = 0; i < expression.size(); ++i) {
-        char* c = &expression[i];
-        if(*c == '+') {
-            operandStack.push(createTNode(VARN, currStr));
-            currStr = "";
-
-            while(!operatorStack.empty()) {
-                TNode* current = operatorStack.top();
-                operatorStack.pop();
-                current->addChild(operandStack.top());
-                operandStack.pop();
-                current->addChild(operandStack.top());
-                operandStack.pop();
-                operandStack.push(current);
-            }
-            operatorStack.push(createTNode(PLUSN, ""));
-        } else if ((*c >= 'a' && *c <= 'z') || (*c >= 'A' && *c <= 'Z') || (*c >= '0' && *c <= '9')) {
-            currStr.append(c);
-        }
-    }
-
-    if(currStr != "") {
-        operandStack.push(createTNode(VARN, currStr));
-    }
-
-    TNode* root = operatorStack.top();
-    while(!operatorStack.empty()) {
-        TNode* current = operatorStack.top();
-        operatorStack.pop();
-        current->addChild(operandStack.top());
-        operandStack.pop();
-        current->addChild(operandStack.top());
-        operandStack.pop();
-        operandStack.push(current);
-    }
-
-    return root;
-}
