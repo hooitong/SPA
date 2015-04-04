@@ -263,6 +263,30 @@ using namespace std;
 	}
 
 /**************************Relation *********************************/
+	QNode* QueryPreprocessor::parseStmtRef(string argument) {
+		if (argument == "_") {
+			return queryTree->createNode(ANY,"");
+		} else if (isdigit(argument.at(0))) {
+			return queryTree->createNode(CONST,argument);
+		} else if (existsRef(argument) && getType(argument) == "stmt") {
+			return queryTree->createNode(STMTSYNONYM,argument);
+		} else if (existsRef(argument) && getType(argument) == "while") {
+			return queryTree->createNode(WHILESYNONYM,argument);
+		}
+		return NULL;
+	}
+
+	QNode* QueryPreprocessor::parseEntRef(string argument) {
+		if (argument == "_") {
+			return queryTree->createNode(ANY,"");
+		} else if (argument.at(0) == '\"' && argument.at((int)argument.size()-1) == '\"') {
+			return queryTree->createNode(VAR,trim(argument.substr(1,(int)argument.size()-2)));
+		} else if (existsRef(argument) && getType(argument) == "variable") {
+			return queryTree->createNode(VARIABLESYNONYM,argument);
+		}
+		return NULL;
+	}
+
 	bool QueryPreprocessor::checkRelation(string relation){
 		int p1 = relation.find("(");
 		string relationType = trim(relation.substr(0,p1));
@@ -272,14 +296,24 @@ using namespace std;
 		string argument2 = trim(relation.substr(p2+1,p3-p2-1));
 
 		int index  = findIndexOfTable(relationType);
-		bool arg1_flag = false;
-		bool arg2_flag = false;
 
-		QNode* suchThatNode = queryTree->createNode(RELATION,relationType);
+		QNode* relationNode = queryTree->createNode(RELATION,relationType);
 		QNode* leftHandSide;
 		QNode* rightHandSide;
 
+		leftHandSide = parseStmtRef(argument1);
 
+		if (index == 0) { //Modifies or Uses for now
+			rightHandSide = parseEntRef(argument2);
+		} else if (index == 2 || index == 3) { //Parent and Follow for now
+			rightHandSide = parseStmtRef(argument2);
+		} else {
+			//TODO. Not covered in CS3201
+			return false;
+		}
+
+		queryTree->addChild(relationNode,leftHandSide);
+		queryTree->addChild(relationNode,rightHandSide);
 
 		/*string type1 = getType(argument1);
 		if(table[index][findIndexOfType(type1)]){
@@ -335,9 +369,7 @@ using namespace std;
 				// tree.addChild(relationNode, argumentNode2);
 			return true;
 		}*/
-		return false;
-
-
+		return true;
 	}
 	int QueryPreprocessor::findIndexOfType(string type){
 		for(int i = 0; i < num; i++){

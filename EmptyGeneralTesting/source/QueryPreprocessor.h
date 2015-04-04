@@ -51,6 +51,8 @@ class QueryPreprocessor {
 	void buildTable();
 	int findIndexOfTable(string relationType);
 	int findIndexOfType(string type);
+	QNode* parseStmtRef(string argument);
+	QNode* parseEntRef(string argument);
 
   private:
 	map<int, int> posOfConds;
