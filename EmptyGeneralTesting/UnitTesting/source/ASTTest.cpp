@@ -92,19 +92,14 @@ void ASTTest::testMatchLeftPattern() {
 void ASTTest::testMatchRightPattern() {
 
     TNode* nodeStmtLst = (*ast).createTNode(STMTLSTN, "");
-    vector<TNode*> childrenLocal;
     TNode* node = (*ast).createTNode(PLUSN, "+");
-    childrenLocal.push_back(node);
-
     TNode* nodeSiblingLeft = (*ast).createTNode(VARN, "x");
-    childrenLocal.push_back(nodeSiblingLeft);
-
     TNode* nodeSiblingRight = (*ast).createTNode(VARN, "y");
-    childrenLocal.push_back(nodeSiblingRight);
+
     (*ast).setSibling(nodeSiblingLeft, nodeSiblingRight);
     (*nodeStmtLst).addChild(node);
-	
 	(*ast).setStmtLine(node, 2);
+
     CPPUNIT_ASSERT((*ast).matchRightPattern(2, "x+y", true));
 }
 
