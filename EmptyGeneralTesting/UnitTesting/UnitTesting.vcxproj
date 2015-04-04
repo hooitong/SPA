@@ -66,6 +66,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="QueryTreeTest.cpp" />
     <ClCompile Include="source\ASTTest.cpp" />
     <ClCompile Include="source\DesignExtractorTest.cpp" />
     <ClCompile Include="source\FollowsTest.cpp" />
@@ -79,6 +80,7 @@
     <ClCompile Include="source\VarTableTest.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="QueryTreeTest.h" />
     <ClInclude Include="source\ASTTest.h" />
     <ClInclude Include="source\DesignExtractorTest.h" />
     <ClInclude Include="source\FollowsTest.h" />
