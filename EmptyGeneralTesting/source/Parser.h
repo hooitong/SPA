@@ -12,16 +12,20 @@ class Parser {
 public:
 	Parser(void);
     ~Parser(void);
-    static vector<ParsingToken*> tokenizeLine(string line);
+    static void tokenizeLine(string line);
+	static AST* buildProcedureAST();
+	
+private:
+	static vector<ParsingToken*> programTokenList; 
+
 	static ParsingToken* convertStringToToken(string aString);
 	static bool isNumeric(string aString);
 	static bool isValidName(string aString);
-	static AST* buildProcedureAST(vector<ParsingToken *> tokenList);
+
 	static TNode* buildExprAST(vector<ParsingToken *> exprTokenList, STMTLINE stmtLine);
 	static void linkTNodes(TNode *parentNode, TNode *leftNode, TNode *rightNode);
 	static void linkTNodeToPrevNodes(TNode *currNode, TNode *prevNode, TNodeRelation expectedRelation);
 
 	static void addVarToUses(VARNAME varName, STMTLINE stmt);
 	static void addVarToModifies(VARNAME varName, STMTLINE stmt);
-	
 };
