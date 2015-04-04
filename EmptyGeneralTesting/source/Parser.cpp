@@ -27,7 +27,7 @@ void Parser::parse(string filename) {
 		Parser::tokenizeLine(line);
 	}
 
-	Parser::buildProcedureAST();
+	//Parser::buildProcedureAST();
 }
 
 /*

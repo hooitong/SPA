@@ -72,6 +72,7 @@
     <ClCompile Include="source\FollowsTest.cpp" />
     <ClCompile Include="source\ModifiesTest.cpp" />
     <ClCompile Include="source\ParentTest.cpp" />
+    <ClCompile Include="source\ParserTest.cpp" />
     <ClCompile Include="source\QueryEvaluatorTest.cpp" />
     <ClCompile Include="source\QueryResultTest.cpp" />
     <ClCompile Include="source\TNodeTest.cpp" />
@@ -86,6 +87,7 @@
     <ClInclude Include="source\FollowsTest.h" />
     <ClInclude Include="source\ModifiesTest.h" />
     <ClInclude Include="source\ParentTest.h" />
+    <ClInclude Include="source\ParserTest.h" />
     <ClInclude Include="source\QueryEvaluatorTest.h" />
     <ClInclude Include="source\QueryResultTest.h" />
     <ClInclude Include="source\TNodeTest.h" />
