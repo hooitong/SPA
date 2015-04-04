@@ -471,7 +471,7 @@ using namespace std;
 						return false;
 					}
 
-				int pc = pnc;
+				pc = pnc;
 				}while(pc < refDeclared.size());
 
 			}else{
