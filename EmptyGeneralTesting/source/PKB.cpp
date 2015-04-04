@@ -1,5 +1,7 @@
 #include "PKB.h"
 
+PKB* PKB::pkbInstance;
+
 PKB* PKB::getPKB() {
     if(pkbInstance == NULL) {
         pkbInstance = new PKB;
