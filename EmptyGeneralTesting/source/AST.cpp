@@ -105,11 +105,11 @@ bool AST::isMatch(TNode* node, TType type) {
 }
 
 bool AST::matchLeftPattern(STMTLINE stmtRoot, VARINDEX varToMatch) {
-	TNode* p = getTNode(stmtRoot)->getLeftSibling();
-	if(p == NULL && p->getTType() != VARN) {
+	vector<TNode*> childList = getTNode(stmtRoot)->getChildren();
+	if(childList.empty() && childList[0]->getTType() != VARN) {
 		return false;
 	} else {
-		return std::atoi(p->getValue().c_str()) == varToMatch;
+		return std::atoi(childList[0]->getValue().c_str()) == varToMatch;
 	}
 }
 
