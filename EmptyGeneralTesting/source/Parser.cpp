@@ -223,6 +223,7 @@ void Parser::buildProcedureAST() {
 			// prevNode now points to its parent
 			prevNode = prevNode->getParentNode();
 			expectedRelation = TNodeRelation::RIGHT_SIBLING;
+			i++;
 		}
 	}
 }
