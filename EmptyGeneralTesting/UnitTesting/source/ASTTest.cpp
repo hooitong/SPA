@@ -32,7 +32,7 @@ void ASTTest::testAddChildTNode() {
     TNode* nodeStmtLst = (*ast).createTNode(STMTLSTN, "");
 
     vector<TNode*> childrenLocal;
-    TNode* node = (*ast).createTNode(PLUSN, "+");
+    TNode* node = (*ast).createTNode(PLUSN, "");
     childrenLocal.push_back(node);
     (*ast).addChildTNode(nodeStmtLst, node);
 
@@ -89,7 +89,11 @@ void ASTTest::testMatchLeftPattern() {
 }
 
 void ASTTest::testMatchRightPattern() {
-    TNode* node = (*ast).createTNode(PLUSN, "");
+    //test basic pattern
+	//stored "x+y"
+	//query strict "x + y"
+	//query strict "x+y"
+	TNode* node = (*ast).createTNode(PLUSN, "");
     TNode* nodeSiblingLeft = (*ast).createTNode(VARN, "0");
     TNode* nodeSiblingRight = (*ast).createTNode(VARN, "1");
     (*node).addChild(nodeSiblingLeft);
@@ -97,5 +101,8 @@ void ASTTest::testMatchRightPattern() {
     (*ast).setSibling(nodeSiblingLeft, nodeSiblingRight);
     (*ast).setStmtLine(node, 2);
     CPPUNIT_ASSERT((*ast).matchRightPattern(2, "x + y", true));
+	CPPUNIT_ASSERT((*ast).matchRightPattern(2, "x+y", true));
+	
+
 }
 
