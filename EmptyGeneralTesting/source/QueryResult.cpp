@@ -167,7 +167,7 @@ QueryResult QueryResult::filter(vector<string> newSynonyms) {
 	pair<vector<int>, vector<int> > matchingIndex = matchingSynonyms(newResult);
 
 	INDEX_LIST matchingInThis;
-	for (int i = 0; i < newResult.numSynonyms; i++) {
+	for (int i = 0; i < (int)newSynonyms.size(); i++) {
 		if (matchingIndex.second[i] != -1) {
 			matchingInThis.push_back(matchingIndex.second[i]);
 		}
