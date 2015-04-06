@@ -11,6 +11,7 @@ class QueryPreprocessorTest : public CPPUNIT_NS::TestFixture{
 	CPPUNIT_TEST(testNoCondition);
 	CPPUNIT_TEST(testNoConditionMoreComplex);
 	CPPUNIT_TEST(testOneCondition);
+	CPPUNIT_TEST(testOneConditionTwoSynonyms);
     CPPUNIT_TEST_SUITE_END();
 
   private:
@@ -22,4 +23,5 @@ class QueryPreprocessorTest : public CPPUNIT_NS::TestFixture{
 	void testNoCondition();
 	void testNoConditionMoreComplex();
 	void testOneCondition();
+	void testOneConditionTwoSynonyms();
 };
