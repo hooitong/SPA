@@ -11,6 +11,12 @@ using namespace std;
 	static QueryTree* tree;
 	/**************************General *********************************/
 	QueryPreprocessor::QueryPreprocessor(void) {
+	}
+
+	QueryPreprocessor::~QueryPreprocessor(void) {
+	}
+
+	QueryTree* QueryPreprocessor::parseQuery(string query){
 		queryTree = new QueryTree();
 		QNode* root = queryTree->createNode(QUERY, "");
 		queryTree->setAsRoot(root);
@@ -21,12 +27,7 @@ using namespace std;
 		queryTree->addChild(root, suchthatListNode);
 		queryTree->addChild(root, patternListNode);
 		cout << "Created Root node and children "<< endl;
-	}
 
-	QueryPreprocessor::~QueryPreprocessor(void) {
-	}
-
-	QueryTree* QueryPreprocessor::parseQuery(string query){
 		int p = query.find("Select");
 		if(p == string::npos){
 			cout << "error";
@@ -594,15 +595,19 @@ using namespace std;
 
 	}
 	string QueryPreprocessor::trim(string s){
-		  cout << " Before trim :" << s << endl;
-		int p = s.find_first_not_of(" ");
-		if(p != string::npos){
-			s.erase(s.begin(), s.end() -p);
-		}else{
+		cout << " Before trim :" << s << endl;
+		int firstNotSpace = 0;
+		while (firstNotSpace < (int)s.length() && s.at(firstNotSpace) == ' ') {
+			++firstNotSpace;
+		}
+		if (firstNotSpace == (int)s.length()) {
 			return "";
 		}
-		 p = s.find_last_not_of(" ");
-		s.erase(s.begin() + p + 1 ,s.end());
+		int lastNotSpace = (int)s.length() - 1;
+		while (lastNotSpace >= 0 && s.at(lastNotSpace) == ' ') {
+			--lastNotSpace;
+		}
+		s = s.substr(firstNotSpace,lastNotSpace - firstNotSpace + 1);
 		cout << " After trim :" << s << endl;
 		return s;
 	}
