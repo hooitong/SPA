@@ -2,7 +2,7 @@
 
 #include <stack>
 #include <stdlib.h>
-#include <Parser.h>
+#include "Parser.h"
 
 /* Constructor & Destructor */
 AST::AST(void) {
@@ -28,7 +28,7 @@ bool AST::setSibling(TNode* leftNode, TNode* rightNode) {
 }
 
 bool AST::addChildTNode(TNode* parent, TNode* child) {
-    if((*child).getParentNode()!= NULL) {
+    if((*child).getParentNode() != NULL) {
         return false;
     }
 
@@ -83,7 +83,7 @@ TNode* AST::getRoot() {
 }
 
 void AST::addToStmtLineMap(TType type, STMTLINE stmtNumber) {
-	TType2StmtMap.insert(std::pair<TType,STMTLINE>(type, stmtNumber));
+    TType2StmtMap.insert(std::pair<TType,STMTLINE>(type, stmtNumber));
 }
 
 vector<STMTLINE> AST::getStmtLines(TType type) {
@@ -106,12 +106,12 @@ bool AST::isMatch(TNode* node, TType type) {
 }
 
 bool AST::matchLeftPattern(STMTLINE stmtRoot, VARINDEX varToMatch) {
-	vector<TNode*> childList = getTNode(stmtRoot)->getChildren();
-	if(childList.empty() && childList[0]->getTType() != VARN) {
-		return false;
-	} else {
-		return std::atoi(childList[0]->getValue().c_str()) == varToMatch;
-	}
+    vector<TNode*> childList = getTNode(stmtRoot)->getChildren();
+    if(childList.empty() && childList[0]->getTType() != VARN) {
+        return false;
+    } else {
+        return std::atoi(childList[0]->getValue().c_str()) == varToMatch;
+    }
 }
 
 bool AST::matchRightPattern(STMTLINE stmtRoot, std::string expression, bool strict) {
@@ -122,16 +122,16 @@ bool AST::matchRightPattern(STMTLINE stmtRoot, std::string expression, bool stri
     vector<TNode*> depthTraversalOfQuery = getDFS(Parser::buildExprAST(expression));
     int lengthOfTraversedAST = depthTraversalOfAstNode.size();
     int lengthOfPattern = depthTraversalOfQuery.size();
-	string traversedASTString = convertTNodeListValueToString(depthTraversalOfAstNode);
+    string traversedASTString = convertTNodeListValueToString(depthTraversalOfAstNode);
     string traversedQueryString = convertTNodeListValueToString(depthTraversalOfQuery);
 
-    if(strict && lengthOfTraversedAST == lengthOfPattern) {
-        if(traversedASTString != traversedQueryString) {
-              return false;
+    if(strict) {
+        if(lengthOfTraversedAST != lengthOfPattern || traversedASTString != traversedQueryString ) {
+            return false;
         }
-		return true;
+        return true;
     } else {
-		return traversedASTString.find(traversedQueryString) != string::npos;
+        return traversedASTString.find(traversedQueryString) != string::npos;
     }
 }
 
@@ -139,14 +139,13 @@ string AST::convertTNodeListValueToString(vector<TNode*> nodes) {
     string result;
     for(int i = 0 ; i < nodes.size(); i++) {
         TNode * currentNode = nodes[i];
-		if(currentNode->getTType() == PLUSN){
-			result+="+";
-		}else if(currentNode->getTType() == MINUSN){
-			result+="-";
-		}else {
-			result+=getValue(nodes[i]);
-		}
-
+        if(currentNode->getTType() == PLUSN) {
+            result+="+";
+        } else if(currentNode->getTType() == MINUSN) {
+            result+="-";
+        } else {
+            result+=getValue(nodes[i]);
+        }
     }
     return result;
 }
@@ -167,17 +166,17 @@ vector<TNode*> AST::getDFS(TNode* node) {
             returnVector.push_back(currentNode);
         }
 
-		vector<TNode*> childrenList = currentNode->getChildren();
-		if(childrenList.size() > 0){
-			TNode *leftChild = childrenList[0];
-			TNode *rightChild = childrenList[1];
+        vector<TNode*> childrenList = currentNode->getChildren();
+        if(childrenList.size() > 0) {
+            TNode *leftChild = childrenList[0];
+            TNode *rightChild = childrenList[1];
 
-	        //keep pushing right child first so when popping we always retrieve the left child
-			if(rightChild != NULL)
-				stack.push_back(rightChild);
-			if(leftChild != NULL)
-				stack.push_back(leftChild);
-		}      
+            //keep pushing right child first so when popping we always retrieve the left child
+            if(rightChild != NULL)
+                stack.push_back(rightChild);
+            if(leftChild != NULL)
+                stack.push_back(leftChild);
+        }
     }
     return returnVector;
 }

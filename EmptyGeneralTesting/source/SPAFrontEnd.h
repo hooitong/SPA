@@ -1,12 +1,15 @@
 #pragma once
 #include "Parser.h"
+#include "DesignExtractor.h"
 
 class SPAFrontEnd {
   private:
-    Parser pObj;
-	//DesignExtractor deObj;
+    static SPAFrontEnd* feObj;
+    DesignExtractor* deObj;
 
   public:
-	  SPAFrontEnd();
-	  void parseSource(const std::string fileName);
+    SPAFrontEnd();
+    ~SPAFrontEnd();
+    static SPAFrontEnd* getInstance();
+    void parseSource(const std::string fileName);
 };

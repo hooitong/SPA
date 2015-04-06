@@ -3,29 +3,36 @@
 #include "PKB.h"
 #include "Follows.h"
 
+DesignExtractor* DesignExtractor::deObj;
+
 /* Constructor & Destructor */
 DesignExtractor::DesignExtractor(void) {
-
 }
 
 DesignExtractor::~DesignExtractor(void) {
+}
 
+DesignExtractor* DesignExtractor::getInstance() {
+    if(deObj == NULL) {
+        deObj = new DesignExtractor;
+    }
+    return deObj;
 }
 
 // method that extracts the Follows* relationship from the Follow map.
 void DesignExtractor::extractFollowsStar() {
     PKB* pkbObj = PKB::getPKB();
-	Follows* f = (*pkbObj).getFollows();
-	vector<STMTLINE> allStmtLines = (*pkbObj).getAst()->getStmtLines(STMTN);
+    Follows* f = (*pkbObj).getFollows();
+    vector<STMTLINE> allStmtLines = (*pkbObj).getAst()->getStmtLines(STMTN);
 
-	// for each stmtline, set relation setFollowStar for every right sibling
-	for (std::vector<int>::iterator it = allStmtLines.begin() ; it != allStmtLines.end(); ++it) {
-		STMTLINE nextSibling = f->getFollowedBy(*it);
-		while(nextSibling != -1) {
-			f->setFollowsStar(*it, nextSibling);
-			nextSibling = f->getFollowedBy(nextSibling);
-		}
-	}
+    // for each stmtline, set relation setFollowStar for every right sibling
+    for (std::vector<int>::iterator it = allStmtLines.begin() ; it != allStmtLines.end(); ++it) {
+        STMTLINE nextSibling = f->getFollowedBy(*it);
+        while(nextSibling != -1) {
+            f->setFollowsStar(*it, nextSibling);
+            nextSibling = f->getFollowedBy(nextSibling);
+        }
+    }
 }
 
 // helper method that calls a recursive method to extract the relation.

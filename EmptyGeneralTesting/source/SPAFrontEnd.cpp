@@ -1,17 +1,27 @@
 #include "SPAFrontEnd.h"
-#include <fstream>
 
-void SPAFrontEnd::parseSource(const std::string fileName) {		// test parser
-	std::ifstream sourceFile(fileName);
+SPAFrontEnd* SPAFrontEnd::feObj;
 
-	if(sourceFile.is_open()) {
-		/*
-		string line;
-		while (getline(sourceFile, line)) {
-			vector<string> tokenList = Parser::tokenizeLine(line);
-		}
-		Parser::
-		sourceFile.close();
-		*/
-	}
+SPAFrontEnd::SPAFrontEnd(void) {
+}
+
+SPAFrontEnd::~SPAFrontEnd(void) {
+}
+
+SPAFrontEnd* SPAFrontEnd::getInstance() {
+    if(feObj == NULL) {
+        feObj = new SPAFrontEnd;
+    }
+
+    return feObj;
+}
+
+void SPAFrontEnd::parseSource(const std::string fileName) {
+    // call Parser static method to parse given file into AST
+    Parser::parse(fileName);
+
+    // get design extractor and call all the extract methods
+    deObj = DesignExtractor::getInstance();
+    deObj->extractFollowsStar();
+    deObj->extractParentStar();
 }
