@@ -21,4 +21,5 @@ class QNode {
     vector<QNode*> getChildren();
 
     void addChild(QNode* node);
+	bool isEqualSubtree(QNode *node);
 };

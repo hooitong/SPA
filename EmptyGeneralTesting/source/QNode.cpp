@@ -30,3 +30,18 @@ vector<QNode*> QNode::getChildren(void) {
 void QNode::addChild(QNode* node) {
     this->childrenNodes.push_back(node);
 }
+
+bool QNode::isEqualSubtree(QNode* node) {
+	if (this->name != node->name || this->type != node->type) {
+		return false;
+	}
+	if (this->childrenNodes.size() != node->childrenNodes.size()) {
+		return false;
+	}
+	for (int i = 0; i < (int)node->childrenNodes.size(); ++i) {
+		if (!(this->childrenNodes[i])->isEqualSubtree(node->childrenNodes[i])) {
+			return false;
+		}
+	}
+	return true;
+}

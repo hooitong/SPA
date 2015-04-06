@@ -29,3 +29,7 @@ vector<QNode*> QueryTree::getChildren(QNode* parent) {
 QNode* QueryTree::getRoot(void) {
     return this->queryRoot;
 }
+
+bool QueryTree::isEqual(QueryTree* anotherTree) {
+	return this->getRoot()->isEqualSubtree(anotherTree->getRoot());
+}
