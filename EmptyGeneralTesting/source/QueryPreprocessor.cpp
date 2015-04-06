@@ -450,6 +450,7 @@ using namespace std;
 			queryTree->addChild(patternNode,leftHandSide);
 			queryTree->addChild(patternNode,rightHandSide);
 			queryTree->addChild(patternListNode,patternNode);
+			return true;
 		}
 		return false;
 	}
