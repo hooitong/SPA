@@ -11,6 +11,12 @@ using namespace std;
 	static QueryTree* tree;
 	/**************************General *********************************/
 	QueryPreprocessor::QueryPreprocessor(void) {
+	}
+
+	QueryPreprocessor::~QueryPreprocessor(void) {
+	}
+
+	QueryTree* QueryPreprocessor::parseQuery(string query){
 		queryTree = new QueryTree();
 		QNode* root = queryTree->createNode(QUERY, "");
 		queryTree->setAsRoot(root);
@@ -21,12 +27,7 @@ using namespace std;
 		queryTree->addChild(root, suchthatListNode);
 		queryTree->addChild(root, patternListNode);
 		cout << "Created Root node and children "<< endl;
-	}
 
-	QueryPreprocessor::~QueryPreprocessor(void) {
-	}
-
-	QueryTree* QueryPreprocessor::parseQuery(string query){
 		int p = query.find("Select");
 		if(p == string::npos){
 			cout << "error";
@@ -177,7 +178,7 @@ using namespace std;
 			return false;
 
 		if(isalpha(ident.at(0))){
-			for(int i = 1; i < ident.length(); i++){
+			for(size_t i = 1; i < ident.length(); i++){
 				if(!isalnum(ident.at(i)) && !(ident.at(i) == '#')){
 					 return false;
 				}
@@ -191,7 +192,7 @@ using namespace std;
 
 		if(number.length() == 0)
 			return false;
-		for(int i = 0; i < number.length(); i++){
+		for(size_t i = 0; i < number.length(); i++){
 			if(!isdigit(number.at(i))){
 				return false;
 			}
@@ -233,7 +234,7 @@ using namespace std;
 
 /**************************Use Declaration *********************************/
 	bool QueryPreprocessor::existsRef(string reference){
-		for(int i = 0; i<refDeclared.size();i++){
+		for(size_t i = 0; i<refDeclared.size();i++){
 			if(reference == refDeclared.at(i).synonym){
 				return true;
 			}
@@ -242,7 +243,7 @@ using namespace std;
 		return false;
 	}
 	string QueryPreprocessor::getType(string synonym){
-		for(int i = 0; i<refDeclared.size();i++){
+		for(size_t i = 0; i<refDeclared.size();i++){
 			if(synonym == refDeclared.at(i).synonym){
 				return refDeclared.at(i).type;
 			}
@@ -272,6 +273,8 @@ using namespace std;
 			return queryTree->createNode(STMTSYNONYM,argument);
 		} else if (existsRef(argument) && getType(argument) == "while") {
 			return queryTree->createNode(WHILESYNONYM,argument);
+		} else if (existsRef(argument) && getType(argument) == "assign") {
+			return queryTree->createNode(ASSIGNSYNONYM,argument);
 		}
 		return NULL;
 	}
@@ -314,6 +317,7 @@ using namespace std;
 
 		queryTree->addChild(relationNode,leftHandSide);
 		queryTree->addChild(relationNode,rightHandSide);
+		queryTree->addChild(suchthatListNode,relationNode);
 
 		/*string type1 = getType(argument1);
 		if(table[index][findIndexOfType(type1)]){
@@ -446,6 +450,7 @@ using namespace std;
 			queryTree->addChild(patternNode,leftHandSide);
 			queryTree->addChild(patternNode,rightHandSide);
 			queryTree->addChild(patternListNode,patternNode);
+			return true;
 		}
 		return false;
 	}
@@ -494,7 +499,7 @@ using namespace std;
 			int ps = declar_clause.find(" ");
 			string type = declar_clause.substr(0,ps);
 			if(checkDesignEntity(type)){
-				int pc = ps;
+				 size_t pc = ps;
 				do{
 					cout << "Looping through each variable of the declaration clause"  << endl;
 					//pc = pointer of comma
@@ -516,7 +521,7 @@ using namespace std;
 				return false;
 			}
 			//pnsc = pointer of next semicolon
-			int pnsc = declaration.find(";", psc+1);
+			size_t pnsc = declaration.find(";", psc+1);
 			if(pnsc == string::npos) {
 				break;
 			}
@@ -535,8 +540,6 @@ using namespace std;
 /**************************result  *********************************/
 
 	bool QueryPreprocessor::checkTuple(string tuple){
-
-
 		tuple = trim(tuple);
 		cout << " checking if tuple is elem"<< endl;
 		if(checkElem(tuple)){
@@ -548,7 +551,7 @@ using namespace std;
 				
 				string type = getType(tuple);
 				QNode* resultNode;
-				if (type == "assignment") {
+				if (type == "assign") {
 					resultNode = queryTree->createNode(ASSIGNSYNONYM, tuple);
 				} else if (type == "stmt") {
 					resultNode = queryTree->createNode(STMTSYNONYM, tuple);
@@ -578,6 +581,7 @@ using namespace std;
 		return false;
 	}	
 	bool QueryPreprocessor::checkElem(string elem){
+		//return true;
 		return (checkIdent(elem) || checkAttReference(elem));
 	}
 /************************** Others *********************************/
@@ -594,15 +598,19 @@ using namespace std;
 
 	}
 	string QueryPreprocessor::trim(string s){
-		  cout << " Before trim :" << s << endl;
-		int p = s.find_first_not_of(" ");
-		if(p != string::npos){
-			s.erase(s.begin(), s.end() -p);
-		}else{
+		cout << " Before trim :" << s << endl;
+		int firstNotSpace = 0;
+		while (firstNotSpace < (int)s.length() && s.at(firstNotSpace) == ' ') {
+			++firstNotSpace;
+		}
+		if (firstNotSpace == (int)s.length()) {
 			return "";
 		}
-		 p = s.find_last_not_of(" ");
-		s.erase(s.begin() + p + 1 ,s.end());
+		int lastNotSpace = (int)s.length() - 1;
+		while (lastNotSpace >= 0 && s.at(lastNotSpace) == ' ') {
+			--lastNotSpace;
+		}
+		s = s.substr(firstNotSpace,lastNotSpace - firstNotSpace + 1);
 		cout << " After trim :" << s << endl;
 		return s;
 	}

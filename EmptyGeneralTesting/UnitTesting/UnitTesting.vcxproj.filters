@@ -15,68 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\UnitTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ParentTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\QueryResultTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\VarTableTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\UsesTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\TNodeTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\FollowsTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ModifiesTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\QueryEvaluatorTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ASTTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\DesignExtractorTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ParserTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="source\ParentTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\QueryResultTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\VarTableTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\UsesTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\TNodeTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\FollowsTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ModifiesTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\QueryEvaluatorTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="QueryTreeTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -86,8 +24,88 @@
     <ClInclude Include="source\DesignExtractorTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\FollowsTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ModifiesTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ParentTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="source\ParserTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\ProcTableTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\QueryEvaluatorTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\QueryPreprocessorTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\QueryResultTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\QueryTreeTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\TNodeTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\UsesTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\VarTableTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\ASTTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\DesignExtractorTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\FollowsTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ModifiesTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ParentTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ParserTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ProcTableTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\QueryEvaluatorTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\QueryPreprocessorTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\QueryResultTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\QueryTreeTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\TNodeTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\UnitTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\UsesTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\VarTableTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

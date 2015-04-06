@@ -5,11 +5,16 @@
 using namespace std;
 
 QueryResult::QueryResult(bool possible) {
+	this->numSynonyms = 0;
 	this->synonyms = vector<string>();
 	this->solutions.clear();
+	if (possible) {
+		solutions.push_back(R_TUPLE());
+	}
 }
 
 QueryResult::QueryResult(int result, string synonym) {
+	this->numSynonyms = 1;
 	this->synonyms.clear();
 	this->synonyms.push_back(synonym);
 	
@@ -23,6 +28,7 @@ vector<QueryResult::R_TUPLE> QueryResult::getResult() {
 }
 
 QueryResult::QueryResult(vector<int> results, string synonym) {
+	this->numSynonyms = 1;
 	this->synonyms.clear();
 	this->synonyms.push_back(synonym);
 
@@ -34,6 +40,7 @@ QueryResult::QueryResult(vector<int> results, string synonym) {
 }
 
 QueryResult::QueryResult(vector<pair<int, int> > results, string synonym1, string synonym2) {
+	this->numSynonyms = 2;
 	this->synonyms.clear();
 	this->synonyms.push_back(synonym1);
 	this->synonyms.push_back(synonym2);
@@ -160,7 +167,7 @@ QueryResult QueryResult::filter(vector<string> newSynonyms) {
 	pair<vector<int>, vector<int> > matchingIndex = matchingSynonyms(newResult);
 
 	INDEX_LIST matchingInThis;
-	for (int i = 0; i < newResult.numSynonyms; i++) {
+	for (int i = 0; i < (int)newSynonyms.size(); i++) {
 		if (matchingIndex.second[i] != -1) {
 			matchingInThis.push_back(matchingIndex.second[i]);
 		}

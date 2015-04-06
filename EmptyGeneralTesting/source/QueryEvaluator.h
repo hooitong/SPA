@@ -14,7 +14,7 @@
 
 class QueryEvaluator {
   public:
-	QueryEvaluator();
+	QueryEvaluator(PKB* pkb);
     std::list<string> evaluate(QueryTree* tree);
 
 // Handle evaluation with wildcards of a certain type. (May be relocated in the future)

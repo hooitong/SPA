@@ -1,7 +1,7 @@
 #include "QueryEvaluator.h"
 
-QueryEvaluator::QueryEvaluator() {
-	pkbInstance = PKB::getPKB();
+QueryEvaluator::QueryEvaluator(PKB* pkb) {
+	pkbInstance = pkb;
 }
 
 std::list<string> QueryEvaluator::evaluate(QueryTree* tree) {
@@ -24,7 +24,7 @@ std::list<string> QueryEvaluator::evaluate(QueryTree* tree) {
 		result = result.merge(resultFilters[i]);
 	}
 
-	result.filter(resultSynonym);
+	result = result.filter(resultSynonym);
 
 	vector <vector<int> > solutions = result.getResult();
 
@@ -85,7 +85,7 @@ vector<STMTLINE> QueryEvaluator::filter(vector<STMTLINE> original, TType type) {
 		it != original.end(); it++) {
 		TType lineType = pkbInstance->getAst()->getTNode(*it)->getTType();
 		if (lineType == type) {
-			result.push_back(lineType);
+			result.push_back(*it);
 		}
 	}
 	return result;
@@ -211,8 +211,8 @@ QueryResult QueryEvaluator::solveFollows(QNode* node) {
 		int resultLine = pkbInstance->getFollows()->getFollowsFrom(line);
 		TType type = synonymToTType(leftChild->getQType());
 
-		if (type != STMTN && 
-			pkbInstance->getAst()->getTNode(resultLine)->getTType() != type) {
+		if (resultLine < 0 || (type != STMTN && 
+			pkbInstance->getAst()->getTNode(resultLine)->getTType() != type)) {
 			return QueryResult(false);
 		} else {
 			return QueryResult(resultLine, leftChild->getString());
@@ -221,9 +221,9 @@ QueryResult QueryEvaluator::solveFollows(QNode* node) {
 		int line = getInteger(leftChild);
 		int resultLine = pkbInstance->getFollows()->getFollowedBy(line);
 		TType type = synonymToTType(rightChild->getQType());
-
-		if (type != STMTN && 
-			pkbInstance->getAst()->getTNode(resultLine)->getTType() != type) {
+		
+		if (resultLine < 0 || (type != STMTN && 
+			pkbInstance->getAst()->getTNode(resultLine)->getTType() != type)) {
 			return QueryResult(false);
 		} else {
 			return QueryResult(resultLine, leftChild->getString());
@@ -319,7 +319,7 @@ QueryResult QueryEvaluator::solveParent(QNode* node) {
 			QNode* rightChild = new QNode(rightChild->getQType(), rightChild->getString());
 			node->addChild(leftChild);
 			node->addChild(rightChild);
-			results.push_back(solveParentStar(node));
+			results.push_back(solveParent(node));
 			delete leftChild;
 			delete rightChild;
 			delete node;
@@ -340,7 +340,7 @@ QueryResult QueryEvaluator::solveParent(QNode* node) {
 			QNode* rightChild = new QNode(CONST, s.str());
 			node->addChild(leftChild);
 			node->addChild(rightChild);
-			results.push_back(solveParentStar(node));
+			results.push_back(solveParent(node));
 			delete leftChild;
 			delete rightChild;
 			delete node;
@@ -359,9 +359,9 @@ QueryResult QueryEvaluator::solveParent(QNode* node) {
 		int line = getInteger(rightChild);
 		int resultLine = pkbInstance->getParent()->getParent(line);
 		TType type = synonymToTType(leftChild->getQType());
-
-		if (type != STMTN && 
-			pkbInstance->getAst()->getTNode(resultLine)->getTType() != type) {
+		
+		if (resultLine < 0 || (type != STMTN && 
+			pkbInstance->getAst()->getTNode(resultLine)->getTType() != type)) {
 			return QueryResult(false);
 		}
 		return QueryResult(resultLine, leftChild->getString());
