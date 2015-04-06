@@ -23,6 +23,7 @@ class QueryEvaluatorTest : public CPPUNIT_NS::TestFixture {
 	CPPUNIT_TEST(testParentStarLeft);
 	CPPUNIT_TEST(testParentStarRight);
 	CPPUNIT_TEST(testParentStarBoth);
+	CPPUNIT_TEST(testParentStarNone);
     CPPUNIT_TEST_SUITE_END();
 
   private:
