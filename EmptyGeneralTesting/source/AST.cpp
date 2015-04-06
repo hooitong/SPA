@@ -125,12 +125,12 @@ bool AST::matchRightPattern(STMTLINE stmtRoot, std::string expression, bool stri
 	string traversedASTString = convertTNodeListValueToString(depthTraversalOfAstNode);
     string traversedQueryString = convertTNodeListValueToString(depthTraversalOfQuery);
 
-    if(strict && lengthOfTraversedAST == lengthOfPattern) {
-        if(traversedASTString != traversedQueryString) {
+    if(strict) {
+        if(lengthOfTraversedAST != lengthOfPattern || traversedASTString != traversedQueryString ) {
               return false;
         }
 		return true;
-    } else {
+    } else {		
 		return traversedASTString.find(traversedQueryString) != string::npos;
     }
 }
@@ -144,7 +144,7 @@ string AST::convertTNodeListValueToString(vector<TNode*> nodes) {
 		}else if(currentNode->getTType() == MINUSN){
 			result+="-";
 		}else {
-			result+=getValue(nodes[i]);
+			result+=getValue(nodes[i]);			
 		}
 
     }

@@ -22,10 +22,11 @@ void VarTableTest::testStoreRetrieveName() {
 }
 
 void VarTableTest::testGetSize(){
-	VARINDEX indexOfX  = (*varTable).insertVar("x");
-	VARINDEX indexOfY  = (*varTable).insertVar("y");
-	VARINDEX indexOfZ  = (*varTable).insertVar("z");
+	VARINDEX indexOfX  = varTable->insertVar("x");
+	VARINDEX indexOfY  = varTable->insertVar("y");
+	VARINDEX indexOfZ  = varTable->insertVar("z");
 	CPPUNIT_ASSERT(varTable->getSize() == 3);	
+	//vartable why the value is 3, should be 4 since its in the same run, the vartable instance should be the same
 }
 
 void VarTableTest::testGetAllVarIndex(){
