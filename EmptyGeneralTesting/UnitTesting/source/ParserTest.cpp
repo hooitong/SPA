@@ -7,7 +7,7 @@
 
 void ParserTest::setUp()
 {
-	Parser::parse("sample_SIMPLE_source.txt");
+	Parser::parse("sample.txt");
 }
 
 void ParserTest::tearDown()
@@ -17,7 +17,7 @@ void ParserTest::tearDown()
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ParserTest);
 
-void ParserTest::testAST()
+void ParserTest::testNodeType()
 {
 	AST* ast = PKB::getPKB()->getAst();
 	TNode* root = ast->getRoot();
@@ -47,4 +47,29 @@ void ParserTest::testAST()
 
 	TNode* stmt8Node = ast->getTNode(8);
 	CPPUNIT_ASSERT(stmt8Node->getTType() == TType::ASSIGNN);
+
+
+}
+
+void ParserTest::testRelationsOfNodes()
+{
+	CPPUNIT_ASSERT(PKB::getPKB()->getFollows()->isFollows(1,2));
+	CPPUNIT_ASSERT(PKB::getPKB()->getFollows()->isFollows(2,3));
+	CPPUNIT_ASSERT(PKB::getPKB()->getFollows()->isFollows(3,4));
+	CPPUNIT_ASSERT(PKB::getPKB()->getParent()->isParent(4, 5));
+	CPPUNIT_ASSERT(PKB::getPKB()->getParent()->isParent(5, 6));
+	CPPUNIT_ASSERT(PKB::getPKB()->getFollows()->isFollows(6,7));
+	CPPUNIT_ASSERT(PKB::getPKB()->getParent()->isParent(7, 8));
+	CPPUNIT_ASSERT(PKB::getPKB()->getFollows()->isFollows(7,9));
+	CPPUNIT_ASSERT(PKB::getPKB()->getParent()->isParent(9, 10));
+	CPPUNIT_ASSERT(PKB::getPKB()->getFollows()->isFollows(10, 11));
+	CPPUNIT_ASSERT(PKB::getPKB()->getParent()->isParent(11, 12));
+	CPPUNIT_ASSERT(PKB::getPKB()->getParent()->isParent(12, 13));
+	CPPUNIT_ASSERT(PKB::getPKB()->getFollows()->isFollows(13, 14));
+	CPPUNIT_ASSERT(PKB::getPKB()->getFollows()->isFollows(14, 15));
+	CPPUNIT_ASSERT(PKB::getPKB()->getFollows()->isFollows(12, 16));
+	CPPUNIT_ASSERT(PKB::getPKB()->getParent()->isParent(16, 17));
+	CPPUNIT_ASSERT(PKB::getPKB()->getFollows()->isFollows(16, 18));
+	CPPUNIT_ASSERT(PKB::getPKB()->getFollows()->isFollows(9, 19));
+	CPPUNIT_ASSERT(PKB::getPKB()->getFollows()->isFollows(5, 20));
 }

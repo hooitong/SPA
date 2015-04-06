@@ -25,6 +25,7 @@ void Parser::parse(string filename) {
 	ifstream sourceFile;
 	sourceFile.open(filename);
 	string line;
+	programTokenList.clear();
 	while (getline(sourceFile, line)) {
 		Parser::tokenizeLine(line, &programTokenList);
 	}
@@ -211,7 +212,7 @@ void Parser::buildProcedureAST() {
 				stmtLine++;
 				
 				// link whileNode to varNode
-				string varName = programTokenList.at(i)->getStringValue();
+				string varName = programTokenList.at(i-2)->getStringValue();
 				TNode *varNode = new TNode(TType::VARN, Parser::getStringIndexOfVar(varName));
 				TNode *whileStmtLstNode = new TNode(TType::STMTLSTN, "");
 				whileStmtLstNode->setStmtLine(whileNode->getStmtLine());
@@ -225,8 +226,8 @@ void Parser::buildProcedureAST() {
 				expectedRelation = TNodeRelation::CHILD;
 			}
 		} else if (programTokenList.at(i)->getTokenType() == TokenType::CLOSE_CURLY_BRACKET) { // end of a while loop
-			// prevNode now points to its parent
-			prevNode = prevNode->getParentNode();
+			// prevNode now points to its parent* which is a while node
+			prevNode = prevNode->getParentNode()->getParentNode();
 			expectedRelation = TNodeRelation::RIGHT_SIBLING;
 			i++;
 		}
