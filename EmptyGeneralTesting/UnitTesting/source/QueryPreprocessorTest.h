@@ -10,6 +10,7 @@ class QueryPreprocessorTest : public CPPUNIT_NS::TestFixture{
     CPPUNIT_TEST(testParsing);
 	CPPUNIT_TEST(testNoCondition);
 	CPPUNIT_TEST(testNoConditionMoreComplex);
+	CPPUNIT_TEST(testOneCondition);
     CPPUNIT_TEST_SUITE_END();
 
   private:
@@ -20,4 +21,5 @@ class QueryPreprocessorTest : public CPPUNIT_NS::TestFixture{
 	void testParsing();
 	void testNoCondition();
 	void testNoConditionMoreComplex();
+	void testOneCondition();
 };

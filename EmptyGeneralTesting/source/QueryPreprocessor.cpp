@@ -273,6 +273,8 @@ using namespace std;
 			return queryTree->createNode(STMTSYNONYM,argument);
 		} else if (existsRef(argument) && getType(argument) == "while") {
 			return queryTree->createNode(WHILESYNONYM,argument);
+		} else if (existsRef(argument) && getType(argument) == "assign") {
+			return queryTree->createNode(ASSIGNSYNONYM,argument);
 		}
 		return NULL;
 	}
@@ -315,6 +317,7 @@ using namespace std;
 
 		queryTree->addChild(relationNode,leftHandSide);
 		queryTree->addChild(relationNode,rightHandSide);
+		queryTree->addChild(suchthatListNode,relationNode);
 
 		/*string type1 = getType(argument1);
 		if(table[index][findIndexOfType(type1)]){

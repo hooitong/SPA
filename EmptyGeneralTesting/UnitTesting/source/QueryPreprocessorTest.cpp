@@ -54,3 +54,26 @@ void QueryPreprocessorTest::testNoConditionMoreComplex(){
 	expected->addChild(expectedResultList,expectedResult);
 	CPPUNIT_ASSERT(achieved->isEqual(expected));	
 }
+
+void QueryPreprocessorTest::testOneCondition(){
+	queryTest = new QueryPreprocessor();
+	QueryTree* achieved = queryTest->parseQuery("assign a; Select a such that Follows(a,2)");
+	QueryTree* expected = new QueryTree();
+	QNode* expectedRoot = expected->createNode(QUERY,"");
+	QNode* expectedResultList = expected->createNode(RESULTLIST,"");
+	QNode* expectedSuchThatList = expected->createNode(SUCHTHATLIST,"");
+	QNode* expectedPatternList = expected->createNode(PATTERNLIST,"");
+	expected->setAsRoot(expectedRoot);
+	expected->addChild(expectedRoot,expectedResultList);
+	expected->addChild(expectedRoot,expectedSuchThatList);
+	expected->addChild(expectedRoot,expectedPatternList);
+	QNode* expectedResult = expected->createNode(ASSIGNSYNONYM,"a");
+	expected->addChild(expectedResultList,expectedResult);
+	QNode* expectedSuchThat = expected->createNode(RELATION,"Follows");
+	QNode* expectedSuchThatChild1 = expected->createNode(ASSIGNSYNONYM,"a");
+	QNode* expectedSuchThatChild2 = expected->createNode(CONST,"2");
+	expected->addChild(expectedSuchThat,expectedSuchThatChild1);
+	expected->addChild(expectedSuchThat,expectedSuchThatChild2);
+	expected->addChild(expectedSuchThatList,expectedSuchThat);
+	CPPUNIT_ASSERT(achieved->isEqual(expected));
+}
