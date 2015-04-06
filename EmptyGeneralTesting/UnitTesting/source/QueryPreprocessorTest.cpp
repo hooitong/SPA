@@ -3,11 +3,11 @@
 #include "QueryPreprocessorTest.h"
 #include "QueryPreprocessor.h"
 
-void QueryPreprocessorTest::setUp() {
+ void QueryPreprocessorTest::setUp(){
      QueryPreprocessor* queryTest = new QueryPreprocessor;
 }
 
-void QueryPreprocessorTest::tearDown() {
+void QueryPreprocessorTest::tearDown(){
     delete queryTest;
 
 }
