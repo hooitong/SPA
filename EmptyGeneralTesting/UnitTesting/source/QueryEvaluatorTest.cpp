@@ -191,7 +191,6 @@ QueryTree* QueryEvaluatorTest::createTree(
 	return tree;
 }
 
-// To test whether the Follow method is able to handle wildcards
 void QueryEvaluatorTest::testFollowsLeft() {
 	QueryTree* tree;
 	QueryEvaluator evaluator(pkbObj);
@@ -204,8 +203,644 @@ void QueryEvaluatorTest::testFollowsLeft() {
 	result = evaluator.evaluate(tree);
 	CPPUNIT_ASSERT(result == expected);
 	delete tree;
+	tree = createTree(WHILESYNONYM, "w", "Follows", STMTSYNONYM, "w", CONST, "12");
+
+	expected.clear();
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
 
 	tree = createTree(WHILESYNONYM, "w", "Follows", STMTSYNONYM, "s", CONST, "1");
+
+	expected.clear();
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "w", "Follows", STMTSYNONYM, "s", CONST, "2");
+
+	expected.clear();
+	expected.push_back("5");
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "w", "Follows", WHILESYNONYM, "w", ANY, "");
+
+	expected.clear();
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+}
+
+void QueryEvaluatorTest::testFollowsRight() {
+	QueryTree* tree;
+	QueryEvaluator evaluator(pkbObj);
+	list<string> result;
+	list<string> expected;
+	tree = createTree(STMTSYNONYM, "s", "Follows", CONST, "2", STMTSYNONYM, "s");
+
+	expected.clear();
+	expected.push_back("3");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(STMTSYNONYM, "s", "Follows", CONST, "7", STMTSYNONYM, "s");
+
+	expected.clear();
+	expected.push_back("12");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(ASSIGNSYNONYM, "a", "Follows", CONST, "6", ASSIGNSYNONYM, "a");
+
+	expected.clear();
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+
+	tree = createTree(WHILESYNONYM, "w", "Follows", CONST, "6", WHILESYNONYM, "w");
+
+	expected.clear();
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "w", "Follows", ANY, "", WHILESYNONYM, "w");
+
+	expected.clear();
+	expected.push_back("5");
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+}
+
+void QueryEvaluatorTest::testFollowsBoth() {
+	QueryTree* tree;
+	QueryEvaluator evaluator(pkbObj);
+	list<string> result;
+	list<string> expected;
+	tree = createTree(STMTSYNONYM, "s", "Follows", STMTSYNONYM, "s", WHILESYNONYM, "w");
+
+	expected.clear();
+	expected.push_back("4");
+	expected.push_back("6");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(STMTSYNONYM, "a1", "Follows", ASSIGNSYNONYM, "a1", ASSIGNSYNONYM, "a2");
+
+	expected.clear();
+	expected.push_back("1");
+	expected.push_back("2");
+	expected.push_back("3");
+	expected.push_back("8");
+	expected.push_back("9");
+	expected.push_back("10");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+}
+
+void QueryEvaluatorTest::testFollowsNone() {
+	QueryTree* tree;
+	QueryEvaluator evaluator(pkbObj);
+	list<string> result;
+	list<string> expected;
+	tree = createTree(STMTSYNONYM, "s", "Follows", CONST, "1", CONST, "3");
+
+	expected.clear();
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "fasdf", "Follows", CONST, "7", CONST, "12");
+
+	expected.clear();
+	expected.push_back("5");
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "w", "Follows", ANY, "", CONST, "12");
+
+	expected.clear();
+	expected.push_back("5");
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "w", "Follows", CONST, "5", ANY, "");
+
+	expected.clear();
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "s", "Follows", CONST, "5", ANY, "");
+
+	expected.clear();
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+}
+
+void QueryEvaluatorTest::testFollowsStarLeft() {
+	QueryTree* tree;
+	QueryEvaluator evaluator(pkbObj);
+	list<string> result;
+	list<string> expected;
+	tree = createTree(STMTSYNONYM, "s", "Follows*", STMTSYNONYM, "s", CONST, "2");
+
+	expected.clear();
+	expected.push_back("1");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(STMTSYNONYM, "s", "Follows*", STMTSYNONYM, "s", CONST, "5");
+
+	expected.clear();
+	expected.push_back("1");
+	expected.push_back("2");
+	expected.push_back("3");
+	expected.push_back("4");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+	tree = createTree(WHILESYNONYM, "w", "Follows*", STMTSYNONYM, "w", CONST, "12");
+
+	expected.clear();
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "w", "Follows*", STMTSYNONYM, "s", CONST, "1");
+
+	expected.clear();
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "w", "Follows*", STMTSYNONYM, "s", CONST, "2");
+
+	expected.clear();
+	expected.push_back("5");
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "w", "Follows*", WHILESYNONYM, "w", ANY, "");
+
+	expected.clear();
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+}
+
+void QueryEvaluatorTest::testFollowsStarRight() {
+	QueryTree* tree;
+	QueryEvaluator evaluator(pkbObj);
+	list<string> result;
+	list<string> expected;
+	tree = createTree(STMTSYNONYM, "s", "Follows*", CONST, "2", STMTSYNONYM, "s");
+
+	expected.clear();
+	expected.push_back("3");
+	expected.push_back("4");
+	expected.push_back("5");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(STMTSYNONYM, "s", "Follows*", CONST, "7", STMTSYNONYM, "s");
+
+	expected.clear();
+	expected.push_back("12");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(ASSIGNSYNONYM, "a", "Follows*", CONST, "6", ASSIGNSYNONYM, "a");
+
+	expected.clear();
+	expected.push_back("12");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+
+	tree = createTree(WHILESYNONYM, "w", "Follows*", CONST, "6", WHILESYNONYM, "w");
+
+	expected.clear();
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "w", "Follows*", ANY, "", WHILESYNONYM, "w");
+
+	expected.clear();
+	expected.push_back("5");
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+}
+
+void QueryEvaluatorTest::testFollowsStarBoth() {
+	QueryTree* tree;
+	QueryEvaluator evaluator(pkbObj);
+	list<string> result;
+	list<string> expected;
+	tree = createTree(STMTSYNONYM, "s", "Follows*", STMTSYNONYM, "s", WHILESYNONYM, "w");
+
+	expected.clear();
+	expected.push_back("1");
+	expected.push_back("2");
+	expected.push_back("3");
+	expected.push_back("4");
+	expected.push_back("6");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(STMTSYNONYM, "a1", "Follows*", ASSIGNSYNONYM, "a1", ASSIGNSYNONYM, "a2");
+
+	expected.clear();
+	expected.push_back("1");
+	expected.push_back("2");
+	expected.push_back("3");
+	expected.push_back("6");
+	expected.push_back("8");
+	expected.push_back("9");
+	expected.push_back("10");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+}
+
+void QueryEvaluatorTest::testFollowsStarNone() {
+	QueryTree* tree;
+	QueryEvaluator evaluator(pkbObj);
+	list<string> result;
+	list<string> expected;
+	tree = createTree(STMTSYNONYM, "s", "Follows*", CONST, "1", CONST, "3");
+
+	expected.clear();
+	expected.push_back("1");
+	expected.push_back("2");
+	expected.push_back("3");
+	expected.push_back("4");
+	expected.push_back("5");
+	expected.push_back("6");
+	expected.push_back("7");
+	expected.push_back("8");
+	expected.push_back("9");
+	expected.push_back("10");
+	expected.push_back("11");
+	expected.push_back("12");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "fasdf", "Follows*", CONST, "7", CONST, "12");
+
+	expected.clear();
+	expected.push_back("5");
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "w", "Follows*", ANY, "", CONST, "12");
+
+	expected.clear();
+	expected.push_back("5");
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "w", "Follows*", CONST, "5", ANY, "");
+
+	expected.clear();
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+}
+
+void QueryEvaluatorTest::testParentLeft() {
+	QueryTree* tree;
+	QueryEvaluator evaluator(pkbObj);
+	list<string> result;
+	list<string> expected;
+
+	tree = createTree(STMTSYNONYM, "s", "Parent", STMTSYNONYM, "s", CONST, "2");
+
+	expected.clear();
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "wwww", "Parent", WHILESYNONYM, "wwww", CONST, "8");
+
+	expected.clear();
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(ASSIGNSYNONYM, "aAaAa", "Parent", ASSIGNSYNONYM, "aAaAa", CONST, "6");
+
+	expected.clear();
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "w", "Parent", WHILESYNONYM, "w", ANY, "");
+
+	expected.clear();
+	expected.push_back("5");
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+}
+
+void QueryEvaluatorTest::testParentRight() {
+	QueryTree* tree;
+	QueryEvaluator evaluator(pkbObj);
+	list<string> result;
+	list<string> expected;
+
+	tree = createTree(STMTSYNONYM, "ad", "Parent", CONST, "5", STMTSYNONYM, "ad");
+
+	expected.clear();
+	expected.push_back("6");
+	expected.push_back("7");
+	expected.push_back("12");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "wwww", "Parent", CONST, "5", WHILESYNONYM, "wwww");
+
+	expected.clear();
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(ASSIGNSYNONYM, "aAaAa", "Parent", CONST, "7", ASSIGNSYNONYM, "aAaAa");
+
+	expected.clear();
+	expected.push_back("8");
+	expected.push_back("9");
+	expected.push_back("10");
+	expected.push_back("11");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "w", "Parent", ANY, "", WHILESYNONYM, "w");
+
+	expected.clear();
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+}
+
+void QueryEvaluatorTest::testParentBoth() {
+	QueryTree* tree;
+	QueryEvaluator evaluator(pkbObj);
+	list<string> result;
+	list<string> expected;
+	tree = createTree(STMTSYNONYM, "s", "Parent", STMTSYNONYM, "s", WHILESYNONYM, "w");
+
+	expected.clear();
+	expected.push_back("5");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "w", "Parent", WHILESYNONYM, "w", ASSIGNSYNONYM, "a");
+
+	expected.clear();
+	expected.push_back("5");
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+}
+
+void QueryEvaluatorTest::testParentNone() {
+	QueryTree* tree;
+	QueryEvaluator evaluator(pkbObj);
+	list<string> result;
+	list<string> expected;
+	tree = createTree(STMTSYNONYM, "s", "Parent", CONST, "5", CONST, "1");
+
+	expected.clear();
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "fasdf", "Parent", CONST, "5", CONST, "7");
+
+	expected.clear();
+	expected.push_back("5");
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "w", "Parent", ANY, "", CONST, "5");
+
+	expected.clear();
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "w", "Parent", CONST, "5", ANY, "");
+
+	expected.clear();
+	expected.push_back("5");
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "w", "Parent", ANY, "", ANY, "");
+
+	expected.clear();
+	expected.push_back("5");
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+}
+
+void QueryEvaluatorTest::testParentStarLeft() {
+	QueryTree* tree;
+	QueryEvaluator evaluator(pkbObj);
+	list<string> result;
+	list<string> expected;
+	tree = createTree(STMTSYNONYM, "s", "Parent*", STMTSYNONYM, "s", CONST, "8");
+
+	expected.clear();
+	expected.push_back("5");
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(ASSIGNSYNONYM, "a", "Parent*", ASSIGNSYNONYM, "a", CONST, "8");
+
+	expected.clear();
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+	tree = createTree(WHILESYNONYM, "w", "Parent*", WHILESYNONYM, "w", CONST, "5");
+
+	expected.clear();
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "w", "Parent*", WHILESYNONYM, "w", ANY, "");
+
+	expected.clear();
+	expected.push_back("5");
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+}
+
+void QueryEvaluatorTest::testParentStarRight() {
+	QueryTree* tree;
+	QueryEvaluator evaluator(pkbObj);
+	list<string> result;
+	list<string> expected;
+	tree = createTree(STMTSYNONYM, "s", "Parent*", CONST, "5", STMTSYNONYM, "s");
+
+	expected.clear();
+	expected.push_back("6");
+	expected.push_back("7");
+	expected.push_back("8");
+	expected.push_back("9");
+	expected.push_back("10");
+	expected.push_back("11");
+	expected.push_back("12");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(STMTSYNONYM, "s", "Parent*", CONST, "5", WHILESYNONYM, "s");
+
+	expected.clear();
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "w", "Parent*", ANY, "", WHILESYNONYM, "w");
+
+	expected.clear();
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+}
+
+void QueryEvaluatorTest::testParentStarBoth() {
+	QueryTree* tree;
+	QueryEvaluator evaluator(pkbObj);
+	list<string> result;
+	list<string> expected;
+	tree = createTree(STMTSYNONYM, "s", "Parent*", STMTSYNONYM, "s", WHILESYNONYM, "w");
+
+	expected.clear();
+	expected.push_back("5");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "w1", "Parent*", WHILESYNONYM, "w1", WHILESYNONYM, "w2");
+
+	expected.clear();
+	expected.push_back("5");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+}
+
+void QueryEvaluatorTest::testParentStarNone() {
+	QueryTree* tree;
+	QueryEvaluator evaluator(pkbObj);
+	list<string> result;
+	list<string> expected;
+	tree = createTree(STMTSYNONYM, "s", "Follows*", CONST, "1", CONST, "3");
+
+	expected.clear();
+	expected.push_back("1");
+	expected.push_back("2");
+	expected.push_back("3");
+	expected.push_back("4");
+	expected.push_back("5");
+	expected.push_back("6");
+	expected.push_back("7");
+	expected.push_back("8");
+	expected.push_back("9");
+	expected.push_back("10");
+	expected.push_back("11");
+	expected.push_back("12");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "fasdf", "Follows*", CONST, "7", CONST, "12");
+
+	expected.clear();
+	expected.push_back("5");
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "w", "Follows*", ANY, "", CONST, "12");
+
+	expected.clear();
+	expected.push_back("5");
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "w", "Follows*", CONST, "5", ANY, "");
+
+	expected.clear();
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "s", "Follows*", CONST, "5", ANY, "");
 
 	expected.clear();
 	result = evaluator.evaluate(tree);

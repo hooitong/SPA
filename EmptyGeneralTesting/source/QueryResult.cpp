@@ -54,8 +54,20 @@ QueryResult::QueryResult(vector<pair<int, int> > results, string synonym1, strin
 }
 
 void QueryResult::append(QueryResult result2) {
-	assert (synonyms == result2.getSynonyms());
 	vector <R_TUPLE> newSolutions = result2.getResult();
+
+	if (solutions.size() == 0) {
+		this->numSynonyms = result2.numSynonyms;
+		this->synonyms = result2.synonyms;
+		this->solutions = result2.solutions;
+		return;
+	}
+	if (newSolutions.size() == 0) {
+		return;
+	}
+	
+	assert (synonyms == result2.getSynonyms());
+	
 	for (int i = 0; i < (int) newSolutions.size(); i++) {
 		solutions.push_back(newSolutions[i]);
 	}

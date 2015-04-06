@@ -165,14 +165,14 @@ QueryResult QueryEvaluator::solveFollows(QNode* node) {
 		for (int i = 1; i < (int) statements.size(); i++) {
 			stringstream s;
 			s << statements[i];
-			QNode* node = new QNode(RELATION, "Follows*");
-			QNode* leftChild = new QNode(CONST, s.str());
-			QNode* rightChild = new QNode(rightChild->getQType(), rightChild->getString());
-			node->addChild(leftChild);
-			node->addChild(rightChild);
-			results.push_back(solveParentStar(node));
-			delete leftChild;
-			delete rightChild;
+			QNode* node = new QNode(RELATION, "Follows");
+			QNode* newLeftChild = new QNode(CONST, s.str());
+			QNode* newRightChild = new QNode(rightChild->getQType(), rightChild->getString());
+			node->addChild(newLeftChild);
+			node->addChild(newRightChild);
+			results.push_back(solveFollows(node));
+			delete newLeftChild;
+			delete newRightChild;
 			delete node;
 		}
 		for (int j = 1; j < (int) results.size(); j++) {
@@ -186,14 +186,14 @@ QueryResult QueryEvaluator::solveFollows(QNode* node) {
 		for (int i = 1; i < (int) statements.size(); i++) {
 			stringstream s;
 			s << statements[i];
-			QNode* node = new QNode(RELATION, "Follows*");
-			QNode* leftChild = new QNode(leftChild->getQType(), leftChild->getString());
-			QNode* rightChild = new QNode(CONST, s.str());
-			node->addChild(leftChild);
-			node->addChild(rightChild);
-			results.push_back(solveParentStar(node));
-			delete leftChild;
-			delete rightChild;
+			QNode* node = new QNode(RELATION, "Follows");
+			QNode* newLeftChild = new QNode(leftChild->getQType(), leftChild->getString());
+			QNode* newRightChild = new QNode(CONST, s.str());
+			node->addChild(newLeftChild);
+			node->addChild(newRightChild);
+			results.push_back(solveFollows(node));
+			delete newLeftChild;
+			delete newRightChild;
 			delete node;
 		}
 		for (int j = 1; j < (int) results.size(); j++) {
@@ -226,7 +226,7 @@ QueryResult QueryEvaluator::solveFollows(QNode* node) {
 			pkbInstance->getAst()->getTNode(resultLine)->getTType() != type)) {
 			return QueryResult(false);
 		} else {
-			return QueryResult(resultLine, leftChild->getString());
+			return QueryResult(resultLine, rightChild->getString());
 		}
 	} else {
 		int line1 = getInteger(leftChild);
@@ -246,13 +246,13 @@ QueryResult QueryEvaluator::solveFollowsStar(QNode* node) {
 			stringstream s;
 			s << statements[i];
 			QNode* node = new QNode(RELATION, "Follows*");
-			QNode* leftChild = new QNode(CONST, s.str());
-			QNode* rightChild = new QNode(rightChild->getQType(), rightChild->getString());
-			node->addChild(leftChild);
-			node->addChild(rightChild);
-			results.push_back(solveParentStar(node));
-			delete leftChild;
-			delete rightChild;
+			QNode* newLeftChild = new QNode(CONST, s.str());
+			QNode* newRightChild = new QNode(rightChild->getQType(), rightChild->getString());
+			node->addChild(newLeftChild);
+			node->addChild(newRightChild);
+			results.push_back(solveFollowsStar(node));
+			delete newLeftChild;
+			delete newRightChild;
 			delete node;
 		}
 		for (int j = 1; j < (int) results.size(); j++) {
@@ -267,13 +267,13 @@ QueryResult QueryEvaluator::solveFollowsStar(QNode* node) {
 			stringstream s;
 			s << statements[i];
 			QNode* node = new QNode(RELATION, "Follows*");
-			QNode* leftChild = new QNode(leftChild->getQType(), leftChild->getString());
-			QNode* rightChild = new QNode(CONST, s.str());
-			node->addChild(leftChild);
-			node->addChild(rightChild);
-			results.push_back(solveParentStar(node));
-			delete leftChild;
-			delete rightChild;
+			QNode* newLeftChild = new QNode(leftChild->getQType(), leftChild->getString());
+			QNode* newRightChild = new QNode(CONST, s.str());
+			node->addChild(newLeftChild);
+			node->addChild(newRightChild);
+			results.push_back(solveFollowsStar(node));
+			delete newLeftChild;
+			delete newRightChild;
 			delete node;
 		}
 		for (int j = 1; j < (int) results.size(); j++) {
@@ -296,7 +296,7 @@ QueryResult QueryEvaluator::solveFollowsStar(QNode* node) {
 		int line = getInteger(leftChild);
 		vector<int> resultLines = pkbInstance->getFollows()->getFollowedByStar(line);
 		resultLines = filter(resultLines, synonymToTType(rightChild->getQType()));
-		return QueryResult(resultLines, leftChild->getString());
+		return QueryResult(resultLines, rightChild->getString());
 	} else {
 		int line1 = getInteger(leftChild);
 		int line2 = getInteger(rightChild);
@@ -315,13 +315,13 @@ QueryResult QueryEvaluator::solveParent(QNode* node) {
 			stringstream s;
 			s << statements[i];
 			QNode* node = new QNode(RELATION, "Parent");
-			QNode* leftChild = new QNode(CONST, s.str());
-			QNode* rightChild = new QNode(rightChild->getQType(), rightChild->getString());
-			node->addChild(leftChild);
-			node->addChild(rightChild);
+			QNode* newLeftChild = new QNode(CONST, s.str());
+			QNode* newRightChild = new QNode(rightChild->getQType(), rightChild->getString());
+			node->addChild(newLeftChild);
+			node->addChild(newRightChild);
 			results.push_back(solveParent(node));
-			delete leftChild;
-			delete rightChild;
+			delete newLeftChild;
+			delete newRightChild;
 			delete node;
 		}
 		for (int j = 1; j < (int) results.size(); j++) {
@@ -336,13 +336,13 @@ QueryResult QueryEvaluator::solveParent(QNode* node) {
 			stringstream s;
 			s << statements[i];
 			QNode* node = new QNode(RELATION, "Parent");
-			QNode* leftChild = new QNode(leftChild->getQType(), leftChild->getString());
-			QNode* rightChild = new QNode(CONST, s.str());
-			node->addChild(leftChild);
-			node->addChild(rightChild);
+			QNode* newLeftChild = new QNode(leftChild->getQType(), leftChild->getString());
+			QNode* newRightChild = new QNode(CONST, s.str());
+			node->addChild(newLeftChild);
+			node->addChild(newRightChild);
 			results.push_back(solveParent(node));
-			delete leftChild;
-			delete rightChild;
+			delete newLeftChild;
+			delete newRightChild;
 			delete node;
 		}
 		for (int j = 1; j < (int) results.size(); j++) {
@@ -369,7 +369,7 @@ QueryResult QueryEvaluator::solveParent(QNode* node) {
 		int line = getInteger(leftChild);
 		vector<int> resultLines = pkbInstance->getParent()->getChildOf(line);
 		resultLines = filter(resultLines, synonymToTType(rightChild->getQType()));
-		return QueryResult(resultLines, leftChild->getString());
+		return QueryResult(resultLines, rightChild->getString());
 	} else {
 		int line1 = getInteger(leftChild);
 		int line2 = getInteger(rightChild);
@@ -388,13 +388,13 @@ QueryResult QueryEvaluator::solveParentStar(QNode* node) {
 			stringstream s;
 			s << statements[i];
 			QNode* node = new QNode(RELATION, "Parent*");
-			QNode* leftChild = new QNode(CONST, s.str());
-			QNode* rightChild = new QNode(rightChild->getQType(), rightChild->getString());
-			node->addChild(leftChild);
-			node->addChild(rightChild);
+			QNode* newLeftChild = new QNode(CONST, s.str());
+			QNode* newRightChild = new QNode(rightChild->getQType(), rightChild->getString());
+			node->addChild(newLeftChild);
+			node->addChild(newRightChild);
 			results.push_back(solveParentStar(node));
-			delete leftChild;
-			delete rightChild;
+			delete newLeftChild;
+			delete newRightChild;
 			delete node;
 		}
 		for (int j = 1; j < (int) results.size(); j++) {
@@ -409,13 +409,13 @@ QueryResult QueryEvaluator::solveParentStar(QNode* node) {
 			stringstream s;
 			s << statements[i];
 			QNode* node = new QNode(RELATION, "Parent*");
-			QNode* leftChild = new QNode(leftChild->getQType(), leftChild->getString());
-			QNode* rightChild = new QNode(CONST, s.str());
-			node->addChild(leftChild);
-			node->addChild(rightChild);
+			QNode* newLeftChild = new QNode(leftChild->getQType(), leftChild->getString());
+			QNode* newRightChild = new QNode(CONST, s.str());
+			node->addChild(newLeftChild);
+			node->addChild(newRightChild);
 			results.push_back(solveParentStar(node));
-			delete leftChild;
-			delete rightChild;
+			delete newLeftChild;
+			delete newRightChild;
 			delete node;
 		}
 		for (int j = 1; j < (int) results.size(); j++) {
@@ -438,7 +438,7 @@ QueryResult QueryEvaluator::solveParentStar(QNode* node) {
 		int line = getInteger(leftChild);
 		vector<int> resultLines = pkbInstance->getParent()->getChildOfStar(line);
 		resultLines = filter(resultLines, synonymToTType(rightChild->getQType()));
-		return QueryResult(resultLines, leftChild->getString());
+		return QueryResult(resultLines, rightChild->getString());
 	} else {
 		int line1 = getInteger(leftChild);
 		int line2 = getInteger(rightChild);
@@ -457,13 +457,13 @@ QueryResult QueryEvaluator::solveModifies(QNode* node) {
 			stringstream s;
 			s << statements[i];
 			QNode* node = new QNode(RELATION, "Modifies");
-			QNode* leftChild = new QNode(CONST, s.str());
-			QNode* rightChild = new QNode(rightChild->getQType(), rightChild->getString());
-			node->addChild(leftChild);
-			node->addChild(rightChild);
+			QNode* newLeftChild = new QNode(CONST, s.str());
+			QNode* newRightChild = new QNode(rightChild->getQType(), rightChild->getString());
+			node->addChild(newLeftChild);
+			node->addChild(newRightChild);
 			results.push_back(solveParentStar(node));
-			delete leftChild;
-			delete rightChild;
+			delete newLeftChild;
+			delete newRightChild;
 			delete node;
 		}
 		for (int j = 1; j < (int) results.size(); j++) {
@@ -476,13 +476,13 @@ QueryResult QueryEvaluator::solveModifies(QNode* node) {
 		vector <QueryResult> results;
 		for (int i = 1; i < (int) vars.size(); i++) {
 			QNode* node = new QNode(RELATION, "Modifies");
-			QNode* leftChild = new QNode(leftChild->getQType(), leftChild->getString());
-			QNode* rightChild = new QNode(CONST, vars[i]);
-			node->addChild(leftChild);
-			node->addChild(rightChild);
+			QNode* newLeftChild = new QNode(leftChild->getQType(), leftChild->getString());
+			QNode* newRightChild = new QNode(CONST, vars[i]);
+			node->addChild(newLeftChild);
+			node->addChild(newRightChild);
 			results.push_back(solveParentStar(node));
-			delete leftChild;
-			delete rightChild;
+			delete newLeftChild;
+			delete newRightChild;
 			delete node;
 		}
 		for (int j = 1; j < (int) results.size(); j++) {
@@ -538,13 +538,13 @@ QueryResult QueryEvaluator::solveUses(QNode* node) {
 			stringstream s;
 			s << statements[i];
 			QNode* node = new QNode(RELATION, "Uses");
-			QNode* leftChild = new QNode(CONST, s.str());
-			QNode* rightChild = new QNode(rightChild->getQType(), rightChild->getString());
-			node->addChild(leftChild);
-			node->addChild(rightChild);
+			QNode* newLeftChild = new QNode(CONST, s.str());
+			QNode* newRightChild = new QNode(rightChild->getQType(), rightChild->getString());
+			node->addChild(newLeftChild);
+			node->addChild(newRightChild);
 			results.push_back(solveParentStar(node));
-			delete leftChild;
-			delete rightChild;
+			delete newLeftChild;
+			delete newRightChild;
 			delete node;
 		}
 		for (int j = 1; j < (int) results.size(); j++) {
@@ -557,13 +557,13 @@ QueryResult QueryEvaluator::solveUses(QNode* node) {
 		vector <QueryResult> results;
 		for (int i = 1; i < (int) vars.size(); i++) {
 			QNode* node = new QNode(RELATION, "Uses");
-			QNode* leftChild = new QNode(leftChild->getQType(), leftChild->getString());
-			QNode* rightChild = new QNode(CONST, vars[i]);
-			node->addChild(leftChild);
-			node->addChild(rightChild);
+			QNode* newLeftChild = new QNode(leftChild->getQType(), leftChild->getString());
+			QNode* newRightChild = new QNode(CONST, vars[i]);
+			node->addChild(newLeftChild);
+			node->addChild(newRightChild);
 			results.push_back(solveParentStar(node));
-			delete leftChild;
-			delete rightChild;
+			delete newLeftChild;
+			delete newRightChild;
 			delete node;
 		}
 		for (int j = 1; j < (int) results.size(); j++) {
@@ -708,7 +708,7 @@ vector<std::pair<STMTLINE, STMTLINE>> QueryEvaluator::Follows(TType firstType, T
 
     // double for loop based on both vector of stmt#, check Follows() is true then keep into vector as tuple.
     for(std::vector<STMTLINE>::iterator j = firstResult.begin(); j != firstResult.end(); ++j) {
-        for(std::vector<STMTLINE>::iterator k = firstResult.begin(); k != firstResult.end(); ++k) {
+        for(std::vector<STMTLINE>::iterator k = secondResult.begin(); k != secondResult.end(); ++k) {
             if(pkbInstance->getFollows()->isFollows(*j, *k)) {
                 result.push_back(std::make_pair(*j, *k));
             }
@@ -730,7 +730,7 @@ vector<std::pair<STMTLINE, STMTLINE>> QueryEvaluator::FollowsStar(TType firstTyp
 
     // double for loop based on both vector of stmt#, check Follows() is true then keep into vector as tuple.
     for(std::vector<STMTLINE>::iterator j = firstResult.begin(); j != firstResult.end(); ++j) {
-        for(std::vector<STMTLINE>::iterator k = firstResult.begin(); k != firstResult.end(); ++k) {
+        for(std::vector<STMTLINE>::iterator k = secondResult.begin(); k != secondResult.end(); ++k) {
             if(pkbInstance->getFollows()->isFollowsStar(*j, *k)) {
                 result.push_back(std::make_pair(*j, *k));
             }
@@ -753,7 +753,7 @@ vector<std::pair<STMTLINE, STMTLINE>> QueryEvaluator::Parent(TType firstType, TT
 
     // double for loop based on both vector of stmt#, check Parent() is true then keep into vector as tuple.
     for(std::vector<STMTLINE>::iterator j = firstResult.begin(); j != firstResult.end(); ++j) {
-        for(std::vector<STMTLINE>::iterator k = firstResult.begin(); k != firstResult.end(); ++k) {
+        for(std::vector<STMTLINE>::iterator k = secondResult.begin(); k != secondResult.end(); ++k) {
             if(pkbInstance->getParent()->isParent(*j, *k)) {
                 result.push_back(std::make_pair(*j, *k));
             }
@@ -775,7 +775,7 @@ vector<std::pair<STMTLINE, STMTLINE>> QueryEvaluator::ParentStar(TType firstType
 
     // double for loop based on both vector of stmt#, check Parent() is true then keep into vector as tuple.
     for(std::vector<STMTLINE>::iterator j = firstResult.begin(); j != firstResult.end(); ++j) {
-        for(std::vector<STMTLINE>::iterator k = firstResult.begin(); k != firstResult.end(); ++k) {
+        for(std::vector<STMTLINE>::iterator k = secondResult.begin(); k != secondResult.end(); ++k) {
             if(pkbInstance->getParent()->isParentStar(*j, *k)) {
                 result.push_back(std::make_pair(*j, *k));
             }
