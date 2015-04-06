@@ -1,11 +1,16 @@
 #include <cppunit/config/SourcePrefix.h>
 
 #include "TNodeTest.h"
+#include "VarTable.h"
 
 void TNodeTest::setUp() {
-    node = new TNode(VARN, "x");
-    nodePlus = new TNode(PLUSN, "+");//added to assist testing
-    nodeParent = new TNode(MINUSN, "-");//added to assist testing
+	vTable = new VarTable;
+	VARINDEX vX = (*vTable).insertVar("x");
+	stringstream ss;
+	ss<<vX;
+	node = new TNode(VARN, ss.str()); //need to change to stmt number
+    nodePlus = new TNode(PLUSN, "");
+    nodeParent = new TNode(MINUSN, "");
 }
 
 void TNodeTest::tearDown() {
@@ -35,17 +40,18 @@ void TNodeTest::testCreateNode() {
     TType type = (*node).getTType();
     CPPUNIT_ASSERT(type == VARN);
     string value  = (*node).getValue();
-    CPPUNIT_ASSERT(value == "x");
+	VARNAME x = (*vTable).getVarName((atoi(value.c_str()))); //this value should be equal to the x
+
+    CPPUNIT_ASSERT(x == "x");//should be modified to be varindex.
 
     type = (*nodePlus).getTType();
     CPPUNIT_ASSERT(type == PLUSN);
-    value = (*nodePlus).getValue();
-    CPPUNIT_ASSERT(value == "+");
+
 
     type = (*nodeParent).getTType();
     CPPUNIT_ASSERT(type == MINUSN);
-    value = (*nodeParent).getValue();
-    CPPUNIT_ASSERT(value == "-");
+    
+
 }
 
 void TNodeTest::testSetSiblings() {

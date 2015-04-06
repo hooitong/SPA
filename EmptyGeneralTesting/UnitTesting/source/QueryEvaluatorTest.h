@@ -9,24 +9,20 @@
 
 class QueryEvaluatorTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(QueryEvaluatorTest);
-    CPPUNIT_TEST(testFollows);
-    CPPUNIT_TEST(testFollowsStar);
-    CPPUNIT_TEST(testParentTuple);
-    CPPUNIT_TEST(testModifiesTuple);
-    CPPUNIT_TEST(testUsesTuple);
+    CPPUNIT_TEST(testFollowsLeft);
     CPPUNIT_TEST_SUITE_END();
 
   private:
     PKB* pkbObj;
     void setupTestData();
+	QueryTree* createTree(
+		QNodeType typeResult,
+		string result,
+		string relationString, QNodeType type1, string s1, QNodeType type2, string s2);
 
   public:
     void setUp();
     void tearDown();
 
-    void testFollows();
-    void testFollowsStar();
-    void testParentTuple();
-    void testModifiesTuple();
-    void testUsesTuple();
+    void testFollowsLeft();
 };
