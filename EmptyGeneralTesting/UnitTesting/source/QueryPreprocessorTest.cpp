@@ -13,6 +13,7 @@ void QueryPreprocessorTest::tearDown(){
 
 }
 CPPUNIT_TEST_SUITE_REGISTRATION(QueryPreprocessorTest);
+
 void QueryPreprocessorTest::testParsing(){
 	queryTest = new QueryPreprocessor();
 	QueryTree* queryTree = queryTest->parseQuery("assign a; Select BOOLEAN such that Modifies(a, _)");
@@ -118,7 +119,7 @@ void QueryPreprocessorTest::testPatternCondition(){
 	QNode* expectedPatternNode = expected->createNode(PATTERN,"");
 	QNode* expectedPatternChild1 = expected->createNode(ASSIGNSYNONYM,"a");
 	QNode* expectedPatternChild2 = expected->createNode(ANY,"");
-	QNode* expectedPatternChild3 = expected->createNode(EXPRESSION,"x");
+	QNode* expectedPatternChild3 = expected->createNode(EXPRESSION,"_");
 	expected->addChild(expectedPatternNode,expectedPatternChild1);
 	expected->addChild(expectedPatternNode,expectedPatternChild2);
 	expected->addChild(expectedPatternNode,expectedPatternChild3);
