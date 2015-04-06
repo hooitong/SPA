@@ -4,10 +4,13 @@
 
 #include "QueryEvaluator.h"
 #include "PKB.h"
+#include "QueryTree.h"
+#include "QNode.h"
 
 class QueryEvaluatorTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(QueryEvaluatorTest);
-    CPPUNIT_TEST(testFollowsTuple);
+    CPPUNIT_TEST(testFollows);
+    CPPUNIT_TEST(testFollowsStar);
     CPPUNIT_TEST(testParentTuple);
     CPPUNIT_TEST(testModifiesTuple);
     CPPUNIT_TEST(testUsesTuple);
@@ -15,14 +18,14 @@ class QueryEvaluatorTest : public CPPUNIT_NS::TestFixture {
 
   private:
     PKB* pkbObj;
-    QueryEvaluator qeObj;
     void setupTestData();
 
   public:
     void setUp();
     void tearDown();
 
-    void testFollowsTuple();
+    void testFollows();
+    void testFollowsStar();
     void testParentTuple();
     void testModifiesTuple();
     void testUsesTuple();
