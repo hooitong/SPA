@@ -13,6 +13,7 @@ void QueryPreprocessorTest::tearDown(){
 
 }
 CPPUNIT_TEST_SUITE_REGISTRATION(QueryPreprocessorTest);
+
 void QueryPreprocessorTest::testParsing(){
 	queryTest = new QueryPreprocessor();
 	QueryTree* queryTree = queryTest->parseQuery("assign a; Select BOOLEAN such that Modifies(a, _)");
@@ -119,6 +120,31 @@ void QueryPreprocessorTest::testPatternCondition(){
 	QNode* expectedPatternChild1 = expected->createNode(ASSIGNSYNONYM,"a");
 	QNode* expectedPatternChild2 = expected->createNode(ANY,"");
 	QNode* expectedPatternChild3 = expected->createNode(EXPRESSION,"_");
+	expected->addChild(expectedPatternNode,expectedPatternChild1);
+	expected->addChild(expectedPatternNode,expectedPatternChild2);
+	expected->addChild(expectedPatternNode,expectedPatternChild3);
+	expected->addChild(expectedPatternList,expectedPatternNode);
+	CPPUNIT_ASSERT(achieved->isEqual(expected));
+}
+
+void QueryPreprocessorTest::testPatternCondition2(){
+	queryTest = new QueryPreprocessor();
+	QueryTree* achieved = queryTest->parseQuery("assign a; Select a pattern a(_,_\"x\"_)");
+	QueryTree* expected = new QueryTree();
+	QNode* expectedRoot = expected->createNode(QUERY,"");
+	QNode* expectedResultList = expected->createNode(RESULTLIST,"");
+	QNode* expectedSuchThatList = expected->createNode(SUCHTHATLIST,"");
+	QNode* expectedPatternList = expected->createNode(PATTERNLIST,"");
+	expected->setAsRoot(expectedRoot);
+	expected->addChild(expectedRoot,expectedResultList);
+	expected->addChild(expectedRoot,expectedSuchThatList);
+	expected->addChild(expectedRoot,expectedPatternList);
+	QNode* expectedResult = expected->createNode(ASSIGNSYNONYM,"a");
+	expected->addChild(expectedResultList,expectedResult);
+	QNode* expectedPatternNode = expected->createNode(PATTERN,"");
+	QNode* expectedPatternChild1 = expected->createNode(ASSIGNSYNONYM,"a");
+	QNode* expectedPatternChild2 = expected->createNode(ANY,"");
+	QNode* expectedPatternChild3 = expected->createNode(EXPRESSION,"_x_");
 	expected->addChild(expectedPatternNode,expectedPatternChild1);
 	expected->addChild(expectedPatternNode,expectedPatternChild2);
 	expected->addChild(expectedPatternNode,expectedPatternChild3);

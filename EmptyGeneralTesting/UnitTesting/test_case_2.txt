@@ -1,0 +1,11 @@
+procedure Second {
+	i = 5;
+	t = 0;
+	while i {
+		t = t + v;
+		i = i + 1; 
+	}
+	z = z + t + i;
+	v = z + 2;
+	t = t + v + z; 
+}

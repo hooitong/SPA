@@ -16,6 +16,8 @@ public:
 	static void parse(string filename);
 	static TNode* buildExprAST(string expression);
 
+	static string convertIntToString(int i);
+
 private:
 	static vector<ParsingToken*> programTokenList; 
 	
@@ -34,5 +36,4 @@ private:
 	static void addVarToModifies(VARNAME varName, STMTLINE stmt);
 
 	static string getStringIndexOfVar(VARNAME varName);
-	static string convertIntToString(int i);
 };
