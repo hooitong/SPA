@@ -211,8 +211,10 @@ void Parser::buildProcedureAST() {
 				ast->setStmtLine(whileNode, stmtLine);
 				stmtLine++;
 				
-				// link whileNode to varNode
 				string varName = programTokenList.at(i-2)->getStringValue();
+				PKB::getPKB()->getVarTable()->insertVar(varName);
+
+				// link whileNode to varNode
 				TNode *varNode = new TNode(TType::VARN, Parser::getStringIndexOfVar(varName));
 				TNode *whileStmtLstNode = new TNode(TType::STMTLSTN, "");
 				whileStmtLstNode->setStmtLine(whileNode->getStmtLine());
@@ -247,6 +249,10 @@ TNode* Parser::buildExprAST(vector<ParsingToken *> exprTokenList, STMTLINE stmtL
 		if (currToken->getTokenType() == TokenType::PLUS) // if token is + then put it to the operator stack
 			operatorStack.push(OperatorType::PLUS_OP);
 		else if (currToken->getTokenType() == TokenType::NAME || currToken->getTokenType() == TokenType::CONSTANT) {
+			if (currToken->getTokenType() == TokenType::NAME) {
+				PKB::getPKB()->getVarTable()->insertVar(currToken->getStringValue());
+			}
+
 			if (!operatorStack.empty()) { 
 				OperatorType opType = operatorStack.top();
 				operatorStack.pop();
