@@ -1,7 +1,7 @@
 #include "QueryEvaluator.h"
 
-QueryEvaluator::QueryEvaluator() {
-	pkbInstance = PKB::getPKB();
+QueryEvaluator::QueryEvaluator(PKB* pkb) {
+	pkbInstance = pkb;
 }
 
 std::list<string> QueryEvaluator::evaluate(QueryTree* tree) {
@@ -85,7 +85,7 @@ vector<STMTLINE> QueryEvaluator::filter(vector<STMTLINE> original, TType type) {
 		it != original.end(); it++) {
 		TType lineType = pkbInstance->getAst()->getTNode(*it)->getTType();
 		if (lineType == type) {
-			result.push_back(lineType);
+			result.push_back(*it);
 		}
 	}
 	return result;
