@@ -4,6 +4,7 @@
 #include "PKB.h"
 #include "Parser.h"
 #include "GlobalType.h"
+#include "Modifies.h"
 #include <fstream>
 
 void ParserTest::setUp()
@@ -148,4 +149,52 @@ void ParserTest::testRelationsOfNodes()
 	CPPUNIT_ASSERT(PKB::getPKB()->getParent()->isParent(5, 19));
 	CPPUNIT_ASSERT(PKB::getPKB()->getFollows()->isFollows(5, 20));
 	CPPUNIT_ASSERT(PKB::getPKB()->getParent()->isParent(4, 20));
+}
+
+void ParserTest::testModifies()
+{
+	VARINDEX index_i = PKB::getPKB()->getVarTable()->getVarIndex("i");
+	CPPUNIT_ASSERT(ParserTest::isModifies(1, index_i));
+
+	VARINDEX index_b = PKB::getPKB()->getVarTable()->getVarIndex("b");
+	CPPUNIT_ASSERT(ParserTest::isModifies(2, index_b));
+	CPPUNIT_ASSERT(ParserTest::isModifies(14, index_b));
+
+	VARINDEX index_c = PKB::getPKB()->getVarTable()->getVarIndex("c");
+	CPPUNIT_ASSERT(ParserTest::isModifies(3, index_c));
+	CPPUNIT_ASSERT(ParserTest::isModifies(15, index_c));
+	CPPUNIT_ASSERT(ParserTest::isModifies(17, index_c));
+
+	VARINDEX index_oSCar = PKB::getPKB()->getVarTable()->getVarIndex("oSCar");
+	CPPUNIT_ASSERT(ParserTest::isModifies(6, index_oSCar));
+	CPPUNIT_ASSERT(ParserTest::isModifies(8, index_oSCar));
+
+	VARINDEX index_x = PKB::getPKB()->getVarTable()->getVarIndex("x");
+	CPPUNIT_ASSERT(ParserTest::isModifies(10, index_x));
+	CPPUNIT_ASSERT(ParserTest::isModifies(18, index_x));
+
+	VARINDEX index_Romeo = PKB::getPKB()->getVarTable()->getVarIndex("Romeo");
+	CPPUNIT_ASSERT(ParserTest::isModifies(13, index_Romeo));
+
+	VARINDEX index_a = PKB::getPKB()->getVarTable()->getVarIndex("a");
+	CPPUNIT_ASSERT(ParserTest::isModifies(19, index_a));
+
+	VARINDEX index_w = PKB::getPKB()->getVarTable()->getVarIndex("w");
+	CPPUNIT_ASSERT(ParserTest::isModifies(20, index_w));
+}
+
+void ParserTest::testUses()
+{
+
+}
+
+bool ParserTest::isModifies(STMTLINE stmt, VARINDEX varIndex)
+{
+	vector<VARINDEX> varIndexList = PKB::getPKB()->getModifies()->getModifiedByStmt(stmt);
+	for (int i=0; i<varIndexList.size(); i++) {
+		if (varIndex == varIndexList.at(i)) 
+			return true;
+	}
+
+	return false;
 }
