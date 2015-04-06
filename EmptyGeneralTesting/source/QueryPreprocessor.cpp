@@ -536,8 +536,6 @@ using namespace std;
 /**************************result  *********************************/
 
 	bool QueryPreprocessor::checkTuple(string tuple){
-
-
 		tuple = trim(tuple);
 		cout << " checking if tuple is elem"<< endl;
 		if(checkElem(tuple)){
@@ -549,7 +547,7 @@ using namespace std;
 				
 				string type = getType(tuple);
 				QNode* resultNode;
-				if (type == "assignment") {
+				if (type == "assign") {
 					resultNode = queryTree->createNode(ASSIGNSYNONYM, tuple);
 				} else if (type == "stmt") {
 					resultNode = queryTree->createNode(STMTSYNONYM, tuple);
@@ -579,6 +577,7 @@ using namespace std;
 		return false;
 	}	
 	bool QueryPreprocessor::checkElem(string elem){
+		//return true;
 		return (checkIdent(elem) || checkAttReference(elem));
 	}
 /************************** Others *********************************/
