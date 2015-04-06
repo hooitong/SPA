@@ -5,7 +5,7 @@
 #include <string>
 
  void QueryPreprocessorTest::setUp(){
-     QueryPreprocessor* queryTest = new QueryPreprocessor();
+     queryTest = new QueryPreprocessor();
 }
 
 void QueryPreprocessorTest::tearDown(){
@@ -14,15 +14,15 @@ void QueryPreprocessorTest::tearDown(){
 }
 CPPUNIT_TEST_SUITE_REGISTRATION(QueryPreprocessorTest);
 void QueryPreprocessorTest::testParsing(){
-
-	QueryTree* queryTree = (*queryTest).parseQuery("assign a; Select BOOLEAN such that Modifies(a, _)");
+	queryTest = new QueryPreprocessor();
+	QueryTree* queryTree = queryTest->parseQuery("assign a; Select BOOLEAN such that Modifies(a, _)");
 	//CPPUNIT_ASSERT(queryTree->getRoot()->getQType() == QUERY);
 	//CPPUNIT_ASSERT(queryTree->getRoot()->getString() == "query");
-
 
 }
 
 void QueryPreprocessorTest::testNoCondition(){
+	queryTest = new QueryPreprocessor();
 	QueryTree* achieved = queryTest->parseQuery("stmt s; Select s");
 	QueryTree* expected = new QueryTree();
 	QNode* expectedRoot = expected->createNode(QUERY,"");
