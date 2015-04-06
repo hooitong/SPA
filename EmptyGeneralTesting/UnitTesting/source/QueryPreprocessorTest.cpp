@@ -21,3 +21,19 @@ void QueryPreprocessorTest::testParsing(){
 
 
 }
+
+void QueryPreprocessorTest::testNoCondition(){
+	QueryTree* achieved = queryTest->parseQuery("stmt s; Select s");
+	QueryTree* expected = new QueryTree();
+	QNode* expectedRoot = expected->createNode(QUERY,"");
+	QNode* expectedResultList = expected->createNode(RESULTLIST,"");
+	QNode* expectedSuchThatList = expected->createNode(SUCHTHATLIST,"");
+	QNode* expectedPatternList = expected->createNode(PATTERNLIST,"");
+	expected->setAsRoot(expectedRoot);
+	expected->addChild(expectedRoot,expectedResultList);
+	expected->addChild(expectedRoot,expectedSuchThatList);
+	expected->addChild(expectedRoot,expectedPatternList);
+	QNode* expectedResult = expected->createNode(STMTSYNONYM,"s");
+	expected->addChild(expectedResultList,expectedResult);
+	CPPUNIT_ASSERT(achieved->isEqual(expected));	
+}
