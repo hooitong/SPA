@@ -213,6 +213,7 @@ void Parser::buildProcedureAST() {
 				
 				string varName = programTokenList.at(i-2)->getStringValue();
 				PKB::getPKB()->getVarTable()->insertVar(varName);
+				Parser::addVarToUses(varName, stmtLine-1);
 
 				// link whileNode to varNode
 				TNode *varNode = new TNode(TType::VARN, Parser::getStringIndexOfVar(varName));

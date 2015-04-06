@@ -185,12 +185,76 @@ void ParserTest::testModifies()
 
 void ParserTest::testUses()
 {
+	VARINDEX index_a = PKB::getPKB()->getVarTable()->getVarIndex("a");
+	CPPUNIT_ASSERT(ParserTest::isUses(3, index_a));
+	CPPUNIT_ASSERT(ParserTest::isUses(4, index_a));
 
+	VARINDEX index_beta = PKB::getPKB()->getVarTable()->getVarIndex("beta");
+	CPPUNIT_ASSERT(ParserTest::isUses(5, index_beta));
+	CPPUNIT_ASSERT(ParserTest::isUses(6, index_beta));
+
+	VARINDEX index_tmp = PKB::getPKB()->getVarTable()->getVarIndex("tmp");
+	CPPUNIT_ASSERT(ParserTest::isUses(6, index_tmp));
+	CPPUNIT_ASSERT(ParserTest::isUses(7, index_tmp));
+
+	VARINDEX index_I = PKB::getPKB()->getVarTable()->getVarIndex("I");
+	CPPUNIT_ASSERT(ParserTest::isUses(8, index_I));
+
+	VARINDEX index_k = PKB::getPKB()->getVarTable()->getVarIndex("k");
+	CPPUNIT_ASSERT(ParserTest::isUses(8, index_k));
+
+	VARINDEX index_j1k = PKB::getPKB()->getVarTable()->getVarIndex("j1k");
+	CPPUNIT_ASSERT(ParserTest::isUses(8, index_j1k));
+
+	VARINDEX index_chArlie = PKB::getPKB()->getVarTable()->getVarIndex("chArlie");
+	CPPUNIT_ASSERT(ParserTest::isUses(8, index_chArlie));
+
+	VARINDEX index_x = PKB::getPKB()->getVarTable()->getVarIndex("x");
+	CPPUNIT_ASSERT(ParserTest::isUses(9, index_x));
+	CPPUNIT_ASSERT(ParserTest::isUses(10, index_x));
+	CPPUNIT_ASSERT(ParserTest::isUses(18, index_x));
+
+	VARINDEX index_left = PKB::getPKB()->getVarTable()->getVarIndex("left");
+	CPPUNIT_ASSERT(ParserTest::isUses(11, index_left));
+
+	VARINDEX index_right = PKB::getPKB()->getVarTable()->getVarIndex("right");
+	CPPUNIT_ASSERT(ParserTest::isUses(12, index_right));
+
+	VARINDEX index_Romeo = PKB::getPKB()->getVarTable()->getVarIndex("Romeo");
+	CPPUNIT_ASSERT(ParserTest::isUses(13, index_Romeo));
+	CPPUNIT_ASSERT(ParserTest::isUses(15, index_Romeo));
+
+	VARINDEX index_delta = PKB::getPKB()->getVarTable()->getVarIndex("delta");
+	CPPUNIT_ASSERT(ParserTest::isUses(15, index_delta));
+
+	VARINDEX index_l = PKB::getPKB()->getVarTable()->getVarIndex("l");
+	CPPUNIT_ASSERT(ParserTest::isUses(15, index_l));
+
+	VARINDEX index_width = PKB::getPKB()->getVarTable()->getVarIndex("width");
+	CPPUNIT_ASSERT(ParserTest::isUses(15, index_width));
+
+	VARINDEX index_c = PKB::getPKB()->getVarTable()->getVarIndex("c");
+	CPPUNIT_ASSERT(ParserTest::isUses(16, index_c));
+	CPPUNIT_ASSERT(ParserTest::isUses(17, index_c));
+
+	VARINDEX index_w = PKB::getPKB()->getVarTable()->getVarIndex("w");
+	CPPUNIT_ASSERT(ParserTest::isUses(20, index_w));
 }
 
 bool ParserTest::isModifies(STMTLINE stmt, VARINDEX varIndex)
 {
 	vector<VARINDEX> varIndexList = PKB::getPKB()->getModifies()->getModifiedByStmt(stmt);
+	for (int i=0; i<varIndexList.size(); i++) {
+		if (varIndex == varIndexList.at(i)) 
+			return true;
+	}
+
+	return false;
+}
+
+bool ParserTest::isUses(STMTLINE stmt, VARINDEX varIndex)
+{
+	vector<VARINDEX> varIndexList = PKB::getPKB()->getUses()->getUsedByStmt(stmt);
 	for (int i=0; i<varIndexList.size(); i++) {
 		if (varIndex == varIndexList.at(i)) 
 			return true;

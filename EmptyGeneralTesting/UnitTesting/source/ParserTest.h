@@ -24,4 +24,5 @@ public:
 
 	// supporting functions
 	bool isModifies(STMTLINE stmt, VARINDEX varIndex);
+	bool isUses(STMTLINE stmt, VARINDEX varIndex);
 };
