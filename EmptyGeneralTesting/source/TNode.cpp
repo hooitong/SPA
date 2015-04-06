@@ -5,9 +5,9 @@ TNode::TNode(TType typeOfNode, string nodeValue) {
     stmtNumber = -1;
     type = typeOfNode;
     value = nodeValue;
-	parentNode = NULL;
-	leftSiblingNode = NULL;
-	rightSiblingNode = NULL;
+    parentNode = NULL;
+    leftSiblingNode = NULL;
+    rightSiblingNode = NULL;
 }
 
 TNode::TNode(void) {
@@ -15,7 +15,7 @@ TNode::TNode(void) {
 }
 
 //The destructor should be first called by the root of the AST.
-TNode::~TNode(void) { 
+TNode::~TNode(void) {
     delete rightSiblingNode;
     childrenNodes.clear();
 }
@@ -76,4 +76,3 @@ bool TNode::setStmtLine(STMTLINE stmtNo) {
 STMTLINE TNode::getStmtLine() {
     return stmtNumber;
 }
-

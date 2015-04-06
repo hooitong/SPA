@@ -32,5 +32,3 @@ vector<STMTLINE> Modifies::getModifies(VARINDEX varIndex) {
     }
     return stmtList;
 }
-
-
