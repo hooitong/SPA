@@ -1,8 +1,8 @@
-
+#pragma once
 #include "QueryTree.h"
 #include <string>
 #include <map>
-using namespace std;
+//using namespace std;
 
 class QueryPreprocessor {
   public:

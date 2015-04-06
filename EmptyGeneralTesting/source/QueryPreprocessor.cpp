@@ -177,7 +177,7 @@ using namespace std;
 			return false;
 
 		if(isalpha(ident.at(0))){
-			for(int i = 1; i < ident.length(); i++){
+			for(size_t i = 1; i < ident.length(); i++){
 				if(!isalnum(ident.at(i)) && !(ident.at(i) == '#')){
 					 return false;
 				}
@@ -191,7 +191,7 @@ using namespace std;
 
 		if(number.length() == 0)
 			return false;
-		for(int i = 0; i < number.length(); i++){
+		for(size_t i = 0; i < number.length(); i++){
 			if(!isdigit(number.at(i))){
 				return false;
 			}
@@ -233,7 +233,7 @@ using namespace std;
 
 /**************************Use Declaration *********************************/
 	bool QueryPreprocessor::existsRef(string reference){
-		for(int i = 0; i<refDeclared.size();i++){
+		for(size_t i = 0; i<refDeclared.size();i++){
 			if(reference == refDeclared.at(i).synonym){
 				return true;
 			}
@@ -242,7 +242,7 @@ using namespace std;
 		return false;
 	}
 	string QueryPreprocessor::getType(string synonym){
-		for(int i = 0; i<refDeclared.size();i++){
+		for(size_t i = 0; i<refDeclared.size();i++){
 			if(synonym == refDeclared.at(i).synonym){
 				return refDeclared.at(i).type;
 			}
@@ -494,7 +494,7 @@ using namespace std;
 			int ps = declar_clause.find(" ");
 			string type = declar_clause.substr(0,ps);
 			if(checkDesignEntity(type)){
-				int pc = ps;
+				 size_t pc = ps;
 				do{
 					cout << "Looping through each variable of the declaration clause"  << endl;
 					//pc = pointer of comma
@@ -516,7 +516,7 @@ using namespace std;
 				return false;
 			}
 			//pnsc = pointer of next semicolon
-			int pnsc = declaration.find(";", psc+1);
+			size_t pnsc = declaration.find(";", psc+1);
 			if(pnsc == string::npos) {
 				break;
 			}

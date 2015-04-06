@@ -16,4 +16,4 @@ class QueryPreprocessorTest : public CPPUNIT_NS::TestFixture{
     void setUp();
     void tearDown();
 	void testParsing();
-}
+};
