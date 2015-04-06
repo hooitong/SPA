@@ -110,7 +110,7 @@ void QueryEvaluatorTest::testFollowsStar() {
 	QueryEvaluator evaluator = QueryEvaluator(pkbObj);
 
 	list<string> expected;
-	expected.push_back("3 4");
+	expected.push_back("3");
 	list<string> result = evaluator.evaluate(tree);
 	CPPUNIT_ASSERT(expected == result);
 }
