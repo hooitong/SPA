@@ -7,5 +7,5 @@ procedure Second {
 	}
 	z = z + t + i;
 	v = z + 2;
-	t = t + v + z; 
+	t = t + v - z; 
 }

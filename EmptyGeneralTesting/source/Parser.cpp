@@ -247,9 +247,11 @@ TNode* Parser::buildExprAST(vector<ParsingToken *> exprTokenList, STMTLINE stmtL
 
 	for (int i=0; i<exprTokenList.size(); i++) {
 		ParsingToken* currToken = exprTokenList.at(i);
-		if (currToken->getTokenType() == TokenType::PLUS) // if token is + then put it to the operator stack
+		if (currToken->getTokenType() == TokenType::PLUS) // if token is + or - then put it to the operator stack
 			operatorStack.push(OperatorType::PLUS_OP);
-		else if (currToken->getTokenType() == TokenType::NAME || currToken->getTokenType() == TokenType::CONSTANT) {
+		else if (currToken->getTokenType() == TokenType::MINUS) {
+			operatorStack.push(OperatorType::MINUS_OP);
+		} else if (currToken->getTokenType() == TokenType::NAME || currToken->getTokenType() == TokenType::CONSTANT) {
 			if (currToken->getTokenType() == TokenType::NAME) {
 				PKB::getPKB()->getVarTable()->insertVar(currToken->getStringValue());
 			}
@@ -274,6 +276,17 @@ TNode* Parser::buildExprAST(vector<ParsingToken *> exprTokenList, STMTLINE stmtL
 					sNode->setStmtLine(stmtLine);
 					Parser::linkTNodes(plusNode, fNode, sNode);
 					operandStack.push(plusNode);
+				} else if (opType == OperatorType::MINUS_OP) {
+					TNode *minusNode = new TNode(TType::MINUSN, "");
+					minusNode->setStmtLine(stmtLine);
+					TNode *sNode;
+					if (currToken->getTokenType() == TokenType::NAME)
+						sNode = new TNode(TType::VARN, Parser::getStringIndexOfVar(currToken->getStringValue()));
+					else 
+						sNode = new TNode(TType::CONSTN, Parser::convertIntToString(currToken->getIntValue()));
+					sNode->setStmtLine(stmtLine);
+					Parser::linkTNodes(minusNode, fNode, sNode);
+					operandStack.push(minusNode);
 				}
 			} else {
 				TNode *aNode; 
