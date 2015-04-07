@@ -174,3 +174,45 @@ void ASTTest::testMatchRightPattern2(){
 	CPPUNIT_ASSERT(ast->matchRightPattern(3, "a+b+c", true));
 
 }
+
+
+void ASTTest::testMatchRightPattern3(){
+
+	//stored a+b+c
+	//query strict a+b
+	TNode* nodePlus = ast -> createTNode(PLUSN,"");
+	TNode* nodePlus2 = ast -> createTNode(PLUSN,"");
+	TNode* nodeRootMinus = ast -> createTNode(MINUSN,"");
+
+	VARINDEX aIndex = PKB::getPKB()->getVarTable()->insertVar("a");
+	TNode* nodeA = ast -> createTNode(VARN,std::to_string(static_cast<long long>(aIndex)));	
+	VARINDEX bIndex = PKB::getPKB()->getVarTable()->insertVar("b");	
+	TNode* nodeB = ast -> createTNode(VARN, std::to_string(static_cast<long long>(bIndex)));
+	VARINDEX cIndex = PKB::getPKB()->getVarTable()->insertVar("c");
+	TNode* nodeC = ast -> createTNode(VARN, std::to_string(static_cast<long long>(cIndex)));
+	VARINDEX dIndex = PKB::getPKB()->getVarTable()->insertVar("d");
+	TNode* nodeD = ast -> createTNode(VARN, std::to_string(static_cast<long long>(dIndex)));
+
+	nodeRootMinus->addChild(nodePlus);
+	nodeRootMinus->addChild(nodeD);
+	ast->setSibling(nodePlus, nodeD);
+
+	nodePlus->addChild(nodePlus2);
+	nodePlus->addChild(nodeC);
+	ast->setSibling(nodePlus2, nodeC);
+
+	nodePlus2->addChild(nodeA);
+	nodePlus2->addChild(nodeB);
+	ast->setSibling(nodeA, nodeB);
+
+	ast->setStmtLine(nodeRootMinus,3);
+
+	CPPUNIT_ASSERT(!ast->matchRightPattern(3, "a + b", true));
+	CPPUNIT_ASSERT(ast->matchRightPattern(3, "a+b", false));
+	CPPUNIT_ASSERT(!ast->matchRightPattern(3, "b+c", false));
+	CPPUNIT_ASSERT(!ast->matchRightPattern(3, "b+c", true));
+	CPPUNIT_ASSERT(!ast->matchRightPattern(3, "a+b+c", true));
+	CPPUNIT_ASSERT(ast->matchRightPattern(3, "a+b+c-d", true));
+	CPPUNIT_ASSERT(!ast->matchRightPattern(3, "c-d", false));
+
+}
