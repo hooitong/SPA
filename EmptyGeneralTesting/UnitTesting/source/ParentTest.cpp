@@ -32,6 +32,8 @@ void ParentTest::testSet() {
 // Test whether the setParentStar function works as intended.
 void ParentTest::testSetStar() {
     /* Set a few sample stmtLines */
+	(*pTest).setParentStar(1, 2);
+	(*pTest).setParentStar(2, 3);
     (*pTest).setParentStar(4, 8);
     (*pTest).setParentStar(1, 8);
     (*pTest).setParentStar(4, 5);

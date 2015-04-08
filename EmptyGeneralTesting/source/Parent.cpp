@@ -7,20 +7,14 @@ Parent::Parent(void) {
 Parent::~Parent(void) {
 }
 
-// Returns true if Parent relation has been successfully set given two stmtLine.
-bool Parent::setParent(STMTLINE parent, STMTLINE child) {
+void Parent::setParent(STMTLINE parent, STMTLINE child) {
     parent2ChildMap.insert(std::pair<STMTLINE, STMTLINE>(parent, child));
     child2ParentMap[child] = parent;
-    parent2ChildMapStar.insert(std::pair<STMTLINE, STMTLINE>(parent, child));
-    child2ParentMapStar.insert(std::pair<STMTLINE, STMTLINE>(child, parent));
-    return true;
 }
 
-// Returns true if Parent* relation has been successfully set given two stmtLine.
-bool Parent::setParentStar(STMTLINE parent, STMTLINE child) {
+void Parent::setParentStar(STMTLINE parent, STMTLINE child) {
     parent2ChildMapStar.insert(std::pair<STMTLINE, STMTLINE>(parent, child));
     child2ParentMapStar.insert(std::pair<STMTLINE, STMTLINE>(child, parent));
-    return true;
 }
 
 // Returns true if Parent(first, second) is valid otherwise false.

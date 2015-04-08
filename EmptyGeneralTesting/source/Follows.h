@@ -20,8 +20,8 @@ class Follows {
     Follows(void);
     ~Follows(void);
 
-    bool setFollows(STMTLINE first, STMTLINE second);
-    bool setFollowsStar(STMTLINE first, STMTLINE second);
+    void setFollows(STMTLINE first, STMTLINE second);
+    void setFollowsStar(STMTLINE first, STMTLINE second);
     bool isFollows(STMTLINE first, STMTLINE second);
     bool isFollowsStar(STMTLINE first, STMTLINE second);
     STMTLINE getFollowedBy(STMTLINE currentLine);
