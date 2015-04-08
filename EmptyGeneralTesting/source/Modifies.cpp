@@ -8,11 +8,9 @@ Modifies::Modifies(void) {
 Modifies::~Modifies(void) {
 }
 
-bool Modifies::setModifiesStmt(VARINDEX varIndex, STMTLINE stmt) {
-    //TODO Implement Validation
+void Modifies::setModifiesStmt(VARINDEX varIndex, STMTLINE stmt) {
     var2StmtMap.insert(std::pair<VARINDEX, STMTLINE>(varIndex, stmt));
     stmt2VarMap.insert(std::pair<STMTLINE, VARINDEX>(stmt, varIndex));
-    return true;
 }
 
 vector<VARINDEX> Modifies::getModifiedByStmt(STMTLINE stmtLine) {
