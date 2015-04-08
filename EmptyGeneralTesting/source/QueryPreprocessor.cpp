@@ -209,12 +209,15 @@ using namespace std;
 
 	}
 	bool QueryPreprocessor::checkVarReference(string varReference){
-
-		if(varReference.at(0) == '\"' && varReference.at(varReference.length()) == '\"'){
-			 varReference = varReference.substr(1,varReference.length() - 2);			
+		cout << "checking VarReference"<<endl;
+		if(varReference.at(0) == '\"' && varReference.at(varReference.length() -1) == '\"'){
+			 varReference = varReference.substr(1,varReference.length() - 2);	
+			 cout << "have quotations "<<endl;
 		} else {
+			cout << "no quotations "<<endl;
 			return false;
 		}
+		cout << "checking Ident for varReference "<<endl;
 		return (checkIdent(varReference));
 	}
 	bool QueryPreprocessor::checkDesignEntity(string entity){
@@ -280,10 +283,13 @@ using namespace std;
 	}
 
 	QNode* QueryPreprocessor::parseEntRef(string argument) {
+		QNode* right;
+		cout << "******************parsingEntRef*******************************" <<endl;
 		if (argument == "_") {
 			return queryTree->createNode(ANY,"");
 		} else if (argument.at(0) == '\"' && argument.at((int)argument.size()-1) == '\"') {
-			return queryTree->createNode(VAR,trim(argument.substr(1,(int)argument.size()-2)));
+			right = queryTree->createNode(VAR,trim(argument.substr(1,(int)argument.size()-2)));
+			return right;
 		} else if (existsRef(argument) && getType(argument) == "variable") {
 			return queryTree->createNode(VARIABLESYNONYM,argument);
 		}
@@ -425,8 +431,10 @@ using namespace std;
 			QNode* assignSynonymNode = queryTree->createNode(ASSIGNSYNONYM,synonym);
 			QNode* leftHandSide;
 			QNode* rightHandSide;
-
+			cout << "Checking VARREF" << endl;
+			cout << "VARREF1 :" << varRef <<endl;
 			if(checkVarReference(varRef)){
+				cout << "VARREF2 :" << varRef <<endl;
 				leftHandSide = queryTree->createNode(VAR,varRef.substr(1,(int)varRef.size()-2));
 			} else if (varRef == "_") {
 				leftHandSide = queryTree->createNode(ANY,"");
