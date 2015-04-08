@@ -17,6 +17,7 @@ class ASTTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testMatchRightPattern);
 	CPPUNIT_TEST(testMatchRightPattern2);
 	CPPUNIT_TEST(testMatchRightPattern3);
+	CPPUNIT_TEST(testMatchRightPattern4);
     CPPUNIT_TEST_SUITE_END();
 
   private:
@@ -37,5 +38,6 @@ class ASTTest : public CPPUNIT_NS::TestFixture {
     void testMatchRightPattern();
 	void testMatchRightPattern2();
 	void testMatchRightPattern3();
+	void testMatchRightPattern4();
 
 };

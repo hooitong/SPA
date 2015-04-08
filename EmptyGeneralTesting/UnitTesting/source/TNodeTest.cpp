@@ -6,9 +6,7 @@
 void TNodeTest::setUp() {
 	vTable = new VarTable;
 	VARINDEX vX = (*vTable).insertVar("x");
-	stringstream ss;
-	ss<<vX;
-	node = new TNode(VARN, ss.str()); //need to change to stmt number
+	node = new TNode(VARN, std::to_string(static_cast<long long>(vX))); //need to change to stmt number
     nodePlus = new TNode(PLUSN, "");
     nodeParent = new TNode(MINUSN, "");
 }
