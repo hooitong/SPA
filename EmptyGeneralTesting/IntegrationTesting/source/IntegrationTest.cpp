@@ -11,13 +11,14 @@ int main(int argc, char* argv[]) {
 
     CppUnit::TestSuite *suite = new CppUnit::TestSuite("All integration tests");
 
-	// Calls SPA Front-End to Parse Integration Test File
-	SPAFrontEnd::getInstance()->parseSource("integration.txt");
+    // Calls SPA Front-End to Parse Integration Test File
+    SPAFrontEnd::getInstance()->parseSource("integration.txt");
 
     suite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserFollowsTest").makeTest());
     suite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserParentTest").makeTest());
     suite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserModifiesTest").makeTest());
     suite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserUsesTest").makeTest());
+    suite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserPatternTest").makeTest());
 
     CppUnit::TestFactoryRegistry::getRegistry().addTestToSuite(suite);
     CppUnit::TextUi::TestRunner runner;

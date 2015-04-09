@@ -4,11 +4,11 @@
 #include "ParserModifiesTest.h"
 
 void ParserModifiesTest::setUp() {
-	mTest = PKB::getPKB()->getModifies();
+    mTest = PKB::getPKB()->getModifies();
 }
 
 void ParserModifiesTest::tearDown() {
-	mTest = nullptr;
+    mTest = nullptr;
 }
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ParserModifiesTest);
@@ -17,6 +17,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION(ParserModifiesTest);
 void ParserModifiesTest::testModifiesStmt() {
     // for each stmt line in procedure ABC, check whether VarIndex returned is valid.
     vector<VARINDEX> result;
+
     result = mTest->getModifiedByStmt(1);
     CPPUNIT_ASSERT(containVarIndex(&result, "i"));
     CPPUNIT_ASSERT(matchSize(&result, 1));
@@ -29,24 +30,24 @@ void ParserModifiesTest::testModifiesStmt() {
     CPPUNIT_ASSERT(containVarIndex(&result, "c"));
     CPPUNIT_ASSERT(matchSize(&result, 1));
 
-	result = mTest->getModifiedByStmt(4);
-	CPPUNIT_ASSERT(containVarIndex(&result, "w"));
-	CPPUNIT_ASSERT(containVarIndex(&result, "oSCar"));
-	CPPUNIT_ASSERT(containVarIndex(&result, "Romeo"));
-	CPPUNIT_ASSERT(containVarIndex(&result, "b"));
-	CPPUNIT_ASSERT(containVarIndex(&result, "c"));
-	CPPUNIT_ASSERT(containVarIndex(&result, "x"));
-	CPPUNIT_ASSERT(containVarIndex(&result, "a"));
-	CPPUNIT_ASSERT(matchSize(&result, 7));
+    result = mTest->getModifiedByStmt(4);
+    CPPUNIT_ASSERT(containVarIndex(&result, "w"));
+    CPPUNIT_ASSERT(containVarIndex(&result, "oSCar"));
+    CPPUNIT_ASSERT(containVarIndex(&result, "Romeo"));
+    CPPUNIT_ASSERT(containVarIndex(&result, "b"));
+    CPPUNIT_ASSERT(containVarIndex(&result, "c"));
+    CPPUNIT_ASSERT(containVarIndex(&result, "x"));
+    CPPUNIT_ASSERT(containVarIndex(&result, "a"));
+    CPPUNIT_ASSERT(matchSize(&result, 7));
 
-	result = mTest->getModifiedByStmt(5);
-	CPPUNIT_ASSERT(containVarIndex(&result, "oSCar"));
-	CPPUNIT_ASSERT(containVarIndex(&result, "Romeo"));
-	CPPUNIT_ASSERT(containVarIndex(&result, "b"));
-	CPPUNIT_ASSERT(containVarIndex(&result, "c"));
-	CPPUNIT_ASSERT(containVarIndex(&result, "x"));
-	CPPUNIT_ASSERT(containVarIndex(&result, "a"));
-	CPPUNIT_ASSERT(matchSize(&result, 6));
+    result = mTest->getModifiedByStmt(5);
+    CPPUNIT_ASSERT(containVarIndex(&result, "oSCar"));
+    CPPUNIT_ASSERT(containVarIndex(&result, "Romeo"));
+    CPPUNIT_ASSERT(containVarIndex(&result, "b"));
+    CPPUNIT_ASSERT(containVarIndex(&result, "c"));
+    CPPUNIT_ASSERT(containVarIndex(&result, "x"));
+    CPPUNIT_ASSERT(containVarIndex(&result, "a"));
+    CPPUNIT_ASSERT(matchSize(&result, 6));
 
     result = mTest->getModifiedByStmt(6);
     CPPUNIT_ASSERT(containVarIndex(&result, "oSCar"));
