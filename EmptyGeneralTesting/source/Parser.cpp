@@ -191,6 +191,7 @@ void Parser::buildProcedureAST() {
 			TNode *assignNode = new TNode(TType::ASSIGNN, "");
 			assignNode->setStmtLine(stmtLine);
 			ast->setStmtLine(assignNode, stmtLine);
+			ast->addToStmtLineMap(TType::ASSIGNN, stmtLine);
 			stmtLine++;
 			Parser::linkTNodes(assignNode, varNode, exprNode);
 			
@@ -209,6 +210,7 @@ void Parser::buildProcedureAST() {
 				TNode *whileNode = new TNode(TType::WHILEN, "");
 				whileNode->setStmtLine(stmtLine);
 				ast->setStmtLine(whileNode, stmtLine);
+				ast->addToStmtLineMap(TType::WHILEN, stmtLine);
 				stmtLine++;
 				
 				string varName = programTokenList.at(i-2)->getStringValue();
