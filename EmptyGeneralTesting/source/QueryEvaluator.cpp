@@ -162,7 +162,7 @@ QueryResult QueryEvaluator::solveFollows(QNode* node) {
 	if (leftChild->getQType() == ANY) {
 		vector <STMTLINE> statements = pkbInstance->getAst()->getStmtLines(STMTN);
 		vector <QueryResult> results;
-		for (int i = 1; i < (int) statements.size(); i++) {
+		for (int i = 0; i < (int) statements.size(); i++) {
 			stringstream s;
 			s << statements[i];
 			QNode* node = new QNode(RELATION, "Follows");
@@ -183,7 +183,7 @@ QueryResult QueryEvaluator::solveFollows(QNode* node) {
 	if (rightChild->getQType() == ANY) {
 		vector <STMTLINE> statements = pkbInstance->getAst()->getStmtLines(STMTN);
 		vector <QueryResult> results;
-		for (int i = 1; i < (int) statements.size(); i++) {
+		for (int i = 0; i < (int) statements.size(); i++) {
 			stringstream s;
 			s << statements[i];
 			QNode* node = new QNode(RELATION, "Follows");
@@ -242,7 +242,7 @@ QueryResult QueryEvaluator::solveFollowsStar(QNode* node) {
 	if (leftChild->getQType() == ANY) {
 		vector <STMTLINE> statements = pkbInstance->getAst()->getStmtLines(STMTN);
 		vector <QueryResult> results;
-		for (int i = 1; i < (int) statements.size(); i++) {
+		for (int i = 0; i < (int) statements.size(); i++) {
 			stringstream s;
 			s << statements[i];
 			QNode* node = new QNode(RELATION, "Follows*");
@@ -263,7 +263,7 @@ QueryResult QueryEvaluator::solveFollowsStar(QNode* node) {
 	if (rightChild->getQType() == ANY) {
 		vector <STMTLINE> statements = pkbInstance->getAst()->getStmtLines(STMTN);
 		vector <QueryResult> results;
-		for (int i = 1; i < (int) statements.size(); i++) {
+		for (int i = 0; i < (int) statements.size(); i++) {
 			stringstream s;
 			s << statements[i];
 			QNode* node = new QNode(RELATION, "Follows*");
@@ -311,7 +311,7 @@ QueryResult QueryEvaluator::solveParent(QNode* node) {
 	if (leftChild->getQType() == ANY) {
 		vector <STMTLINE> statements = pkbInstance->getAst()->getStmtLines(STMTN);
 		vector <QueryResult> results;
-		for (int i = 1; i < (int) statements.size(); i++) {
+		for (int i = 0; i < (int) statements.size(); i++) {
 			stringstream s;
 			s << statements[i];
 			QNode* node = new QNode(RELATION, "Parent");
@@ -332,7 +332,7 @@ QueryResult QueryEvaluator::solveParent(QNode* node) {
 	if (rightChild->getQType() == ANY) {
 		vector <STMTLINE> statements = pkbInstance->getAst()->getStmtLines(STMTN);
 		vector <QueryResult> results;
-		for (int i = 1; i < (int) statements.size(); i++) {
+		for (int i = 0; i < (int) statements.size(); i++) {
 			stringstream s;
 			s << statements[i];
 			QNode* node = new QNode(RELATION, "Parent");
@@ -384,7 +384,7 @@ QueryResult QueryEvaluator::solveParentStar(QNode* node) {
 	if (leftChild->getQType() == ANY) {
 		vector <STMTLINE> statements = pkbInstance->getAst()->getStmtLines(STMTN);
 		vector <QueryResult> results;
-		for (int i = 1; i < (int) statements.size(); i++) {
+		for (int i = 0; i < (int) statements.size(); i++) {
 			stringstream s;
 			s << statements[i];
 			QNode* node = new QNode(RELATION, "Parent*");
@@ -405,7 +405,7 @@ QueryResult QueryEvaluator::solveParentStar(QNode* node) {
 	if (rightChild->getQType() == ANY) {
 		vector <STMTLINE> statements = pkbInstance->getAst()->getStmtLines(STMTN);
 		vector <QueryResult> results;
-		for (int i = 1; i < (int) statements.size(); i++) {
+		for (int i = 0; i < (int) statements.size(); i++) {
 			stringstream s;
 			s << statements[i];
 			QNode* node = new QNode(RELATION, "Parent*");
@@ -453,7 +453,7 @@ QueryResult QueryEvaluator::solveModifies(QNode* node) {
 	if (leftChild->getQType() == ANY) {
 		vector <STMTLINE> statements = pkbInstance->getAst()->getStmtLines(STMTN);
 		vector <QueryResult> results;
-		for (int i = 1; i < (int) statements.size(); i++) {
+		for (int i = 0; i < (int) statements.size(); i++) {
 			stringstream s;
 			s << statements[i];
 			QNode* node = new QNode(RELATION, "Modifies");
@@ -461,7 +461,7 @@ QueryResult QueryEvaluator::solveModifies(QNode* node) {
 			QNode* newRightChild = new QNode(rightChild->getQType(), rightChild->getString());
 			node->addChild(newLeftChild);
 			node->addChild(newRightChild);
-			results.push_back(solveParentStar(node));
+			results.push_back(solveModifies(node));
 			delete newLeftChild;
 			delete newRightChild;
 			delete node;
@@ -474,13 +474,13 @@ QueryResult QueryEvaluator::solveModifies(QNode* node) {
 	if (rightChild->getQType() == ANY) {
 		vector <string> vars = pkbInstance->getVarTable()->getAllVarName();
 		vector <QueryResult> results;
-		for (int i = 1; i < (int) vars.size(); i++) {
+		for (int i = 0; i < (int) vars.size(); i++) {
 			QNode* node = new QNode(RELATION, "Modifies");
 			QNode* newLeftChild = new QNode(leftChild->getQType(), leftChild->getString());
 			QNode* newRightChild = new QNode(CONST, vars[i]);
 			node->addChild(newLeftChild);
 			node->addChild(newRightChild);
-			results.push_back(solveParentStar(node));
+			results.push_back(solveModifies(node));
 			delete newLeftChild;
 			delete newRightChild;
 			delete node;
@@ -534,7 +534,7 @@ QueryResult QueryEvaluator::solveUses(QNode* node) {
 	if (leftChild->getQType() == ANY) {
 		vector <STMTLINE> statements = pkbInstance->getAst()->getStmtLines(STMTN);
 		vector <QueryResult> results;
-		for (int i = 1; i < (int) statements.size(); i++) {
+		for (int i = 0; i < (int) statements.size(); i++) {
 			stringstream s;
 			s << statements[i];
 			QNode* node = new QNode(RELATION, "Uses");
@@ -555,7 +555,7 @@ QueryResult QueryEvaluator::solveUses(QNode* node) {
 	if (rightChild->getQType() == ANY) {
 		vector <string> vars = pkbInstance->getVarTable()->getAllVarName();
 		vector <QueryResult> results;
-		for (int i = 1; i < (int) vars.size(); i++) {
+		for (int i = 0; i < (int) vars.size(); i++) {
 			QNode* node = new QNode(RELATION, "Uses");
 			QNode* newLeftChild = new QNode(leftChild->getQType(), leftChild->getString());
 			QNode* newRightChild = new QNode(CONST, vars[i]);

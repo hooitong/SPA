@@ -24,6 +24,10 @@ class QueryEvaluatorTest : public CPPUNIT_NS::TestFixture {
 	CPPUNIT_TEST(testParentStarRight);
 	CPPUNIT_TEST(testParentStarBoth);
 	CPPUNIT_TEST(testParentStarNone);
+	CPPUNIT_TEST(testModifiesLeft);
+	CPPUNIT_TEST(testModifiesRight);
+	CPPUNIT_TEST(testModifiesBoth);
+	CPPUNIT_TEST(testModifiesNone);
     CPPUNIT_TEST_SUITE_END();
 
   private:
@@ -55,4 +59,9 @@ class QueryEvaluatorTest : public CPPUNIT_NS::TestFixture {
     void testParentStarRight();
 	void testParentStarBoth();
 	void testParentStarNone();
+
+    void testModifiesLeft();
+    void testModifiesRight();
+	void testModifiesBoth();
+	void testModifiesNone();
 };

@@ -89,48 +89,47 @@ void QueryEvaluatorTest::setupTestData() {
 	int x = vObj->insertVar("x");
 
 	Modifies* mObj = pkbObj->getModifies();
-	mObj->setModifiesStmt(1, a);
-	mObj->setModifiesStmt(2, c);
-	mObj->setModifiesStmt(3, i);
-	mObj->setModifiesStmt(4, b);
-	mObj->setModifiesStmt(5, b);
-	mObj->setModifiesStmt(5, c);
-	mObj->setModifiesStmt(5, i);
-	mObj->setModifiesStmt(5, t);
-	mObj->setModifiesStmt(6, b);
-	mObj->setModifiesStmt(7, c);
-	mObj->setModifiesStmt(7, i);
-	mObj->setModifiesStmt(7, t);
-	mObj->setModifiesStmt(8, t);
-	mObj->setModifiesStmt(9, i);
-	mObj->setModifiesStmt(10, c);
-	mObj->setModifiesStmt(11, i);
-	mObj->setModifiesStmt(12, c);
-	mObj->setModifiesStmt(1, 7);
+	mObj->setModifiesStmt(a, 1);
+	mObj->setModifiesStmt(c, 2);
+	mObj->setModifiesStmt(i, 3);
+	mObj->setModifiesStmt(b, 4);
+	mObj->setModifiesStmt(b, 5);
+	mObj->setModifiesStmt(c, 5);
+	mObj->setModifiesStmt(i, 5);
+	mObj->setModifiesStmt(t, 5);
+	mObj->setModifiesStmt(b, 6);
+	mObj->setModifiesStmt(c, 7);
+	mObj->setModifiesStmt(i, 7);
+	mObj->setModifiesStmt(t, 7);
+	mObj->setModifiesStmt(t, 8);
+	mObj->setModifiesStmt(i, 9);
+	mObj->setModifiesStmt(c, 10);
+	mObj->setModifiesStmt(i, 11);
+	mObj->setModifiesStmt(c, 12);
 
 	Uses* uObj = pkbObj->getUses();
-	uObj->setUsesStmt(2, a);
-	uObj->setUsesStmt(3, a);
-	uObj->setUsesStmt(4, a);
-	uObj->setUsesStmt(4, c);
-	uObj->setUsesStmt(4, x);
-	uObj->setUsesStmt(5, a);
-	uObj->setUsesStmt(5, c);
-	uObj->setUsesStmt(5, i);
-	uObj->setUsesStmt(5, t);
-	uObj->setUsesStmt(6, c);
-	uObj->setUsesStmt(6, t);
-	uObj->setUsesStmt(7, a);
-	uObj->setUsesStmt(7, i);
-	uObj->setUsesStmt(7, t);
-	uObj->setUsesStmt(8, a);
-	uObj->setUsesStmt(8, t);
-	uObj->setUsesStmt(9, t);
-	uObj->setUsesStmt(10, a);
-	uObj->setUsesStmt(10, t);
-	uObj->setUsesStmt(11, i);
-	uObj->setUsesStmt(12, a);
-	uObj->setUsesStmt(12, t);
+	uObj->setUsesStmt(a, 2);
+	uObj->setUsesStmt(a, 3);
+	uObj->setUsesStmt(a, 4);
+	uObj->setUsesStmt(c, 4);
+	uObj->setUsesStmt(x, 4);
+	uObj->setUsesStmt(a, 5);
+	uObj->setUsesStmt(c, 5);
+	uObj->setUsesStmt(i, 5);
+	uObj->setUsesStmt(t, 5);
+	uObj->setUsesStmt(c, 6);
+	uObj->setUsesStmt(t, 6);
+	uObj->setUsesStmt(a, 7);
+	uObj->setUsesStmt(i, 7);
+	uObj->setUsesStmt(t, 7);
+	uObj->setUsesStmt(a, 8);
+	uObj->setUsesStmt(t, 8);
+	uObj->setUsesStmt(t, 9);
+	uObj->setUsesStmt(a, 10);
+	uObj->setUsesStmt(t, 10);
+	uObj->setUsesStmt(i, 11);
+	uObj->setUsesStmt(a, 12);
+	uObj->setUsesStmt(t, 12);
 
 
 	AST* aObject = pkbObj->getAst();
@@ -830,6 +829,177 @@ void QueryEvaluatorTest::testParentStarNone() {
 	delete tree;
 
 	tree = createTree(WHILESYNONYM, "w", "Parent*", CONST, "5", ANY, "");
+
+	expected.clear();
+	expected.push_back("5");
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+}
+
+void QueryEvaluatorTest::testModifiesLeft() {
+	QueryTree* tree;
+	QueryEvaluator evaluator(pkbObj);
+	list<string> result;
+	list<string> expected;
+
+	tree = createTree(STMTSYNONYM, "s", "Modifies", STMTSYNONYM, "s", VAR, "b");
+
+	expected.clear();
+	expected.push_back("4");
+	expected.push_back("5");
+	expected.push_back("6");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "w", "Modifies", WHILESYNONYM, "w", VAR, "b");
+
+	expected.clear();
+	expected.push_back("5");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "w", "Modifies", WHILESYNONYM, "w", ANY, "");
+
+	expected.clear();
+	expected.push_back("5");
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+}
+
+void QueryEvaluatorTest::testModifiesRight() {
+	QueryTree* tree;
+	QueryEvaluator evaluator(pkbObj);
+	list<string> result;
+	list<string> expected;
+
+	tree = createTree(VARIABLESYNONYM, "v", "Modifies", CONST, "6", VARIABLESYNONYM, "v");
+
+	expected.clear();
+	expected.push_back("b");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+
+	tree = createTree(VARIABLESYNONYM, "v", "Modifies", CONST, "7", VARIABLESYNONYM, "v");
+
+	expected.clear();
+	expected.push_back("c");
+	expected.push_back("i");
+	expected.push_back("t");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(VARIABLESYNONYM, "v", "Modifies", ANY, "", VARIABLESYNONYM, "v");
+
+	expected.clear();
+	expected.push_back("a");
+	expected.push_back("b");
+	expected.push_back("c");
+	expected.push_back("i");
+	expected.push_back("t");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+}
+
+void QueryEvaluatorTest::testModifiesBoth() {
+	QueryTree* tree;
+	QueryEvaluator evaluator(pkbObj);
+	list<string> result;
+	list<string> expected;
+
+	tree = createTree(VARIABLESYNONYM, "v", "Modifies", STMTSYNONYM, "s", VARIABLESYNONYM, "v");
+
+	expected.clear();
+	expected.push_back("a");
+	expected.push_back("b");
+	expected.push_back("c");
+	expected.push_back("i");
+	expected.push_back("t");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+
+	tree = createTree(ASSIGNSYNONYM, "a", "Modifies", ASSIGNSYNONYM, "a", VARIABLESYNONYM, "v");
+
+	expected.clear();
+	expected.push_back("1");
+	expected.push_back("2");
+	expected.push_back("3");
+	expected.push_back("4");
+	expected.push_back("6");
+	expected.push_back("8");
+	expected.push_back("9");
+	expected.push_back("10");
+	expected.push_back("11");
+	expected.push_back("12");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "w", "Modifies", WHILESYNONYM, "w", VARIABLESYNONYM, "v");
+
+	expected.clear();
+	expected.push_back("5");
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+}
+
+void QueryEvaluatorTest::testModifiesNone() {
+	QueryTree* tree;
+	QueryEvaluator evaluator(pkbObj);
+	list<string> result;
+	list<string> expected;
+
+	tree = createTree(VARIABLESYNONYM, "v", "Modifies", CONST, "5", VAR, "i");
+
+	expected.clear();
+	expected.push_back("a");
+	expected.push_back("b");
+	expected.push_back("c");
+	expected.push_back("i");
+	expected.push_back("t");
+	expected.push_back("x");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+
+	tree = createTree(VARIABLESYNONYM, "v", "Modifies", CONST, "5", VAR, "x");
+
+	expected.clear();
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "w", "Modifies", ANY, "", ANY, "");
+
+	expected.clear();
+	expected.push_back("5");
+	expected.push_back("7");
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "w", "Modifies", ANY, "", VAR, "x");
+
+	expected.clear();
+	result = evaluator.evaluate(tree);
+	CPPUNIT_ASSERT(result == expected);
+	delete tree;
+
+	tree = createTree(WHILESYNONYM, "w", "Modifies", CONST, "5", ANY, "");
 
 	expected.clear();
 	expected.push_back("5");
