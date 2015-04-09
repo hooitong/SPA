@@ -301,8 +301,10 @@ TNode* Parser::buildExprAST(vector<ParsingToken *> exprTokenList, STMTLINE stmtL
 			}
 
 			// Add variable to varTable and Uses Table
-			PKB::getPKB()->getVarTable()->insertVar(currToken->getStringValue());
-			Parser::addVarToUses(currToken->getStringValue(), stmtLine);
+			if (currToken->getTokenType() == TokenType::NAME) {
+				PKB::getPKB()->getVarTable()->insertVar(currToken->getStringValue());
+				Parser::addVarToUses(currToken->getStringValue(), stmtLine);
+			}
 		}
 	}
 
@@ -392,7 +394,9 @@ void Parser::linkTNodeToPrevNodes(TNode *currNode, TNode *prevNode, TNodeRelatio
 		// set Parent and Parent star for current statement based on previous statement
 		// we know that previous statement is an assignment or a while statement
 		STMTLINE prevParentStmt = PKB::getPKB()->getParent()->getParent(prevNode->getStmtLine());
-		PKB::getPKB()->getParent()->setParent(prevParentStmt, currNode->getStmtLine());
+		if (prevParentStmt != -1) {
+			PKB::getPKB()->getParent()->setParent(prevParentStmt, currNode->getStmtLine());
+		}
 		/*vector<STMTLINE> prevStmtParentStarList = PKB::getPKB()->getParent()->getParentStar(prevNode->getStmtLine());
 		for (int i=0; i<prevStmtParentStarList.size(); i++) {
 			PKB::getPKB()->getParent()->setParentStar(prevStmtParentStarList.at(i), currNode->getStmtLine());
