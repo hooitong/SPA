@@ -6,16 +6,19 @@
 #include "PKB.h"
 
 class ParserModifiesTest : public CPPUNIT_NS::TestFixture {
-	CPPUNIT_TEST_SUITE(ParserModifiesTest);
-	CPPUNIT_TEST(testModifies);
-	CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE(ParserModifiesTest);
+    CPPUNIT_TEST(testModifiesStmt);
+    CPPUNIT_TEST_SUITE_END();
 
-private:
-	Uses* uTest;
+  private:
+    bool containStmtLine(vector<STMTLINE> *list, STMTLINE s);
+    bool containVarIndex(vector<VARINDEX> *list, VARNAME v);
+    bool matchSize(vector<VARINDEX> *list, int size);
 
-public:
-	void setUp();
-	void tearDown();
+  public:
+    void setUp();
+    void tearDown();
 
-	void testModifies();
+    void testModifiesStmt();
+    void testModifiesVarIndex();
 };
