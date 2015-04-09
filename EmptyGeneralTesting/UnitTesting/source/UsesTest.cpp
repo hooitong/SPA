@@ -14,14 +14,9 @@ CPPUNIT_TEST_SUITE_REGISTRATION(UsesTest);
 
 // Test whether setUsesStmt function works as intended.
 void UsesTest::testSetStatement() {
-    bool status = (*uses).setUsesStmt(0, 1);
-    CPPUNIT_ASSERT(true == status);
-
-    status = (*uses).setUsesStmt(0, 2);
-    CPPUNIT_ASSERT(true == status);
-
-    status = (*uses).setUsesStmt(1, 2);
-    CPPUNIT_ASSERT(true == status);
+    (*uses).setUsesStmt(0, 1);
+    (*uses).setUsesStmt(0, 2);
+    (*uses).setUsesStmt(1, 2);
 }
 
 // Test whether getUsedByStmt works as intended.

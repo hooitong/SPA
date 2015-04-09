@@ -19,7 +19,7 @@ class Modifies {
     Modifies(void);
     ~Modifies(void);
 
-    bool setModifiesStmt(VARINDEX varIndex, STMTLINE stmt);
+    void setModifiesStmt(VARINDEX varIndex, STMTLINE stmt);
     vector<VARINDEX> getModifiedByStmt(STMTLINE stmtLine);
     vector<STMTLINE> getModifies(VARINDEX varIndex);
 

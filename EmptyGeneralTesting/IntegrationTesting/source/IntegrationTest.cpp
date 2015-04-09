@@ -2,42 +2,30 @@
 #include <cppunit/ui/text/TestRunner.h>
 #include <iostream>
 #include <fstream>
-#include <Parser.h>
+#include <SPAFrontEnd.h>
 
 using namespace std;
 
-int main(int argc, char* argv[])
-{
-	// Get the top level suite from the registry
-	CPPUNIT_NS::Test *suite = CPPUNIT_NS::TestFactoryRegistry::getRegistry().makeTest();
-	CppUnit::TextUi::TestRunner runner;
+int main(int argc, char* argv[]) {
+    // Get the top level suite from the registry
 
-	//parse the SIMPLE soource code into the parser
-	//Parse();
+    CppUnit::TestSuite *suite = new CppUnit::TestSuite("All integration tests");
 
-	//Call of DesignExtractor
-	//Extract();
+	// Calls SPA Front-End to Parse Integration Test File
+	SPAFrontEnd::getInstance()->parseSource("integration.txt");
 
-	runner.addTest(suite);
-	bool wasSucessful = runner.run();
+    suite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserFollowsTest").makeTest());
+    suite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserParentTest").makeTest());
+    suite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserModifiesTest").makeTest());
+    suite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserUsesTest").makeTest());
 
-	//getchar();
+    CppUnit::TestFactoryRegistry::getRegistry().addTestToSuite(suite);
+    CppUnit::TextUi::TestRunner runner;
 
-	/*while (true) {
-		cout << "Enter a string: ";
-		string aString;
-		getline(cin, aString);
-		if (Parser::isNumeric(aString)) {
-			cout << "is numeric\n";
-		} else {
-			cout << "is not numeric\n";
-		}
-		if (Parser::isValidName(aString)) {
-			cout << "is a valid name\n";
-		} else {
-			cout << "is not a valid name\n";
-		}
-	}*/
+    runner.addTest(suite);
+    bool wasSucessful = runner.run();
 
-	return wasSucessful ? 0 : 1;
+    getchar();
+
+    return wasSucessful ? 0 : 1;
 }

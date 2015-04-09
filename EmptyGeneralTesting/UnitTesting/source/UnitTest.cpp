@@ -19,7 +19,6 @@ int main(int argc, char* argv[]) {
 	unitSuite->addTest(CppUnit::TestFactoryRegistry::getRegistry("TNodeTest").makeTest());
 	unitSuite->addTest(CppUnit::TestFactoryRegistry::getRegistry("VarTableTest").makeTest());
 	
-	//unitSuite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ProcTableTest").makeTest());
     CppUnit::TestFactoryRegistry::getRegistry().addTestToSuite(unitSuite);
     CppUnit::TextUi::TestRunner runner;
 

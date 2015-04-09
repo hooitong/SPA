@@ -7,16 +7,14 @@ Follows::Follows(void) {
 Follows::~Follows(void) {
 }
 
-bool Follows::setFollows(STMTLINE first, STMTLINE second) {
+void Follows::setFollows(STMTLINE first, STMTLINE second) {
     rightSiblingMap[first] = second;
     leftSiblingMap[second] = first;
-    return true;
 }
 
-bool Follows::setFollowsStar(STMTLINE first, STMTLINE second) {
+void Follows::setFollowsStar(STMTLINE first, STMTLINE second) {
     rightSiblingsMap.insert(std::pair<STMTLINE, STMTLINE>(first, second));
     leftSiblingsMap.insert(std::pair<STMTLINE, STMTLINE>(second, first));
-    return true;
 }
 
 bool Follows::isFollows(STMTLINE first, STMTLINE second) {

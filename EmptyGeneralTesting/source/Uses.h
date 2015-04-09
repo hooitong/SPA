@@ -20,7 +20,7 @@ class Uses {
     Uses(void);
     ~Uses(void);
 
-    bool setUsesStmt(VARINDEX varIndex, STMTLINE stmt);
+    void setUsesStmt(VARINDEX varIndex, STMTLINE stmt);
     vector<VARINDEX> getUsedByStmt(STMTLINE stmtLine);
     vector<STMTLINE> getUses(VARINDEX varIndex);
 
