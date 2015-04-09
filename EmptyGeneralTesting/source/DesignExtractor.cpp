@@ -1,9 +1,11 @@
+#include <algorithm>
+#include <iostream>
+
 #include "DesignExtractor.h"
 
 #include "PKB.h"
 #include "Follows.h"
 
-DesignExtractor* DesignExtractor::deObj;
 
 /* Constructor & Destructor */
 DesignExtractor::DesignExtractor(void) {
@@ -12,11 +14,11 @@ DesignExtractor::DesignExtractor(void) {
 DesignExtractor::~DesignExtractor(void) {
 }
 
-DesignExtractor* DesignExtractor::getInstance() {
-    if(deObj == NULL) {
-        deObj = new DesignExtractor;
-    }
-    return deObj;
+void DesignExtractor::extract() {
+    extractFollowsStar();
+    extractParentStar();
+    extractModifiesContainer();
+    extractUsesContainer();
 }
 
 // method that extracts the Follows* relationship from the Follow map.
@@ -39,7 +41,8 @@ void DesignExtractor::extractFollowsStar() {
 void DesignExtractor::extractParentStar() {
     PKB* pkbObj = PKB::getPKB();
     Parent* p = (*pkbObj).getParent();
-    STMTLINE root = (*pkbObj).getAst()->getRoot()->getStmtLine();
+    STMTLINE root = 1;
+
     vector<STMTLINE> parents;
     recursiveExtractParent(p, root, parents);
 }
@@ -48,7 +51,7 @@ void DesignExtractor::extractParentStar() {
 // set the necessary parent* relationship.
 void DesignExtractor::recursiveExtractParent(Parent* pObj, STMTLINE root, vector<STMTLINE> parents) {
     // for each parent, set relation setParent* for each parent on current root
-    for (std::vector<int>::iterator it = parents.begin() ; it != parents.end(); ++it) {
+    for (std::vector<int>::iterator it = parents.begin(); it != parents.end(); ++it) {
         pObj->setParentStar(*it, root);
     }
 
@@ -57,10 +60,54 @@ void DesignExtractor::recursiveExtractParent(Parent* pObj, STMTLINE root, vector
 
     // for each child of current root, call recursive method
     vector<STMTLINE> children = pObj->getChildOf(root);
-    for (std::vector<int>::iterator it = children.begin() ; it != children.end(); ++it) {
+    for (std::vector<int>::iterator it = children.begin(); it != children.end(); ++it) {
         recursiveExtractParent(pObj, *it, parents);
     }
 
     // end of recursion
     return;
+}
+
+void DesignExtractor::extractModifiesContainer() {
+    PKB* pkbObj = PKB::getPKB();
+    vector<STMTLINE> aList = pkbObj->getAst()->getStmtLines(ASSIGNN);
+    for(std::vector<STMTLINE>::iterator i = aList.begin(); i != aList.end(); ++i) {
+        vector<STMTLINE> pList = pkbObj->getParent()->getParentStar(*i);
+		vector<VARINDEX> vList = pkbObj->getModifies()->getModifiedByStmt(*i);
+        for(std::vector<VARINDEX>::iterator k = vList.begin(); k != vList.end(); ++k) {
+			for(std::vector<STMTLINE>::iterator j = pList.begin(); j != pList.end(); ++j) {
+				if(!isModifiesDuplicate(*j, *k)) {
+					pkbObj->getModifies()->setModifiesStmt(*k, *j);
+				}
+			}
+        }
+    }
+}
+
+void DesignExtractor::extractUsesContainer() {
+	PKB* pkbObj = PKB::getPKB();
+	vector<STMTLINE> aList = pkbObj->getAst()->getStmtLines(ASSIGNN);
+	for(std::vector<STMTLINE>::iterator i = aList.begin(); i != aList.end(); ++i) {
+		vector<STMTLINE> pList = pkbObj->getParent()->getParentStar(*i);
+		vector<VARINDEX> vList = pkbObj->getUses()->getUsedByStmt(*i);
+		for(std::vector<VARINDEX>::iterator k = vList.begin(); k != vList.end(); ++k) {
+			for(std::vector<STMTLINE>::iterator j = pList.begin(); j != pList.end(); ++j) {
+				if(!isUsesDuplicate(*j, *k)) {
+					pkbObj->getUses()->setUsesStmt(*k, *j);
+				}
+			}
+		}
+	}
+}
+
+bool DesignExtractor::isModifiesDuplicate(STMTLINE source, VARINDEX item) {
+	Modifies* mObj = PKB::getPKB()->getModifies();
+	vector<VARINDEX> list = mObj->getModifiedByStmt(source);
+	return find(list.begin(), list.end(), item) != list.end();
+}
+
+bool DesignExtractor::isUsesDuplicate(STMTLINE source, VARINDEX item) {
+	Uses* uObj = PKB::getPKB()->getUses();
+	vector<VARINDEX> list = uObj->getUsedByStmt(source);
+	return find(list.begin(), list.end(), item) != list.end();
 }

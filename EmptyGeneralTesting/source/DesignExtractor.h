@@ -7,13 +7,17 @@
 
 class DesignExtractor {
   private:
-    static DesignExtractor* deObj;
-    void recursiveExtractParent(Parent* pObj, STMTLINE root, vector<STMTLINE> parents);
+    static void recursiveExtractParent(Parent* pObj, STMTLINE root, vector<STMTLINE> parents);
+	static void extractFollowsStar();
+	static void extractParentStar();
+	static void extractModifiesContainer();
+	static void extractUsesContainer();
+
+	static bool isModifiesDuplicate(STMTLINE source, VARINDEX item);
+	static bool isUsesDuplicate(STMTLINE source, VARINDEX item);
 
   public:
     DesignExtractor();
     ~DesignExtractor();
-	static DesignExtractor* getInstance();
-    void extractFollowsStar();
-    void extractParentStar();
+	static void extract();
 };
