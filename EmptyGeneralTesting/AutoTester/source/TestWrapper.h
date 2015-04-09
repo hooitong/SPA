@@ -6,6 +6,7 @@
 #include "Parser.h"
 #include "QueryPreprocessor.h"
 #include "QueryEvaluator.h"
+#include "DesignExtractor.h"
 
 #include <string>
 #include <iostream>

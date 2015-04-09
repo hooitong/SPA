@@ -20,6 +20,9 @@ void TestWrapper::parse(std::string filename) {
 	// call your parser to do the parsing
 	// ...rest of your code...
 	Parser::parse(filename);
+    DesignExtractor* deObj = DesignExtractor::getInstance();
+    deObj->extractFollowsStar();
+    deObj->extractParentStar();
 }
 
 // method to evaluating a query
