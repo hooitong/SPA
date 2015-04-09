@@ -11,6 +11,7 @@ class ParserModifiesTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE_END();
 
   private:
+    Modifies* mTest;
     bool containStmtLine(vector<STMTLINE> *list, STMTLINE s);
     bool containVarIndex(vector<VARINDEX> *list, VARNAME v);
     bool matchSize(vector<VARINDEX> *list, int size);

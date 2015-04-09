@@ -4,17 +4,17 @@
 #include "ParserModifiesTest.h"
 
 void ParserModifiesTest::setUp() {
+	mTest = PKB::getPKB()->getModifies();
 }
 
 void ParserModifiesTest::tearDown() {
+	mTest = nullptr;
 }
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ParserModifiesTest);
 
 // Test whether the parser and PKB is able to capture all the Modifies relationship
 void ParserModifiesTest::testModifiesStmt() {
-    Modifies* mTest = PKB::getPKB()->getModifies();
-
     // for each stmt line in procedure ABC, check whether VarIndex returned is valid.
     vector<VARINDEX> result;
     result = mTest->getModifiedByStmt(1);
@@ -122,7 +122,6 @@ void ParserModifiesTest::testModifiesStmt() {
 
 }
 void ParserModifiesTest::testModifiesVarIndex() {
-    Modifies* mTest = PKB::getPKB()->getModifies();
     VarTable* varTest = PKB::getPKB()->getVarTable();
 
     // for each variable in procedure ABC, check whether STMTLINE returned is valid.
