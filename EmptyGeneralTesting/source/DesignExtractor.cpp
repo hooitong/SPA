@@ -14,6 +14,7 @@ DesignExtractor::DesignExtractor(void) {
 DesignExtractor::~DesignExtractor(void) {
 }
 
+// public method that extracts all remaining relationships in the PKB
 void DesignExtractor::extract() {
     extractFollowsStar();
     extractParentStar();
@@ -92,23 +93,24 @@ void DesignExtractor::extractModifiesContainer() {
 }
 
 void DesignExtractor::extractUsesContainer() {
-	PKB* pkbObj = PKB::getPKB();
+    PKB* pkbObj = PKB::getPKB();
 
-	vector<STMTLINE> cList = pkbObj->getAst()->getStmtLines(WHILEN);
-	for(std::vector<STMTLINE>::iterator i = cList.begin(); i != cList.end(); ++i) {
-		vector<STMTLINE> pList = pkbObj->getParent()->getParentStar(*i);
-		vector<VARINDEX> vList = pkbObj->getUses()->getUsedByStmt(*i);
-		for(std::vector<VARINDEX>::iterator k = vList.begin(); k != vList.end(); ++k) {
-			for(std::vector<STMTLINE>::iterator j = pList.begin(); j != pList.end(); ++j) {
-				if(!isUsesDuplicate(*j, *k)) {
-					pkbObj->getUses()->setUsesStmt(*k, *j);
-				}
-			}
-		}
-	}
-
+	// Add Uses Relation to Direct Container
     vector<STMTLINE> aList = pkbObj->getAst()->getStmtLines(ASSIGNN);
     for(std::vector<STMTLINE>::iterator i = aList.begin(); i != aList.end(); ++i) {
+        STMTLINE parent = pkbObj->getParent()->getParent(*i);
+		if(parent == -1) continue;
+        vector<VARINDEX> vList = pkbObj->getUses()->getUsedByStmt(*i);
+        for(std::vector<VARINDEX>::iterator k = vList.begin(); k != vList.end(); ++k) {
+            if(!isUsesDuplicate(parent, *k)) {
+                pkbObj->getUses()->setUsesStmt(*k, parent);
+            }
+        }
+    }
+
+	// Propagate Uses Relationship among Containers Hierarchy
+    vector<STMTLINE> cList = pkbObj->getAst()->getStmtLines(WHILEN);
+    for(std::vector<STMTLINE>::iterator i = cList.begin(); i != cList.end(); ++i) {
         vector<STMTLINE> pList = pkbObj->getParent()->getParentStar(*i);
         vector<VARINDEX> vList = pkbObj->getUses()->getUsedByStmt(*i);
         for(std::vector<VARINDEX>::iterator k = vList.begin(); k != vList.end(); ++k) {
