@@ -143,7 +143,9 @@ string AST::convertTNodeListValueToString(vector<TNode*> nodes) {
             result+="+";
         } else if(currentNode->getTType() == MINUSN) {
             result+="-";
-        } else {
+		} else if(currentNode->getTType() == CONST){
+			result+= currentNode->getValue();
+		} else{
             result+=getValue(nodes[i]);
         }
     }
