@@ -2,6 +2,10 @@
 #define TESTWRAPPER_H
 
 #include "AbstractWrapper.h"
+#include "PKB.h"
+#include "Parser.h"
+#include "QueryPreprocessor.h"
+#include "QueryEvaluator.h"
 
 #include <string>
 #include <iostream>
