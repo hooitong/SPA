@@ -615,6 +615,28 @@ QueryResult QueryEvaluator::solvePattern(QNode* node) {
 	QNode* assignNode = node->getChildren()[0];
 	QNode* varNode = node->getChildren()[1];
 	string expression = node->getChildren()[2]->getString();
+	if (varNode->getQType() == ANY) {
+		vector <string> vars = pkbInstance->getVarTable()->getAllVarName();
+		vector <QueryResult> results;
+		for (int i = 0; i < (int) vars.size(); i++) {
+			QNode* node = new QNode(PATTERN, "");
+			QNode* newAssignNode = new QNode(assignNode->getQType(), assignNode->getString());
+			QNode* newVarNode = new QNode(CONST, vars[i]);
+			QNode* newExpressionNode = new QNode(CONST, expression);
+			node->addChild(newAssignNode);
+			node->addChild(newVarNode);
+			node->addChild(newExpressionNode);
+			results.push_back(solvePattern(node));
+			delete newAssignNode;
+			delete newVarNode;
+			delete newExpressionNode;
+			delete node;
+		}
+		for (int j = 1; j < (int) results.size(); j++) {
+			results[0].append(results[j]);
+		}
+		return results[0];
+	}
 	bool strict = true;
 	bool any = false;
 	if (expression[0] == '_' && (int) expression.length() > 1) {
@@ -641,7 +663,6 @@ QueryResult QueryEvaluator::solvePattern(QNode* node) {
 	} else {
 		vector<int> resultList;
 		vector<STMTLINE> assignments = pkbInstance->getAst()->getStmtLines(ASSIGNN);
-		printf("%s\n", expression.c_str());
 		VARINDEX variable = pkbInstance->getVarTable()->getVarIndex(varNode->getString());
 		for (int i = 0; i < (int) assignments.size(); i++) {
 			if (pkbInstance->getAst()->matchLeftPattern(assignments[i], variable) && 
