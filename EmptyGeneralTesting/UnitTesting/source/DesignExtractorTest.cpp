@@ -22,8 +22,7 @@ void DesignExtractorTest::testExtractParentStar() {
     pkbObj->getParent()->setParent(5, 6);
 
     /* Extract and check for output */
-    DesignExtractor deObj;
-    deObj.extractParentStar();
+    DesignExtractor::extract();
     CPPUNIT_ASSERT(pkbObj->getParent()->isParentStar(1, 2));
     CPPUNIT_ASSERT(pkbObj->getParent()->isParentStar(1, 3));
     CPPUNIT_ASSERT(pkbObj->getParent()->isParentStar(1, 4));
@@ -48,8 +47,7 @@ void DesignExtractorTest::testExtractFollowsStar() {
     pkbObj->getFollows()->setFollows(8, 9);
 
     /* Extract and check for output */
-    DesignExtractor deObj;
-    deObj.extractFollowsStar();
+    DesignExtractor::extract();
     CPPUNIT_ASSERT(pkbObj->getFollows()->isFollowsStar(1, 2));
     CPPUNIT_ASSERT(pkbObj->getFollows()->isFollowsStar(1, 3));
     CPPUNIT_ASSERT(pkbObj->getFollows()->isFollowsStar(1, 4));

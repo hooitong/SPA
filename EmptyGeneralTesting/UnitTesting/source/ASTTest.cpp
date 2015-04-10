@@ -268,3 +268,21 @@ void ASTTest::testMatchRightPattern4(){
 	
 
 }
+void ASTTest::testMatchRightPatternConst() {
+
+	VarTable vTable;
+	TNode* node = (*ast).createTNode(PLUSN, "");
+
+	VARINDEX vx = vTable.insertVar("x");	
+    TNode* nodeSiblingLeft = (*ast).createTNode(VARN, std::to_string(static_cast<long long>(vx)));
+	string variableXIndex = vTable.getVarName(atoi( nodeSiblingLeft->getValue().c_str() ));
+
+    TNode* nodeSiblingRight = (*ast).createTNode(VARN, std::to_string(static_cast<long long>(1)));
+
+    (*node).addChild(nodeSiblingLeft);
+    (*node).addChild(nodeSiblingRight);
+    (*ast).setSibling(nodeSiblingLeft, nodeSiblingRight);
+    (*ast).setStmtLine(node, 2);
+    CPPUNIT_ASSERT((*ast).matchRightPattern(2, "x + 1", true));
+	CPPUNIT_ASSERT((*ast).matchRightPattern(2, "x+1", true));
+}

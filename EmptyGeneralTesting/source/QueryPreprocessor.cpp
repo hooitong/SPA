@@ -278,6 +278,8 @@ using namespace std;
 			return queryTree->createNode(WHILESYNONYM,argument);
 		} else if (existsRef(argument) && getType(argument) == "assign") {
 			return queryTree->createNode(ASSIGNSYNONYM,argument);
+		}else if (existsRef(argument) && getType(argument) == "procedure") {
+			return queryTree->createNode(PROCEDURESYNONYM,argument);
 		}
 		return NULL;
 	}
