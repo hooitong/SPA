@@ -277,7 +277,7 @@ void ASTTest::testMatchRightPatternConst() {
     TNode* nodeSiblingLeft = (*ast).createTNode(VARN, std::to_string(static_cast<long long>(vx)));
 	string variableXIndex = vTable.getVarName(atoi( nodeSiblingLeft->getValue().c_str() ));
 
-    TNode* nodeSiblingRight = (*ast).createTNode(VARN, std::to_string(static_cast<long long>(1)));
+    TNode* nodeSiblingRight = (*ast).createTNode(CONSTN, std::to_string(static_cast<long long>(1)));
 
     (*node).addChild(nodeSiblingLeft);
     (*node).addChild(nodeSiblingRight);
