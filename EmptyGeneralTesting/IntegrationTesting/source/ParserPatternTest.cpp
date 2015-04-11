@@ -61,10 +61,12 @@ void ParserPatternTest::testLeftPatternStrict() {
 
 //excluding lines with multiplication/division
 void ParserPatternTest::testRightPatternStrict() { 
-	//CPPUNIT_ASSERT(ast->matchRightPattern(1,"1",true));
+	CPPUNIT_ASSERT(ast->matchRightPattern(1,"1",true));
 }
 
 //test pattern that are not strict
 void ParserPatternTest::testRightPatternUnStrict(){
-
+	CPPUNIT_ASSERT(ast->matchRightPattern(1,"1",false));
+	CPPUNIT_ASSERT(ast->matchRightPattern(2,"200",false));
+	CPPUNIT_ASSERT(ast->matchRightPattern(3,"a",false));
 }
