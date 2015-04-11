@@ -1,0 +1,400 @@
+1 - Follows1L
+stmt s;
+Select s such that Follows(s, 1)
+none
+5000
+2 - Follows2L
+stmt s;
+Select s such that Follows(s, 2)
+1
+5000
+3 - Follows3L
+stmt s;
+Select s such that Follows(s, 3)
+2
+5000
+4 - Follows4L
+stmt s;
+Select s such that Follows(s, 4)
+3
+5000
+5 - Follows5L
+stmt s;
+Select s such that Follows(s, 5)
+none
+5000
+6 - Follows6L
+stmt s;
+Select s such that Follows(s, 6)
+none
+5000
+7 - Follows7L
+stmt s;
+Select s such that Follows(s, 7)
+6
+5000
+8 - Follows8L
+stmt s;
+Select s such that Follows(s, 8)
+none
+5000
+9 - Follows9L
+stmt s;
+Select s such that Follows(s, 9)
+7
+5000
+10 - Follows10L
+stmt s;
+Select s such that Follows(s, 10)
+none
+5000
+11 - Follows11L
+stmt s;
+Select s such that Follows(s, 11)
+10
+5000
+12 - Follows12L
+stmt s;
+Select s such that Follows(s, 12)
+none
+5000
+13 - Follows13L
+stmt s;
+Select s such that Follows(s, 13)
+none
+5000
+14 - Follows14L
+stmt s;
+Select s such that Follows(s, 14)
+13
+5000
+15 - Follows15L
+stmt s;
+Select s such that Follows(s, 15)
+14
+5000
+16 - Follows16L
+stmt s;
+Select s such that Follows(s, 16)
+12
+5000
+17 - Follows17L
+stmt s;
+Select s such that Follows(s, 17)
+none
+5000
+18 - Follows18L
+stmt s;
+Select s such that Follows(s, 18)
+16
+5000
+19 - Follows19L
+stmt s;
+Select s such that Follows(s, 19)
+9
+5000
+20 - Follows20L
+stmt s;
+Select s such that Follows(s, 20)
+5
+5000
+21 - Follows1R
+stmt s;
+Select s such that Follows(1, s)
+2
+5000
+22 - Follows2R
+stmt s;
+Select s such that Follows(2, s)
+3
+5000
+23 - Follows3R
+stmt s;
+Select s such that Follows(3, s)
+4
+5000
+24 - Follows4R
+stmt s;
+Select s such that Follows(4, s)
+none
+5000
+25 - Follows5R
+stmt s;
+Select s such that Follows(5, s)
+20
+5000
+26 - Follows6R
+stmt s;
+Select s such that Follows(6, s)
+7
+5000
+27 - Follows7R
+stmt s;
+Select s such that Follows(7, s)
+9
+5000
+28 - Follows8R
+stmt s;
+Select s such that Follows(8, s)
+none
+5000
+29 - Follows9R
+stmt s;
+Select s such that Follows(9, s)
+19
+5000
+30 - Follows10R
+stmt s;
+Select s such that Follows(10, s)
+11
+5000
+31 - Follows11R
+stmt s;
+Select s such that Follows(11, s)
+none
+5000
+32 - Follows12R
+stmt s;
+Select s such that Follows(12, s)
+16
+5000
+33 - Follows13R
+stmt s;
+Select s such that Follows(13, s)
+14
+5000
+34 - Follows14R
+stmt s;
+Select s such that Follows(14, s)
+15
+5000
+35 - Follows15R
+stmt s;
+Select s such that Follows(15, s)
+none
+5000
+36 - Follows16R
+stmt s;
+Select s such that Follows(16, s)
+18
+5000
+37 - Follows17R
+stmt s;
+Select s such that Follows(17, s)
+none
+5000
+38 - Follows18R
+stmt s;
+Select s such that Follows(18, s)
+none
+5000
+39 - Follows19R
+stmt s;
+Select s such that Follows(19, s)
+none
+5000
+40 - Follows20R
+stmt s;
+Select s such that Follows(20, s)
+none
+5000
+41 - Follows*1L
+stmt s;
+Select s such that Follows*(s, 1)
+none
+5000
+42 - Follows*2L
+stmt s;
+Select s such that Follows*(s, 2)
+1
+5000
+43 - Follows*3L
+stmt s;
+Select s such that Follows*(s, 3)
+1, 2
+5000
+44 - Follows*4L
+stmt s;
+Select s such that Follows*(s, 4)
+1, 2, 3
+5000
+45 - Follows*5L
+stmt s;
+Select s such that Follows*(s, 5)
+none
+5000
+46 - Follows*6L
+stmt s;
+Select s such that Follows*(s, 6)
+none
+5000
+47 - Follows*7L
+stmt s;
+Select s such that Follows*(s, 7)
+6
+5000
+48 - Follows*8L
+stmt s;
+Select s such that Follows*(s, 8)
+none
+5000
+49 - Follows*9L
+stmt s;
+Select s such that Follows*(s, 9)
+6, 7
+5000
+50 - Follows*10L
+stmt s;
+Select s such that Follows*(s, 10)
+none
+5000
+51 - Follows*11L
+stmt s;
+Select s such that Follows*(s, 11)
+10
+5000
+52 - Follows*12L
+stmt s;
+Select s such that Follows*(s, 12)
+none
+5000
+53 - Follows*13L
+stmt s;
+Select s such that Follows*(s, 13)
+none
+5000
+54 - Follows*14L
+stmt s;
+Select s such that Follows*(s, 14)
+13
+5000
+55 - Follows*15L
+stmt s;
+Select s such that Follows*(s, 15)
+13, 14
+5000
+56 - Follows*16L
+stmt s;
+Select s such that Follows*(s, 16)
+12
+5000
+57 - Follows*17L
+stmt s;
+Select s such that Follows*(s, 17)
+none
+5000
+58 - Follows*18L
+stmt s;
+Select s such that Follows*(s, 18)
+12, 16
+5000
+59 - Follows*19L
+stmt s;
+Select s such that Follows*(s, 19)
+6, 7, 9
+5000
+60 - Follows*20L
+stmt s;
+Select s such that Follows*(s, 20)
+5
+5000
+61 - Follows*1R
+stmt s;
+Select s such that Follows*(1, s)
+2, 3, 4
+5000
+62 - Follows*2R
+stmt s;
+Select s such that Follows*(2, s)
+3, 4
+5000
+63 - Follows*3R
+stmt s;
+Select s such that Follows*(3, s)
+4
+5000
+64 - Follows*4R
+stmt s;
+Select s such that Follows*(4, s)
+none
+5000
+65 - Follows*5R
+stmt s;
+Select s such that Follows*(5, s)
+20
+5000
+66 - Follows*6R
+stmt s;
+Select s such that Follows*(6, s)
+7, 9, 19
+5000
+67 - Follows*7R
+stmt s;
+Select s such that Follows*(7, s)
+9, 19
+5000
+68 - Follows*8R
+stmt s;
+Select s such that Follows*(8, s)
+none
+5000
+69 - Follows*9R
+stmt s;
+Select s such that Follows*(9, s)
+19
+5000
+70 - Follows*10R
+stmt s;
+Select s such that Follows*(10, s)
+11
+5000
+71 - Follows*11R
+stmt s;
+Select s such that Follows*(11, s)
+none
+5000
+72 - Follows*12R
+stmt s;
+Select s such that Follows*(12, s)
+16, 18
+5000
+73 - Follows*13R
+stmt s;
+Select s such that Follows*(13, s)
+14, 15
+5000
+74 - Follows*14R
+stmt s;
+Select s such that Follows*(14, s)
+15
+5000
+75 - Follows*15R
+stmt s;
+Select s such that Follows*(15, s)
+none
+5000
+76 - Follows*16R
+stmt s;
+Select s such that Follows*(16, s)
+18
+5000
+77 - Follows*17R
+stmt s;
+Select s such that Follows*(17, s)
+none
+5000
+78 - Follows*18R
+stmt s;
+Select s such that Follows*(18, s)
+none
+5000
+79 - Follows*19R
+stmt s;
+Select s such that Follows*(19, s)
+none
+5000
+80 - Follows*20R
+stmt s;
+Select s such that Follows*(20, s)
+none
+5000

@@ -1,0 +1,180 @@
+1 - Uses1L
+stmt s;
+Select s such that Uses(s, "w")
+4, 20
+5000
+2 - Uses2L
+stmt s;
+Select s such that Uses(s, "x")
+4, 5, 9, 10, 11, 18
+5000
+3 - Uses3L
+stmt s;
+Select s such that Uses(s, "c")
+4, 5, 9, 11, 16, 17
+5000
+4 - Uses4L
+stmt s;
+Select s such that Uses(s, "delta")
+4, 5, 9, 11, 12, 15
+5000
+5 - Uses5L
+stmt s;
+Select s such that Uses(s, "l")
+4, 5, 9, 11, 12, 15
+5000
+6 - Uses6L
+stmt s;
+Select s such that Uses(s, "width")
+4, 5, 9, 11, 12, 15
+5000
+7 - Uses7L
+stmt s;
+Select s such that Uses(s, "Romeo")
+4, 5, 9, 11, 12, 13, 15
+5000
+8 - Uses8L
+stmt s;
+Select s such that Uses(s, "right")
+4, 5, 9, 11, 12
+5000
+9 - Uses9L
+stmt s;
+Select s such that Uses(s, "I")
+4, 5, 7, 8
+5000
+10 - Uses10L
+stmt s;
+Select s such that Uses(s, "k")
+4, 5, 7, 8
+5000
+11 - Uses11L
+stmt s;
+Select s such that Uses(s, "j1k")
+4, 5, 7, 8
+5000
+12 - Uses12L
+stmt s;
+Select s such that Uses(s, "chArlie")
+4, 5, 7, 8
+5000
+13 - Uses13L
+stmt s;
+Select s such that Uses(s, "tmp")
+4, 5, 6, 7
+5000
+13 - Uses13L
+stmt s;
+Select s such that Uses(s, "tmp")
+4, 5, 6, 7
+5000
+14 - Uses14L
+stmt s;
+Select s such that Uses(s, "beta")
+4, 5, 6
+5000
+15 - Uses15L
+stmt s;
+Select s such that Uses(s, "a")
+3, 4
+5000
+16 - Uses1R
+variable v;
+Select v such that Uses(1, v)
+none
+5000
+17 - Uses2R
+variable v;
+Select v such that Uses(2, v)
+none
+5000
+18 - Uses3R
+variable v;
+Select v such that Uses(3, v)
+a
+5000
+19 - Uses4R
+variable v;
+Select v such that Uses(4, v)
+a, beta, tmp, I, k, j1k, chArlie, left, right, delta, l, width, Romeo, x, c, w
+5000
+20 - Uses5R
+variable v;
+Select v such that Uses(5, v)
+beta, tmp, I, k, j1k, chArlie, left, right, delta, l, width, Romeo, x, c
+5000
+21 - Uses6R
+variable v;
+Select v such that Uses(6, v)
+beta, tmp
+5000
+22 - Uses7R
+variable v;
+Select v such that Uses(7, v)
+tmp, I, k, j1k, chArlie
+5000
+23 - Uses8R
+variable v;
+Select v such that Uses(8, v)
+I, k, j1k, chArlie
+5000
+24 - Uses9R
+variable v;
+Select v such that Uses(9, v)
+left, right, delta, l, width, Romeo, x, c
+5000
+25 - Uses10R
+variable v;
+Select v such that Uses(10, v)
+x
+5000
+26 - Uses11R
+variable v;
+Select v such that Uses(11, v)
+left, right, delta, l, width, Romeo, x, c
+5000
+27 - Uses12R
+variable v;
+Select v such that Uses(12, v)
+right, delta, l, width, Romeo
+5000
+28 - Uses13R
+variable v;
+Select v such that Uses(13, v)
+Romeo
+5000
+29 - Uses14R
+variable v;
+Select v such that Uses(14, v)
+none
+5000
+30 - Uses15R
+variable v;
+Select v such that Uses(15, v)
+delta, l, width, Romeo
+5000
+31 - Uses16R
+variable v;
+Select v such that Uses(16, v)
+c
+5000
+32 - Uses17R
+variable v;
+Select v such that Uses(17, v)
+c
+5000
+33 - Uses18R
+variable v;
+Select v such that Uses(18, v)
+x
+5000
+34 - Uses19R
+variable v;
+Select v such that Uses(19, v)
+none
+5000
+35 - Uses20R
+variable v;
+Select v such that Uses(20, v)
+w
+5000
