@@ -26,26 +26,27 @@ using namespace std;
 		queryTree->addChild(root, resultListNode);
 		queryTree->addChild(root, suchthatListNode);
 		queryTree->addChild(root, patternListNode);
-		cout << "Created Root node and children "<< endl;
+//		cout << "Created Root node and children "<< endl;
 
 		int p = query.find("Select");
 		if(p == string::npos){
-			cout << "error";
+			cout << "error1";
 			return NULL;
 		}
 		string result_cl;
 		string declaration = query.substr(0,p);
-		cout << "Checking if  conditions / clauses exists and collecting pointers"<< endl;
+		//cout << "Checking if  conditions / clauses exists and collecting pointers"<< endl;
 		if(!checkConditionExists(query)){
-			cout << " conditions / clauses don't exists "<< endl;
-			cout << " checking if Declaration is correct"<< endl;
+			//cout << " conditions / clauses don't exists "<< endl;
+			//cout << " checking if Declaration is correct"<< endl;
 			if(checkDeclaration(declaration)){
-			     cout << " Declaration is correct "<< endl;
+			  //   cout << " Declaration is correct "<< endl;
 				 result_cl = query.substr(p+6, query.length()-p-6);
-				 cout << " Going to check result "<< endl;
+				// cout << " Going to check result "<< endl;
 				 checkTuple(result_cl);
 			}else{
-				 cout << "error";
+				 cout << "error2" ;
+				
 				 return NULL;
 			}
 			return queryTree;
@@ -59,7 +60,8 @@ using namespace std;
 		result_cl = query.substr(p+6, ptf-p-6);
 		
 		if(!(checkDeclaration(declaration) && checkTuple(result_cl))){
-			cout << "error";
+			cout << "error3";
+			 cout << query << endl;
 			return NULL;
 		}
 		it++;
@@ -68,13 +70,13 @@ using namespace std;
 		if(it != posOfConds.end()) pts = it-> first;
 
 		while( it != posOfConds.end()){
-			cout << " Looping through conditions "<< endl;
+			//cout << " Looping through conditions "<< endl;
 			string clause = query.substr(ptf, pts - ptf);
 			if(trimAndCheckClause(clause, type)){
 				ptf = pts;
 				type = it->second;
 			}else{
-				cout << "error";
+				cout << "error4";
 				return NULL;
 			}
 			it++;
@@ -83,7 +85,7 @@ using namespace std;
 		
 		string clause = query.substr(ptf, query.length() - ptf);
 		if(!trimAndCheckClause(clause, type)) {
-			cout << "error";
+			cout << "error5";
 			return NULL;
 		}
 
@@ -209,15 +211,15 @@ using namespace std;
 
 	}
 	bool QueryPreprocessor::checkVarReference(string varReference){
-		cout << "checking VarReference"<<endl;
+		//cout << "checking VarReference"<<endl;
 		if(varReference.at(0) == '\"' && varReference.at(varReference.length() -1) == '\"'){
 			 varReference = varReference.substr(1,varReference.length() - 2);	
-			 cout << "have quotations "<<endl;
+			 //cout << "have quotations "<<endl;
 		} else {
-			cout << "no quotations "<<endl;
+			//cout << "no quotations "<<endl;
 			return false;
 		}
-		cout << "checking Ident for varReference "<<endl;
+		//cout << "checking Ident for varReference "<<endl;
 		return (checkIdent(varReference));
 	}
 	bool QueryPreprocessor::checkDesignEntity(string entity){
@@ -286,7 +288,7 @@ using namespace std;
 
 	QNode* QueryPreprocessor::parseEntRef(string argument) {
 		QNode* right;
-		cout << "******************parsingEntRef*******************************" <<endl;
+		//cout << "******************parsingEntRef*******************************" <<endl;
 		if (argument == "_") {
 			return queryTree->createNode(ANY,"");
 		} else if (argument.at(0) == '\"' && argument.at((int)argument.size()-1) == '\"') {
@@ -327,60 +329,6 @@ using namespace std;
 		queryTree->addChild(relationNode,rightHandSide);
 		queryTree->addChild(suchthatListNode,relationNode);
 
-		/*string type1 = getType(argument1);
-		if(table[index][findIndexOfType(type1)]){
-			if(checkIdent(argument1)){
-				arg1_flag = true;
-				// Qnode* argumentNode1 = tree.createNode(VARIABLESYNONYM, argument1);
-			}else if( argument1 == "_"){
-				arg1_flag = true;
-				// Qnode* argumentNode1 = tree.createNode(ANY, NULL);
-			}else if((table[index][10] == 1) && (argument1[0] == '"') && (argument1[argument1.length()-1] == '"' )){
-				argument1 = trim(argument1.substr(1,argument1.length() -2));
-				if(checkIdent(argument2)){
-					arg2_flag = true;
-					// Qnode* argumentNode1 = tree.createNode(VARIABLE, argument1);
-				}
-			}else if(table[index][11] == 1 && checkInteger(argument1)){
-				// Qnode* argumentNode1 = tree.createNode(PROGLINESYNONYM, argument1);
-				arg1_flag = true;
-			}
-		}
-		
-		string type2 = getType(argument2);
-		if(table[index][findIndexOfType(type2)+12]){
-			if(checkIdent(argument2)){
-				arg1_flag = true;
-				// Qnode* argumentNode1 = tree.createNode(VARIABLESYNONYM, argument1);
-			}else if(argument2 == "_"){
-				arg2_flag = true;
-				// Qnode* argumentNode1 = tree.createNode(ANY, NULL);
-			}else if(table[index][22] == 1 && argument2[0] == '"' && argument1[argument2.length()-1] == '"' ){
-				argument2 = trim(argument2.substr(1,argument1.length() -2));
-				if(checkIdent(argument2)){
-					arg2_flag = true;
-					// Qnode* argumentNode1 = tree.createNode(VARIABLE, argument1);
-				}
-			}else if(table[index][23] == 1 && checkInteger(argument2)){
-				// Qnode* argumentNode1 = tree.createNode(PROGLINESYNONYM, argument1);
-				arg2_flag = true;
-			}
-		}
-
-		if(arg1_flag == true && arg2_flag == true){
-				cout <<"creating relation node : " <<relationType << endl; 
-				cout <<"argument1 : " << argument1  << ":" << type1 << endl; 
-				cout <<"argument2 : " << argument2  << ":" << type2 << endl; 
-				
-				// find root and get SUCHTHATLIST node
-				// Qnode* relationNode = tree.createNode(RELATION, relationType);
-				// type1 and type2 have to be converted to enum
-				// Qnode* argumentNode1 = tree.createNode(type1, argument1);
-				// Qnode* argumentNode2 = tree.createNode(type2, argument2 );
-				// tree.addChild(relationNode, argumentNode1);
-				// tree.addChild(relationNode, argumentNode2);
-			return true;
-		}*/
 		return true;
 	}
 	int QueryPreprocessor::findIndexOfType(string type){
@@ -417,7 +365,7 @@ using namespace std;
 		return true;
 	}
 	bool QueryPreprocessor::checkAssign(string pattern, string patternName){	
-		cout << "******************************check Assign pattern ************************************************" << endl;
+		//cout << "******************************check Assign pattern ************************************************" << endl;
 		pattern = trim(pattern);
 		//pointer of open bracket
 		int pob = pattern.find("(");
@@ -433,10 +381,10 @@ using namespace std;
 			QNode* assignSynonymNode = queryTree->createNode(ASSIGNSYNONYM,synonym);
 			QNode* leftHandSide;
 			QNode* rightHandSide;
-			cout << "Checking VARREF" << endl;
-			cout << "VARREF1 :" << varRef <<endl;
+			//cout << "Checking VARREF" << endl;
+			//cout << "VARREF1 :" << varRef <<endl;
 			if(checkVarReference(varRef)){
-				cout << "VARREF2 :" << varRef <<endl;
+			//	cout << "VARREF2 :" << varRef <<endl;
 				leftHandSide = queryTree->createNode(VAR,varRef.substr(1,(int)varRef.size()-2));
 			} else if (varRef == "_") {
 				leftHandSide = queryTree->createNode(ANY,"");
@@ -455,7 +403,7 @@ using namespace std;
 				}
 			}
 			rightHandSide = queryTree->createNode(EXPRESSION,exprRemoveQuote);
-			cout << "*****************************end Assign pattern ****************************" << endl;
+			//cout << "*****************************end Assign pattern ****************************" << endl;
 			queryTree->addChild(patternNode,assignSynonymNode);
 			queryTree->addChild(patternNode,leftHandSide);
 			queryTree->addChild(patternNode,rightHandSide);
@@ -464,19 +412,7 @@ using namespace std;
 		}
 		return false;
 	}
-	/*
-	bool QueryPreprocessor::checkExpression(string expression){
 
-		expression = trim(expression);
-		if((expression.at(0) == '_') && (expression.at(expression.length() - 1) == '_')){
-			expression = expression.substr(1,expression.length() -2);
-			
-
-		}else if((expression.at(0) == '"') && (expression.at(expression.length() - 1) == '"')){
-		}else{
-			return false;
-		}
-	}*/
 	bool QueryPreprocessor::checkPattern(string pattern){
 		int p = pattern.find("(");
 		string patternName = trim(pattern.substr(0,p));
@@ -496,14 +432,14 @@ using namespace std;
 /**************************declaration  *********************************/
 	bool QueryPreprocessor::checkDeclaration(string declaration){
 		//psc = pointer of semicolon
-		cout << "*************************checkDeclaration******************************"  << endl;
+		//cout << "*************************checkDeclaration******************************"  << endl;
 		declaration = trim(declaration);
 		if(declaration == "") return true;
 		int psc = declaration.find(";");
-		cout << "Getting the first declaration"  << endl;
+		//cout << "Getting the first declaration"  << endl;
 		string declar_clause = trim(declaration.substr(0, psc));
 		while(psc != string::npos){
-			cout << "Looping through the declarations"  << endl;
+			//cout << "Looping through the declarations"  << endl;
 			declar_clause = trim(declar_clause);
 			//ps = pointer of space
 			int ps = declar_clause.find(" ");
@@ -511,7 +447,7 @@ using namespace std;
 			if(checkDesignEntity(type)){
 				 size_t pc = ps;
 				do{
-					cout << "Looping through each variable of the declaration clause"  << endl;
+				//	cout << "Looping through each variable of the declaration clause"  << endl;
 					//pc = pointer of comma
 					int pnc = declar_clause.find(",", pc + 1);
 					if (pnc == string::npos) {
@@ -541,7 +477,7 @@ using namespace std;
 			psc = pnsc;
 
 		}
-		cout << "*************************checkDeclaration  end ******************************"  << endl;
+		//cout << "*************************checkDeclaration  end ******************************"  << endl;
 		return true;
 
 
@@ -551,13 +487,13 @@ using namespace std;
 
 	bool QueryPreprocessor::checkTuple(string tuple){
 		tuple = trim(tuple);
-		cout << " checking if tuple is elem"<< endl;
+		//cout << " checking if tuple is elem"<< endl;
 		if(checkElem(tuple)){
-			cout << " tuple is elem"<< endl;
+			//cout << " tuple is elem"<< endl;
 
-			cout << " checking if tuple is exists in declaration"<< endl;
+			//cout << " checking if tuple is exists in declaration"<< endl;
 			if(existsRef(tuple)){
-				cout << " creating result node"<< endl;
+				//cout << " creating result node"<< endl;
 				
 				string type = getType(tuple);
 				QNode* resultNode;
@@ -580,13 +516,13 @@ using namespace std;
 				}
 				queryTree->addChild(resultListNode, resultNode);
 
-				cout << tuple << ":" << type << endl;
+				//cout << tuple << ":" << type << endl;
 			
 				return true;
 			}
 
 		}else{
-			cout << "error";
+			cout << "error6";
 		}
 		return false;
 	}	
@@ -608,20 +544,20 @@ using namespace std;
 
 	}
 	string QueryPreprocessor::trim(string s){
-		cout << " Before trim :" << s << endl;
+		//cout << " Before trim :" << s << endl;
 		int firstNotSpace = 0;
-		while (firstNotSpace < (int)s.length() && s.at(firstNotSpace) == ' ') {
+		while (firstNotSpace < (int)s.length() && (s.at(firstNotSpace) == ' ' || s.at(firstNotSpace) == ' \t' ) ) {
 			++firstNotSpace;
 		}
 		if (firstNotSpace == (int)s.length()) {
 			return "";
 		}
 		int lastNotSpace = (int)s.length() - 1;
-		while (lastNotSpace >= 0 && s.at(lastNotSpace) == ' ') {
+		while (lastNotSpace >= 0 && (s.at(lastNotSpace) == ' ' || s.at(lastNotSpace) == '\t')) {
 			--lastNotSpace;
 		}
 		s = s.substr(firstNotSpace,lastNotSpace - firstNotSpace + 1);
-		cout << " After trim :" << s << endl;
+		//cout << " After trim :" << s << endl;
 		return s;
 	}
 
