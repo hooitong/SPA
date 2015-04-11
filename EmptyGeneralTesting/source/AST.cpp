@@ -116,7 +116,11 @@ bool AST::matchLeftPattern(STMTLINE stmtRoot, VARINDEX varToMatch) {
 }
 
 bool AST::matchRightPattern(STMTLINE stmtRoot, std::string expression, bool strict) {
-    TNode* astNode = getTNode(stmtRoot);
+    TNode* astNode = getTNode(stmtRoot)->getChildren()[1];
+	vector<TNode*> childList = getTNode(stmtRoot)->getChildren();
+	if(childList.empty() || childList[0]->getTType() != VARN){
+		return false;
+	}
     TNode* queryExpression = Parser::buildExprAST(expression);
 
     vector<TNode*> depthTraversalOfAstNode = getDFS(astNode);
