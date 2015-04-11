@@ -3,6 +3,7 @@
 #include <stack>
 #include <stdlib.h>
 #include "Parser.h"
+#include "PKB.h"
 
 /* Constructor & Destructor */
 AST::AST(void) {
@@ -115,7 +116,11 @@ bool AST::matchLeftPattern(STMTLINE stmtRoot, VARINDEX varToMatch) {
 }
 
 bool AST::matchRightPattern(STMTLINE stmtRoot, std::string expression, bool strict) {
-    TNode* astNode = getTNode(stmtRoot);
+    TNode* astNode = getTNode(stmtRoot)->getChildren()[1];
+	vector<TNode*> childList = getTNode(stmtRoot)->getChildren();
+	if(childList.empty() || childList[0]->getTType() != VARN){
+		return false;
+	}
     TNode* queryExpression = Parser::buildExprAST(expression);
 
     vector<TNode*> depthTraversalOfAstNode = getDFS(astNode);
@@ -140,13 +145,16 @@ string AST::convertTNodeListValueToString(vector<TNode*> nodes) {
     for(int i = 0 ; i < nodes.size(); i++) {
         TNode * currentNode = nodes[i];
         if(currentNode->getTType() == PLUSN) {
-            result+="+";
+            result += "+";
         } else if(currentNode->getTType() == MINUSN) {
-            result+="-";
-		} else if(currentNode->getTType() == CONST){
-			result+= currentNode->getValue();
-		} else{
-            result+=getValue(nodes[i]);
+            result += "-";
+        } else if(currentNode->getTType() == VARN) {
+			VARINDEX v = std::atoi(getValue(currentNode).c_str());
+            result += "|" + PKB::getPKB()->getVarTable()->getVarName(v);
+        } else if (currentNode->getTType() == CONSTN) {
+			result += "|" + getValue(currentNode);
+		} else {
+            // error with parsing the expression tree / invalid expression tree
         }
     }
     return result;

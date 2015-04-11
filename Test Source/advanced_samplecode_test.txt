@@ -1,0 +1,35 @@
+1 - Advanced1
+stmt s; assign a;
+Select s such that Uses(a, "tmp") 
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
+5000
+2 - Advanced2
+stmt s; assign a;
+Select s such that Uses(a, "left") 
+none
+5000
+3 - Advanced3
+stmt s, s1; assign a;
+Select s such that Uses(s1, "left") 
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
+5000
+4 - Multiple1
+stmt s, s1; assign a;
+Select s such that Uses(s1, "left") and Parent(s, a)
+4, 5, 7, 9, 11, 12, 16
+5000 
+5 - Multiple2
+stmt s, s1; assign a; while w1;
+Select s such that Uses(s1, "left") and Parent(s, a) and Parent(w1, s)
+5, 7, 9, 11, 12, 16
+5000 
+6 - Advanced4
+assign a;
+Select a such that Modifies(a, "c") Pattern a("c", _)
+17
+5000
+7 - All1
+stmt s; variable v; assign a; while w1;
+Select v such that Modifies(a, v) and Parent(w1, a) and Follows(s, a) and Uses(s, "left")
+a w
+5000 

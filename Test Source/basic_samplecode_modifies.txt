@@ -1,0 +1,140 @@
+1 - Modifies1L
+stmt s;
+Select s such that Modifies(s, "i")
+1
+5000
+2 - Modifies2L
+stmt s;
+Select s such that Modifies(s, "b")
+2, 4, 5, 9, 11, 12, 14
+5000
+3 - Modifies3L
+stmt s;
+Select s such that Modifies(s, "w")
+4, 20
+5000
+4 - Modifies4L
+stmt s;
+Select s such that Modifies(s, "c")
+3, 4, 5, 9, 11, 12, 15, 16, 17
+5000
+5 - Modifies5L
+stmt s;
+Select s such that Modifies(s, "a")
+4, 5, 19
+5000
+6 - Modifies6L
+stmt s;
+Select s such that Modifies(s, "Romeo")
+4, 5, 9, 11, 12, 13
+5000
+7 - Modifies7L
+stmt s;
+Select s such that Modifies(s, "oSCar")
+4, 5, 6, 7, 8
+5000
+8 - Modifies8L
+stmt s;
+Select s such that Modifies(s, "x")
+4, 5, 9, 10, 11, 18
+5000
+9 - Modifies1R
+variable v;
+Select v such that Modifies(1, v)
+i
+5000
+10 - Modifies2R
+variable v;
+Select v such that Modifies(2, v)
+b
+5000
+11 - Modifies3R
+variable v;
+Select v such that Modifies(3, v)
+c
+5000
+12 - Modifies4R
+variable v;
+Select v such that Modifies(4, v)
+w, oSCar, Romeo, b, c, x, a
+5000
+13 - Modifies5R
+variable v;
+Select v such that Modifies(5, v)
+oSCar, Romeo, b, c, x, a
+5000
+14  - Modifies6R
+variable v;
+Select v such that Modifies(6, v)
+oSCar
+5000
+15  - Modifies7R
+variable v;
+Select v such that Modifies(7, v)
+oSCar
+5000
+16  - Modifies8R
+variable v;
+Select v such that Modifies(8, v)
+oSCar
+5000
+17  - Modifies9R
+variable v;
+Select v such that Modifies(9, v)
+Romeo, b, c, x
+5000
+18  - Modifies10R
+variable v;
+Select v such that Modifies(10, v)
+x
+5000
+19  - Modifies11R
+variable v;
+Select v such that Modifies(11, v)
+Romeo, b, c, x
+5000
+20  - Modifies12R
+variable v;
+Select v such that Modifies(12, v)
+Romeo, b, c
+5000
+21  - Modifies13R
+variable v;
+Select v such that Modifies(13, v)
+Romeo
+5000
+22  - Modifies14R
+variable v;
+Select v such that Modifies(14, v)
+b
+5000
+23  - Modifies15R
+variable v;
+Select v such that Modifies(15, v)
+c
+5000
+24  - Modifies16R
+variable v;
+Select v such that Modifies(16, v)
+c
+5000
+25  - Modifies17R
+variable v;
+Select v such that Modifies(17, v)
+c
+5000
+26  - Modifies18R
+variable v;
+Select v such that Modifies(18, v)
+x
+5000
+27  - Modifies19R
+variable v;
+Select v such that Modifies(19, v)
+a
+5000
+28  - Modifies20R
+variable v;
+Select v such that Modifies(20, v)
+w
+5000
