@@ -3,6 +3,7 @@
 #include <stack>
 #include <stdlib.h>
 #include "Parser.h"
+#include "PKB.h"
 
 /* Constructor & Destructor */
 AST::AST(void) {
@@ -143,10 +144,13 @@ string AST::convertTNodeListValueToString(vector<TNode*> nodes) {
             result += "+";
         } else if(currentNode->getTType() == MINUSN) {
             result += "-";
-        } else if(currentNode->getTType() == VARN || currentNode->getTType() == CONSTN) {
-	        result += "|" + getValue(currentNode);
-        } else {
-	        // error with parsing the expression tree / invalid expression tree
+        } else if(currentNode->getTType() == VARN) {
+			VARINDEX v = std::atoi(getValue(currentNode).c_str());
+            result += "|" + PKB::getPKB()->getVarTable()->getVarName(v);
+        } else if (currentNode->getTType() == CONSTN) {
+			result += "|" + getValue(currentNode);
+		} else {
+            // error with parsing the expression tree / invalid expression tree
         }
     }
     return result;
