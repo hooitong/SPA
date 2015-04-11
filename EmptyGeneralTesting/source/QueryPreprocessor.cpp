@@ -10,6 +10,20 @@ using namespace std;
 	static const int num = 10;
 	static QueryTree* tree;
 	/**************************General *********************************/
+
+	class InvalidQueryDeclarationException : public exception {
+	};
+
+	class InvalidResultSyntaxException: public exception {
+	};
+
+	class InvalidClauseSyntaxException : public exception {
+	};
+
+	class InvalidSelectSyntaxException : public exception {
+	};
+
+
 	QueryPreprocessor::QueryPreprocessor(void) {
 	}
 
@@ -30,7 +44,7 @@ using namespace std;
 
 		int p = query.find("Select");
 		if(p == string::npos){
-			cout << "error1";
+			throw InvalidSelectSyntaxException(); 
 			return NULL;
 		}
 		string result_cl;
@@ -45,7 +59,7 @@ using namespace std;
 				// cout << " Going to check result "<< endl;
 				 checkTuple(result_cl);
 			}else{
-				 cout << "error2" ;
+				 throw InvalidQueryDeclarationException() ;
 				
 				 return NULL;
 			}
@@ -60,8 +74,7 @@ using namespace std;
 		result_cl = query.substr(p+6, ptf-p-6);
 		
 		if(!(checkDeclaration(declaration) && checkTuple(result_cl))){
-			cout << "error3";
-			 cout << query << endl;
+			throw InvalidQueryDeclarationException();
 			return NULL;
 		}
 		it++;
@@ -76,7 +89,7 @@ using namespace std;
 				ptf = pts;
 				type = it->second;
 			}else{
-				cout << "error4";
+				throw InvalidClauseSyntaxException();
 				return NULL;
 			}
 			it++;
@@ -85,7 +98,7 @@ using namespace std;
 		
 		string clause = query.substr(ptf, query.length() - ptf);
 		if(!trimAndCheckClause(clause, type)) {
-			cout << "error5";
+			throw InvalidClauseSyntaxException();
 			return NULL;
 		}
 
@@ -513,16 +526,19 @@ using namespace std;
 					resultNode = queryTree->createNode(PROCEDURESYNONYM, tuple);
 				} else if (type == "if") {
 					resultNode = queryTree->createNode(IFSYNONYM, tuple);
+				}else{
+					throw InvalidResultSyntaxException();
 				}
 				queryTree->addChild(resultListNode, resultNode);
 
-				//cout << tuple << ":" << type << endl;
 			
 				return true;
+			}else{
+				throw InvalidResultSyntaxException();
 			}
 
 		}else{
-			cout << "error6";
+			throw InvalidResultSyntaxException();
 		}
 		return false;
 	}	
