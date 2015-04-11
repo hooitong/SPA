@@ -5,6 +5,9 @@ QueryEvaluator::QueryEvaluator(PKB* pkb) {
 }
 
 std::list<string> QueryEvaluator::evaluate(QueryTree* tree) {
+	if (tree == NULL) {
+		return std::list<string>();
+	}
     QueryResult result = evaluate(tree->getRoot());
 	
 	vector <string> resultSynonym;
