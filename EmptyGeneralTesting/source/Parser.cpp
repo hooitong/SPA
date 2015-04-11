@@ -176,6 +176,8 @@ void Parser::buildProcedureAST() {
 			// add the variable to varTable and Modifies Table
 			PKB::getPKB()->getVarTable()->insertVar(programTokenList.at(i)->getStringValue());
 			Parser::addVarToModifies(programTokenList.at(i)->getStringValue(), stmtLine);
+			string varName = programTokenList.at(i)->getStringValue();
+			TNode *varNode = new TNode(TType::VARN, Parser::getStringIndexOfVar(varName));
 
 			// parse the expression on the right hand side of the assignment
 			int j = i+2;
@@ -186,8 +188,6 @@ void Parser::buildProcedureAST() {
 			}
 			i = j+1; // move i to after the SEMICOLON position
 			TNode *exprNode = Parser::buildExprAST(exprTokenList, stmtLine);
-			string varName = programTokenList.at(i)->getStringValue();
-			TNode *varNode = new TNode(TType::VARN, Parser::getStringIndexOfVar(varName));
 			TNode *assignNode = new TNode(TType::ASSIGNN, "");
 			assignNode->setStmtLine(stmtLine);
 			ast->setStmtLine(assignNode, stmtLine);
