@@ -30,7 +30,7 @@
     <ClCompile Include="source\ParserModifiesTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ParserPatternTest.cpp">
+    <ClCompile Include="source\ParserPatternTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,7 +47,7 @@
     <ClInclude Include="source\ParserFollowsTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ParserPatternTest.h">
+    <ClInclude Include="source\ParserPatternTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

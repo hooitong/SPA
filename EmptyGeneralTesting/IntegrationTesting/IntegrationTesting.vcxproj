@@ -67,18 +67,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ParserPatternTest.cpp" />
     <ClCompile Include="source\IntegrationTest.cpp" />
     <ClCompile Include="source\ParserFollowsTest.cpp" />
     <ClCompile Include="source\ParserModifiesTest.cpp" />
     <ClCompile Include="source\ParserParentTest.cpp" />
+    <ClCompile Include="source\ParserPatternTest.cpp" />
     <ClCompile Include="source\ParserUsesTest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ParserPatternTest.h" />
     <ClInclude Include="source\ParserFollowsTest.h" />
     <ClInclude Include="source\ParserModifiesTest.h" />
     <ClInclude Include="source\ParserParentTest.h" />
+    <ClInclude Include="source\ParserPatternTest.h" />
     <ClInclude Include="source\ParserUsesTest.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
