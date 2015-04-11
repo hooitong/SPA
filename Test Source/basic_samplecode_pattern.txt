@@ -1,0 +1,100 @@
+1 - LeftPattern1
+assign a;
+Select a pattern a ("i", _)
+1
+5000
+2 - LeftPattern2
+assign a;
+Select a pattern a ("b", _)
+2, 14
+5000
+3 - LeftPattern3
+assign a;
+Select a pattern a ("c", _)
+3, 15, 17
+5000
+4 - LeftPattern4
+assign a;
+Select a pattern a ("oSCar", _)
+6, 8
+5000
+5 - LeftPattern5
+assign a;
+Select a pattern a ("x", _)
+10, 18
+5000
+6 - LeftPattern6
+assign a;
+Select a pattern a ("Romeo", _)
+13
+5000
+7 - LeftPattern7
+assign a;
+Select a pattern a ("a", _)
+19
+5000
+8 - LeftPattern8
+assign a;
+Select a pattern a ("w", _)
+20
+5000
+9 - RightPattern1S
+assign a;
+Select a pattern a (_, "1 + beta + tmp");
+6
+5000
+10 - RightPattern2S
+assign a;
+Select a pattern a (_, "1");
+1
+5000
+11 - RightPattern3S
+assign a;
+Select a pattern a (_, "200");
+2
+5000
+12 - RightPattern4S
+assign a;
+Select a pattern a (_, "a");
+3
+5000
+13 - RightPattern5S
+assign a;
+Select a pattern a (_, "I + k + j1k + chArlie");
+8
+5000
+14 - RightPattern6S
+assign a;
+Select a pattern a (_, "x + 1");
+10, 18
+5000
+15 - RightPattern7S
+assign a;
+Select a pattern a (_, "Romeo + 1");
+13
+5000
+16 - RightPattern8S
+assign a;
+Select a pattern a (_, "0");
+14
+5000
+16 - RightPattern9S
+assign a;
+Select a pattern a (_, "delta + l + width + Romeo");
+15
+5000
+17 - RightPattern10S
+assign a;
+Select a pattern a (_, "c + 1");
+17
+5000
+18 - RightPattern11S
+assign a;
+Select a pattern a (_, "2");
+19
+5000
+19 - RightPattern12S
+assign a;
+Select a pattern a (_, "w + 1");
+17
+5000

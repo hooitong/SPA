@@ -140,13 +140,13 @@ string AST::convertTNodeListValueToString(vector<TNode*> nodes) {
     for(int i = 0 ; i < nodes.size(); i++) {
         TNode * currentNode = nodes[i];
         if(currentNode->getTType() == PLUSN) {
-            result+="+";
+            result += "+";
         } else if(currentNode->getTType() == MINUSN) {
-            result+="-";
-		} else if(currentNode->getTType() == CONST){
-			result+= currentNode->getValue();
-		} else{
-            result+=getValue(nodes[i]);
+            result += "-";
+        } else if(currentNode->getTType() == VARN || currentNode->getTType() == CONSTN) {
+	        result += "|" + getValue(currentNode);
+        } else {
+	        // error with parsing the expression tree / invalid expression tree
         }
     }
     return result;
