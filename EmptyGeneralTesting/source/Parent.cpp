@@ -17,13 +17,13 @@ void Parent::setParentStar(STMTLINE parent, STMTLINE child) {
     child2ParentMapStar.insert(std::pair<STMTLINE, STMTLINE>(child, parent));
 }
 
-// Returns true if Parent(first, second) is valid otherwise false.
 bool Parent::isParent(STMTLINE first, STMTLINE second) {
     ret = parent2ChildMap.equal_range(first);
     /* If first is not a parent, return false */
     if(ret.first == ret.second) {
         return false;
     } else {
+        // Returns true if Parent(first, second) is valid otherwise false.
         for(it = ret.first; it != ret.second; ++it) {
             if((*it).second == second) {
                 return true;

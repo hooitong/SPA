@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <iostream>
 
 #include "DesignExtractor.h"
 
@@ -95,11 +94,11 @@ void DesignExtractor::extractModifiesContainer() {
 void DesignExtractor::extractUsesContainer() {
     PKB* pkbObj = PKB::getPKB();
 
-	// Add Uses Relation to Direct Container
+    // Add Uses Relation to Direct Container
     vector<STMTLINE> aList = pkbObj->getAst()->getStmtLines(ASSIGNN);
     for(std::vector<STMTLINE>::iterator i = aList.begin(); i != aList.end(); ++i) {
         STMTLINE parent = pkbObj->getParent()->getParent(*i);
-		if(parent == -1) continue;
+        if(parent == -1) continue;
         vector<VARINDEX> vList = pkbObj->getUses()->getUsedByStmt(*i);
         for(std::vector<VARINDEX>::iterator k = vList.begin(); k != vList.end(); ++k) {
             if(!isUsesDuplicate(parent, *k)) {
@@ -108,7 +107,7 @@ void DesignExtractor::extractUsesContainer() {
         }
     }
 
-	// Propagate Uses Relationship among Containers Hierarchy
+    // Propagate Uses Relationship among Containers Hierarchy
     vector<STMTLINE> cList = pkbObj->getAst()->getStmtLines(WHILEN);
     for(std::vector<STMTLINE>::iterator i = cList.begin(); i != cList.end(); ++i) {
         vector<STMTLINE> pList = pkbObj->getParent()->getParentStar(*i);
