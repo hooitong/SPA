@@ -18,7 +18,7 @@ void ParserUsesTest::testUsesStmt() {
     vector<VARINDEX> result;
 
     result = uTest->getUsedByStmt(1);
-	CPPUNIT_ASSERT(matchSize(&result, 0));
+    CPPUNIT_ASSERT(matchSize(&result, 0));
 
     result = uTest->getUsedByStmt(2);
     CPPUNIT_ASSERT(matchSize(&result, 0));
@@ -186,8 +186,10 @@ void ParserUsesTest::testUsesVarIndex() {
     CPPUNIT_ASSERT(containStmtLine(&result, 5));
     CPPUNIT_ASSERT(containStmtLine(&result, 9));
     CPPUNIT_ASSERT(containStmtLine(&result, 11));
+    CPPUNIT_ASSERT(containStmtLine(&result, 12));
     CPPUNIT_ASSERT(containStmtLine(&result, 15));
-    CPPUNIT_ASSERT(matchSize(&result, 5));
+    CPPUNIT_ASSERT(matchSize(&result, 6));
+
 
     result = uTest->getUses(varTest->getVarIndex("l"));
     CPPUNIT_ASSERT(containStmtLine(&result, 4));
@@ -246,7 +248,7 @@ void ParserUsesTest::testUsesVarIndex() {
     CPPUNIT_ASSERT(containStmtLine(&result, 8));
     CPPUNIT_ASSERT(matchSize(&result, 4));
 
-    result = uTest->getUses(varTest->getVarIndex("jlk"));
+    result = uTest->getUses(varTest->getVarIndex("j1k"));
     CPPUNIT_ASSERT(containStmtLine(&result, 4));
     CPPUNIT_ASSERT(containStmtLine(&result, 5));
     CPPUNIT_ASSERT(containStmtLine(&result, 7));
@@ -274,8 +276,9 @@ void ParserUsesTest::testUsesVarIndex() {
     CPPUNIT_ASSERT(matchSize(&result, 3));
 
     result = uTest->getUses(varTest->getVarIndex("a"));
+    CPPUNIT_ASSERT(containStmtLine(&result, 3));
     CPPUNIT_ASSERT(containStmtLine(&result, 4));
-    CPPUNIT_ASSERT(matchSize(&result, 1));
+    CPPUNIT_ASSERT(matchSize(&result, 2));
 }
 
 bool ParserUsesTest::containStmtLine(vector<STMTLINE> *list, STMTLINE s) {

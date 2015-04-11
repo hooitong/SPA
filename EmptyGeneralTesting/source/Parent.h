@@ -18,6 +18,7 @@ class Parent {
   public:
     Parent(void);
     ~Parent(void);
+
     void setParent(STMTLINE parent, STMTLINE child);
     void setParentStar(STMTLINE parent, STMTLINE child);
     bool isParent(STMTLINE first, STMTLINE second);

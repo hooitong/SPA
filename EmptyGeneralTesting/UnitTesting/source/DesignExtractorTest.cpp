@@ -1,20 +1,16 @@
 #include <cppunit/config/SourcePrefix.h>
 
 #include "DesignExtractorTest.h"
-#include "PKB.h"
-#include "Parent.h"
-#include "Follows.h"
 
 void DesignExtractorTest::setUp() {
-
+    pkbObj = PKB::getPKB();
 }
 
 void DesignExtractorTest::tearDown() {
-
+    pkbObj = nullptr;
 }
 
 void DesignExtractorTest::testExtractParentStar() {
-    PKB* pkbObj = PKB::getPKB();
     /* Insert sample values on Parent relationship */
     pkbObj->getParent()->setParent(1, 2);
     pkbObj->getParent()->setParent(2, 3);
@@ -37,7 +33,6 @@ void DesignExtractorTest::testExtractParentStar() {
 }
 
 void DesignExtractorTest::testExtractFollowsStar() {
-    PKB* pkbObj = PKB::getPKB();
     /* Insert sample values on Follows relationship */
     pkbObj->getFollows()->setFollows(1, 2);
     pkbObj->getFollows()->setFollows(2, 3);

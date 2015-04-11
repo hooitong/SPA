@@ -1,0 +1,19 @@
+procedure Main{
+	x=5;
+	z=2;
+	while z {
+		z = z- 1;
+		if z then {
+			x = x + 2;
+		}else {
+			x = x + 1;				
+		}
+	}
+	a = a + b;
+	b = b + 1;
+	while b {
+		a = a + b;
+		b = b - 1;
+	}
+	y = a + b + x + z;
+}
