@@ -5,9 +5,7 @@
 #include "GlobalType.h"
 #include "ParsingToken.h"
 #include "AST.h"
-#include "SyntaxErrorException.h"
-#include "InvalidNameException.h"
-#include "InvalidProcedureException.h"
+#include "Exception.h"
 
 class Parser {
 

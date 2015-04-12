@@ -1,14 +1,50 @@
 #pragma once
-using namespace std;
-#include <vector>
-#include <map>
+
+#include <exception>
+#include <iostream>
 #include "GlobalType.h"
-#include "TNode.h"
-class DivisionByZeroException{
-		public:
-				DivisionByZeroException()
-						: message("Division by zero error!"){}
-				const char * what() const{ return message;}
-		private:
-				const char * message;
+
+class InvalidNameException : public exception {
+  public:
+    InvalidNameException(STMTLINE line);
+    ~InvalidNameException();
+
+    string message();
+
+  private:
+    STMTLINE lineIndex;
+};
+
+class InvalidProcedureException : public exception {
+  public:
+    InvalidProcedureException();
+    ~InvalidProcedureException();
+
+    string message();
+};
+
+class SyntaxErrorException : public exception {
+  public:
+    SyntaxErrorException(STMTLINE line);
+    ~SyntaxErrorException();
+
+    string message();
+
+  private:
+    STMTLINE lineIndex;
+};
+
+class InvalidQueryDeclarationException : public exception {
+};
+
+class InvalidResultSyntaxException: public exception {
+};
+
+class InvalidClauseSyntaxException : public exception {
+};
+
+class InvalidSelectSyntaxException : public exception {
+};
+
+class InvalidCaseClauseException : public exception {
 };

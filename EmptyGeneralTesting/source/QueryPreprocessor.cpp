@@ -2,6 +2,7 @@
 #include "QueryPreprocessor.h"
 #include <string>
 #include <iostream>
+#include "Exception.h"
 #include <vector>
 using namespace std;
 
@@ -9,22 +10,8 @@ using namespace std;
 	static string designEntity[] = {"procedure","stmtLst", "stmt", "assign", "call", "while", "if", "variable", "constant", "prog_line"};
 	static const int num = 10;
 	static QueryTree* tree;
+
 	/**************************General *********************************/
-
-	class InvalidQueryDeclarationException : public exception {
-	};
-
-	class InvalidResultSyntaxException: public exception {
-	};
-
-	class InvalidClauseSyntaxException : public exception {
-	};
-
-	class InvalidSelectSyntaxException : public exception {
-	};
-	class InvalidCaseClauseException : public exception {
-	};
-
 
 	QueryPreprocessor::QueryPreprocessor(void) {
 	}
