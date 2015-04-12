@@ -22,6 +22,8 @@ using namespace std;
 
 	class InvalidSelectSyntaxException : public exception {
 	};
+	class InvalidCaseClauseException : public exception {
+	};
 
 
 	QueryPreprocessor::QueryPreprocessor(void) {
@@ -106,18 +108,35 @@ using namespace std;
 	}
 
 	bool QueryPreprocessor::checkConditionExists(string query){
+		string query1;
+		query1 = query;
+		for(int i = 0; i < query1.length(); i++){
+			query1[i] = tolower(query1[i]);
+		}
 		//pointer of such that condition
 		int pst = query.find("such that");
+		int pst1 = query1.find("such that");
 		//pointer of pattern condition
 		int pp = query.find("pattern");
+		int pp1 = query1.find("pattern");
 		//pointer of with condition
 		int pw = query.find("with");
+		int pw1 = query.find("with");
 	
 		if(pst == string::npos && pp == string::npos && pw == string::npos) return false;
+
+
+		//cout <<query <<endl;
+		//cout <<query1 <<endl;
+
 
 		while(pst != string::npos){
 			posOfConds.insert(pair<int,int>(pst, 9));
 			pst = query.find("such that",pst + 1);
+		}
+		while(pst1 != string::npos){
+			posOfConds1.insert(pair<int,int>(pst1, 9));
+			pst1 = query1.find("such that",pst1 + 1);
 		}
 
 		while(pp != string::npos){
@@ -125,9 +144,24 @@ using namespace std;
 			pp = query.find("pattern", pp + 1);
 		}
 
+		while(pp1 != string::npos){
+			posOfConds1.insert(pair<int,int>(pp1, 7));
+			pp1 = query1.find("pattern", pp1 + 1);
+		}
+
 		while(pw != string::npos){
 			posOfConds.insert(pair<int,int>(pw, 4));
 			pw = query.find("with", pw + 1);
+		}
+
+		while(pw1 != string::npos){
+			posOfConds1.insert(pair<int,int>(pw1, 4));
+			pw1 = query1.find("with", pw1 + 1);
+		}
+		//cout << posOfConds.size() <<endl;
+		//cout << posOfConds1.size() <<endl;
+		if(posOfConds.size() != posOfConds1.size()){
+			throw InvalidCaseClauseException();
 		}
 
 		return true;

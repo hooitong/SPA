@@ -96,7 +96,7 @@ void QueryPreprocessorTest::testOneConditionTwoSynonyms(){
 }
 void QueryPreprocessorTest::testPatternCondition(){
 	queryTest = new QueryPreprocessor();
-	QueryTree* achieved = queryTest->parseQuery("assign a; Select a pattern a(_,_)");
+	QueryTree* achieved = queryTest->parseQuery("assign a; Select a Pattern a(_,_)");
 	QueryTree* expected = new QueryTree();
 	QNode* expectedRoot = expected->createNode(QUERY,"");
 	QNode* expectedResultList = expected->createNode(RESULTLIST,"");
@@ -121,7 +121,7 @@ void QueryPreprocessorTest::testPatternCondition(){
 
 void QueryPreprocessorTest::testPatternCondition1(){
 	queryTest = new QueryPreprocessor();
-	QueryTree* achieved = queryTest->parseQuery("assign a; Select a pattern a(_,_\"x\"_)");
+	QueryTree* achieved = queryTest->parseQuery("assign a; stmt s; Select a such That Follows(s,1) pattern a(_,_\"x\"_)");
 	QueryTree* expected = new QueryTree();
 	QNode* expectedRoot = expected->createNode(QUERY,"");
 	QNode* expectedResultList = expected->createNode(RESULTLIST,"");
@@ -133,6 +133,7 @@ void QueryPreprocessorTest::testPatternCondition1(){
 	expected->addChild(expectedRoot,expectedPatternList);
 	QNode* expectedResult = expected->createNode(ASSIGNSYNONYM,"a");
 	expected->addChild(expectedResultList,expectedResult);
+
 	QNode* expectedPatternNode = expected->createNode(PATTERN,"");
 	QNode* expectedPatternChild1 = expected->createNode(ASSIGNSYNONYM,"a");
 	QNode* expectedPatternChild2 = expected->createNode(ANY,"");
@@ -141,6 +142,14 @@ void QueryPreprocessorTest::testPatternCondition1(){
 	expected->addChild(expectedPatternNode,expectedPatternChild2);
 	expected->addChild(expectedPatternNode,expectedPatternChild3);
 	expected->addChild(expectedPatternList,expectedPatternNode);
+
+	QNode* expectedSuchThat = expected->createNode(RELATION,"Follows");
+	QNode* expectedSuchThatChild1 = expected->createNode(STMTSYNONYM,"s");
+	QNode* expectedSuchThatChild2 = expected->createNode(CONST,"1");
+	expected->addChild(expectedSuchThat,expectedSuchThatChild1);
+	expected->addChild(expectedSuchThat,expectedSuchThatChild2);
+	expected->addChild(expectedSuchThatList,expectedSuchThat);
+
 	CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
 
