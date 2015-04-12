@@ -29,7 +29,7 @@ VARINDEX VarTable::insertVar(VARNAME varName) {
 VARNAME VarTable::getVarName(VARINDEX varIndex) {
     /* Check if varIndex is valid */
     if(varIndex < 0 || varIndex >= currentMapIndex) {
-        return NULL;
+        return "!Invalid!";
     } else {
         return varIndexMap[varIndex].var_name;
     }

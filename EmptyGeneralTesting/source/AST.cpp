@@ -116,11 +116,13 @@ bool AST::matchLeftPattern(STMTLINE stmtRoot, VARINDEX varToMatch) {
 }
 
 bool AST::matchRightPattern(STMTLINE stmtRoot, std::string expression, bool strict) {
-    TNode* astNode = getTNode(stmtRoot)->getChildren()[1];
-	vector<TNode*> childList = getTNode(stmtRoot)->getChildren();
-	if(childList.empty() || childList[0]->getTType() != VARN){
-		return false;
-	}
+
+    vector<TNode*> childList = getTNode(stmtRoot)->getChildren();
+    if(childList.empty() || childList[0]->getTType() != VARN) {
+        return false;
+    }
+
+    TNode* astNode = childList[1];
     TNode* queryExpression = Parser::buildExprAST(expression);
 
     vector<TNode*> depthTraversalOfAstNode = getDFS(astNode);
@@ -149,11 +151,11 @@ string AST::convertTNodeListValueToString(vector<TNode*> nodes) {
         } else if(currentNode->getTType() == MINUSN) {
             result += "-";
         } else if(currentNode->getTType() == VARN) {
-			VARINDEX v = std::atoi(getValue(currentNode).c_str());
-            result += "|" + PKB::getPKB()->getVarTable()->getVarName(v);
+            VARINDEX v = std::atoi(getValue(currentNode).c_str());
+            result += "|" + PKB::getPKB()->getVarTable()->getVarName(v) + "|";
         } else if (currentNode->getTType() == CONSTN) {
-			result += "|" + getValue(currentNode);
-		} else {
+            result += "|" + getValue(currentNode) + "|"; 
+        } else {
             // error with parsing the expression tree / invalid expression tree
         }
     }

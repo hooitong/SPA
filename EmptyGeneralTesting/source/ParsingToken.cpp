@@ -27,6 +27,10 @@ int ParsingToken::getIntValue() {
 	return intValue;
 }
 
+int ParsingToken::getDisplayedLineIndex() {
+	return displayedLineIndex;
+}
+
 void ParsingToken::setTokenType(TokenType type) {
 	tokenType = type;
 }
@@ -37,4 +41,8 @@ void ParsingToken::setStringValue(string sValue) {
 
 void ParsingToken::setIntValue(int iValue) {
 	intValue = iValue;
+}
+
+void ParsingToken::setDisplayedLineIndex(int lineIndex) {
+	displayedLineIndex = lineIndex;
 }

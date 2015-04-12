@@ -19,6 +19,8 @@
     <ClCompile Include="..\source\DesignExtractor.cpp" />
     <ClCompile Include="..\source\Follows.cpp" />
     <ClCompile Include="..\source\GNode.cpp" />
+    <ClCompile Include="..\source\InvalidNameException.cpp" />
+    <ClCompile Include="..\source\InvalidProcedureException.cpp" />
     <ClCompile Include="..\source\Modifies.cpp" />
     <ClCompile Include="..\source\Parent.cpp" />
     <ClCompile Include="..\source\Parser.cpp" />
@@ -31,6 +33,7 @@
     <ClCompile Include="..\source\QueryResult.cpp" />
     <ClCompile Include="..\source\QueryTree.cpp" />
     <ClCompile Include="..\source\SPAFrontEnd.cpp" />
+    <ClCompile Include="..\source\SyntaxErrorException.cpp" />
     <ClCompile Include="..\source\TNode.cpp" />
     <ClCompile Include="..\source\Uses.cpp" />
     <ClCompile Include="..\source\VarTable.cpp" />
@@ -45,6 +48,8 @@
     <ClInclude Include="..\source\Follows.h" />
     <ClInclude Include="..\source\GlobalType.h" />
     <ClInclude Include="..\source\GNode.h" />
+    <ClInclude Include="..\source\InvalidNameException.h" />
+    <ClInclude Include="..\source\InvalidProcedureException.h" />
     <ClInclude Include="..\source\Modifies.h" />
     <ClInclude Include="..\source\Parent.h" />
     <ClInclude Include="..\source\Parser.h" />
@@ -57,6 +62,7 @@
     <ClInclude Include="..\source\QueryResult.h" />
     <ClInclude Include="..\source\QueryTree.h" />
     <ClInclude Include="..\source\SPAFrontEnd.h" />
+    <ClInclude Include="..\source\SyntaxErrorException.h" />
     <ClInclude Include="..\source\TNode.h" />
     <ClInclude Include="..\source\Uses.h" />
     <ClInclude Include="..\source\VarTable.h" />
