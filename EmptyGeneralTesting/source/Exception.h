@@ -35,16 +35,42 @@ class SyntaxErrorException : public exception {
 };
 
 class InvalidQueryDeclarationException : public exception {
+	public:
+    InvalidQueryDeclarationException ();
+    ~InvalidQueryDeclarationException ();
+
+    string message();
 };
 
 class InvalidResultSyntaxException: public exception {
+	public:
+    InvalidResultSyntaxException();
+    ~InvalidResultSyntaxException();
+
+    string message();
 };
 
 class InvalidClauseSyntaxException : public exception {
+	public:
+    InvalidClauseSyntaxException();
+    ~InvalidClauseSyntaxException();
+
+    string message();
 };
 
-class InvalidSelectSyntaxException : public exception {
+class InvalidSelectException : public exception {
+
+	public:
+    InvalidSelectException();
+    ~InvalidSelectException();
+
+    string message();
 };
 
 class InvalidCaseClauseException : public exception {
+	public:
+    InvalidCaseClauseException();
+    ~InvalidCaseClauseException();
+
+    string message();
 };

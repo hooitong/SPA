@@ -32,10 +32,12 @@ using namespace std;
 //		cout << "Created Root node and children "<< endl;
 
 		int p = query.find("Select");
+		try{
 		if(p == string::npos){
-			throw InvalidSelectSyntaxException(); 
+			throw InvalidSelectException(); 
 			return NULL;
 		}
+		
 		string result_cl;
 		string declaration = query.substr(0,p);
 		//cout << "Checking if  conditions / clauses exists and collecting pointers"<< endl;
@@ -91,6 +93,17 @@ using namespace std;
 			return NULL;
 		}
 
+		} catch (InvalidSelectException e){
+			cout << e.message(); 
+		} catch (InvalidCaseClauseException e){
+			cout << e.message(); 
+		} catch (InvalidClauseSyntaxException e){
+			cout << e.message(); 
+		} catch (InvalidResultSyntaxException e){
+			cout << e.message();
+		} catch (InvalidQueryDeclarationException e){
+			cout << e.message();
+		}
 		return queryTree;
 	}
 
