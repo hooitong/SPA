@@ -2,6 +2,7 @@
 #include "QueryPreprocessor.h"
 #include <string>
 #include <iostream>
+#include "Exception.h"
 #include <vector>
 using namespace std;
 
@@ -9,20 +10,8 @@ using namespace std;
 	static string designEntity[] = {"procedure","stmtLst", "stmt", "assign", "call", "while", "if", "variable", "constant", "prog_line"};
 	static const int num = 10;
 	static QueryTree* tree;
+
 	/**************************General *********************************/
-
-	class InvalidQueryDeclarationException : public exception {
-	};
-
-	class InvalidResultSyntaxException: public exception {
-	};
-
-	class InvalidClauseSyntaxException : public exception {
-	};
-
-	class InvalidSelectSyntaxException : public exception {
-	};
-
 
 	QueryPreprocessor::QueryPreprocessor(void) {
 	}
@@ -43,10 +32,12 @@ using namespace std;
 //		cout << "Created Root node and children "<< endl;
 
 		int p = query.find("Select");
+		try{
 		if(p == string::npos){
-			throw InvalidSelectSyntaxException(); 
+			throw InvalidSelectException(); 
 			return NULL;
 		}
+		
 		string result_cl;
 		string declaration = query.substr(0,p);
 		//cout << "Checking if  conditions / clauses exists and collecting pointers"<< endl;
@@ -102,22 +93,50 @@ using namespace std;
 			return NULL;
 		}
 
+		} catch (InvalidSelectException e){
+			cout << e.message(); 
+		} catch (InvalidCaseClauseException e){
+			cout << e.message(); 
+		} catch (InvalidClauseSyntaxException e){
+			cout << e.message(); 
+		} catch (InvalidResultSyntaxException e){
+			cout << e.message();
+		} catch (InvalidQueryDeclarationException e){
+			cout << e.message();
+		}
 		return queryTree;
 	}
 
 	bool QueryPreprocessor::checkConditionExists(string query){
+		string query1;
+		query1 = query;
+		for(int i = 0; i < query1.length(); i++){
+			query1[i] = tolower(query1[i]);
+		}
 		//pointer of such that condition
 		int pst = query.find("such that");
+		int pst1 = query1.find("such that");
 		//pointer of pattern condition
 		int pp = query.find("pattern");
+		int pp1 = query1.find("pattern");
 		//pointer of with condition
 		int pw = query.find("with");
+		int pw1 = query.find("with");
 	
 		if(pst == string::npos && pp == string::npos && pw == string::npos) return false;
+
+
+		//cout <<query <<endl;
+		//cout <<query1 <<endl;
+
 
 		while(pst != string::npos){
 			posOfConds.insert(pair<int,int>(pst, 9));
 			pst = query.find("such that",pst + 1);
+		}
+		while(pst1 != string::npos){
+			posOfConds1.insert(pair<int,int>(pst1, 9));
+			pst1 = query1.find("such that",pst1 + 1);
 		}
 
 		while(pp != string::npos){
@@ -125,9 +144,24 @@ using namespace std;
 			pp = query.find("pattern", pp + 1);
 		}
 
+		while(pp1 != string::npos){
+			posOfConds1.insert(pair<int,int>(pp1, 7));
+			pp1 = query1.find("pattern", pp1 + 1);
+		}
+
 		while(pw != string::npos){
 			posOfConds.insert(pair<int,int>(pw, 4));
 			pw = query.find("with", pw + 1);
+		}
+
+		while(pw1 != string::npos){
+			posOfConds1.insert(pair<int,int>(pw1, 4));
+			pw1 = query1.find("with", pw1 + 1);
+		}
+		//cout << posOfConds.size() <<endl;
+		//cout << posOfConds1.size() <<endl;
+		if(posOfConds.size() != posOfConds1.size()){
+			throw InvalidCaseClauseException();
 		}
 
 		return true;

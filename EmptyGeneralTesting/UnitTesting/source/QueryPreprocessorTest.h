@@ -7,15 +7,15 @@
 class QueryPreprocessorTest : public CPPUNIT_NS::TestFixture{
 
 	CPPUNIT_TEST_SUITE(QueryPreprocessorTest);
-	CPPUNIT_TEST(testNoCondition);
+	/*CPPUNIT_TEST(testNoCondition);
 	CPPUNIT_TEST(testNoConditionMoreComplex);
 	CPPUNIT_TEST(testOneCondition);
 	CPPUNIT_TEST(testOneConditionTwoSynonyms);
-	CPPUNIT_TEST(testPatternCondition);
+	CPPUNIT_TEST(testPatternCondition);*/
 	CPPUNIT_TEST(testPatternCondition1);
-	CPPUNIT_TEST(testPatternCondition2);
+	/*CPPUNIT_TEST(testPatternCondition2);
 	CPPUNIT_TEST(testPatternCondition3);
-	CPPUNIT_TEST(testPatternCondition4);
+	CPPUNIT_TEST(testPatternCondition4);*/
     CPPUNIT_TEST_SUITE_END();
 
   private:
