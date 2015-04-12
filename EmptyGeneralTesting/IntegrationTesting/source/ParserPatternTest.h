@@ -10,6 +10,7 @@ class ParserPatternTest : public CPPUNIT_NS::TestFixture {
 	CPPUNIT_TEST(testLeftPatternStrict);
 	CPPUNIT_TEST(testRightPatternStrict);
 	CPPUNIT_TEST(testRightPatternUnStrict);
+	CPPUNIT_TEST(testRightPatternSubExpr);
     CPPUNIT_TEST_SUITE_END();
 
   private:
@@ -23,5 +24,5 @@ class ParserPatternTest : public CPPUNIT_NS::TestFixture {
 	void testLeftPatternStrict();
 	void testRightPatternStrict();
 	void testRightPatternUnStrict();
-
+	void testRightPatternSubExpr();
 };
