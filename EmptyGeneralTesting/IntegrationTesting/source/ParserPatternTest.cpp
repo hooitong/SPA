@@ -35,7 +35,7 @@ void ParserPatternTest::testLeftPatternStrict() {
 	VARINDEX width = vTable->getVarIndex("width");
 	VARINDEX delta = vTable->getVarIndex("delta");
 	VARINDEX l = vTable->getVarIndex("l");
-	
+
 	CPPUNIT_ASSERT(ast->matchLeftPattern(1,i));
 	CPPUNIT_ASSERT(ast->matchLeftPattern(2,b));
 	CPPUNIT_ASSERT(ast->matchLeftPattern(3,c));
