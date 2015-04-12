@@ -3,21 +3,6 @@
 #include <stack>
 #include <fstream>
 
-class SyntaxErrorException : public exception {
-};
-
-class InvalidNameException : public exception {
-};
-
-class InvalidProcedureException : public SyntaxErrorException {
-};
-
-class InvalidExpressionException : public SyntaxErrorException {
-};
-
-class InvalidWhileStmtException: public SyntaxErrorException {
-};
-
 vector<ParsingToken*> Parser::programTokenList;
 
 // parse source code from file
@@ -26,39 +11,50 @@ void Parser::parse(string filename) {
 	sourceFile.open(filename);
 	string line;
 	programTokenList.clear();
-	while (getline(sourceFile, line)) {
-		Parser::tokenizeLine(line, &programTokenList);
-	}
+	int currLineIndex = 1;
 
-	Parser::buildProcedureAST();
+	try {
+		while (getline(sourceFile, line)) {
+			Parser::tokenizeLine(line, currLineIndex, &programTokenList);
+			currLineIndex++;
+		}
+
+		Parser::buildProcedureAST();
+	} catch (SyntaxErrorException e) {
+		cout << e.message();
+	} catch (InvalidNameException e) {
+		cout << e.message();
+	} catch (InvalidProcedureException e) {
+		cout << e.message();
+	}
 }
 
 /*
 	Remove comment in a line and return a list of tokens from that line
 */
-void Parser::tokenizeLine(string line, vector<ParsingToken*> *tokenList) {
+void Parser::tokenizeLine(string line, int lineIndex, vector<ParsingToken*> *tokenList) {
     string currStr = "";
     for (size_t i=0; i<line.size(); i++) {
         char nextChar = line.at(i);
         if (nextChar == ' ' || nextChar == '\t') {
             if (currStr.size() > 0) {
-                tokenList->push_back(Parser::convertStringToToken(currStr));
+                tokenList->push_back(Parser::convertStringToToken(currStr, lineIndex));
                 currStr = "";
             }
         } else if (nextChar == '=' || nextChar == '+' || nextChar == '-' || nextChar == ';' || nextChar == '{' || nextChar == '}') {
             if (currStr.size() > 0) {
-                tokenList->push_back(Parser::convertStringToToken(currStr));
+                tokenList->push_back(Parser::convertStringToToken(currStr, lineIndex));
             }
 			currStr = string(1, nextChar);
-            tokenList->push_back(Parser::convertStringToToken(currStr));
+            tokenList->push_back(Parser::convertStringToToken(currStr, lineIndex));
 			currStr = "";
         } else if (nextChar == '\\') {
             if (i == line.size() - 1) {
-                throw SyntaxErrorException();
+                throw SyntaxErrorException(lineIndex);
             } else if (line.at(i+1) == '\\') {  // Ignore comments
                 return;
             } else {
-                throw SyntaxErrorException();
+                throw SyntaxErrorException(lineIndex);
             }
         } else if ((nextChar >= 'a' && nextChar <= 'z') || (nextChar >= 'A' && nextChar <= 'Z') || (nextChar >= '0' && nextChar <= '9')) {
             currStr.push_back(nextChar);
@@ -66,14 +62,14 @@ void Parser::tokenizeLine(string line, vector<ParsingToken*> *tokenList) {
     }
 
 	if(currStr.size() > 0) {
-		tokenList->push_back(Parser::convertStringToToken(currStr));
+		tokenList->push_back(Parser::convertStringToToken(currStr, lineIndex));
 		currStr = "";
 	}
 
     return;
 }
 
-ParsingToken* Parser::convertStringToToken(string aString) {
+ParsingToken* Parser::convertStringToToken(string aString, int lineIndex) {
 	ParsingToken* token = new ParsingToken();
 	if (aString.compare("procedure") == 0) {
 		token->setTokenType(TokenType::PROCEDURE_TOKEN);
@@ -102,7 +98,7 @@ ParsingToken* Parser::convertStringToToken(string aString) {
 		token->setTokenType(TokenType::NAME);
 		token->setStringValue(aString);
 	} else {
-		throw InvalidNameException();
+		throw InvalidNameException(lineIndex);
 	}
 
 	return token;
@@ -171,7 +167,7 @@ void Parser::buildProcedureAST() {
 		if (programTokenList.at(i)->getTokenType() == TokenType::NAME) { // assignment statement  
 			// if the fisrt token of the statement is a name, then the statement is an assignment
 			if (programTokenList.at(i+1)->getTokenType() != TokenType::ASSIGNMENT_TOKEN)
-				throw SyntaxErrorException();
+				throw SyntaxErrorException(programTokenList.at(i+1)->getDisplayedLineIndex());
 			
 			// add the variable to varTable and Modifies Table
 			PKB::getPKB()->getVarTable()->insertVar(programTokenList.at(i)->getStringValue());
@@ -187,7 +183,7 @@ void Parser::buildProcedureAST() {
 				j++;
 			}
 			i = j+1; // move i to after the SEMICOLON position
-			TNode *exprNode = Parser::buildExprAST(exprTokenList, stmtLine);
+			TNode *exprNode = Parser::buildExprAST(exprTokenList, stmtLine, programTokenList.at(i)->getDisplayedLineIndex());
 			TNode *assignNode = new TNode(TType::ASSIGNN, "");
 			assignNode->setStmtLine(stmtLine);
 			ast->setStmtLine(assignNode, stmtLine);
@@ -204,7 +200,7 @@ void Parser::buildProcedureAST() {
 		} else if (programTokenList.at(i)->getTokenType() == TokenType::WHILE_TOKEN) { // while statement
 			if (programTokenList.at(i+1)->getTokenType() != TokenType::NAME || programTokenList.at(i+2)->getTokenType() != TokenType::OPEN_CURLY_BRACKET) {
 				// if the statement does not follow the format 'while var_name {' then thow exception
-				throw InvalidWhileStmtException();
+				throw SyntaxErrorException(programTokenList.at(i+1)->getDisplayedLineIndex());
 			} else {
 				i = i+3; // move i to after the open curly bracket
 				TNode *whileNode = new TNode(TType::WHILEN, "");
@@ -240,9 +236,9 @@ void Parser::buildProcedureAST() {
 }
 
 // build the AST for an expression, e.g. x + y + z
-TNode* Parser::buildExprAST(vector<ParsingToken *> exprTokenList, STMTLINE stmtLine) {
+TNode* Parser::buildExprAST(vector<ParsingToken *> exprTokenList, STMTLINE stmtLine, int displayedLineIndex) {
 	if (exprTokenList.size() == 0)
-		throw InvalidExpressionException();
+		throw SyntaxErrorException(displayedLineIndex);
 
 	stack<TNode*> operandStack;
 	stack<OperatorType> operatorStack;
@@ -263,7 +259,7 @@ TNode* Parser::buildExprAST(vector<ParsingToken *> exprTokenList, STMTLINE stmtL
 				operatorStack.pop();
 
 				if (operandStack.empty())
-					throw InvalidExpressionException();
+					throw SyntaxErrorException(displayedLineIndex);
 				TNode* fNode = operandStack.top();
 				operandStack.pop();
 
@@ -309,16 +305,16 @@ TNode* Parser::buildExprAST(vector<ParsingToken *> exprTokenList, STMTLINE stmtL
 	}
 
 	if (!operatorStack.empty()) // if there are more operators than necessary, then the expression is invalid
-		throw InvalidExpressionException();
+		throw SyntaxErrorException(displayedLineIndex);
 
 	if (operandStack.empty()) // after finishing parsing, there should be only one operand in the operand stack
-		throw InvalidExpressionException();
+		throw SyntaxErrorException(displayedLineIndex);
 
 	TNode *exprRootNode = operandStack.top();
 	operandStack.pop();
 
 	if (!operandStack.empty())
-		throw InvalidExpressionException();
+		throw SyntaxErrorException(displayedLineIndex);
 
 	return exprRootNode;
 }
@@ -414,6 +410,6 @@ void Parser::linkTNodeToPrevNodes(TNode *currNode, TNode *prevNode, TNodeRelatio
 
 TNode* Parser::buildExprAST(string expression) {
 	vector<ParsingToken*> exprToken;
-	tokenizeLine(expression, &exprToken);
-	return buildExprAST(exprToken, -1);
+	tokenizeLine(expression, -1, &exprToken);
+	return buildExprAST(exprToken, -1, -1);
 }

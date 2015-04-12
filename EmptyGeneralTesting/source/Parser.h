@@ -2,10 +2,12 @@
 #include <map>
 #include <vector>
 #include <string>
-#include <exception>
 #include "GlobalType.h"
 #include "ParsingToken.h"
 #include "AST.h"
+#include "SyntaxErrorException.h"
+#include "InvalidNameException.h"
+#include "InvalidProcedureException.h"
 
 class Parser {
 
@@ -21,11 +23,11 @@ public:
 private:
 	static vector<ParsingToken*> programTokenList; 
 	
-	static void tokenizeLine(string line, vector<ParsingToken*> *tokenList);
+	static void tokenizeLine(string line, int lineIndex, vector<ParsingToken*> *tokenList);
 	static void buildProcedureAST();
-	static TNode* buildExprAST(vector<ParsingToken *> exprTokenList, STMTLINE stmtLine);
+	static TNode* buildExprAST(vector<ParsingToken *> exprTokenList, STMTLINE stmtLine, int displayedLineIndex);
 
-	static ParsingToken* convertStringToToken(string aString);
+	static ParsingToken* convertStringToToken(string aString, int lineIndex);
 	static bool isNumeric(string aString);
 	static bool isValidName(string aString);
 
