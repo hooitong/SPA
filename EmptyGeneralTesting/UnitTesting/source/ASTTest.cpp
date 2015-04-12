@@ -292,7 +292,6 @@ void ASTTest::testMatchRightPatternConst() {
 
 	VARINDEX vx = PKB::getPKB()->getVarTable()->insertVar("x");	
     TNode* nodeSiblingLeft = (*ast).createTNode(VARN, std::to_string(static_cast<long long>(vx)));
-	//string variableXIndex = vTable.getVarName(atoi( nodeSiblingLeft->getValue().c_str() ));
 
     TNode* nodeSiblingRight = (*ast).createTNode(CONSTN, std::to_string(static_cast<long long>(1)));
 

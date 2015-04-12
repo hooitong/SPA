@@ -62,6 +62,19 @@ void ParserPatternTest::testLeftPatternStrict() {
 //excluding lines with multiplication/division
 void ParserPatternTest::testRightPatternStrict() { 
 	CPPUNIT_ASSERT(ast->matchRightPattern(1,"1",true));
+	CPPUNIT_ASSERT(ast->matchRightPattern(2,"200",true));
+	CPPUNIT_ASSERT(ast->matchRightPattern(3,"a",true));
+	CPPUNIT_ASSERT(ast->matchRightPattern(6,"1 + beta + tmp",true));
+	CPPUNIT_ASSERT(ast->matchRightPattern(8,"I + k + j1k + chArlie",true));
+	CPPUNIT_ASSERT(ast->matchRightPattern(10,"x + 1",true));
+	CPPUNIT_ASSERT(ast->matchRightPattern(13,"Romeo + 1",true));
+	CPPUNIT_ASSERT(ast->matchRightPattern(14,"0",true));
+	CPPUNIT_ASSERT(ast->matchRightPattern(15,"delta    + l  + width + Romeo",true));
+	CPPUNIT_ASSERT(ast->matchRightPattern(17,"c + 1",true));
+	CPPUNIT_ASSERT(ast->matchRightPattern(18,"x + 1",true));
+	CPPUNIT_ASSERT(ast->matchRightPattern(19,"2",true));
+	CPPUNIT_ASSERT(ast->matchRightPattern(20,"w + 1",true));
+
 }
 
 //test pattern that are not strict
