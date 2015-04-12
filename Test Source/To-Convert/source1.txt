@@ -1,19 +1,9 @@
 procedure Main{
-	x=5;
-	z=2;
-	while z {
-		z = z- 1;
-		if z then {
-			x = x + 2;
-		}else {
-			x = x + 1;				
-		}
-	}
-	a = a + b;
-	b = b + 1;
-	while b {
-		a = a + b;
-		b = b - 1;
-	}
-	y = a + b + x + z;
+  x=5;				\\1
+  z=2;				\\2
+  while z{			\\3
+    z = z- 1;			\\4
+    if z then {			\\5
+      x = x + 2;}		\\6
+    else {			\\7
 }
