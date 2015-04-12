@@ -152,9 +152,9 @@ string AST::convertTNodeListValueToString(vector<TNode*> nodes) {
             result += "-";
         } else if(currentNode->getTType() == VARN) {
             VARINDEX v = std::atoi(getValue(currentNode).c_str());
-            result += "|" + PKB::getPKB()->getVarTable()->getVarName(v);
+            result += "|" + PKB::getPKB()->getVarTable()->getVarName(v) + "|";
         } else if (currentNode->getTType() == CONSTN) {
-            result += "|" + getValue(currentNode);
+            result += "|" + getValue(currentNode) + "|"; 
         } else {
             // error with parsing the expression tree / invalid expression tree
         }
