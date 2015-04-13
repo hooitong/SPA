@@ -121,7 +121,7 @@ void QueryPreprocessorTest::testPatternCondition(){
 
 void QueryPreprocessorTest::testPatternCondition1(){
 	queryTest = new QueryPreprocessor();
-	QueryTree* achieved = queryTest->parseQuery("assign a; stmt s; Seect a such that Follows(s,1) pattern a(_,_\"x\"_)");
+	QueryTree* achieved = queryTest->parseQuery("assign a; stmt s; Select a such that Follows(s,1) pattern a(_,_\"x\"_)");
 	QueryTree* expected = new QueryTree();
 	QNode* expectedRoot = expected->createNode(QUERY,"");
 	QNode* expectedResultList = expected->createNode(RESULTLIST,"");
