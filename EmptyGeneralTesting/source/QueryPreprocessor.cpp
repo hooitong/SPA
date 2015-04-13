@@ -20,79 +20,77 @@ using namespace std;
 	}
 
 	QueryTree* QueryPreprocessor::parseQuery(string query){
-		queryTree = new QueryTree();
-		QNode* root = queryTree->createNode(QUERY, "");
-		queryTree->setAsRoot(root);
-		resultListNode = queryTree->createNode(RESULTLIST, "");
-		suchthatListNode = queryTree->createNode(SUCHTHATLIST, "");
-		patternListNode = queryTree->createNode(PATTERNLIST, "");
-		queryTree->addChild(root, resultListNode);
-		queryTree->addChild(root, suchthatListNode);
-		queryTree->addChild(root, patternListNode);
-//		cout << "Created Root node and children "<< endl;
+		try {
+			queryTree = new QueryTree();
+			QNode* root = queryTree->createNode(QUERY, "");
+			queryTree->setAsRoot(root);
+			resultListNode = queryTree->createNode(RESULTLIST, "");
+			suchthatListNode = queryTree->createNode(SUCHTHATLIST, "");
+			patternListNode = queryTree->createNode(PATTERNLIST, "");
+			queryTree->addChild(root, resultListNode);
+			queryTree->addChild(root, suchthatListNode);
+			queryTree->addChild(root, patternListNode);
+	//		cout << "Created Root node and children "<< endl;
 
-		int p = query.find("Select");
+			int p = query.find("Select");
 		
-		if(p == string::npos){
-			throw InvalidSelectException(); 
-			return NULL;
-		}
-		
-		string result_cl;
-		string declaration = query.substr(0,p);
-		//cout << "Checking if  conditions / clauses exists and collecting pointers"<< endl;
-		if(!checkConditionExists(query)){
-			//cout << " conditions / clauses don't exists "<< endl;
-			//cout << " checking if Declaration is correct"<< endl;
-			if(checkDeclaration(declaration)){
-			  //   cout << " Declaration is correct "<< endl;
-				 result_cl = query.substr(p+6, query.length()-p-6);
-				// cout << " Going to check result "<< endl;
-				 checkTuple(result_cl);
-			}else{
-				 throw InvalidQueryDeclarationException() ;
-				
-				 return NULL;
+			if(p == string::npos){
+				throw InvalidSelectException(); 
 			}
-			return queryTree;
-		}
-
-		map<int,int>::iterator it = posOfConds.begin();
-		//pointer  to first condition/clause
-		int ptf = it -> first;
-		int type = it -> second;
-
-		result_cl = query.substr(p+6, ptf-p-6);
 		
-		if(!(checkDeclaration(declaration) && checkTuple(result_cl))){
-			throw InvalidQueryDeclarationException();
-			return NULL;
-		}
-		it++;
-		//pointer to second condition/clause
-		int pts;
-		if(it != posOfConds.end()) pts = it-> first;
+			string result_cl;
+			string declaration = query.substr(0,p);
+			//cout << "Checking if  conditions / clauses exists and collecting pointers"<< endl;
+			if(!checkConditionExists(query)){
+				//cout << " conditions / clauses don't exists "<< endl;
+				//cout << " checking if Declaration is correct"<< endl;
+				if(checkDeclaration(declaration)){
+				  //   cout << " Declaration is correct "<< endl;
+					 result_cl = query.substr(p+6, query.length()-p-6);
+					// cout << " Going to check result "<< endl;
+					 checkTuple(result_cl);
+				}else{
+					 throw InvalidQueryDeclarationException() ;
+				}
+				return queryTree;
+			}
 
-		while( it != posOfConds.end()){
-			//cout << " Looping through conditions "<< endl;
-			string clause = query.substr(ptf, pts - ptf);
-			if(trimAndCheckClause(clause, type)){
-				ptf = pts;
-				type = it->second;
-			}else{
-				throw InvalidClauseSyntaxException();
-				return NULL;
+			map<int,int>::iterator it = posOfConds.begin();
+			//pointer  to first condition/clause
+			int ptf = it -> first;
+			int type = it -> second;
+
+			result_cl = query.substr(p+6, ptf-p-6);
+		
+			if(!(checkDeclaration(declaration) && checkTuple(result_cl))){
+				throw InvalidQueryDeclarationException();
 			}
 			it++;
-			if(it != posOfConds.end()) pts = it->first;
-		}
+			//pointer to second condition/clause
+			int pts;
+			if(it != posOfConds.end()) pts = it-> first;
+
+			while( it != posOfConds.end()){
+				//cout << " Looping through conditions "<< endl;
+				string clause = query.substr(ptf, pts - ptf);
+				if(trimAndCheckClause(clause, type)){
+					ptf = pts;
+					type = it->second;
+				}else{
+					throw InvalidClauseSyntaxException();
+				}
+				it++;
+				if(it != posOfConds.end()) pts = it->first;
+			}
 		
-		string clause = query.substr(ptf, query.length() - ptf);
-		if(!trimAndCheckClause(clause, type)) {
-			throw InvalidClauseSyntaxException();
+			string clause = query.substr(ptf, query.length() - ptf);
+			if(!trimAndCheckClause(clause, type)) {
+				throw InvalidClauseSyntaxException();
+			}
+			return queryTree;
+		} catch (exception e) {
 			return NULL;
 		}
-		return queryTree;
 	}
 
 	bool QueryPreprocessor::checkConditionExists(string query){
@@ -111,12 +109,9 @@ using namespace std;
 		int pw = query.find("with");
 		int pw1 = query.find("with");
 	
-		if(pst == string::npos && pp == string::npos && pw == string::npos) return false;
-
-
-		//cout <<query <<endl;
-		//cout <<query1 <<endl;
-
+		if(pst == string::npos && pp == string::npos && pw == string::npos) {
+			return false;
+		}
 
 		while(pst != string::npos){
 			posOfConds.insert(pair<int,int>(pst, 9));
@@ -520,6 +515,33 @@ using namespace std;
 
 /**************************result  *********************************/
 
+	bool QueryPreprocessor::addTuple(string single_tuple) {
+		single_tuple = trim(single_tuple);
+		string type = getType(single_tuple);
+		QNode* resultNode;
+		if (type == "assign") {
+			resultNode = queryTree->createNode(ASSIGNSYNONYM, single_tuple);
+		} else if (type == "stmt") {
+			resultNode = queryTree->createNode(STMTSYNONYM, single_tuple);
+		} else if (type == "while") {
+			resultNode = queryTree->createNode(WHILESYNONYM, single_tuple);
+		} else if (type == "variable") {
+			resultNode = queryTree->createNode(VARIABLESYNONYM, single_tuple);
+		} else if (type == "constant") {
+			resultNode = queryTree->createNode(CONSTSYNONYM, single_tuple);
+		} else if (type == "prog_line") {
+			resultNode = queryTree->createNode(PROGLINESYNONYM, single_tuple);
+		} else if (type == "procedure") {
+			resultNode = queryTree->createNode(PROCEDURESYNONYM, single_tuple);
+		} else if (type == "if") {
+			resultNode = queryTree->createNode(IFSYNONYM, single_tuple);
+		}else{
+			throw InvalidResultSyntaxException();
+		}
+		queryTree->addChild(resultListNode, resultNode);
+		return true;
+	}
+
 	bool QueryPreprocessor::checkTuple(string tuple){
 		tuple = trim(tuple);
 		//cout << " checking if tuple is elem"<< endl;
@@ -528,38 +550,26 @@ using namespace std;
 
 			//cout << " checking if tuple is exists in declaration"<< endl;
 			if(existsRef(tuple)){
-				//cout << " creating result node"<< endl;
-				
-				string type = getType(tuple);
-				QNode* resultNode;
-				if (type == "assign") {
-					resultNode = queryTree->createNode(ASSIGNSYNONYM, tuple);
-				} else if (type == "stmt") {
-					resultNode = queryTree->createNode(STMTSYNONYM, tuple);
-				} else if (type == "while") {
-					resultNode = queryTree->createNode(WHILESYNONYM, tuple);
-				} else if (type == "variable") {
-					resultNode = queryTree->createNode(VARIABLESYNONYM, tuple);
-				} else if (type == "constant") {
-					resultNode = queryTree->createNode(CONSTSYNONYM, tuple);
-				} else if (type == "prog_line") {
-					resultNode = queryTree->createNode(PROGLINESYNONYM, tuple);
-				} else if (type == "procedure") {
-					resultNode = queryTree->createNode(PROCEDURESYNONYM, tuple);
-				} else if (type == "if") {
-					resultNode = queryTree->createNode(IFSYNONYM, tuple);
-				}else{
-					throw InvalidResultSyntaxException();
-				}
-				queryTree->addChild(resultListNode, resultNode);
-
-			
-				return true;
+				return addTuple(tuple);
 			}else{
 				throw InvalidResultSyntaxException();
 			}
-
-		}else{
+		} else if (tuple.at(0) == '<') {
+			tuple = tuple.substr(1,(int)tuple.size() - 2);
+			int pt = 0;
+			while (pt < (int)tuple.size()) {
+				int nextpt = tuple.find(',',pt);
+				if (nextpt == string::npos) {
+					nextpt = (int)tuple.size();
+				}	
+				string single_tuple = tuple.substr(pt,nextpt-pt);
+				if (!addTuple(single_tuple)) {
+					return false;
+				}
+				pt = nextpt + 1;
+			}
+			return true;
+		} else {
 			throw InvalidResultSyntaxException();
 		}
 		return false;

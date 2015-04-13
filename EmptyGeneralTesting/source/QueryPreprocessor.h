@@ -25,6 +25,7 @@ class QueryPreprocessor {
 	bool checkElem(string elem);
 	bool checkVarReference(string varReference);
 	bool checkDesignEntity(string entity);
+	bool addTuple(string single_tuple);
 	bool checkTuple(string tuple);
 	bool existsRef(string reference);
 
