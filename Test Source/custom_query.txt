@@ -1,0 +1,125 @@
+1 - ParentTest
+stmt s;
+Select s such that Parent(s, 4)
+3
+5000
+2 - ParentTest2
+stmt s;stmt s1;
+Select s such that Parent(s,6)
+3
+5000
+3 - ParentStar
+stmt s;
+Select s such that Parent*(s,4)
+3
+5000
+4 - ParentStar2
+stmt s;
+Select s such that Parent*(s,6)
+3
+5000
+5 - Follows 
+stmt s;stmt n;
+Select s such that Follows(s,2)
+1
+5000
+6 - Follows2
+stmt s; stmt n;
+Select s such that Follows(4,n)
+1,2,3,4,5,6,7,8,9,10,11,12
+5000
+7 - FollowsStar
+stmt s; stmt n;
+Select s such that Follows*(4,n)
+1,2,3,4,5,6,7,8,9,10,11,12
+5000
+8 - FollowsStar2
+stmt n; while w;
+Select n such that Follows*(w,n)
+7,8,9,12
+5000
+9 - FollowsStar3
+prog_line n; while w;
+Select w such that Follows*(w,4)
+none
+5000
+10 - Pattern 
+assign a;
+Select a pattern a ("z", _)
+2,4
+5000
+11 - Pattern2
+assign a;
+Select a pattern a("b", _)
+8,11
+5000
+12 - Pattern3
+assign a;
+Select a pattern a("a", _)
+7,10
+5000
+13 - Modifies
+stmt s;
+Select s such that Modifies (s,"z")
+2,3,4
+5000
+14 - Modifies2 
+variable v;
+Select v such that Modifies (4, v)
+z
+5000
+15 - Modifies3
+while w; 
+Select w such that Modifies (w,"x")
+3
+5000
+16 - Modifies4 
+stmt s;
+Select s such that Modifies (s, _)
+1,2,3,4,5,6,7,8,9,10,11,12
+5000
+17 - Uses 
+stmt s;
+Select s such that Uses(s,"x")
+3,5,6,12
+5000
+18 - Uses2
+stmt s;
+Select s such that Uses(s,"b")
+7,8,9,10,11,12
+5000
+19 - Follows
+stmt s;
+Select s such that Follows (2,3)
+1,2,3,4,5,6,7,8,9,10,11,12
+5000
+20 - Follows2
+assign a;
+Select a such that Follows (a, 3)
+2
+5000
+21 - ParentTest3
+stmt s;
+Select s such that Parent (s, 4)
+3
+5000
+22 - Pattern 
+assign a;
+Select a pattern a (_,"x + 2")
+5
+5000
+23 - Pattern2
+assign a;
+Select a pattern a (_,"_x + 2_")
+5
+5000
+24 - Pattern3
+assign a;
+Select a pattern a (_,"a + b")
+7,10
+5000
+25 - Pattern4
+assign a;
+Select a pattern a (_,"_a + b_")
+7,10,12
+5000
