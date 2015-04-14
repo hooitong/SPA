@@ -8,6 +8,7 @@
 #include "SyntaxErrorException.h"
 #include "InvalidNameException.h"
 #include "InvalidProcedureException.h"
+#include <stdlib.h>
 
 class Parser {
 
