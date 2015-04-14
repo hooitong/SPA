@@ -310,8 +310,8 @@ using namespace std;
 			return queryTree->createNode(WHILESYNONYM,argument);
 		} else if (existsRef(argument) && getType(argument) == "assign") {
 			return queryTree->createNode(ASSIGNSYNONYM,argument);
-		}else if (existsRef(argument) && getType(argument) == "procedure") {
-			return queryTree->createNode(PROCEDURESYNONYM,argument);
+		}else if (existsRef(argument) && getType(argument) == "prog_line") {
+			return queryTree->createNode(PROGLINESYNONYM,argument);
 		}
 		return NULL;
 	}
