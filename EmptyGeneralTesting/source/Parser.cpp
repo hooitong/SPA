@@ -22,10 +22,13 @@ void Parser::parse(string filename) {
 		Parser::buildProcedureAST();
 	} catch (SyntaxErrorException e) {
 		cout << e.message();
+		exit (EXIT_FAILURE);
 	} catch (InvalidNameException e) {
 		cout << e.message();
+		exit (EXIT_FAILURE);
 	} catch (InvalidProcedureException e) {
 		cout << e.message();
+		exit (EXIT_FAILURE);
 	}
 }
 

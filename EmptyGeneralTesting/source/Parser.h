@@ -5,6 +5,7 @@
 #include "GlobalType.h"
 #include "ParsingToken.h"
 #include "AST.h"
+#include <stdlib.h>
 #include "Exception.h"
 
 class Parser {
