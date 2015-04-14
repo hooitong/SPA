@@ -186,6 +186,9 @@ void Parser::buildProcedureAST() {
 			while (programTokenList.at(j)->getTokenType() != TokenType::SEMICOLON) {
 				exprTokenList.push_back(programTokenList.at(j));
 				j++;
+				if (j >= programTokenList.size()) {
+					throw SyntaxErrorException(programTokenList.at(i+2)->getDisplayedLineIndex());
+				}
 			}
 			i = j+1; // move i to after the SEMICOLON position
 			TNode *exprNode = Parser::buildExprAST(exprTokenList, stmtLine, programTokenList.at(i)->getDisplayedLineIndex());
