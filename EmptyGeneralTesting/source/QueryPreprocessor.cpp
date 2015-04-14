@@ -40,14 +40,9 @@ using namespace std;
 		
 			string result_cl;
 			string declaration = query.substr(0,p);
-			//cout << "Checking if  conditions / clauses exists and collecting pointers"<< endl;
 			if(!checkConditionExists(query)){
-				//cout << " conditions / clauses don't exists "<< endl;
-				//cout << " checking if Declaration is correct"<< endl;
 				if(checkDeclaration(declaration)){
-				  //   cout << " Declaration is correct "<< endl;
 					 result_cl = query.substr(p+6, query.length()-p-6);
-					// cout << " Going to check result "<< endl;
 					 checkTuple(result_cl);
 				}else{
 					 throw InvalidQueryDeclarationException() ;
@@ -71,7 +66,6 @@ using namespace std;
 			if(it != posOfConds.end()) pts = it-> first;
 
 			while( it != posOfConds.end()){
-				//cout << " Looping through conditions "<< endl;
 				string clause = query.substr(ptf, pts - ptf);
 				if(trimAndCheckClause(clause, type)){
 					ptf = pts;
@@ -141,8 +135,6 @@ using namespace std;
 			posOfConds1.insert(pair<int,int>(pw1, 4));
 			pw1 = query1.find("with", pw1 + 1);
 		}
-		//cout << posOfConds.size() <<endl;
-		//cout << posOfConds1.size() <<endl;
 		if(posOfConds.size() != posOfConds1.size()){
 			throw InvalidCaseClauseException();
 		}
@@ -313,25 +305,43 @@ using namespace std;
 				return queryTree->createNode(ASSIGNSYNONYM,argument);
 			} else if (getType(argument) == "prog_line") {
 				return queryTree->createNode(PROGLINESYNONYM,argument);
-			} else {
-				throw UnmatchedSynonymException();
 			}
-		} else {
-			throw UndeclaredException(); 
+		}
+		return NULL;
+	}
+
+	QNode* QueryPreprocessor::parseVarRef(string argument) {
+		if (argument == "_") {
+			return queryTree->createNode(ANY,"");
+		} else if (argument.at(0) == '\"' && argument.at((int)argument.size()-1) == '\"') {
+			return queryTree->createNode(VAR,trim(argument.substr(1,(int)argument.size()-2)));
+		} else if (existsRef(argument)) {
+			if (getType(argument) == "variable") {
+				return queryTree->createNode(VARIABLESYNONYM,argument);
+			}
 		}
 		return NULL;
 	}
 
 	QNode* QueryPreprocessor::parseEntRef(string argument) {
-		QNode* right;
-		//cout << "******************parsingEntRef*******************************" <<endl;
 		if (argument == "_") {
 			return queryTree->createNode(ANY,"");
+		} else if (isdigit(argument.at(0))) {
+			return queryTree->createNode(CONST,argument);
 		} else if (argument.at(0) == '\"' && argument.at((int)argument.size()-1) == '\"') {
-			right = queryTree->createNode(VAR,trim(argument.substr(1,(int)argument.size()-2)));
-			return right;
-		} else if (existsRef(argument) && getType(argument) == "variable") {
-			return queryTree->createNode(VARIABLESYNONYM,argument);
+			return queryTree->createNode(VAR,trim(argument.substr(1,(int)argument.size()-2)));
+		} else if (existsRef(argument)) {
+			if (getType(argument) == "stmt") {
+				return queryTree->createNode(STMTSYNONYM,argument);
+			} else if (getType(argument) == "while") {
+				return queryTree->createNode(WHILESYNONYM,argument);
+			} else if (getType(argument) == "assign") {
+				return queryTree->createNode(ASSIGNSYNONYM,argument);
+			} else if (getType(argument) == "prog_line") {
+				return queryTree->createNode(PROGLINESYNONYM,argument);
+			} else if (getType(argument) == "variable") {
+				return queryTree->createNode(VARIABLESYNONYM,argument);
+			}
 		}
 		return NULL;
 	}
@@ -344,20 +354,27 @@ using namespace std;
 		int p3 = relation.find(")");
 		string argument2 = trim(relation.substr(p2+1,p3-p2-1));
 
-		int index  = findIndexOfTable(relationType);
-
 		QNode* relationNode = queryTree->createNode(RELATION,relationType);
 		QNode* leftHandSide;
 		QNode* rightHandSide;
 
-		leftHandSide = parseStmtRef(argument1);
-
-		if (index == 0) { //Modifies or Uses for now
-			rightHandSide = parseEntRef(argument2);
-		} else if (index == 2 || index == 3) { //Parent and Follow for now
+		if (relationType == "Modifies") { //Modifies or Uses for now
+			leftHandSide = parseEntRef(argument1);
+			rightHandSide = parseVarRef(argument2);
+		} else if (relationType == "Uses") {
+			leftHandSide = parseEntRef(argument1);
+			rightHandSide = parseVarRef(argument2);
+		} else if (relationType == "Parent" || relationType == "Parent*") {
+			leftHandSide = parseStmtRef(argument1);
+			rightHandSide = parseStmtRef(argument2);
+		} else if (relationType == "Follows" || relationType == "Follows*") {
+			leftHandSide = parseStmtRef(argument1);
 			rightHandSide = parseStmtRef(argument2);
 		} else {
-			//TODO. Not covered in CS3201
+			return false;
+		}
+
+		if (leftHandSide == NULL || rightHandSide == NULL) {
 			return false;
 		}
 
@@ -367,6 +384,7 @@ using namespace std;
 
 		return true;
 	}
+
 	int QueryPreprocessor::findIndexOfType(string type){
 		for(int i = 0; i < num; i++){
 			if(designEntity[i] == type){
@@ -375,21 +393,6 @@ using namespace std;
 		}
 
 		return -1;
-	}
-	int QueryPreprocessor::findIndexOfTable(string relationType){
-		if((relationType == "Modifies") || (relationType == "Uses")){
-			return 0;
-		}else if(relationType == "Calls" || relationType == "Calls*"){
-			return 1;
-		}else if(relationType == "Parent" || relationType == "Parent*"){
-			return 2;
-		}else if(relationType == "Follows" || relationType == "Follows*" || relationType == "Next" || relationType == "Next*" ){
-			return 3;
-		}else if(relationType == "Affects" || relationType == "Affects*"){
-			return 4;
-		}
-		return 5;
-
 	}
 
 /**************************Pattern *********************************/
@@ -553,11 +556,7 @@ using namespace std;
 
 	bool QueryPreprocessor::checkTuple(string tuple){
 		tuple = trim(tuple);
-		//cout << " checking if tuple is elem"<< endl;
 		if(checkElem(tuple)){
-			//cout << " tuple is elem"<< endl;
-
-			//cout << " checking if tuple is exists in declaration"<< endl;
 			if(existsRef(tuple)){
 				return addTuple(tuple);
 			}else{
@@ -590,7 +589,6 @@ using namespace std;
 /************************** Others *********************************/
 
 	string QueryPreprocessor::trim(string s){
-		//cout << " Before trim :" << s << endl;
 		int firstNotSpace = 0;
 		while (firstNotSpace < (int)s.length() && (s.at(firstNotSpace) == ' ' || s.at(firstNotSpace) == ' \t' ) ) {
 			++firstNotSpace;
@@ -603,7 +601,6 @@ using namespace std;
 			--lastNotSpace;
 		}
 		s = s.substr(firstNotSpace,lastNotSpace - firstNotSpace + 1);
-		//cout << " After trim :" << s << endl;
 		return s;
 	}
 
