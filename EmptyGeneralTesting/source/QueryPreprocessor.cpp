@@ -455,7 +455,7 @@ using namespace std;
 	bool QueryPreprocessor::checkPattern(string pattern){
 		int p = pattern.find("(");
 		string patternName = trim(pattern.substr(0,p));
-		if (existsVarRef(patternName)) {
+		if (existsRef(patternName)) {
 			string type = getType(patternName);
 			if (type == "while") {
 				return checkWhile(pattern);
