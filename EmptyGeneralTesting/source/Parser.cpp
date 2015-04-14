@@ -208,6 +208,12 @@ void Parser::buildProcedureAST() {
 				throw SyntaxErrorException(programTokenList.at(i+1)->getDisplayedLineIndex());
 			} else {
 				i = i+3; // move i to after the open curly bracket
+
+				if (programTokenList.size() < i || (programTokenList.at(i)->getTokenType() != TokenType::WHILE_TOKEN && 
+					programTokenList.at(i)->getTokenType() != TokenType::NAME)) {
+						throw SyntaxErrorException(programTokenList.at(i-3)->getDisplayedLineIndex());
+				}
+
 				TNode *whileNode = new TNode(TType::WHILEN, "");
 				whileNode->setStmtLine(stmtLine);
 				ast->setStmtLine(whileNode, stmtLine);
