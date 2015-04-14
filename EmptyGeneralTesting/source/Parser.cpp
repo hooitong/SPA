@@ -18,7 +18,6 @@ void Parser::parse(string filename) {
 			Parser::tokenizeLine(line, currLineIndex, &programTokenList);
 			currLineIndex++;
 		}
-
 		Parser::buildProcedureAST();
 	} catch (SyntaxErrorException e) {
 		cout << e.message();
@@ -61,7 +60,9 @@ void Parser::tokenizeLine(string line, int lineIndex, vector<ParsingToken*> *tok
             }
         } else if ((nextChar >= 'a' && nextChar <= 'z') || (nextChar >= 'A' && nextChar <= 'Z') || (nextChar >= '0' && nextChar <= '9')) {
             currStr.push_back(nextChar);
-        }
+        } else {
+			throw SyntaxErrorException(lineIndex);
+		}
     }
 
 	if(currStr.size() > 0) {
