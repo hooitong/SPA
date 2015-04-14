@@ -237,6 +237,32 @@ void QueryPreprocessorTest::testPatternCondition4(){
 	CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
 
+void QueryPreprocessorTest::testPatternCondition5(){
+	queryTest = new QueryPreprocessor();
+	QueryTree* achieved = queryTest->parseQuery("assign a; Select a pattern a ( _ , _\"delta + 1 + width + Romeo\"_)");
+	CPPUNIT_ASSERT(achieved != NULL);
+	QueryTree* expected = new QueryTree();
+	QNode* expectedRoot = expected->createNode(QUERY,"");
+	QNode* expectedResultList = expected->createNode(RESULTLIST,"");
+	QNode* expectedSuchThatList = expected->createNode(SUCHTHATLIST,"");
+	QNode* expectedPatternList = expected->createNode(PATTERNLIST,"");
+	expected->setAsRoot(expectedRoot);
+	expected->addChild(expectedRoot,expectedResultList);
+	expected->addChild(expectedRoot,expectedSuchThatList);
+	expected->addChild(expectedRoot,expectedPatternList);
+	QNode* expectedResult = expected->createNode(ASSIGNSYNONYM,"a");
+	expected->addChild(expectedResultList,expectedResult);
+	QNode* expectedPatternNode = expected->createNode(PATTERN,"");
+	QNode* expectedPatternChild1 = expected->createNode(ASSIGNSYNONYM,"a");
+	QNode* expectedPatternChild2 = expected->createNode(ANY,"");
+	QNode* expectedPatternChild3 = expected->createNode(EXPRESSION,"_delta + 1 + width + Romeo_");
+	expected->addChild(expectedPatternNode,expectedPatternChild1);
+	expected->addChild(expectedPatternNode,expectedPatternChild2);
+	expected->addChild(expectedPatternNode,expectedPatternChild3);
+	expected->addChild(expectedPatternList,expectedPatternNode);
+	CPPUNIT_ASSERT(achieved->isEqual(expected));
+}	
+
 void QueryPreprocessorTest::testProgLine(){
 	queryTest = new QueryPreprocessor();
 	QueryTree* achieved = queryTest->parseQuery("prog_line n; assign a;   Select   n such that Uses(a, \"tmp\")");
@@ -273,6 +299,30 @@ void QueryPreprocessorTest::testInvalidQuery() {
 void QueryPreprocessorTest::testPatternInvalid(){
 	queryTest = new QueryPreprocessor();
 	QueryTree* achieved = queryTest->parseQuery("assign a; Select a Pattern a(_,_)");
+	CPPUNIT_ASSERT(achieved == NULL);
+}
+
+void QueryPreprocessorTest::testPatternInvalid2(){
+	queryTest = new QueryPreprocessor();
+	QueryTree* achieved = queryTest->parseQuery("assign a;stmt s; Select a pattern a (, \"_\")");
+	CPPUNIT_ASSERT(achieved == NULL);
+}
+
+void QueryPreprocessorTest::testPatternInvalid3(){
+	queryTest = new QueryPreprocessor();
+	QueryTree* achieved = queryTest->parseQuery("assign a;stmt s; Select a pattern a (_, \"_delta + l + width + Romeo\")");
+	CPPUNIT_ASSERT(achieved == NULL);
+}
+
+void QueryPreprocessorTest::testPatternInvalid4(){
+	queryTest = new QueryPreprocessor();
+	QueryTree* achieved = queryTest->parseQuery("assign a;stmt s; Select a pattern a(,\"delta\"__)");
+	CPPUNIT_ASSERT(achieved == NULL);
+}
+
+void QueryPreprocessorTest::testPatternInvalid5(){
+	queryTest = new QueryPreprocessor();
+	QueryTree* achieved = queryTest->parseQuery("assign a;stmt s; Select a pattern a(_,\"delta\"_)");
 	CPPUNIT_ASSERT(achieved == NULL);
 }
 

@@ -30,22 +30,23 @@ using namespace std;
 			queryTree->addChild(root, resultListNode);
 			queryTree->addChild(root, suchthatListNode);
 			queryTree->addChild(root, patternListNode);
-	//		cout << "Created Root node and children "<< endl;
 
 			int p = query.find("Select");
 		
 			if(p == string::npos){
-				throw InvalidSelectException(); 
+				return NULL;
 			}
 		
 			string result_cl;
-			string declaration = query.substr(0,p);
+			string declaration = trim(query.substr(0,p));
 			if(!checkConditionExists(query)){
 				if(checkDeclaration(declaration)){
-					 result_cl = query.substr(p+6, query.length()-p-6);
-					 checkTuple(result_cl);
+					 result_cl = trim(query.substr(p+6, query.length()-p-6));
+					 if (!checkTuple(result_cl)) {
+						return NULL;
+					 }
 				}else{
-					 throw InvalidQueryDeclarationException() ;
+					 return NULL;
 				}
 				return queryTree;
 			}
@@ -203,7 +204,7 @@ using namespace std;
 
 		if(isalpha(ident.at(0))){
 			for(size_t i = 1; i < ident.length(); i++){
-				if(!isalnum(ident.at(i)) && !(ident.at(i) == '#')){
+				if(!isalnum(ident.at(i)) && !(ident.at(i) == '#') && !(isalpha(ident.at(i)))){
 					 return false;
 				}
 			}
@@ -223,6 +224,9 @@ using namespace std;
 		}
 		return true;
 	}
+	bool QueryPreprocessor::checkElem(string elem){
+		return (checkIdent(elem) || checkAttReference(elem));
+	}
 	bool QueryPreprocessor::checkAttReference(string attReference){
 
 		int p = attReference.find(".");
@@ -233,15 +237,11 @@ using namespace std;
 
 	}
 	bool QueryPreprocessor::checkVarReference(string varReference){
-		//cout << "checking VarReference"<<endl;
 		if(varReference.at(0) == '\"' && varReference.at(varReference.length() -1) == '\"'){
 			 varReference = varReference.substr(1,varReference.length() - 2);	
-			 //cout << "have quotations "<<endl;
 		} else {
-			//cout << "no quotations "<<endl;
 			return false;
 		}
-		//cout << "checking Ident for varReference "<<endl;
 		return (checkIdent(varReference));
 	}
 	bool QueryPreprocessor::checkDesignEntity(string entity){
@@ -397,14 +397,12 @@ using namespace std;
 
 /**************************Pattern *********************************/
 	bool QueryPreprocessor::checkWhile(string pattern){
-		return true;
+		return false;
 	}
 	bool QueryPreprocessor::checkIf(string pattern){
-		//add pattern node
-		return true;
+		return false;
 	}
 	bool QueryPreprocessor::checkAssign(string pattern, string patternName){	
-		//cout << "******************************check Assign pattern ************************************************" << endl;
 		pattern = trim(pattern);
 		//pointer of open bracket
 		int pob = pattern.find("(");
@@ -415,34 +413,36 @@ using namespace std;
 			int pc = pattern.find(",");
 			if(pc == string::npos) return false;
 			string varRef = trim(pattern.substr(pob + 1, pc - pob - 1));
-			string varRefType;
 			QNode* patternNode = queryTree->createNode(PATTERN,"");
 			QNode* assignSynonymNode = queryTree->createNode(ASSIGNSYNONYM,synonym);
-			QNode* leftHandSide;
+			QNode* leftHandSide = parseVarRef(varRef);
 			QNode* rightHandSide;
-			//cout << "Checking VARREF" << endl;
-			//cout << "VARREF1 :" << varRef <<endl;
-			if(checkVarReference(varRef)){
-			//	cout << "VARREF2 :" << varRef <<endl;
-				leftHandSide = queryTree->createNode(VAR,varRef.substr(1,(int)varRef.size()-2));
-			} else if (varRef == "_") {
-				leftHandSide = queryTree->createNode(ANY,"");
-			} else if (checkIdent(varRef) && existsRef(varRef) && getType(varRef) == "variable") {
-				leftHandSide = queryTree->createNode(VARIABLESYNONYM,varRef);
-			} else {
+			if (leftHandSide == NULL) {
 				return false;
 			}
 			int pcb = pattern.find_last_of(")");
-			if(pcb == string::npos || pcb != pattern.length() - 1) return false;
+			if(pcb == string::npos || pcb != pattern.length() - 1) {
+				return false;
+			}
 			string expr = trim(pattern.substr(pc + 1, pcb - pc - 1));
 			string exprRemoveQuote = "";
-			for (int i = 0; i < (int)expr.size(); ++i) {
-				if (expr.at(i) != '\"') {
-					exprRemoveQuote += expr.at(i);
+			if (expr == "_") {
+				exprRemoveQuote = "_";
+			} else if ((int)expr.length() == 0) {
+				return false;
+			} else if ((expr.at(0) == '_' && expr.at(expr.length()-1) == '_') || (expr.at(0) == '\"' && expr.at(expr.length()-1) == '\"')) {
+				for (int i = 0; i < (int)expr.size(); ++i) {
+					if (expr.at(i) != '\"') {
+						exprRemoveQuote += expr.at(i);
+					}
+					if (expr.at(i) == '_' && i > 0 && i < (int)expr.length() - 1) {
+						return false;
+					}
 				}
+			} else {
+				return false;
 			}
 			rightHandSide = queryTree->createNode(EXPRESSION,exprRemoveQuote);
-			//cout << "*****************************end Assign pattern ****************************" << endl;
 			queryTree->addChild(patternNode,assignSynonymNode);
 			queryTree->addChild(patternNode,leftHandSide);
 			queryTree->addChild(patternNode,rightHandSide);
@@ -455,15 +455,15 @@ using namespace std;
 	bool QueryPreprocessor::checkPattern(string pattern){
 		int p = pattern.find("(");
 		string patternName = trim(pattern.substr(0,p));
-		string type = getType(patternName);
-		if(type == "while"){
-			return false;
-			//return checkWhile(pattern);
-		}else if(type == "if"){
-			return false;
-			//return checkIf(pattern);
-		}else if(type == "assign"){
-			return checkAssign(pattern, patternName);
+		if (existsVarRef(patternName)) {
+			string type = getType(patternName);
+			if (type == "while") {
+				return checkWhile(pattern);
+			} else if (type == "if") {
+				return checkIf(pattern);
+			} else if (type == "assign") {
+				return checkAssign(pattern, patternName);
+			}
 		}
 		return false;
 	}
@@ -527,7 +527,7 @@ using namespace std;
 	bool QueryPreprocessor::addTuple(string single_tuple) {
 		single_tuple = trim(single_tuple);
 		if (!existsRef(single_tuple)) {
-			throw UndeclaredException();
+			return false;
 		}
 		string type = getType(single_tuple);
 		QNode* resultNode;
@@ -547,8 +547,8 @@ using namespace std;
 			resultNode = queryTree->createNode(PROCEDURESYNONYM, single_tuple);
 		} else if (type == "if") {
 			resultNode = queryTree->createNode(IFSYNONYM, single_tuple);
-		}else{
-			throw UnmatchedSynonymException();
+		} else {
+			return false;
 		}
 		queryTree->addChild(resultListNode, resultNode);
 		return true;
@@ -559,45 +559,39 @@ using namespace std;
 		if(checkElem(tuple)){
 			if(existsRef(tuple)){
 				return addTuple(tuple);
-			}else{
-				throw InvalidResultSyntaxException();
+			} else {
+				return false;
 			}
 		} else if (tuple.at(0) == '<') {
-			tuple = tuple.substr(1,(int)tuple.size() - 2);
+			tuple = trim(tuple.substr(1,(int)tuple.size() - 2));
 			int pt = 0;
 			while (pt < (int)tuple.size()) {
 				int nextpt = tuple.find(',',pt);
 				if (nextpt == string::npos) {
 					nextpt = (int)tuple.size();
 				}	
-				string single_tuple = tuple.substr(pt,nextpt-pt);
+				string single_tuple = trim(tuple.substr(pt,nextpt-pt));
 				if (!addTuple(single_tuple)) {
 					return false;
 				}
 				pt = nextpt + 1;
 			}
 			return true;
-		} else {
-			throw InvalidResultSyntaxException();
 		}
 		return false;
 	}	
-	bool QueryPreprocessor::checkElem(string elem){
-		//return true;
-		return (checkIdent(elem) || checkAttReference(elem));
-	}
 /************************** Others *********************************/
 
 	string QueryPreprocessor::trim(string s){
 		int firstNotSpace = 0;
-		while (firstNotSpace < (int)s.length() && (s.at(firstNotSpace) == ' ' || s.at(firstNotSpace) == ' \t' ) ) {
+		while (firstNotSpace < (int)s.length() && (s.at(firstNotSpace) == ' ' || s.at(firstNotSpace) == '\t' || s.at(firstNotSpace) == '\n')) {
 			++firstNotSpace;
 		}
 		if (firstNotSpace == (int)s.length()) {
 			return "";
 		}
 		int lastNotSpace = (int)s.length() - 1;
-		while (lastNotSpace >= 0 && (s.at(lastNotSpace) == ' ' || s.at(lastNotSpace) == '\t')) {
+		while (lastNotSpace >= 0 && (s.at(lastNotSpace) == ' ' || s.at(lastNotSpace) == '\t' || s.at(lastNotSpace) == '\n')) {
 			--lastNotSpace;
 		}
 		s = s.substr(firstNotSpace,lastNotSpace - firstNotSpace + 1);
