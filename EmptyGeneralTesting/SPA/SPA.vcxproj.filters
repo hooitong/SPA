@@ -96,6 +96,9 @@
     <ClCompile Include="..\source\InvalidProcedureException.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Exceptions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\Affects.h">
@@ -176,10 +179,10 @@
     <ClInclude Include="..\source\SyntaxErrorException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\InvalidNameException.h">
+    <ClInclude Include="..\source\InvalidProcedureException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\InvalidProcedureException.h">
+    <ClInclude Include="Exceptions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

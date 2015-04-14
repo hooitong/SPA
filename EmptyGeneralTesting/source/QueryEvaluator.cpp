@@ -657,7 +657,7 @@ QueryResult QueryEvaluator::solvePattern(QNode* node) {
 			vector<VARINDEX> variables = pkbInstance->getVarTable()->getAllVarIndex();
 			for (int j = 0; j < (int) variables.size(); j++) {
 				if (pkbInstance->getAst()->matchLeftPattern(assignments[i], variables[j]) && 
-					(any || pkbInstance->getAst()->matchRightPattern(assignments[i], expression, false))) {
+					(any || pkbInstance->getAst()->matchRightPattern(assignments[i], expression, strict))) {
 					resultPairs.push_back(make_pair(assignments[i], variables[j]));
 				}
 			}
@@ -669,7 +669,7 @@ QueryResult QueryEvaluator::solvePattern(QNode* node) {
 		VARINDEX variable = pkbInstance->getVarTable()->getVarIndex(varNode->getString());
 		for (int i = 0; i < (int) assignments.size(); i++) {
 			if (pkbInstance->getAst()->matchLeftPattern(assignments[i], variable) && 
-				(any || pkbInstance->getAst()->matchRightPattern(assignments[i], expression, false))) {
+				(any || pkbInstance->getAst()->matchRightPattern(assignments[i], expression, strict))) {
 				resultList.push_back(assignments[i]);
 			}
 		}

@@ -25,6 +25,7 @@ class QueryPreprocessor {
 	bool checkElem(string elem);
 	bool checkVarReference(string varReference);
 	bool checkDesignEntity(string entity);
+	bool addTuple(string single_tuple);
 	bool checkTuple(string tuple);
 	bool existsRef(string reference);
 
@@ -56,6 +57,8 @@ class QueryPreprocessor {
 
   private:
 	map<int, int> posOfConds;
+
+	map<int, int> posOfConds1;
 	int table[5][24];
 	QueryTree *queryTree;
 	QNode *resultListNode, *suchthatListNode, *patternListNode;

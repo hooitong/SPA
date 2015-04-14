@@ -2,6 +2,7 @@
 #include "QueryPreprocessor.h"
 #include <string>
 #include <iostream>
+#include "Exception.h"
 #include <vector>
 using namespace std;
 
@@ -9,20 +10,8 @@ using namespace std;
 	static string designEntity[] = {"procedure","stmtLst", "stmt", "assign", "call", "while", "if", "variable", "constant", "prog_line"};
 	static const int num = 10;
 	static QueryTree* tree;
+
 	/**************************General *********************************/
-
-	class InvalidQueryDeclarationException : public exception {
-	};
-
-	class InvalidResultSyntaxException: public exception {
-	};
-
-	class InvalidClauseSyntaxException : public exception {
-	};
-
-	class InvalidSelectSyntaxException : public exception {
-	};
-
 
 	QueryPreprocessor::QueryPreprocessor(void) {
 	}
@@ -31,93 +20,106 @@ using namespace std;
 	}
 
 	QueryTree* QueryPreprocessor::parseQuery(string query){
-		queryTree = new QueryTree();
-		QNode* root = queryTree->createNode(QUERY, "");
-		queryTree->setAsRoot(root);
-		resultListNode = queryTree->createNode(RESULTLIST, "");
-		suchthatListNode = queryTree->createNode(SUCHTHATLIST, "");
-		patternListNode = queryTree->createNode(PATTERNLIST, "");
-		queryTree->addChild(root, resultListNode);
-		queryTree->addChild(root, suchthatListNode);
-		queryTree->addChild(root, patternListNode);
-//		cout << "Created Root node and children "<< endl;
+		try {
+			queryTree = new QueryTree();
+			QNode* root = queryTree->createNode(QUERY, "");
+			queryTree->setAsRoot(root);
+			resultListNode = queryTree->createNode(RESULTLIST, "");
+			suchthatListNode = queryTree->createNode(SUCHTHATLIST, "");
+			patternListNode = queryTree->createNode(PATTERNLIST, "");
+			queryTree->addChild(root, resultListNode);
+			queryTree->addChild(root, suchthatListNode);
+			queryTree->addChild(root, patternListNode);
+	//		cout << "Created Root node and children "<< endl;
 
-		int p = query.find("Select");
-		if(p == string::npos){
-			throw InvalidSelectSyntaxException(); 
-			return NULL;
-		}
-		string result_cl;
-		string declaration = query.substr(0,p);
-		//cout << "Checking if  conditions / clauses exists and collecting pointers"<< endl;
-		if(!checkConditionExists(query)){
-			//cout << " conditions / clauses don't exists "<< endl;
-			//cout << " checking if Declaration is correct"<< endl;
-			if(checkDeclaration(declaration)){
-			  //   cout << " Declaration is correct "<< endl;
-				 result_cl = query.substr(p+6, query.length()-p-6);
-				// cout << " Going to check result "<< endl;
-				 checkTuple(result_cl);
-			}else{
-				 throw InvalidQueryDeclarationException() ;
-				
-				 return NULL;
-			}
-			return queryTree;
-		}
-
-		map<int,int>::iterator it = posOfConds.begin();
-		//pointer  to first condition/clause
-		int ptf = it -> first;
-		int type = it -> second;
-
-		result_cl = query.substr(p+6, ptf-p-6);
+			int p = query.find("Select");
 		
-		if(!(checkDeclaration(declaration) && checkTuple(result_cl))){
-			throw InvalidQueryDeclarationException();
-			return NULL;
-		}
-		it++;
-		//pointer to second condition/clause
-		int pts;
-		if(it != posOfConds.end()) pts = it-> first;
+			if(p == string::npos){
+				throw InvalidSelectException(); 
+			}
+		
+			string result_cl;
+			string declaration = query.substr(0,p);
+			//cout << "Checking if  conditions / clauses exists and collecting pointers"<< endl;
+			if(!checkConditionExists(query)){
+				//cout << " conditions / clauses don't exists "<< endl;
+				//cout << " checking if Declaration is correct"<< endl;
+				if(checkDeclaration(declaration)){
+				  //   cout << " Declaration is correct "<< endl;
+					 result_cl = query.substr(p+6, query.length()-p-6);
+					// cout << " Going to check result "<< endl;
+					 checkTuple(result_cl);
+				}else{
+					 throw InvalidQueryDeclarationException() ;
+				}
+				return queryTree;
+			}
 
-		while( it != posOfConds.end()){
-			//cout << " Looping through conditions "<< endl;
-			string clause = query.substr(ptf, pts - ptf);
-			if(trimAndCheckClause(clause, type)){
-				ptf = pts;
-				type = it->second;
-			}else{
-				throw InvalidClauseSyntaxException();
-				return NULL;
+			map<int,int>::iterator it = posOfConds.begin();
+			//pointer  to first condition/clause
+			int ptf = it -> first;
+			int type = it -> second;
+
+			result_cl = query.substr(p+6, ptf-p-6);
+		
+			if(!(checkDeclaration(declaration) && checkTuple(result_cl))){
+				throw InvalidQueryDeclarationException();
 			}
 			it++;
-			if(it != posOfConds.end()) pts = it->first;
-		}
+			//pointer to second condition/clause
+			int pts;
+			if(it != posOfConds.end()) pts = it-> first;
+
+			while( it != posOfConds.end()){
+				//cout << " Looping through conditions "<< endl;
+				string clause = query.substr(ptf, pts - ptf);
+				if(trimAndCheckClause(clause, type)){
+					ptf = pts;
+					type = it->second;
+				}else{
+					throw InvalidClauseSyntaxException();
+				}
+				it++;
+				if(it != posOfConds.end()) pts = it->first;
+			}
 		
-		string clause = query.substr(ptf, query.length() - ptf);
-		if(!trimAndCheckClause(clause, type)) {
-			throw InvalidClauseSyntaxException();
+			string clause = query.substr(ptf, query.length() - ptf);
+			if(!trimAndCheckClause(clause, type)) {
+				throw InvalidClauseSyntaxException();
+			}
+			return queryTree;
+		} catch (exception e) {
 			return NULL;
 		}
-
-		return queryTree;
 	}
 
 	bool QueryPreprocessor::checkConditionExists(string query){
+		string query1;
+		query1 = query;
+		for(int i = 0; i < query1.length(); i++){
+			query1[i] = tolower(query1[i]);
+		}
 		//pointer of such that condition
 		int pst = query.find("such that");
+		int pst1 = query1.find("such that");
 		//pointer of pattern condition
 		int pp = query.find("pattern");
+		int pp1 = query1.find("pattern");
 		//pointer of with condition
 		int pw = query.find("with");
+		int pw1 = query.find("with");
 	
-		if(pst == string::npos && pp == string::npos && pw == string::npos) return false;
+		if(pst == string::npos && pp == string::npos && pw == string::npos) {
+			return false;
+		}
 
 		while(pst != string::npos){
 			posOfConds.insert(pair<int,int>(pst, 9));
 			pst = query.find("such that",pst + 1);
+		}
+		while(pst1 != string::npos){
+			posOfConds1.insert(pair<int,int>(pst1, 9));
+			pst1 = query1.find("such that",pst1 + 1);
 		}
 
 		while(pp != string::npos){
@@ -125,9 +127,24 @@ using namespace std;
 			pp = query.find("pattern", pp + 1);
 		}
 
+		while(pp1 != string::npos){
+			posOfConds1.insert(pair<int,int>(pp1, 7));
+			pp1 = query1.find("pattern", pp1 + 1);
+		}
+
 		while(pw != string::npos){
 			posOfConds.insert(pair<int,int>(pw, 4));
 			pw = query.find("with", pw + 1);
+		}
+
+		while(pw1 != string::npos){
+			posOfConds1.insert(pair<int,int>(pw1, 4));
+			pw1 = query1.find("with", pw1 + 1);
+		}
+		//cout << posOfConds.size() <<endl;
+		//cout << posOfConds1.size() <<endl;
+		if(posOfConds.size() != posOfConds1.size()){
+			throw InvalidCaseClauseException();
 		}
 
 		return true;
@@ -293,8 +310,8 @@ using namespace std;
 			return queryTree->createNode(WHILESYNONYM,argument);
 		} else if (existsRef(argument) && getType(argument) == "assign") {
 			return queryTree->createNode(ASSIGNSYNONYM,argument);
-		}else if (existsRef(argument) && getType(argument) == "procedure") {
-			return queryTree->createNode(PROCEDURESYNONYM,argument);
+		}else if (existsRef(argument) && getType(argument) == "prog_line") {
+			return queryTree->createNode(PROGLINESYNONYM,argument);
 		}
 		return NULL;
 	}
@@ -498,6 +515,33 @@ using namespace std;
 
 /**************************result  *********************************/
 
+	bool QueryPreprocessor::addTuple(string single_tuple) {
+		single_tuple = trim(single_tuple);
+		string type = getType(single_tuple);
+		QNode* resultNode;
+		if (type == "assign") {
+			resultNode = queryTree->createNode(ASSIGNSYNONYM, single_tuple);
+		} else if (type == "stmt") {
+			resultNode = queryTree->createNode(STMTSYNONYM, single_tuple);
+		} else if (type == "while") {
+			resultNode = queryTree->createNode(WHILESYNONYM, single_tuple);
+		} else if (type == "variable") {
+			resultNode = queryTree->createNode(VARIABLESYNONYM, single_tuple);
+		} else if (type == "constant") {
+			resultNode = queryTree->createNode(CONSTSYNONYM, single_tuple);
+		} else if (type == "prog_line") {
+			resultNode = queryTree->createNode(PROGLINESYNONYM, single_tuple);
+		} else if (type == "procedure") {
+			resultNode = queryTree->createNode(PROCEDURESYNONYM, single_tuple);
+		} else if (type == "if") {
+			resultNode = queryTree->createNode(IFSYNONYM, single_tuple);
+		}else{
+			throw InvalidResultSyntaxException();
+		}
+		queryTree->addChild(resultListNode, resultNode);
+		return true;
+	}
+
 	bool QueryPreprocessor::checkTuple(string tuple){
 		tuple = trim(tuple);
 		//cout << " checking if tuple is elem"<< endl;
@@ -506,38 +550,26 @@ using namespace std;
 
 			//cout << " checking if tuple is exists in declaration"<< endl;
 			if(existsRef(tuple)){
-				//cout << " creating result node"<< endl;
-				
-				string type = getType(tuple);
-				QNode* resultNode;
-				if (type == "assign") {
-					resultNode = queryTree->createNode(ASSIGNSYNONYM, tuple);
-				} else if (type == "stmt") {
-					resultNode = queryTree->createNode(STMTSYNONYM, tuple);
-				} else if (type == "while") {
-					resultNode = queryTree->createNode(WHILESYNONYM, tuple);
-				} else if (type == "variable") {
-					resultNode = queryTree->createNode(VARIABLESYNONYM, tuple);
-				} else if (type == "constant") {
-					resultNode = queryTree->createNode(CONSTSYNONYM, tuple);
-				} else if (type == "prog_line") {
-					resultNode = queryTree->createNode(PROGLINESYNONYM, tuple);
-				} else if (type == "procedure") {
-					resultNode = queryTree->createNode(PROCEDURESYNONYM, tuple);
-				} else if (type == "if") {
-					resultNode = queryTree->createNode(IFSYNONYM, tuple);
-				}else{
-					throw InvalidResultSyntaxException();
-				}
-				queryTree->addChild(resultListNode, resultNode);
-
-			
-				return true;
+				return addTuple(tuple);
 			}else{
 				throw InvalidResultSyntaxException();
 			}
-
-		}else{
+		} else if (tuple.at(0) == '<') {
+			tuple = tuple.substr(1,(int)tuple.size() - 2);
+			int pt = 0;
+			while (pt < (int)tuple.size()) {
+				int nextpt = tuple.find(',',pt);
+				if (nextpt == string::npos) {
+					nextpt = (int)tuple.size();
+				}	
+				string single_tuple = tuple.substr(pt,nextpt-pt);
+				if (!addTuple(single_tuple)) {
+					return false;
+				}
+				pt = nextpt + 1;
+			}
+			return true;
+		} else {
 			throw InvalidResultSyntaxException();
 		}
 		return false;

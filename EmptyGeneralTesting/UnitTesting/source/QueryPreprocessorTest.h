@@ -16,6 +16,12 @@ class QueryPreprocessorTest : public CPPUNIT_NS::TestFixture{
 	CPPUNIT_TEST(testPatternCondition2);
 	CPPUNIT_TEST(testPatternCondition3);
 	CPPUNIT_TEST(testPatternCondition4);
+	CPPUNIT_TEST(testInvalidQuery);
+	CPPUNIT_TEST(testPatternInvalid);
+	//BONUS. NOT IN CS3201
+	CPPUNIT_TEST(testMultipleReturn);
+	CPPUNIT_TEST(testMultipleReturnAndSuchThat);
+	CPPUNIT_TEST(testMultipleReturnAndMultipleSuchThat);
     CPPUNIT_TEST_SUITE_END();
 
   private:
@@ -32,5 +38,9 @@ class QueryPreprocessorTest : public CPPUNIT_NS::TestFixture{
 	void testPatternCondition2();
 	void testPatternCondition3();
 	void testPatternCondition4();
-
+	void testPatternInvalid();
+	void testInvalidQuery();
+	void testMultipleReturn();
+	void testMultipleReturnAndSuchThat();
+	void testMultipleReturnAndMultipleSuchThat();
 };

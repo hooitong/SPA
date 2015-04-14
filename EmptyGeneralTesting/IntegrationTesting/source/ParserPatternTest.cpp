@@ -35,7 +35,7 @@ void ParserPatternTest::testLeftPatternStrict() {
 	VARINDEX width = vTable->getVarIndex("width");
 	VARINDEX delta = vTable->getVarIndex("delta");
 	VARINDEX l = vTable->getVarIndex("l");
-	
+
 	CPPUNIT_ASSERT(ast->matchLeftPattern(1,i));
 	CPPUNIT_ASSERT(ast->matchLeftPattern(2,b));
 	CPPUNIT_ASSERT(ast->matchLeftPattern(3,c));
@@ -62,6 +62,19 @@ void ParserPatternTest::testLeftPatternStrict() {
 //excluding lines with multiplication/division
 void ParserPatternTest::testRightPatternStrict() { 
 	CPPUNIT_ASSERT(ast->matchRightPattern(1,"1",true));
+	CPPUNIT_ASSERT(ast->matchRightPattern(2,"200",true));
+	CPPUNIT_ASSERT(ast->matchRightPattern(3,"a",true));
+	CPPUNIT_ASSERT(ast->matchRightPattern(6,"1 + beta + tmp",true));
+	CPPUNIT_ASSERT(ast->matchRightPattern(8,"I + k + j1k + chArlie",true));
+	CPPUNIT_ASSERT(ast->matchRightPattern(10,"x + 1",true));
+	CPPUNIT_ASSERT(ast->matchRightPattern(13,"Romeo + 1",true));
+	CPPUNIT_ASSERT(ast->matchRightPattern(14,"0",true));
+	CPPUNIT_ASSERT(ast->matchRightPattern(15,"delta    + l  + width + Romeo",true));
+	CPPUNIT_ASSERT(ast->matchRightPattern(17,"c + 1",true));
+	CPPUNIT_ASSERT(ast->matchRightPattern(18,"x + 1",true));
+	CPPUNIT_ASSERT(ast->matchRightPattern(19,"2",true));
+	CPPUNIT_ASSERT(ast->matchRightPattern(20,"w + 1",true));
+
 }
 
 //test pattern that are not strict
@@ -69,4 +82,40 @@ void ParserPatternTest::testRightPatternUnStrict(){
 	CPPUNIT_ASSERT(ast->matchRightPattern(1,"1",false));
 	CPPUNIT_ASSERT(ast->matchRightPattern(2,"200",false));
 	CPPUNIT_ASSERT(ast->matchRightPattern(3,"a",false));
+	CPPUNIT_ASSERT(ast->matchRightPattern(6,"1 + beta + tmp",false));
+	CPPUNIT_ASSERT(ast->matchRightPattern(8,"I + k + j1k + chArlie",false));
+	CPPUNIT_ASSERT(ast->matchRightPattern(10,"x + 1",false));
+	CPPUNIT_ASSERT(ast->matchRightPattern(13,"Romeo + 1",false));
+	CPPUNIT_ASSERT(ast->matchRightPattern(14,"0",false));
+	CPPUNIT_ASSERT(ast->matchRightPattern(15,"delta		+ l  + width + Romeo",false));//test tab
+	CPPUNIT_ASSERT(ast->matchRightPattern(17,"c + 1",false));
+	CPPUNIT_ASSERT(ast->matchRightPattern(18,"x + 1",false));
+	CPPUNIT_ASSERT(ast->matchRightPattern(19,"2",false));
+	CPPUNIT_ASSERT(ast->matchRightPattern(20,"w + 1",false));
+}
+
+void ParserPatternTest::testRightPatternSubExpr(){
+	CPPUNIT_ASSERT(ast->matchRightPattern(6, "1+beta", false));
+	CPPUNIT_ASSERT(!ast->matchRightPattern(6, "1+tmp", false));
+	CPPUNIT_ASSERT(!ast->matchRightPattern(6, "beta+tmp", false));
+	CPPUNIT_ASSERT(ast->matchRightPattern(8, "I + k", false));
+	CPPUNIT_ASSERT(!ast->matchRightPattern(8, "i + k", false));//test case sensitivity
+	CPPUNIT_ASSERT(ast->matchRightPattern(10, "x", false));
+	CPPUNIT_ASSERT(ast->matchRightPattern(10, "1", false));
+	CPPUNIT_ASSERT(ast->matchRightPattern(13, "Romeo", false));
+	CPPUNIT_ASSERT(ast->matchRightPattern(15, "delta", false));
+	CPPUNIT_ASSERT(ast->matchRightPattern(15, "delta+	l", false));//test tab
+	CPPUNIT_ASSERT(!ast->matchRightPattern(15, "l+delta", false));
+	CPPUNIT_ASSERT(!ast->matchRightPattern(15, "l + width", false));
+	CPPUNIT_ASSERT(!ast->matchRightPattern(15, "width + Romeo", false));
+	CPPUNIT_ASSERT(!ast->matchRightPattern(15, "l + Romeo", false));
+	CPPUNIT_ASSERT(ast->matchRightPattern(17,"c + 1",false));
+	CPPUNIT_ASSERT(!ast->matchRightPattern(17,"1 + c",false));
+	CPPUNIT_ASSERT(!ast->matchRightPattern(18,"1 + x",false));
+	CPPUNIT_ASSERT(ast->matchRightPattern(18,"x",false));
+	CPPUNIT_ASSERT(ast->matchRightPattern(18,"1",false));
+	CPPUNIT_ASSERT(ast->matchRightPattern(20,"w",false));
+	CPPUNIT_ASSERT(ast->matchRightPattern(20,"1",false));
+	CPPUNIT_ASSERT(!ast->matchRightPattern(20,"1+w",false));
+
 }

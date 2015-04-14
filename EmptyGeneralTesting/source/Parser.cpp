@@ -322,6 +322,77 @@ TNode* Parser::buildExprAST(vector<ParsingToken *> exprTokenList, STMTLINE stmtL
 	return exprRootNode;
 }
 
+// build the AST for an expression, e.g. x + y + z
+TNode* Parser::buildExprAST(vector<ParsingToken *> exprTokenList) {
+	int displayedLineIndex = -1;
+
+	if (exprTokenList.size() == 0)
+		throw SyntaxErrorException(displayedLineIndex);
+
+	stack<TNode*> operandStack;
+	stack<OperatorType> operatorStack;
+
+	for (int i=0; i<exprTokenList.size(); i++) {
+		ParsingToken* currToken = exprTokenList.at(i);
+		if (currToken->getTokenType() == TokenType::PLUS) // if token is + or - then put it to the operator stack
+			operatorStack.push(OperatorType::PLUS_OP);
+		else if (currToken->getTokenType() == TokenType::MINUS) {
+			operatorStack.push(OperatorType::MINUS_OP);
+		} else if (currToken->getTokenType() == TokenType::NAME || currToken->getTokenType() == TokenType::CONSTANT) {
+			if (!operatorStack.empty()) { 
+				OperatorType opType = operatorStack.top();
+				operatorStack.pop();
+
+				if (operandStack.empty())
+					throw SyntaxErrorException(displayedLineIndex);
+				TNode* fNode = operandStack.top();
+				operandStack.pop();
+
+				if (opType == OperatorType::PLUS_OP) {
+					TNode *plusNode = new TNode(TType::PLUSN, "");
+					TNode *sNode;
+					if (currToken->getTokenType() == TokenType::NAME)
+						sNode = new TNode(TType::VARN, Parser::getStringIndexOfVar(currToken->getStringValue()));
+					else 
+						sNode = new TNode(TType::CONSTN, Parser::convertIntToString(currToken->getIntValue()));
+					Parser::linkTNodes(plusNode, fNode, sNode);
+					operandStack.push(plusNode);
+				} else if (opType == OperatorType::MINUS_OP) {
+					TNode *minusNode = new TNode(TType::MINUSN, "");
+					TNode *sNode;
+					if (currToken->getTokenType() == TokenType::NAME)
+						sNode = new TNode(TType::VARN, Parser::getStringIndexOfVar(currToken->getStringValue()));
+					else 
+						sNode = new TNode(TType::CONSTN, Parser::convertIntToString(currToken->getIntValue()));
+					Parser::linkTNodes(minusNode, fNode, sNode);
+					operandStack.push(minusNode);
+				}
+			} else {
+				TNode *aNode; 
+				if (currToken->getTokenType() == TokenType::NAME)
+					aNode = new TNode(TType::VARN, Parser::getStringIndexOfVar(currToken->getStringValue()));
+				else 
+					aNode = new TNode(TType::CONSTN, Parser::convertIntToString(currToken->getIntValue()));
+				operandStack.push(aNode);
+			}
+		}
+	}
+
+	if (!operatorStack.empty()) // if there are more operators than necessary, then the expression is invalid
+		throw SyntaxErrorException(displayedLineIndex);
+
+	if (operandStack.empty()) // after finishing parsing, there should be only one operand in the operand stack
+		throw SyntaxErrorException(displayedLineIndex);
+
+	TNode *exprRootNode = operandStack.top();
+	operandStack.pop();
+
+	if (!operandStack.empty())
+		throw SyntaxErrorException(displayedLineIndex);
+
+	return exprRootNode;
+}
+
 void Parser::addVarToUses(VARNAME varName, STMTLINE stmt)
 {
 	VARINDEX varIndex = PKB::getPKB()->getVarTable()->getVarIndex(varName);
@@ -414,5 +485,5 @@ void Parser::linkTNodeToPrevNodes(TNode *currNode, TNode *prevNode, TNodeRelatio
 TNode* Parser::buildExprAST(string expression) {
 	vector<ParsingToken*> exprToken;
 	tokenizeLine(expression, -1, &exprToken);
-	return buildExprAST(exprToken, -1, -1);
+	return buildExprAST(exprToken);
 }

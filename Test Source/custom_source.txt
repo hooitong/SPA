@@ -1,0 +1,13 @@
+procedure Main{
+  x=5;				\\1
+  z=2;				\\2
+  while z{			\\3
+    z = z- 1;			\\4
+    x = x + 2;			\\5
+    x = x + 1;}			\\6			
+  a = a + b;			\\7
+  b = b + 1;			\\8
+  while b {			\\9
+      a = a + b;		\\10
+      b = b - 1;}		\\11
+  y = a + b + x + z;}		\\12
