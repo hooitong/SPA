@@ -1,0 +1,172 @@
+1 - Invalid
+Stmt s; aign a;while w;variable v;constant c;prog_line n;
+Select n such that Uses(a, "tmp") 
+none
+5000
+2 - Invalid2
+stmt s; aSSign a;while w;variable v;constant c;prog_line n;
+Select n such that Uses(a, "tmp") 
+none
+5000
+3 - Invalid3
+stmt s; assign a;While w;variable v;constant c;prog_line n;
+Select n such that Uses(a, "tmp") 
+none
+5000
+4 - Invalid4
+stmt s; assign a;while w;vaRIAble v;constant c;prog_line n;
+Select n such that Uses(a, "tmp") 
+none
+5000
+5 - Invalid5
+stmt s; assign a;while w;variable v;consTANt c;prog_line n;
+Select n such that Uses(a, "tmp") 
+none
+5000
+6 - Invalid6
+stmt s; assign a;while w;variable v;constant c;prog_Line n;
+Select n such that Uses(a, "tmp") 
+none
+5000
+7 - Invalid7
+stmt s; assign a;while w;variable v;constant c;prog_Line n;
+select n such that Uses(a, "tmp") 
+none
+5000
+8 - Invalid8
+stmt s; assign a;while w;variable v;constant c;prog_Line n;
+Select n Such That Uses(a, "tmp") 
+none
+5000
+9 - Invalid9
+stmt s; assign a;while w;variable v;constant c;prog_Line n;
+Select n such that uses(a, "tmp") 
+none
+5000
+10 - Valid
+stmt s; assign a;
+Select s such that Uses(a, "tmp") 
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
+5000
+11 - InValid2
+assign a;
+Select n such that Uses(a, "tmp") 
+none
+5000
+12 - InValid3
+assign a;
+Select s such that Uses(a, "tmp") 
+none
+5000
+13 - InValid3
+stmt 3;assign a;
+Select 3 such that Uses(a, "tmp") 
+none
+5000
+14 - valid3
+stmt s;assign a3;
+Select s such that Uses(a3, "tmp") 
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
+5000
+15 - valid3
+stmt s,s#;assign a3;
+Select s# such that Uses(a3, "tmp") 
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
+5000
+16 - invalid3
+stmt #s;assign a3;
+Select #s such that Uses(a3, "tmp") 
+none
+5000
+17 - parenttest
+stmt s;
+Select s such that parent(s, 1)
+none
+5000
+18 - parenttest
+stmt s;
+Select s such that parent(s, 5)
+none
+5000
+19 - parenttest
+stmt s;
+Select s such that Parent(s, 5)
+4
+5000
+20 - parenttest
+stmt s;
+Select s such that Parent*(16, s)
+17
+5000
+21 - parenttest
+stmt s;
+Select s such that parent*(16, s)
+none
+5000
+22 - validFollows2L
+stmt s;
+Select s such that Follows(s, 2)
+1
+5000
+23 - invalidFollows2L
+stmt s;
+Select s such that follows(s, 2)
+none
+5000
+24 - invalidFollows2L
+stmt s;
+Select s such that Follow(s, 2)
+none
+5000
+25 - validFollows*16R
+stmt s;
+Select s such that Follows*(16, s)
+18
+5000
+26 - invalidFollows*16R
+stmt s;
+Select s such that follows*(16, s)
+none
+5000
+27 - validFollows*16R
+stmt s,n;
+Select s such that Follows*(16, n)
+1,10,11,12,13,14,15,16,17,18,19,2,20,3,4,5,6,7,8,9
+5000
+28 - validFollows*16R
+stmt s;
+Select s such that Follows*(16, s)
+18
+5000
+29 - ValidPattern
+assign a;
+Select a pattern a (_, _"delta + l + width + Romeo"_)
+15
+5000
+30 - ValidPattern
+assign a;stmt s;
+Select s pattern a (_, _"delta + l + width + Romeo"_)
+1,10,11,12,13,14,15,16,17,18,19,2,20,3,4,5,6,7,8,9
+5000
+31 - InValidPattern
+assign a;stmt s;
+Select a pattern a (_, "_delta + l + width + Romeo_")
+15
+5000
+32 - InValidPattern
+assign a;stmt s;
+Select a pattern a (_, "__")
+none
+5000
+33 - invalidpattern
+assign a;stmt s;
+Select a pattern a(_,_"delta"__)
+15
+5000
+32 - InValidPattern
+assign a;stmt s;
+Select a pattern a (_ _)
+none
+5000
+
+
