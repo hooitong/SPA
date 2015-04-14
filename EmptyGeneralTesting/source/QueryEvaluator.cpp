@@ -644,7 +644,7 @@ QueryResult QueryEvaluator::solvePattern(QNode* node) {
 	bool any = false;
 	if (expression[0] == '_' && (int) expression.length() > 1) {
 		//non-strict
-		expression = expression.substr(1, expression.length() - 1);
+		expression = expression.substr(1, expression.length() - 2);
 		strict = false;
 	} else if (expression[0] == '_') {
 		any = true;
