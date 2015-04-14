@@ -190,7 +190,6 @@ void Parser::buildProcedureAST() {
 					throw SyntaxErrorException(programTokenList.at(i+2)->getDisplayedLineIndex());
 				}
 			}
-			i = j+1; // move i to after the SEMICOLON position
 			TNode *exprNode = Parser::buildExprAST(exprTokenList, stmtLine, programTokenList.at(i)->getDisplayedLineIndex());
 			TNode *assignNode = new TNode(TType::ASSIGNN, "");
 			assignNode->setStmtLine(stmtLine);
@@ -205,6 +204,8 @@ void Parser::buildProcedureAST() {
 			// prevNode now points to assignNode to parse the next statement
 			prevNode = assignNode;
 			expectedRelation = TNodeRelation::RIGHT_SIBLING;
+			
+			i = j+1; // move i to after the SEMICOLON position
 		} else if (programTokenList.at(i)->getTokenType() == TokenType::WHILE_TOKEN) { // while statement
 			if (programTokenList.at(i+1)->getTokenType() != TokenType::NAME || programTokenList.at(i+2)->getTokenType() != TokenType::OPEN_CURLY_BRACKET) {
 				// if the statement does not follow the format 'while var_name {' then thow exception
