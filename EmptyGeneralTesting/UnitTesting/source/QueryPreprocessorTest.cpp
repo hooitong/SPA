@@ -328,13 +328,13 @@ void QueryPreprocessorTest::testPatternInvalid5(){
 
 void QueryPreprocessorTest::testInvalidNotDeclared() {
 	queryTest = new QueryPreprocessor();
-	QueryTree* achieved = queryTest->parseQuery("Select n such that uses(a, \"tmp\") ");
+	QueryTree* achieved = queryTest->parseQuery("Select n such that Uses(a, \"tmp\") ");
 	CPPUNIT_ASSERT(achieved == NULL);
 }
 
 void QueryPreprocessorTest::testInvalidNotDeclared2() {
 	queryTest = new QueryPreprocessor();
-	QueryTree* achieved = queryTest->parseQuery("prog_line n; Select n such that uses(a, \"tmp\") ");
+	QueryTree* achieved = queryTest->parseQuery("prog_line n; Select n such that Uses(a, \"tmp\") ");
 	CPPUNIT_ASSERT(achieved == NULL);
 }
 

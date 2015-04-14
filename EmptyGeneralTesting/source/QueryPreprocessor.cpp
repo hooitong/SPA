@@ -45,7 +45,7 @@ using namespace std;
 					 if (!checkTuple(result_cl)) {
 						return NULL;
 					 }
-				}else{
+				} else {
 					 return NULL;
 				}
 				return queryTree;
@@ -54,33 +54,26 @@ using namespace std;
 			map<int,int>::iterator it = posOfConds.begin();
 			//pointer  to first condition/clause
 			int ptf = it -> first;
-			int type = it -> second;
 
-			result_cl = query.substr(p+6, ptf-p-6);
-		
+			result_cl = trim(query.substr(p+6, ptf-p-6));
 			if(!(checkDeclaration(declaration) && checkTuple(result_cl))){
-				throw InvalidQueryDeclarationException();
+				return NULL;
 			}
-			it++;
-			//pointer to second condition/clause
-			int pts;
-			if(it != posOfConds.end()) pts = it-> first;
 
-			while( it != posOfConds.end()){
-				string clause = query.substr(ptf, pts - ptf);
-				if(trimAndCheckClause(clause, type)){
-					ptf = pts;
-					type = it->second;
-				}else{
-					throw InvalidClauseSyntaxException();
+			while (ptf < (int)query.length()) {
+				int type = it -> second;
+				++it;
+				int pts;
+				if (it == posOfConds.end()) {
+					pts = query.length();
+				} else {
+					pts = it -> first;
 				}
-				it++;
-				if(it != posOfConds.end()) pts = it->first;
-			}
-		
-			string clause = query.substr(ptf, query.length() - ptf);
-			if(!trimAndCheckClause(clause, type)) {
-				throw InvalidClauseSyntaxException();
+				string clause = trim(query.substr(ptf, pts - ptf));
+				if (!trimAndCheckClause(clause, type)) {
+					return NULL;
+				}
+				ptf = pts;
 			}
 			return queryTree;
 		} catch (exception e) {
@@ -137,18 +130,19 @@ using namespace std;
 			pw1 = query1.find("with", pw1 + 1);
 		}
 		if(posOfConds.size() != posOfConds1.size()){
-			throw InvalidCaseClauseException();
+			return false;
 		}
 
 		return true;
 	}
+
 	bool QueryPreprocessor::trimAndCheckClause(string clause, int num){
 		clause = trim(clause);
 		clause = clause.substr(num,clause.size()-num);
 
 		return splitAndCheckClause(clause, num);
-
 	}
+
 	bool QueryPreprocessor::splitAndCheckClause(string clause, int num){
 		clause = trim(clause);
 		int p = clause.find(" and ");
@@ -161,8 +155,7 @@ using namespace std;
 			bool valid = true;
 			switch(num){
 				case 4:
-					return false;
-					//return checkAttribute(s1);
+					valid = valid && checkAttribute(s1);
 					break;
 				case 7:
 					valid = valid && checkPattern(s1);
@@ -180,8 +173,7 @@ using namespace std;
 
 			switch(num){
 				case 4:
-					return false;
-					//return checkAttribute(clause);
+					return checkAttribute(clause);
 					break;
 				case 7:
 					return checkPattern(clause);
@@ -246,7 +238,7 @@ using namespace std;
 	}
 	bool QueryPreprocessor::checkDesignEntity(string entity){
 		for(int i = 0; i < 10; i++){
-			if(entity  == designEntity[i])
+			if(entity == designEntity[i])
 				return true;
 
 		}
@@ -259,38 +251,6 @@ using namespace std;
 		return checkInteger(factor) || checkIdent(factor);
 	}
 
-/**************************Use Declaration *********************************/
-	bool QueryPreprocessor::existsRef(string reference){
-		for(size_t i = 0; i<refDeclared.size();i++){
-			if(reference == refDeclared.at(i).synonym){
-				return true;
-			}
-		}
-
-		return false;
-	}
-	string QueryPreprocessor::getType(string synonym){
-		for(size_t i = 0; i<refDeclared.size();i++){
-			if(synonym == refDeclared.at(i).synonym){
-				return refDeclared.at(i).type;
-			}
-		}
-		return "";
-	}
-
-/**************************With  *********************************/
-	bool QueryPreprocessor::checkAttributeName(string attName){
-		if((attName == "procName") || (attName == "varName") || (attName == "value") || (attName == "stmt#")){
-			return true;
-		}else{
-			return false;
-		}
-	}
-	bool QueryPreprocessor::checkAttribute(string attribute){
-		return true;
-	}
-
-/**************************Relation *********************************/
 	QNode* QueryPreprocessor::parseStmtRef(string argument) {
 		if (argument == "_") {
 			return queryTree->createNode(ANY,"");
@@ -346,6 +306,37 @@ using namespace std;
 		return NULL;
 	}
 
+/**************************Use Declaration *********************************/
+	bool QueryPreprocessor::existsRef(string reference){
+		for(size_t i = 0; i<refDeclared.size();i++){
+			if(reference == refDeclared.at(i).synonym){
+				return true;
+			}
+		}
+		return false;
+	}
+	string QueryPreprocessor::getType(string synonym){
+		for(size_t i = 0; i<refDeclared.size();i++){
+			if(synonym == refDeclared.at(i).synonym){
+				return refDeclared.at(i).type;
+			}
+		}
+		return "";
+	}
+
+/**************************With  *********************************/
+	bool QueryPreprocessor::checkAttributeName(string attName){
+		if((attName == "procName") || (attName == "varName") || (attName == "value") || (attName == "stmt#")){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	bool QueryPreprocessor::checkAttribute(string attribute){
+		return false;
+	}
+
+/**************************Relation *********************************/
 	bool QueryPreprocessor::checkRelation(string relation){
 		int p1 = relation.find("(");
 		string relationType = trim(relation.substr(0,p1));
@@ -358,7 +349,7 @@ using namespace std;
 		QNode* leftHandSide;
 		QNode* rightHandSide;
 
-		if (relationType == "Modifies") { //Modifies or Uses for now
+		if (relationType == "Modifies") { 
 			leftHandSide = parseEntRef(argument1);
 			rightHandSide = parseVarRef(argument2);
 		} else if (relationType == "Uses") {
@@ -383,16 +374,6 @@ using namespace std;
 		queryTree->addChild(suchthatListNode,relationNode);
 
 		return true;
-	}
-
-	int QueryPreprocessor::findIndexOfType(string type){
-		for(int i = 0; i < num; i++){
-			if(designEntity[i] == type){
-				return i;
-			}
-		}
-
-		return -1;
 	}
 
 /**************************Pattern *********************************/
@@ -471,22 +452,20 @@ using namespace std;
 /**************************declaration  *********************************/
 	bool QueryPreprocessor::checkDeclaration(string declaration){
 		//psc = pointer of semicolon
-		//cout << "*************************checkDeclaration******************************"  << endl;
 		declaration = trim(declaration);
-		if(declaration == "") return true;
+		if(declaration == "") {
+			return true;
+		}
 		int psc = declaration.find(";");
-		//cout << "Getting the first declaration"  << endl;
-		string declar_clause = trim(declaration.substr(0, psc));
-		while(psc != string::npos){
-			//cout << "Looping through the declarations"  << endl;
+		string declar_clause = declaration.substr(0, psc);
+		while(psc != string::npos) {
 			declar_clause = trim(declar_clause);
 			//ps = pointer of space
 			int ps = declar_clause.find(" ");
-			string type = declar_clause.substr(0,ps);
+			string type = trim(declar_clause.substr(0,ps));
 			if(checkDesignEntity(type)){
-				 size_t pc = ps;
+				size_t pc = ps;
 				do{
-				//	cout << "Looping through each variable of the declaration clause"  << endl;
 					//pc = pointer of comma
 					int pnc = declar_clause.find(",", pc + 1);
 					if (pnc == string::npos) {
@@ -514,12 +493,8 @@ using namespace std;
 				declar_clause = declaration.substr(psc + 1, pnsc - psc -1);
 			}
 			psc = pnsc;
-
 		}
-		//cout << "*************************checkDeclaration  end ******************************"  << endl;
 		return true;
-
-
 	}
 
 /**************************result  *********************************/
