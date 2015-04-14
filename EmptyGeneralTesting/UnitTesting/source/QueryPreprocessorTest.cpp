@@ -237,6 +237,33 @@ void QueryPreprocessorTest::testPatternCondition4(){
 	CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
 
+void QueryPreprocessorTest::testProgLine(){
+	queryTest = new QueryPreprocessor();
+	QueryTree* achieved = queryTest->parseQuery("prog_line n; assign a;   Select   n such that Uses(a, \"tmp\")");
+	CPPUNIT_ASSERT(achieved != NULL);
+	QueryTree* expected = new QueryTree();
+	QNode* expectedRoot = expected->createNode(QUERY,"");
+	QNode* expectedResultList = expected->createNode(RESULTLIST,"");
+	QNode* expectedSuchThatList = expected->createNode(SUCHTHATLIST,"");
+	QNode* expectedPatternList = expected->createNode(PATTERNLIST,"");
+	expected->setAsRoot(expectedRoot);
+	expected->addChild(expectedRoot,expectedResultList);
+	expected->addChild(expectedRoot,expectedSuchThatList);
+	expected->addChild(expectedRoot,expectedPatternList);
+
+	QNode* expectedResult = expected->createNode(PROGLINESYNONYM,"n");
+	expected->addChild(expectedResultList,expectedResult);
+
+	QNode* expectedUsesNode = expected->createNode(RELATION,"Uses");
+	QNode* expectedUsesChild1 = expected->createNode(ASSIGNSYNONYM,"a");
+	QNode* expectedUsesChild2 = expected->createNode(VAR,"tmp");
+	expected->addChild(expectedUsesNode,expectedUsesChild1);
+	expected->addChild(expectedUsesNode,expectedUsesChild2);
+	expected->addChild(expectedSuchThatList,expectedUsesNode);
+	
+	CPPUNIT_ASSERT(achieved->isEqual(expected));
+}
+
 void QueryPreprocessorTest::testInvalidQuery() {
 	queryTest = new QueryPreprocessor();
 	QueryTree* achieved = queryTest->parseQuery("Select");
@@ -246,6 +273,18 @@ void QueryPreprocessorTest::testInvalidQuery() {
 void QueryPreprocessorTest::testPatternInvalid(){
 	queryTest = new QueryPreprocessor();
 	QueryTree* achieved = queryTest->parseQuery("assign a; Select a Pattern a(_,_)");
+	CPPUNIT_ASSERT(achieved == NULL);
+}
+
+void QueryPreprocessorTest::testInvalidNotDeclared() {
+	queryTest = new QueryPreprocessor();
+	QueryTree* achieved = queryTest->parseQuery("Select n such that uses(a, \"tmp\") ");
+	CPPUNIT_ASSERT(achieved == NULL);
+}
+
+void QueryPreprocessorTest::testInvalidNotDeclared2() {
+	queryTest = new QueryPreprocessor();
+	QueryTree* achieved = queryTest->parseQuery("prog_line n; Select n such that uses(a, \"tmp\") ");
 	CPPUNIT_ASSERT(achieved == NULL);
 }
 
