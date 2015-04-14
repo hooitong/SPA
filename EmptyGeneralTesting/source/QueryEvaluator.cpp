@@ -649,7 +649,6 @@ QueryResult QueryEvaluator::solvePattern(QNode* node) {
 	} else if (expression[0] == '_') {
 		any = true;
 	}
-	printf("%s\n", expression.c_str());
 
 	if (isSynonym(varNode->getQType())) {
 		vector<pair<int,int> > resultPairs;
