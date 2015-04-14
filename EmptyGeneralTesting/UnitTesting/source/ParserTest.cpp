@@ -9,7 +9,7 @@
 
 void ParserTest::setUp()
 {
-	Parser::parse("sample_SIMPLE_source.txt");
+	Parser::parse("sample_source.txt");
 }
 
 void ParserTest::tearDown()
