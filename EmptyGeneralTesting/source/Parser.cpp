@@ -172,7 +172,7 @@ void Parser::buildProcedureAST() {
 		if (programTokenList.at(i)->getTokenType() == TokenType::NAME) { // assignment statement  
 			// if the fisrt token of the statement is a name, then the statement is an assignment
 			if (programTokenList.at(i+1)->getTokenType() != TokenType::ASSIGNMENT_TOKEN)
-				throw SyntaxErrorException(programTokenList.at(i+1)->getDisplayedLineIndex());
+				throw SyntaxErrorException(programTokenList.at(i)->getDisplayedLineIndex());
 			
 			// add the variable to varTable and Modifies Table
 			PKB::getPKB()->getVarTable()->insertVar(programTokenList.at(i)->getStringValue());
@@ -212,9 +212,15 @@ void Parser::buildProcedureAST() {
 			} else {
 				i = i+3; // move i to after the open curly bracket
 
-				if (programTokenList.size() < i || (programTokenList.at(i)->getTokenType() != TokenType::WHILE_TOKEN && 
-					programTokenList.at(i)->getTokenType() != TokenType::NAME)) {
+				if (programTokenList.size() < i) {
 						throw SyntaxErrorException(programTokenList.at(i-3)->getDisplayedLineIndex());
+				} else if (programTokenList.at(i)->getTokenType() != TokenType::WHILE_TOKEN && 
+					programTokenList.at(i)->getTokenType() != TokenType::NAME) {
+						if (programTokenList.at(i)->getTokenType() == TokenType::CLOSE_CURLY_BRACKET) {
+							throw SyntaxErrorException(programTokenList.at(i-3)->getDisplayedLineIndex());
+						} else {
+							throw SyntaxErrorException(programTokenList.at(i)->getDisplayedLineIndex());
+						}
 				}
 
 				TNode *whileNode = new TNode(TType::WHILEN, "");
@@ -245,6 +251,8 @@ void Parser::buildProcedureAST() {
 			prevNode = prevNode->getParentNode()->getParentNode();
 			expectedRelation = TNodeRelation::RIGHT_SIBLING;
 			i++;
+		} else {
+			throw SyntaxErrorException(programTokenList.at(i)->getDisplayedLineIndex());
 		}
 	}
 }
