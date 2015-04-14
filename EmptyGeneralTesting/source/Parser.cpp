@@ -75,6 +75,7 @@ void Parser::tokenizeLine(string line, int lineIndex, vector<ParsingToken*> *tok
 
 ParsingToken* Parser::convertStringToToken(string aString, int lineIndex) {
 	ParsingToken* token = new ParsingToken();
+	token->setDisplayedLineIndex(lineIndex);
 	if (aString.compare("procedure") == 0) {
 		token->setTokenType(TokenType::PROCEDURE_TOKEN);
 	} else if (aString.compare("while") == 0) {
