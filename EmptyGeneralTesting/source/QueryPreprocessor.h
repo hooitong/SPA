@@ -49,7 +49,6 @@ class QueryPreprocessor {
 	string getType(string synonym);
 	bool checkDeclaration(string declaration);
 	bool checkExpression(string expression);
-	void buildTable();
 	int findIndexOfTable(string relationType);
 	int findIndexOfType(string type);
 	QNode* parseStmtRef(string argument);

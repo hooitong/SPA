@@ -74,3 +74,19 @@ class InvalidCaseClauseException : public exception {
 
     string message();
 };
+
+class UndeclaredException : public exception {
+	public:
+    UndeclaredException();
+    ~UndeclaredException();
+
+    string message();
+};
+
+class UnmatchedSynonymException : public exception {
+	public:
+    UnmatchedSynonymException();
+    ~UnmatchedSynonymException();
+
+    string message();
+};

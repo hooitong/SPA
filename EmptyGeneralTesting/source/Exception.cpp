@@ -99,3 +99,27 @@ InvalidQueryDeclarationException::~InvalidQueryDeclarationException() {
 string InvalidQueryDeclarationException::message() {
 	return "Invalid Query Declaration ";
 }
+
+UndeclaredException::UndeclaredException() {
+
+}
+
+UndeclaredException::~UndeclaredException() {
+
+}
+
+string UndeclaredException::message() {
+	return "Undeclared synonym declaration ";
+}
+
+UnmatchedSynonymException::UnmatchedSynonymException() {
+
+}
+
+UnmatchedSynonymException::~UnmatchedSynonymException() {
+
+}
+
+string UnmatchedSynonymException::message() {
+	return "Synonym type mismatched";
+}

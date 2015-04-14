@@ -304,14 +304,20 @@ using namespace std;
 			return queryTree->createNode(ANY,"");
 		} else if (isdigit(argument.at(0))) {
 			return queryTree->createNode(CONST,argument);
-		} else if (existsRef(argument) && getType(argument) == "stmt") {
-			return queryTree->createNode(STMTSYNONYM,argument);
-		} else if (existsRef(argument) && getType(argument) == "while") {
-			return queryTree->createNode(WHILESYNONYM,argument);
-		} else if (existsRef(argument) && getType(argument) == "assign") {
-			return queryTree->createNode(ASSIGNSYNONYM,argument);
-		}else if (existsRef(argument) && getType(argument) == "prog_line") {
-			return queryTree->createNode(PROGLINESYNONYM,argument);
+		} else if (existsRef(argument)) {
+			if (getType(argument) == "stmt") {
+				return queryTree->createNode(STMTSYNONYM,argument);
+			} else if (getType(argument) == "while") {
+				return queryTree->createNode(WHILESYNONYM,argument);
+			} else if (getType(argument) == "assign") {
+				return queryTree->createNode(ASSIGNSYNONYM,argument);
+			} else if (getType(argument) == "prog_line") {
+				return queryTree->createNode(PROGLINESYNONYM,argument);
+			} else {
+				throw UnmatchedSynonymException();
+			}
+		} else {
+			throw UndeclaredException(); 
 		}
 		return NULL;
 	}
@@ -517,6 +523,9 @@ using namespace std;
 
 	bool QueryPreprocessor::addTuple(string single_tuple) {
 		single_tuple = trim(single_tuple);
+		if (!existsRef(single_tuple)) {
+			throw UndeclaredException();
+		}
 		string type = getType(single_tuple);
 		QNode* resultNode;
 		if (type == "assign") {
@@ -536,7 +545,7 @@ using namespace std;
 		} else if (type == "if") {
 			resultNode = queryTree->createNode(IFSYNONYM, single_tuple);
 		}else{
-			throw InvalidResultSyntaxException();
+			throw UnmatchedSynonymException();
 		}
 		queryTree->addChild(resultListNode, resultNode);
 		return true;
@@ -579,18 +588,7 @@ using namespace std;
 		return (checkIdent(elem) || checkAttReference(elem));
 	}
 /************************** Others *********************************/
-	void QueryPreprocessor::buildTable(){
 
-	int table[10][24] =
-	{
-        {1,0,1,1,1,1,1,0,0,1,1,1,0,0,0,0,0,0,0,1,0,0,1,0},
-        {0,0,0,0,1,0,0,0,0,0,1,1,0,0,0,0,1,0,0,0,0,0,1,1},
-		{0,0,1,0,0,1,1,0,0,1,0,1,0,0,1,1,1,1,1,0,0,1,0,1},
-		{0,0,1,1,1,1,1,0,0,1,0,1,0,0,1,1,1,1,1,0,0,1,0,1},
-		{0,0,1,1,0,0,0,0,0,1,0,1,0,0,1,1,0,0,0,0,0,1,0,1}
-    };
-
-	}
 	string QueryPreprocessor::trim(string s){
 		//cout << " Before trim :" << s << endl;
 		int firstNotSpace = 0;
