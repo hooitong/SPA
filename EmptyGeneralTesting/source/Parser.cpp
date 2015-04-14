@@ -147,7 +147,7 @@ bool Parser::isValidName(string aString) {
 void Parser::buildProcedureAST() {
 	PKB *pkb = PKB::getPKB();
 	AST *ast = pkb->getAst();
-
+	
 	if (programTokenList.size() < 8) {  // if the number of tokens in the procedure is less than 8, then the procedure is invalid
 		throw InvalidProcedureException();
 	}
@@ -157,6 +157,8 @@ void Parser::buildProcedureAST() {
 		|| programTokenList.at(2)->getTokenType() != TokenType::OPEN_CURLY_BRACKET) {
 		throw InvalidProcedureException();
 	}
+
+	int bCount = 1;
 
 	// set up the AST 
 	TNode *procedureNode = new TNode(TType::PROCEDUREN, programTokenList.at(1)->getStringValue());
@@ -169,6 +171,9 @@ void Parser::buildProcedureAST() {
 	int i=3;
 	int stmtLine = 1;
 	while (i < programTokenList.size()) {
+		if(bCount == 0) {
+			throw SyntaxErrorException(programTokenList.at(i)->getDisplayedLineIndex());
+		}
 		if (programTokenList.at(i)->getTokenType() == TokenType::NAME) { // assignment statement  
 			// if the fisrt token of the statement is a name, then the statement is an assignment
 			if (programTokenList.at(i+1)->getTokenType() != TokenType::ASSIGNMENT_TOKEN)
@@ -211,6 +216,7 @@ void Parser::buildProcedureAST() {
 				// if the statement does not follow the format 'while var_name {' then thow exception
 				throw SyntaxErrorException(programTokenList.at(i+1)->getDisplayedLineIndex());
 			} else {
+				bCount++;
 				i = i+3; // move i to after the open curly bracket
 
 				if (programTokenList.size() < i) {
@@ -252,9 +258,16 @@ void Parser::buildProcedureAST() {
 			prevNode = prevNode->getParentNode()->getParentNode();
 			expectedRelation = TNodeRelation::RIGHT_SIBLING;
 			i++;
+			bCount--;
+			if(bCount < 0) {
+				throw SyntaxErrorException(programTokenList.at(i)->getDisplayedLineIndex());
+			}
 		} else {
 			throw SyntaxErrorException(programTokenList.at(i)->getDisplayedLineIndex());
 		}
+	}
+	if(bCount > 0) {
+		throw InvalidProcedureException();
 	}
 }
 
