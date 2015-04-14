@@ -5,9 +5,6 @@
 #include "GlobalType.h"
 #include "ParsingToken.h"
 #include "AST.h"
-#include "SyntaxErrorException.h"
-#include "InvalidNameException.h"
-#include "InvalidProcedureException.h"
 #include <stdlib.h>
 #include "Exception.h"
 
