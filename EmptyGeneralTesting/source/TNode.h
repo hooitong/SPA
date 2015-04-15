@@ -15,9 +15,9 @@ class TNode {
     TNode* rightSiblingNode;
     TType type;
 
-  public:    
+  public:
     TNode(void);
-	TNode(TType,string);
+    TNode(TType,string);
     ~TNode(void);
 
     TType getTType();

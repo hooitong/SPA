@@ -37,7 +37,7 @@ class AST {
     bool matchLeftPattern(STMTLINE stmtRoot, VARINDEX varToMatch);
     bool matchRightPattern(STMTLINE stmtRoot, std::string expression, bool strict);
 
-	
+
     // private methods for pattern matching
     vector<TNode*> getDFS(TNode* node);
     string convertTNodeListValueToString(vector<TNode*> nodes);

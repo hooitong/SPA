@@ -1,7 +1,10 @@
 #include "Parser.h"
-#include "PKB.h"
+
 #include <stack>
 #include <fstream>
+#include <iostream>
+
+#include "PKB.h"
 
 vector<ParsingToken*> Parser::programTokenList;
 
@@ -488,7 +491,7 @@ void Parser::linkTNodeToPrevNodes(TNode *currNode, TNode *prevNode, TNodeRelatio
         if (prevParentStmt != -1) {
             PKB::getPKB()->getParent()->setParent(prevParentStmt, currNode->getStmtLine());
         }
-        
+
         // set Follows(currStmt, prevStmt)
         PKB::getPKB()->getFollows()->setFollows(prevNode->getStmtLine(), currNode->getStmtLine());
     }

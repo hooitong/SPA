@@ -1,7 +1,8 @@
 #pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
-class VarTable;
+
+#include "VarTable.h"
 
 class VarTableTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(VarTableTest);

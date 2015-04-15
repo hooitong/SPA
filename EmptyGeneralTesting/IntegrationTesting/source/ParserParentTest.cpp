@@ -63,26 +63,26 @@ void ParserParentTest::testParentStar() {
     CPPUNIT_ASSERT(pTest->isParentStar(4, 12));
     CPPUNIT_ASSERT(pTest->isParentStar(4, 16));
     CPPUNIT_ASSERT(pTest->isParentStar(4, 18));
-	CPPUNIT_ASSERT(pTest->isParentStar(4, 13));
-	CPPUNIT_ASSERT(pTest->isParentStar(4, 14));
-	CPPUNIT_ASSERT(pTest->isParentStar(4, 15));
-	CPPUNIT_ASSERT(pTest->isParentStar(4, 17));
+    CPPUNIT_ASSERT(pTest->isParentStar(4, 13));
+    CPPUNIT_ASSERT(pTest->isParentStar(4, 14));
+    CPPUNIT_ASSERT(pTest->isParentStar(4, 15));
+    CPPUNIT_ASSERT(pTest->isParentStar(4, 17));
 
-	CPPUNIT_ASSERT(pTest->isParentStar(5, 8));
-	CPPUNIT_ASSERT(pTest->isParentStar(5, 11));
-	CPPUNIT_ASSERT(pTest->isParentStar(5, 13));
-	CPPUNIT_ASSERT(pTest->isParentStar(5, 14));
-	CPPUNIT_ASSERT(pTest->isParentStar(5, 15));
-	CPPUNIT_ASSERT(pTest->isParentStar(5, 17));
+    CPPUNIT_ASSERT(pTest->isParentStar(5, 8));
+    CPPUNIT_ASSERT(pTest->isParentStar(5, 11));
+    CPPUNIT_ASSERT(pTest->isParentStar(5, 13));
+    CPPUNIT_ASSERT(pTest->isParentStar(5, 14));
+    CPPUNIT_ASSERT(pTest->isParentStar(5, 15));
+    CPPUNIT_ASSERT(pTest->isParentStar(5, 17));
 
-	CPPUNIT_ASSERT(pTest->isParentStar(9, 13));
-	CPPUNIT_ASSERT(pTest->isParentStar(9, 14));
-	CPPUNIT_ASSERT(pTest->isParentStar(9, 15));
-	CPPUNIT_ASSERT(pTest->isParentStar(9, 17));
+    CPPUNIT_ASSERT(pTest->isParentStar(9, 13));
+    CPPUNIT_ASSERT(pTest->isParentStar(9, 14));
+    CPPUNIT_ASSERT(pTest->isParentStar(9, 15));
+    CPPUNIT_ASSERT(pTest->isParentStar(9, 17));
 
-	CPPUNIT_ASSERT(pTest->isParentStar(11, 13));
-	CPPUNIT_ASSERT(pTest->isParentStar(11, 14));
-	CPPUNIT_ASSERT(pTest->isParentStar(11, 15));
-	CPPUNIT_ASSERT(pTest->isParentStar(11, 17));
+    CPPUNIT_ASSERT(pTest->isParentStar(11, 13));
+    CPPUNIT_ASSERT(pTest->isParentStar(11, 14));
+    CPPUNIT_ASSERT(pTest->isParentStar(11, 15));
+    CPPUNIT_ASSERT(pTest->isParentStar(11, 17));
 
 }

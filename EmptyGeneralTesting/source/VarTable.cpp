@@ -1,4 +1,5 @@
 #include "VarTable.h"
+
 /* Constructor & Destructor */
 VarTable::VarTable(void) {
     currentMapIndex = 0;

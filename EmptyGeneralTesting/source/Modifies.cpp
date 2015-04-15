@@ -1,4 +1,5 @@
 #include "Modifies.h"
+
 #include "VarTable.h"
 
 /* Constructor & Destructor */

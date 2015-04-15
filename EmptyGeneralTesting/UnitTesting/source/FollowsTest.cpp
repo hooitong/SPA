@@ -30,10 +30,10 @@ void FollowsTest::testSetStar() {
     (*fTest).setFollowsStar(6, 7);
     (*fTest).setFollowsStar(7, 8);
 
-	(*fTest).setFollowsStar(1, 3);
-	(*fTest).setFollowsStar(1, 4);
-	(*fTest).setFollowsStar(2, 4);
-	(*fTest).setFollowsStar(6, 8);
+    (*fTest).setFollowsStar(1, 3);
+    (*fTest).setFollowsStar(1, 4);
+    (*fTest).setFollowsStar(2, 4);
+    (*fTest).setFollowsStar(6, 8);
 }
 
 // Test whether the isFollows function works as intended.
@@ -93,8 +93,8 @@ void FollowsTest::testGetFollowsFrom() {
 // Test whether the testGetFollowsFromStar function works as intended.
 void FollowsTest::testGetFollowsFromStar() {
     testSetStar();
-	
-	/* Valid inputs which should return the correct left siblings */
+
+    /* Valid inputs which should return the correct left siblings */
     vector<STMTLINE> resultVector = (*fTest).getFollowsFromStar(2);
     CPPUNIT_ASSERT(resultVector[0] == 1);
     resultVector = (*fTest).getFollowsFromStar(3);

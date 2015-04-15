@@ -1,18 +1,21 @@
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/ui/text/TestRunner.h>
-#include <iostream>
 #include <fstream>
-#include <SPAFrontEnd.h>
+
+#include "SPAFrontEnd.h"
 
 using namespace std;
 
 int main(int argc, char* argv[]) {
     // Get the top level suite from the registry
-
     CppUnit::TestSuite *suite = new CppUnit::TestSuite("All integration tests");
 
     // Calls SPA Front-End to Parse Integration Test File
-    SPAFrontEnd::getInstance()->parseSource("integration.txt");
+    if(argc == 1) {
+        SPAFrontEnd::getInstance()->parseSource("integration.txt");
+    } else {
+        SPAFrontEnd::getInstance()->parseSource(argv[1]);
+    }
 
     suite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserFollowsTest").makeTest());
     suite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserParentTest").makeTest());

@@ -14,7 +14,7 @@ class DesignExtractorTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE_END();
 
   private:
-	PKB* pkbObj;
+    PKB* pkbObj;
 
   public:
     void setUp();

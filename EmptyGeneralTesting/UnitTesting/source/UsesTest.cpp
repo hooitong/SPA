@@ -1,6 +1,6 @@
 #include <cppunit/config/SourcePrefix.h>
-#include "UsesTest.h"
 
+#include "UsesTest.h"
 
 void UsesTest::setUp() {
     uses = new Uses;

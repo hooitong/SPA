@@ -1,12 +1,13 @@
 #include <cppunit/config/SourcePrefix.h>
 
 #include "TNodeTest.h"
+
 #include "VarTable.h"
 
 void TNodeTest::setUp() {
-	vTable = new VarTable;
-	VARINDEX vX = (*vTable).insertVar("x");
-	node = new TNode(VARN, std::to_string(static_cast<long long>(vX))); //need to change to stmt number
+    vTable = new VarTable;
+    VARINDEX vX = (*vTable).insertVar("x");
+    node = new TNode(VARN, std::to_string(static_cast<long long>(vX))); //need to change to stmt number
     nodePlus = new TNode(PLUSN, "");
     nodeParent = new TNode(MINUSN, "");
 }
@@ -38,7 +39,7 @@ void TNodeTest::testCreateNode() {
     TType type = (*node).getTType();
     CPPUNIT_ASSERT(type == VARN);
     string value  = (*node).getValue();
-	VARNAME x = (*vTable).getVarName((atoi(value.c_str()))); //this value should be equal to the x
+    VARNAME x = (*vTable).getVarName((atoi(value.c_str()))); //this value should be equal to the x
 
     CPPUNIT_ASSERT(x == "x");//should be modified to be varindex.
 
@@ -48,7 +49,7 @@ void TNodeTest::testCreateNode() {
 
     type = (*nodeParent).getTType();
     CPPUNIT_ASSERT(type == MINUSN);
-    
+
 
 }
 

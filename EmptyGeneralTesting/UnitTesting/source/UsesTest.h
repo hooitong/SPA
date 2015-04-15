@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
+
 #include "Uses.h"
 
 class UsesTest : public CPPUNIT_NS::TestFixture {
