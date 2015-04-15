@@ -547,7 +547,7 @@ QueryResult QueryEvaluator::solveUses(QNode* node) {
             QNode* newRightChild = new QNode(rightChild->getQType(), rightChild->getString());
             node->addChild(newLeftChild);
             node->addChild(newRightChild);
-            results.push_back(solveParentStar(node));
+            results.push_back(solveUses(node));
             delete newLeftChild;
             delete newRightChild;
             delete node;
@@ -566,7 +566,7 @@ QueryResult QueryEvaluator::solveUses(QNode* node) {
             QNode* newRightChild = new QNode(CONST, vars[i]);
             node->addChild(newLeftChild);
             node->addChild(newRightChild);
-            results.push_back(solveParentStar(node));
+            results.push_back(solveUses(node));
             delete newLeftChild;
             delete newRightChild;
             delete node;
