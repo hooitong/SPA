@@ -1,0 +1,11 @@
+procedure Main{		
+a=2;			\\1
+b=c+d;			\\2
+c=a+3;			\\3
+while x{		\\4
+   a=c+b;		\\5
+   b=2+a;		\\6
+   while b{		\\7
+      x=x+1;}		\\8
+   z=z+2;}		\\9
+a=b+c+x;}		\\10
