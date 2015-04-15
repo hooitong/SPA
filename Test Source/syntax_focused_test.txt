@@ -151,7 +151,7 @@ Select s pattern a (_, _"delta + l + width + Romeo"_)
 31 - InValidPattern
 assign a;stmt s;
 Select a pattern a (_, "_delta + l + width + Romeo_")
-15
+none
 5000
 32 - InValidPattern
 assign a;stmt s;
@@ -161,7 +161,7 @@ none
 33 - invalidpattern
 assign a;stmt s;
 Select a pattern a(_,_"delta"__)
-15
+none
 5000
 32 - InValidPattern
 assign a;stmt s;

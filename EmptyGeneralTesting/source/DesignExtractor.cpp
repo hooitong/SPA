@@ -1,6 +1,6 @@
-#include <algorithm>
-
 #include "DesignExtractor.h"
+
+#include <algorithm>
 
 #include "PKB.h"
 #include "Follows.h"

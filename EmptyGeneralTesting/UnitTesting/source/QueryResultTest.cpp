@@ -1,4 +1,5 @@
 #include <cppunit/config/SourcePrefix.h>
+
 #include "QueryResultTest.h"
 
 #include "QueryResult.h"
@@ -43,8 +44,6 @@ void QueryResultTest::testEqual() {
     CPPUNIT_ASSERT(one == two);
 }
 
-
-//TODO: Implement this
 void QueryResultTest::testDifferent() {
     vector <string> synonym1;
     synonym1.push_back("a");
@@ -88,7 +87,6 @@ void QueryResultTest::testDifferent() {
     CPPUNIT_ASSERT(!(one == two));
 }
 
-//TODO: implement this
 void QueryResultTest::testEqualReorder() {
     vector <string> synonym1;
     synonym1.push_back("a");
@@ -343,21 +341,21 @@ void QueryResultTest::testFilter() {
     one.addSolution(resultone2);
     one.addSolution(resultone3);
 
-	vector <string> expectedSynonym;
-	expectedSynonym.push_back("b");
-	expectedSynonym.push_back("a");
-	QueryResult expected(expectedSynonym);
+    vector <string> expectedSynonym;
+    expectedSynonym.push_back("b");
+    expectedSynonym.push_back("a");
+    QueryResult expected(expectedSynonym);
 
-	vector <int> expected1;
-	expected1.push_back(2);
-	expected1.push_back(1);
+    vector <int> expected1;
+    expected1.push_back(2);
+    expected1.push_back(1);
 
-	vector <int> expected2;
-	expected2.push_back(6);
-	expected2.push_back(4);
+    vector <int> expected2;
+    expected2.push_back(6);
+    expected2.push_back(4);
 
-	expected.addSolution(expected1);
-	expected.addSolution(expected2);
+    expected.addSolution(expected1);
+    expected.addSolution(expected2);
 
-	CPPUNIT_ASSERT(one.filter(expectedSynonym) == expected);
+    CPPUNIT_ASSERT(one.filter(expectedSynonym) == expected);
 }

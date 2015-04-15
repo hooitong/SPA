@@ -12,13 +12,13 @@ class ASTTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testSetStmtLine);
     CPPUNIT_TEST(testSetRoot);
     CPPUNIT_TEST(testIsMatch);
-	CPPUNIT_TEST(testGetValue);
-	CPPUNIT_TEST(testMatchLeftPattern);
+    CPPUNIT_TEST(testGetValue);
+    CPPUNIT_TEST(testMatchLeftPattern);
     CPPUNIT_TEST(testMatchRightPattern);
-	CPPUNIT_TEST(testMatchRightPattern2);
-	CPPUNIT_TEST(testMatchRightPattern3);
-	CPPUNIT_TEST(testMatchRightPattern4);
-	CPPUNIT_TEST(testMatchRightPatternConst);
+    CPPUNIT_TEST(testMatchRightPattern2);
+    CPPUNIT_TEST(testMatchRightPattern3);
+    CPPUNIT_TEST(testMatchRightPattern4);
+    CPPUNIT_TEST(testMatchRightPatternConst);
     CPPUNIT_TEST_SUITE_END();
 
   private:
@@ -33,12 +33,12 @@ class ASTTest : public CPPUNIT_NS::TestFixture {
     void testAddChildTNode();
     void testSetStmtLine();
     void testSetRoot();
-	void testGetValue();
+    void testGetValue();
     void testIsMatch();
     void testMatchLeftPattern();
     void testMatchRightPattern();
-	void testMatchRightPattern2();
-	void testMatchRightPattern3();
-	void testMatchRightPattern4();
-	void testMatchRightPatternConst();
+    void testMatchRightPattern2();
+    void testMatchRightPattern3();
+    void testMatchRightPattern4();
+    void testMatchRightPatternConst();
 };

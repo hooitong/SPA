@@ -1,6 +1,6 @@
 #include <cppunit/config/SourcePrefix.h>
-#include "ModifiesTest.h"
 
+#include "ModifiesTest.h"
 
 void ModifiesTest::setUp() {
     modifies = new Modifies;

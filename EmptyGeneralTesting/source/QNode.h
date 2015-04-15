@@ -1,9 +1,9 @@
 #pragma once
+
 #include <string>
 #include <vector>
-#include "GlobalType.h"
 
-using namespace std;
+#include "GlobalType.h"
 
 class QNode {
   private:
@@ -21,5 +21,5 @@ class QNode {
     vector<QNode*> getChildren();
 
     void addChild(QNode* node);
-	bool isEqualSubtree(QNode *node);
+    bool isEqualSubtree(QNode *node);
 };

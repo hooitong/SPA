@@ -1,8 +1,7 @@
 #pragma once
+
 #include "QNode.h"
 #include <vector>
-
-using namespace std;
 
 class QueryTree {
   private:
@@ -17,5 +16,5 @@ class QueryTree {
     void addChild(QNode* parent, QNode* child);
     vector<QNode*> getChildren(QNode* parent);
     QNode* getRoot(void);
-	bool isEqual(QueryTree *anotherTree);
+    bool isEqual(QueryTree *anotherTree);
 };

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <exception>
-#include <iostream>
+
 #include "GlobalType.h"
 
 class InvalidNameException : public exception {
@@ -35,7 +35,7 @@ class SyntaxErrorException : public exception {
 };
 
 class InvalidQueryDeclarationException : public exception {
-	public:
+  public:
     InvalidQueryDeclarationException ();
     ~InvalidQueryDeclarationException ();
 
@@ -43,7 +43,7 @@ class InvalidQueryDeclarationException : public exception {
 };
 
 class InvalidResultSyntaxException: public exception {
-	public:
+  public:
     InvalidResultSyntaxException();
     ~InvalidResultSyntaxException();
 
@@ -51,7 +51,7 @@ class InvalidResultSyntaxException: public exception {
 };
 
 class InvalidClauseSyntaxException : public exception {
-	public:
+  public:
     InvalidClauseSyntaxException();
     ~InvalidClauseSyntaxException();
 
@@ -60,7 +60,7 @@ class InvalidClauseSyntaxException : public exception {
 
 class InvalidSelectException : public exception {
 
-	public:
+  public:
     InvalidSelectException();
     ~InvalidSelectException();
 
@@ -68,7 +68,7 @@ class InvalidSelectException : public exception {
 };
 
 class InvalidCaseClauseException : public exception {
-	public:
+  public:
     InvalidCaseClauseException();
     ~InvalidCaseClauseException();
 
@@ -76,7 +76,7 @@ class InvalidCaseClauseException : public exception {
 };
 
 class UndeclaredException : public exception {
-	public:
+  public:
     UndeclaredException();
     ~UndeclaredException();
 
@@ -84,7 +84,7 @@ class UndeclaredException : public exception {
 };
 
 class UnmatchedSynonymException : public exception {
-	public:
+  public:
     UnmatchedSynonymException();
     ~UnmatchedSynonymException();
 

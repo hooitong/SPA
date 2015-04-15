@@ -1,8 +1,10 @@
 #include <cppunit/config/SourcePrefix.h>
+
+#include "ASTTest.h"
+
 #include <vector>
 #include <string>
 
-#include "ASTTest.h"
 #include "VarTable.h"
 #include "PKB.h"
 
@@ -17,25 +19,25 @@ void ASTTest::tearDown() {
 CPPUNIT_TEST_SUITE_REGISTRATION(ASTTest);
 
 void ASTTest::testCreateTNode() {
-	VarTable vTable;
-	VARINDEX vx = vTable.insertVar("x");	
+    VarTable vTable;
+    VARINDEX vx = vTable.insertVar("x");
     TNode* node = (*ast).createTNode(VARN, std::to_string(static_cast<long long>(vx)));
-	string variable = vTable.getVarName(atoi( node->getValue().c_str() ));	
+    string variable = vTable.getVarName(atoi( node->getValue().c_str() ));
     CPPUNIT_ASSERT(variable == "x");
 }
 
 void ASTTest::testSetSibling() {
-	VarTable vTable;
+    VarTable vTable;
 
-	VARINDEX vx = vTable.insertVar("x");	
+    VARINDEX vx = vTable.insertVar("x");
     TNode* nodeX = (*ast).createTNode(VARN, std::to_string(static_cast<long long>(vx)));
-	string variableXIndex = vTable.getVarName(atoi( nodeX->getValue().c_str() ));
+    string variableXIndex = vTable.getVarName(atoi(nodeX->getValue().c_str()));
 
-	VARINDEX vy = vTable.insertVar("y");	
+    VARINDEX vy = vTable.insertVar("y");
     TNode* nodeY = (*ast).createTNode(VARN, std::to_string(static_cast<long long>(vy)));
-	string variableYIndex = vTable.getVarName(atoi( nodeY->getValue().c_str() ));
+    string variableYIndex = vTable.getVarName(atoi(nodeY->getValue().c_str()));
 
-    TNode* nodeSiblingLeft = (*ast).createTNode(VARN, variableXIndex); 
+    TNode* nodeSiblingLeft = (*ast).createTNode(VARN, variableXIndex);
     TNode* nodeSiblingRight = (*ast).createTNode(VARN, variableYIndex);
     CPPUNIT_ASSERT((*ast).setSibling(nodeSiblingLeft, nodeSiblingRight));
     CPPUNIT_ASSERT(nodeSiblingRight == (*ast).getRightSibling(nodeSiblingLeft));
@@ -44,28 +46,28 @@ void ASTTest::testSetSibling() {
 
 
 void ASTTest::testGetValue() {
-	TNode* node = (*ast).createTNode(VARN, "1");
-	CPPUNIT_ASSERT((*ast).getValue(node) == "1");
+    TNode* node = (*ast).createTNode(VARN, "1");
+    CPPUNIT_ASSERT((*ast).getValue(node) == "1");
 }
 
 void ASTTest::testAddChildTNode() {
-   
-	VarTable vTable;
-	TNode* nodeStmtLst = (*ast).createTNode(STMTLSTN, "");
+
+    VarTable vTable;
+    TNode* nodeStmtLst = (*ast).createTNode(STMTLSTN, "");
 
     vector<TNode*> childrenLocal;
     TNode* node = (*ast).createTNode(PLUSN, "");
     childrenLocal.push_back(node);
     (*ast).addChildTNode(nodeStmtLst, node);
 
-	VARINDEX vx = vTable.insertVar("x");	
+    VARINDEX vx = vTable.insertVar("x");
     TNode* nodeSiblingLeft = (*ast).createTNode(VARN, std::to_string(static_cast<long long>(vx)));
-	string variableXIndex = vTable.getVarName(atoi( nodeSiblingLeft->getValue().c_str() ));
+    string variableXIndex = vTable.getVarName(atoi( nodeSiblingLeft->getValue().c_str() ));
 
-	VARINDEX vy = vTable.insertVar("y");	
+    VARINDEX vy = vTable.insertVar("y");
     TNode* nodeSiblingRight = (*ast).createTNode(VARN, std::to_string(static_cast<long long>(vy)));
-	string variableYIndex = vTable.getVarName(atoi( nodeSiblingRight->getValue().c_str() ));
-	childrenLocal.push_back(nodeSiblingLeft);
+    string variableYIndex = vTable.getVarName(atoi( nodeSiblingRight->getValue().c_str() ));
+    childrenLocal.push_back(nodeSiblingLeft);
     (*ast).addChildTNode(nodeStmtLst, nodeSiblingLeft);
     childrenLocal.push_back(nodeSiblingRight);
     (*ast).addChildTNode(nodeStmtLst, nodeSiblingRight);
@@ -96,10 +98,10 @@ void ASTTest::testSetRoot() {
 }
 
 void ASTTest::testIsMatch() {
-	VarTable vTable;
-	VARINDEX vx = vTable.insertVar("x");	
+    VarTable vTable;
+    VARINDEX vx = vTable.insertVar("x");
     TNode* nodeX = (*ast).createTNode(VARN, std::to_string(static_cast<long long>(vx)));
-	string variableXIndex = vTable.getVarName(atoi( nodeX->getValue().c_str() ));
+    string variableXIndex = vTable.getVarName(atoi(nodeX->getValue().c_str()));
     CPPUNIT_ASSERT((*ast).isMatch(nodeX, VARN));
 }
 
@@ -115,197 +117,190 @@ void ASTTest::testMatchLeftPattern() {
 
 void ASTTest::testMatchRightPattern() {
     //test basic pattern
-	//stored "x+y"
-	//query strict "x + y"
-	//query strict "x+y"
-	VarTable vTable;
-	TNode* node = (*ast).createTNode(PLUSN, "");
+    //stored "x+y"
+    //query strict "x + y"
+    //query strict "x+y"
+    VarTable vTable;
+    TNode* node = (*ast).createTNode(PLUSN, "");
 
-	VARINDEX vx = vTable.insertVar("x");	
+    VARINDEX vx = vTable.insertVar("x");
     TNode* nodeSiblingLeft = (*ast).createTNode(VARN, std::to_string(static_cast<long long>(vx)));
-	string variableXIndex = vTable.getVarName(atoi( nodeSiblingLeft->getValue().c_str() ));
+    string variableXIndex = vTable.getVarName(atoi(nodeSiblingLeft->getValue().c_str()));
 
-	VARINDEX vy = vTable.insertVar("y");	
+    VARINDEX vy = vTable.insertVar("y");
     TNode* nodeSiblingRight = (*ast).createTNode(VARN, std::to_string(static_cast<long long>(vy)));
-	string variableYIndex = vTable.getVarName(atoi( nodeSiblingRight->getValue().c_str() ));
+    string variableYIndex = vTable.getVarName(atoi(nodeSiblingRight->getValue().c_str()));
 
     (*node).addChild(nodeSiblingLeft);
     (*node).addChild(nodeSiblingRight);
     (*ast).setSibling(nodeSiblingLeft, nodeSiblingRight);
 
-	VARINDEX left = vTable.insertVar("left");	
-	TNode* leftNode = (*ast).createTNode(VARN, std::to_string(static_cast<long long>(left)));
-	TNode* assignNode = (*ast).createTNode(ASSIGNN, "");
-	(*ast).setStmtLine(assignNode, 2);
-	assignNode->addChild(leftNode);
-	assignNode->addChild(node);
-	(*ast).setSibling(leftNode, node);
-    
+    VARINDEX left = vTable.insertVar("left");
+    TNode* leftNode = (*ast).createTNode(VARN, std::to_string(static_cast<long long>(left)));
+    TNode* assignNode = (*ast).createTNode(ASSIGNN, "");
+    (*ast).setStmtLine(assignNode, 2);
+    assignNode->addChild(leftNode);
+    assignNode->addChild(node);
+    (*ast).setSibling(leftNode, node);
+
     CPPUNIT_ASSERT((*ast).matchRightPattern(2, "x + y", true));
-	CPPUNIT_ASSERT((*ast).matchRightPattern(2, "x+y", true));
+    CPPUNIT_ASSERT((*ast).matchRightPattern(2, "x+y", true));
 }
 
 
-void ASTTest::testMatchRightPattern2(){
+void ASTTest::testMatchRightPattern2() {
+    //stored a+b+c
+    //query strict a+b
+    TNode* nodeRootPlus = ast -> createTNode(PLUSN,"");
+    TNode* nodePlus2 = ast -> createTNode(PLUSN,"");
 
-	//stored a+b+c
-	//query strict a+b
-	TNode* nodeRootPlus = ast -> createTNode(PLUSN,"");
-	TNode* nodePlus2 = ast -> createTNode(PLUSN,"");
+    VARINDEX aIndex = PKB::getPKB()->getVarTable()->insertVar("a");
+    TNode* nodeA = ast -> createTNode(VARN,std::to_string(static_cast<long long>(aIndex)));
+    VARINDEX bIndex = PKB::getPKB()->getVarTable()->insertVar("b");
+    TNode* nodeB = ast -> createTNode(VARN, std::to_string(static_cast<long long>(bIndex)));
+    VARINDEX cIndex = PKB::getPKB()->getVarTable()->insertVar("c");
+    TNode* nodeC = ast -> createTNode(VARN, std::to_string(static_cast<long long>(cIndex)));
 
-	VARINDEX aIndex = PKB::getPKB()->getVarTable()->insertVar("a");
-	TNode* nodeA = ast -> createTNode(VARN,std::to_string(static_cast<long long>(aIndex)));	
-	VARINDEX bIndex = PKB::getPKB()->getVarTable()->insertVar("b");	
-	TNode* nodeB = ast -> createTNode(VARN, std::to_string(static_cast<long long>(bIndex)));
-	VARINDEX cIndex = PKB::getPKB()->getVarTable()->insertVar("c");
-	TNode* nodeC = ast -> createTNode(VARN, std::to_string(static_cast<long long>(cIndex)));
-	
-	nodeRootPlus->addChild(nodePlus2);
-	nodeRootPlus->addChild(nodeC);
-	ast->setSibling(nodePlus2, nodeC);
+    nodeRootPlus->addChild(nodePlus2);
+    nodeRootPlus->addChild(nodeC);
+    ast->setSibling(nodePlus2, nodeC);
 
-	nodePlus2->addChild(nodeA);
-	nodePlus2->addChild(nodeB);
-	ast->setSibling(nodeA, nodeB);
+    nodePlus2->addChild(nodeA);
+    nodePlus2->addChild(nodeB);
+    ast->setSibling(nodeA, nodeB);
 
+    VARINDEX left = PKB::getPKB()->getVarTable()->insertVar("left");
+    TNode* leftNode = (*ast).createTNode(VARN, std::to_string(static_cast<long long>(left)));
+    TNode* assignNode = (*ast).createTNode(ASSIGNN, "");
+    (*ast).setStmtLine(assignNode, 3);
+    assignNode->addChild(leftNode);
+    assignNode->addChild(nodeRootPlus);
+    (*ast).setSibling(leftNode, nodeRootPlus);
 
-	VARINDEX left = PKB::getPKB()->getVarTable()->insertVar("left");	
-	TNode* leftNode = (*ast).createTNode(VARN, std::to_string(static_cast<long long>(left)));
-	TNode* assignNode = (*ast).createTNode(ASSIGNN, "");
-	(*ast).setStmtLine(assignNode, 3);
-	assignNode->addChild(leftNode);
-	assignNode->addChild(nodeRootPlus);
-	(*ast).setSibling(leftNode, nodeRootPlus);
-
-	CPPUNIT_ASSERT(!ast->matchRightPattern(3, "a + b", true));
-	CPPUNIT_ASSERT(ast->matchRightPattern(3, "a+b", false));
-	CPPUNIT_ASSERT(!ast->matchRightPattern(3, "b+c", false));
-	CPPUNIT_ASSERT(!ast->matchRightPattern(3, "b+c", true));
-	CPPUNIT_ASSERT(ast->matchRightPattern(3, "a+b+c", true));
-
+    CPPUNIT_ASSERT(!ast->matchRightPattern(3, "a + b", true));
+    CPPUNIT_ASSERT(ast->matchRightPattern(3, "a+b", false));
+    CPPUNIT_ASSERT(!ast->matchRightPattern(3, "b+c", false));
+    CPPUNIT_ASSERT(!ast->matchRightPattern(3, "b+c", true));
+    CPPUNIT_ASSERT(ast->matchRightPattern(3, "a+b+c", true));
 }
 
-void ASTTest::testMatchRightPattern3(){
+void ASTTest::testMatchRightPattern3() {
+    //stored a+b+c-d
+    TNode* nodePlus = ast -> createTNode(PLUSN,"");
+    TNode* nodePlus2 = ast -> createTNode(PLUSN,"");
+    TNode* nodeRootMinus = ast -> createTNode(MINUSN,"");
 
-	//stored a+b+c-d
-	TNode* nodePlus = ast -> createTNode(PLUSN,"");
-	TNode* nodePlus2 = ast -> createTNode(PLUSN,"");
-	TNode* nodeRootMinus = ast -> createTNode(MINUSN,"");
+    VARINDEX aIndex = PKB::getPKB()->getVarTable()->insertVar("a");
+    TNode* nodeA = ast -> createTNode(VARN,std::to_string(static_cast<long long>(aIndex)));
+    VARINDEX bIndex = PKB::getPKB()->getVarTable()->insertVar("b");
+    TNode* nodeB = ast -> createTNode(VARN, std::to_string(static_cast<long long>(bIndex)));
+    VARINDEX cIndex = PKB::getPKB()->getVarTable()->insertVar("c");
+    TNode* nodeC = ast -> createTNode(VARN, std::to_string(static_cast<long long>(cIndex)));
+    VARINDEX dIndex = PKB::getPKB()->getVarTable()->insertVar("d");
+    TNode* nodeD = ast -> createTNode(VARN, std::to_string(static_cast<long long>(dIndex)));
 
-	VARINDEX aIndex = PKB::getPKB()->getVarTable()->insertVar("a");
-	TNode* nodeA = ast -> createTNode(VARN,std::to_string(static_cast<long long>(aIndex)));	
-	VARINDEX bIndex = PKB::getPKB()->getVarTable()->insertVar("b");	
-	TNode* nodeB = ast -> createTNode(VARN, std::to_string(static_cast<long long>(bIndex)));
-	VARINDEX cIndex = PKB::getPKB()->getVarTable()->insertVar("c");
-	TNode* nodeC = ast -> createTNode(VARN, std::to_string(static_cast<long long>(cIndex)));
-	VARINDEX dIndex = PKB::getPKB()->getVarTable()->insertVar("d");
-	TNode* nodeD = ast -> createTNode(VARN, std::to_string(static_cast<long long>(dIndex)));
+    nodeRootMinus->addChild(nodePlus);
+    nodeRootMinus->addChild(nodeD);
+    ast->setSibling(nodePlus, nodeD);
 
-	nodeRootMinus->addChild(nodePlus);
-	nodeRootMinus->addChild(nodeD);
-	ast->setSibling(nodePlus, nodeD);
+    nodePlus->addChild(nodePlus2);
+    nodePlus->addChild(nodeC);
+    ast->setSibling(nodePlus2, nodeC);
 
-	nodePlus->addChild(nodePlus2);
-	nodePlus->addChild(nodeC);
-	ast->setSibling(nodePlus2, nodeC);
+    nodePlus2->addChild(nodeA);
+    nodePlus2->addChild(nodeB);
+    ast->setSibling(nodeA, nodeB);
 
-	nodePlus2->addChild(nodeA);
-	nodePlus2->addChild(nodeB);
-	ast->setSibling(nodeA, nodeB);
+    VARINDEX left = PKB::getPKB()->getVarTable()->insertVar("left");
+    TNode* leftNode = (*ast).createTNode(VARN, std::to_string(static_cast<long long>(left)));
+    TNode* assignNode = (*ast).createTNode(ASSIGNN, "");
+    (*ast).setStmtLine(assignNode, 3);
+    assignNode->addChild(leftNode);
+    assignNode->addChild(nodeRootMinus);
+    (*ast).setSibling(leftNode, nodeRootMinus);
 
-	VARINDEX left = PKB::getPKB()->getVarTable()->insertVar("left");	
-	TNode* leftNode = (*ast).createTNode(VARN, std::to_string(static_cast<long long>(left)));
-	TNode* assignNode = (*ast).createTNode(ASSIGNN, "");
-	(*ast).setStmtLine(assignNode, 3);
-	assignNode->addChild(leftNode);
-	assignNode->addChild(nodeRootMinus);
-	(*ast).setSibling(leftNode, nodeRootMinus);
-
-	CPPUNIT_ASSERT(ast->matchRightPattern(3, "a+b", false));
-	CPPUNIT_ASSERT(ast->matchRightPattern(3, "a+b+c-d", true));
-	CPPUNIT_ASSERT(!ast->matchRightPattern(3, "a + b", true));
-	CPPUNIT_ASSERT(!ast->matchRightPattern(3, "c-d", false));
-	CPPUNIT_ASSERT(!ast->matchRightPattern(3, "b+c", false));
-	CPPUNIT_ASSERT(!ast->matchRightPattern(3, "b+c", true));
-	CPPUNIT_ASSERT(!ast->matchRightPattern(3, "a+b+c", true));
+    CPPUNIT_ASSERT(ast->matchRightPattern(3, "a+b", false));
+    CPPUNIT_ASSERT(ast->matchRightPattern(3, "a+b+c-d", true));
+    CPPUNIT_ASSERT(!ast->matchRightPattern(3, "a + b", true));
+    CPPUNIT_ASSERT(!ast->matchRightPattern(3, "c-d", false));
+    CPPUNIT_ASSERT(!ast->matchRightPattern(3, "b+c", false));
+    CPPUNIT_ASSERT(!ast->matchRightPattern(3, "b+c", true));
+    CPPUNIT_ASSERT(!ast->matchRightPattern(3, "a+b+c", true));
 }
 
-void ASTTest::testMatchRightPattern4(){
-	//stored a-b+c-d+z
-	TNode* nodeRootPlus = ast -> createTNode(PLUSN,"");
-	TNode* nodeMinus1 = ast -> createTNode(MINUSN,"");
-	TNode* nodePlus = ast -> createTNode(PLUSN,"");
-	TNode* nodeMinus2 = ast -> createTNode(MINUSN,"");
+void ASTTest::testMatchRightPattern4() {
+    //stored a-b+c-d+z
+    TNode* nodeRootPlus = ast -> createTNode(PLUSN,"");
+    TNode* nodeMinus1 = ast -> createTNode(MINUSN,"");
+    TNode* nodePlus = ast -> createTNode(PLUSN,"");
+    TNode* nodeMinus2 = ast -> createTNode(MINUSN,"");
 
-	VARINDEX aIndex = PKB::getPKB()->getVarTable()->insertVar("a");
-	TNode* nodeA = ast -> createTNode(VARN,std::to_string(static_cast<long long>(aIndex)));	
-	VARINDEX bIndex = PKB::getPKB()->getVarTable()->insertVar("b");	
-	TNode* nodeB = ast -> createTNode(VARN, std::to_string(static_cast<long long>(bIndex)));
-	VARINDEX cIndex = PKB::getPKB()->getVarTable()->insertVar("c");
-	TNode* nodeC = ast -> createTNode(VARN, std::to_string(static_cast<long long>(cIndex)));
-	VARINDEX dIndex = PKB::getPKB()->getVarTable()->insertVar("d");
-	TNode* nodeD = ast -> createTNode(VARN, std::to_string(static_cast<long long>(dIndex)));
-	VARINDEX zIndex = PKB::getPKB()->getVarTable()->insertVar("z");
-	TNode* nodeZ = ast -> createTNode(VARN, std::to_string(static_cast<long long>(zIndex)));
+    VARINDEX aIndex = PKB::getPKB()->getVarTable()->insertVar("a");
+    TNode* nodeA = ast -> createTNode(VARN,std::to_string(static_cast<long long>(aIndex)));
+    VARINDEX bIndex = PKB::getPKB()->getVarTable()->insertVar("b");
+    TNode* nodeB = ast -> createTNode(VARN, std::to_string(static_cast<long long>(bIndex)));
+    VARINDEX cIndex = PKB::getPKB()->getVarTable()->insertVar("c");
+    TNode* nodeC = ast -> createTNode(VARN, std::to_string(static_cast<long long>(cIndex)));
+    VARINDEX dIndex = PKB::getPKB()->getVarTable()->insertVar("d");
+    TNode* nodeD = ast -> createTNode(VARN, std::to_string(static_cast<long long>(dIndex)));
+    VARINDEX zIndex = PKB::getPKB()->getVarTable()->insertVar("z");
+    TNode* nodeZ = ast -> createTNode(VARN, std::to_string(static_cast<long long>(zIndex)));
 
-	nodeRootPlus->addChild(nodeMinus1);
-	nodeRootPlus->addChild(nodeZ);
-	ast->setSibling(nodeMinus1, nodeZ);
+    nodeRootPlus->addChild(nodeMinus1);
+    nodeRootPlus->addChild(nodeZ);
+    ast->setSibling(nodeMinus1, nodeZ);
 
-	nodeMinus1->addChild(nodePlus);
-	nodeMinus1->addChild(nodeD);
-	ast->setSibling(nodePlus, nodeD);
+    nodeMinus1->addChild(nodePlus);
+    nodeMinus1->addChild(nodeD);
+    ast->setSibling(nodePlus, nodeD);
 
-	nodePlus->addChild(nodeMinus2);
-	nodePlus->addChild(nodeC);
-	ast->setSibling(nodeMinus2, nodeC);
+    nodePlus->addChild(nodeMinus2);
+    nodePlus->addChild(nodeC);
+    ast->setSibling(nodeMinus2, nodeC);
 
-	nodeMinus2->addChild(nodeA);
-	nodeMinus2->addChild(nodeB);
-	ast->setSibling(nodeA, nodeB);
-	
-	VARINDEX left = PKB::getPKB()->getVarTable()->insertVar("left");	
-	TNode* leftNode = (*ast).createTNode(VARN, std::to_string(static_cast<long long>(left)));
-	TNode* assignNode = (*ast).createTNode(ASSIGNN, "");
-	(*ast).setStmtLine(assignNode, 3);
-	assignNode->addChild(leftNode);
-	assignNode->addChild(nodeRootPlus);
-	(*ast).setSibling(leftNode, nodeRootPlus);
-	
-	CPPUNIT_ASSERT(ast->matchRightPattern(3, "a-b", false));
-	CPPUNIT_ASSERT(ast->matchRightPattern(3, "a-b+c-d+z", true));
-	CPPUNIT_ASSERT(ast->matchRightPattern(3, "a-b+c", false));
-	CPPUNIT_ASSERT(ast->matchRightPattern(3, "a-b+c-d", false));
-	CPPUNIT_ASSERT(ast->matchRightPattern(3, "a", false));
-	CPPUNIT_ASSERT(!ast->matchRightPattern(3, "a-b", true));
-	CPPUNIT_ASSERT(!ast->matchRightPattern(3, "b+c", false));
-	CPPUNIT_ASSERT(!ast->matchRightPattern(3, "c-d", false));
-	CPPUNIT_ASSERT(!ast->matchRightPattern(3, "d+z", false));
-	CPPUNIT_ASSERT(!ast->matchRightPattern(3, "d+z", true));
-	
+    nodeMinus2->addChild(nodeA);
+    nodeMinus2->addChild(nodeB);
+    ast->setSibling(nodeA, nodeB);
+
+    VARINDEX left = PKB::getPKB()->getVarTable()->insertVar("left");
+    TNode* leftNode = (*ast).createTNode(VARN, std::to_string(static_cast<long long>(left)));
+    TNode* assignNode = (*ast).createTNode(ASSIGNN, "");
+    (*ast).setStmtLine(assignNode, 3);
+    assignNode->addChild(leftNode);
+    assignNode->addChild(nodeRootPlus);
+    (*ast).setSibling(leftNode, nodeRootPlus);
+
+    CPPUNIT_ASSERT(ast->matchRightPattern(3, "a-b", false));
+    CPPUNIT_ASSERT(ast->matchRightPattern(3, "a-b+c-d+z", true));
+    CPPUNIT_ASSERT(ast->matchRightPattern(3, "a-b+c", false));
+    CPPUNIT_ASSERT(ast->matchRightPattern(3, "a-b+c-d", false));
+    CPPUNIT_ASSERT(ast->matchRightPattern(3, "a", false));
+    CPPUNIT_ASSERT(!ast->matchRightPattern(3, "a-b", true));
+    CPPUNIT_ASSERT(!ast->matchRightPattern(3, "b+c", false));
+    CPPUNIT_ASSERT(!ast->matchRightPattern(3, "c-d", false));
+    CPPUNIT_ASSERT(!ast->matchRightPattern(3, "d+z", false));
+    CPPUNIT_ASSERT(!ast->matchRightPattern(3, "d+z", true));
 }
 
 void ASTTest::testMatchRightPatternConst() {
+    TNode* node = (*ast).createTNode(PLUSN, "");
 
-
-	TNode* node = (*ast).createTNode(PLUSN, "");
-
-	VARINDEX vx = PKB::getPKB()->getVarTable()->insertVar("x");	
+    VARINDEX vx = PKB::getPKB()->getVarTable()->insertVar("x");
     TNode* nodeSiblingLeft = (*ast).createTNode(VARN, std::to_string(static_cast<long long>(vx)));
 
     TNode* nodeSiblingRight = (*ast).createTNode(CONSTN, std::to_string(static_cast<long long>(1)));
 
-	VARINDEX left = PKB::getPKB()->getVarTable()->insertVar("left");	
-	TNode* leftNode = (*ast).createTNode(VARN, std::to_string(static_cast<long long>(left)));
-	TNode* assignNode = (*ast).createTNode(ASSIGNN, "");
+    VARINDEX left = PKB::getPKB()->getVarTable()->insertVar("left");
+    TNode* leftNode = (*ast).createTNode(VARN, std::to_string(static_cast<long long>(left)));
+    TNode* assignNode = (*ast).createTNode(ASSIGNN, "");
 
-	(*ast).setStmtLine(assignNode, 2);
-	assignNode->addChild(leftNode);
-	assignNode->addChild(node);
+    (*ast).setStmtLine(assignNode, 2);
+    assignNode->addChild(leftNode);
+    assignNode->addChild(node);
 
-	node->addChild(nodeSiblingLeft);
-	node->addChild(nodeSiblingRight);
+    node->addChild(nodeSiblingLeft);
+    node->addChild(nodeSiblingRight);
 
     CPPUNIT_ASSERT((*ast).matchRightPattern(2, "x + 1", true));
-	CPPUNIT_ASSERT((*ast).matchRightPattern(2, "x+1", true));
+    CPPUNIT_ASSERT((*ast).matchRightPattern(2, "x+1", true));
 }

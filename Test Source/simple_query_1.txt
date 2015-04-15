@@ -110,7 +110,7 @@ Select a pattern a (_,"x + 2")
 5000
 23 - Pattern2
 assign a;
-Select a pattern a (_,"_x + 2_")
+Select a pattern a (_,_"x + 2"_)
 5
 5000
 24 - Pattern3
@@ -120,6 +120,6 @@ Select a pattern a (_,"a + b")
 5000
 25 - Pattern4
 assign a;
-Select a pattern a (_,"_a + b_")
+Select a pattern a (_,_"a + b"_)
 7,10,12
 5000

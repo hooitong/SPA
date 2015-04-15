@@ -1,7 +1,6 @@
 #include "QueryTree.h"
-#include <vector>
 
-using namespace std;
+#include <vector>
 
 QueryTree::QueryTree(void) {
 }
@@ -31,5 +30,5 @@ QNode* QueryTree::getRoot(void) {
 }
 
 bool QueryTree::isEqual(QueryTree* anotherTree) {
-	return this->getRoot()->isEqualSubtree(anotherTree->getRoot());
+    return this->getRoot()->isEqualSubtree(anotherTree->getRoot());
 }

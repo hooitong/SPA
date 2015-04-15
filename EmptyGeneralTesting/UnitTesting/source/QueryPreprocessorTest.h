@@ -4,7 +4,7 @@
 
 #include "QueryPreprocessor.h"
 
-class QueryPreprocessorTest : public CPPUNIT_NS::TestFixture{
+class QueryPreprocessorTest : public CPPUNIT_NS::TestFixture {
 
 	CPPUNIT_TEST_SUITE(QueryPreprocessorTest);
 	CPPUNIT_TEST(testNoCondition);
@@ -34,7 +34,8 @@ class QueryPreprocessorTest : public CPPUNIT_NS::TestFixture{
     CPPUNIT_TEST_SUITE_END();
 
   private:
-	  QueryPreprocessor* queryTest;
+    QueryPreprocessor* queryTest;
+
   public:
     void setUp();
     void tearDown();

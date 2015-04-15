@@ -1,7 +1,6 @@
 #pragma once
 
 #include "GlobalType.h"
-#include "ConstTable.h"
 #include "VarTable.h"
 #include "AST.h"
 #include "Follows.h"

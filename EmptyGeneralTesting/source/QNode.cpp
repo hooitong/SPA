@@ -1,9 +1,8 @@
 #include "QNode.h"
-#include "GlobalType.h"
-#include <iostream>
+
 #include <vector>
 
-using namespace std;
+#include "GlobalType.h"
 
 QNode::QNode(void) {
 }
@@ -33,19 +32,19 @@ void QNode::addChild(QNode* node) {
 }
 
 bool QNode::isEqualSubtree(QNode* node) {
-	/*std::cout << node->name << " " << this->name << endl;
-	std::cout << node->type << " " << this->type << endl;
-	std::cout << node->childrenNodes.size() << " " << this->childrenNodes.size() << endl;*/
-	if (this->name != node->name || this->type != node->type) {
-		return false;
-	}
-	if (this->childrenNodes.size() != node->childrenNodes.size()) {
-		return false;
-	}
-	for (int i = 0; i < (int)node->childrenNodes.size(); ++i) {
-		if (!(this->childrenNodes[i])->isEqualSubtree(node->childrenNodes[i])) {
-			return false;
-		}
-	}
-	return true;
+    /*std::cout << node->name << " " << this->name << endl;
+    std::cout << node->type << " " << this->type << endl;
+    std::cout << node->childrenNodes.size() << " " << this->childrenNodes.size() << endl;*/
+    if (this->name != node->name || this->type != node->type) {
+        return false;
+    }
+    if (this->childrenNodes.size() != node->childrenNodes.size()) {
+        return false;
+    }
+    for (int i = 0; i < (int)node->childrenNodes.size(); ++i) {
+        if (!(this->childrenNodes[i])->isEqualSubtree(node->childrenNodes[i])) {
+            return false;
+        }
+    }
+    return true;
 }

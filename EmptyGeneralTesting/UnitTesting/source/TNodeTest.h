@@ -1,8 +1,9 @@
 #pragma once
 
 #include <cppunit/extensions/HelperMacros.h>
-#include <TNode.h>
-#include <VarTable.h>
+
+#include "TNode.h"
+#include "VarTable.h"
 
 class TNodeTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(TNodeTest);
@@ -22,7 +23,7 @@ class TNodeTest : public CPPUNIT_NS::TestFixture {
     TNode* node;
     TNode* nodePlus;
     TNode* nodeParent;
-	VarTable* vTable;
+    VarTable* vTable;
 
   public:
     void setUp();

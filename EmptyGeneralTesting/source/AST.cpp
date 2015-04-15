@@ -2,6 +2,7 @@
 
 #include <stack>
 #include <stdlib.h>
+
 #include "Parser.h"
 #include "PKB.h"
 
@@ -124,8 +125,8 @@ bool AST::matchRightPattern(STMTLINE stmtRoot, std::string expression, bool stri
 
     TNode* astNode = childList[1];
     TNode* queryExpression = Parser::buildExprAST(expression);
-	if(queryExpression == nullptr)
-		return false;
+    if(queryExpression == nullptr)
+        return false;
 
     vector<TNode*> depthTraversalOfAstNode = getDFS(astNode);
     vector<TNode*> depthTraversalOfQuery = getDFS(queryExpression);
@@ -156,7 +157,7 @@ string AST::convertTNodeListValueToString(vector<TNode*> nodes) {
             VARINDEX v = std::atoi(getValue(currentNode).c_str());
             result += "|" + PKB::getPKB()->getVarTable()->getVarName(v) + "|";
         } else if (currentNode->getTType() == CONSTN) {
-            result += "|" + getValue(currentNode) + "|"; 
+            result += "|" + getValue(currentNode) + "|";
         } else {
             // error with parsing the expression tree / invalid expression tree
         }

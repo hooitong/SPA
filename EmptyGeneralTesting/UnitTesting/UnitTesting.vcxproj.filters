@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="QueryTreeTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\ASTTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -34,9 +31,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\ParserTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ProcTableTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\QueryEvaluatorTest.h">
@@ -78,9 +72,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\ParserTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ProcTableTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\QueryEvaluatorTest.cpp">
