@@ -320,6 +320,12 @@ void QueryPreprocessorTest::testUses(){
 	CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
 
+void QueryPreprocessorTest::testUsesInvalid() {
+    queryTest = new QueryPreprocessor();
+    QueryTree* achieved = queryTest->parseQuery("stmt s; Select s such that Uses(_,s)");
+    CPPUNIT_ASSERT(achieved == NULL);
+}
+
 void QueryPreprocessorTest::testInvalidQuery() {
     queryTest = new QueryPreprocessor();
     QueryTree* achieved = queryTest->parseQuery("Select");

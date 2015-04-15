@@ -25,6 +25,7 @@ class QueryPreprocessorTest : public CPPUNIT_NS::TestFixture {
 	CPPUNIT_TEST(testPatternInvalid4);
 	CPPUNIT_TEST(testPatternInvalid5);
 	CPPUNIT_TEST(testUses);
+	CPPUNIT_TEST(testUsesInvalid);
 	CPPUNIT_TEST(testInvalidNotDeclared);
 	CPPUNIT_TEST(testInvalidNotDeclared2);
 	//BONUS. NOT IN CS3201
@@ -56,6 +57,7 @@ class QueryPreprocessorTest : public CPPUNIT_NS::TestFixture {
 	void testPatternInvalid4();
 	void testPatternInvalid5();
 	void testUses();
+	void testUsesInvalid();
 	void testInvalidQuery();
 	void testInvalidNotDeclared();
 	void testInvalidNotDeclared2();

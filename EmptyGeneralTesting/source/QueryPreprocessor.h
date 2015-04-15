@@ -52,6 +52,7 @@ class QueryPreprocessor {
     QNode* parseStmtRef(string argument);
     QNode* parseVarRef(string argument);
     QNode* parseEntRef(string argument);
+	QNode* parseEntRefNoUnderscore(string argument);
 
   private:
     map<int, int> posOfConds;

@@ -305,6 +305,13 @@ QNode* QueryPreprocessor::parseEntRef(string argument) {
     return NULL;
 }
 
+QNode* QueryPreprocessor::parseEntRefNoUnderscore(string argument) {
+	if (argument == "_") {
+		return NULL;
+	}
+	return parseEntRef(argument);
+}
+
 /**************************Use Declaration *********************************/
 bool QueryPreprocessor::existsRef(string reference) {
     for(size_t i = 0; i<refDeclared.size(); i++) {
@@ -349,10 +356,10 @@ bool QueryPreprocessor::checkRelation(string relation) {
     QNode* rightHandSide;
 
     if (relationType == "Modifies") {
-        leftHandSide = parseEntRef(argument1);
+        leftHandSide = parseEntRefNoUnderscore(argument1);
         rightHandSide = parseVarRef(argument2);
     } else if (relationType == "Uses") {
-        leftHandSide = parseEntRef(argument1);
+        leftHandSide = parseEntRefNoUnderscore(argument1);
         rightHandSide = parseVarRef(argument2);
     } else if (relationType == "Parent" || relationType == "Parent*") {
         leftHandSide = parseStmtRef(argument1);
