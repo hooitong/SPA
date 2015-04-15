@@ -151,54 +151,54 @@ Select a such that Follows(a,2) and Parent(3,4)
 31 - Advanced
 assign a; stmt s
 Select a such that Follows*(1,a) and Follows(6,s)
-2,12
+none
 5000
-31 - Advanced
+32 - Advanced
 assign a;
 Select a such that Uses(a,"x") and Modifies(a,"x")
 5,6
 5000
-32 - Advanced
+33 - Advanced
 stmt s;
 Select s such that Parent(9,s) and Modifies(s,"y")
 none
 5000
-33 - Advanced
+34 - Advanced
 assign a;
 Select a such that Follows*(4,a) and Uses(a,"x")
 5,6
 5000
-34 - Advanced
+35 - Advanced
 assign a;
 Select a such that Follows(10,a) and Parent*(9,a)
 11
 5000
-35 - Advanced
+36 - Advanced
 assign a;
 Select a such that Follows*(4,a) and pattern a("x",_"x"_)
 5,6
 5000
-36 - Advanced
+37 - Advanced
 assign a;
 Select a such that Follows*(1,a) and pattern a(_,_"b"_)
 7,8,12
 5000
-37 - Advanced
+38 - Advanced
 assign a;
 Select a such that Parent(3,4) and pattern a(_,_"1"_)
 4,6,8,11
 5000
-38 - Advanced
+39 - Advanced
 assign a;
-Select a such that Parent*(9,a) and pattern a("a","b-1")
+Select a such that Parent*(9,a) and pattern a("b","b-1")
 11
 5000
-39 - Advanced
+40 - Advanced
 assign a; 
 Select a such that Parent(3,a) and pattern a(_,_"b+11"_)
 none
 5000
-40 - Advanced 
+41 - Advanced 
 assign a
 Select a such that Parent(1,2) and pattern a(_,_)
 none
