@@ -183,9 +183,8 @@ stmt s;
 Select s such that Modifies(_,s)
 none
 5000
-
 37 - UnderScoreUses
 stmt s;
 Select s such that Uses(s,_)
-none
+2,3,4,5,6,7,8,9,10
 5000
