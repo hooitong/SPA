@@ -696,7 +696,9 @@ TType QueryEvaluator::synonymToTType(QNodeType type) {
         return PROCEDUREN;
     } else if (type == STMTSYNONYM) {
         return STMTN;
-    }
+    } else if (type == PROGLINESYNONYM) {
+		return STMTN;
+	}
 }
 
 bool QueryEvaluator::isSynonym(QNodeType type) {
