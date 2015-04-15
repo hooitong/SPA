@@ -3,123 +3,203 @@ stmt s;
 Select s such that Parent(s, 4)
 3
 5000
-2 - ParentTest2
+2 - ParentTest
 stmt s;stmt s1;
 Select s such that Parent(s,6)
 3
 5000
-3 - ParentStar
+3 - ParentTest
+stmt s;
+Select s such that Parent(9, s)
+10,11
+5000
+4 - ParentStar
 stmt s;
 Select s such that Parent*(s,4)
 3
 5000
-4 - ParentStar2
+5 - ParentStar
 stmt s;
 Select s such that Parent*(s,6)
 3
 5000
-5 - Follows 
+6 - ParentStar
+stmt s;
+Select s such that Parent*(3,s)
+4,5,6
+5000
+7 - Follows 
 stmt s;stmt n;
 Select s such that Follows(s,2)
 1
 5000
-6 - Follows2
+8 - Follows
 stmt s; stmt n;
 Select s such that Follows(4,n)
 1,2,3,4,5,6,7,8,9,10,11,12
 5000
-7 - FollowsStar
+9 - Follows
+stmt s;
+Select s such that Follows(11,s)
+none
+5000
+10 - FollowsStar
 stmt s; stmt n;
 Select s such that Follows*(4,n)
 1,2,3,4,5,6,7,8,9,10,11,12
 5000
-8 - FollowsStar2
+11 - FollowsStar
 stmt n; while w;
 Select n such that Follows*(w,n)
 7,8,9,12
 5000
-9 - FollowsStar3
+12 - FollowsStar
 prog_line n; while w;
 Select w such that Follows*(w,4)
 none
 5000
-10 - Pattern 
+13 - Pattern 
 assign a;
 Select a pattern a ("z", _)
 2,4
 5000
-11 - Pattern2
+14 - Pattern
 assign a;
 Select a pattern a("b", _)
 8,11
 5000
-12 - Pattern3
+15 - Pattern
 assign a;
 Select a pattern a("a", _)
 7,10
 5000
-13 - Modifies
+16 - Modifies
 stmt s;
 Select s such that Modifies (s,"z")
 2,3,4
 5000
-14 - Modifies2 
+17 - Modifies 
 variable v;
 Select v such that Modifies (4, v)
 z
 5000
-15 - Modifies3
+18 - Modifies
 while w; 
 Select w such that Modifies (w,"x")
 3
 5000
-16 - Modifies4 
+19 - Modifies 
 stmt s;
 Select s such that Modifies (s, _)
 1,2,3,4,5,6,7,8,9,10,11,12
 5000
-17 - Uses 
+20 - Uses 
 stmt s;
 Select s such that Uses(s,"x")
 3,5,6,12
 5000
-18 - Uses2
+21 - Uses
 stmt s;
 Select s such that Uses(s,"b")
 7,8,9,10,11,12
 5000
-19 - Follows
+22 - Uses
+stmt s;
+Select s such that Uses(s, "z")
+3,4,12
+5000
+23 - Follows
 stmt s;
 Select s such that Follows (2,3)
 1,2,3,4,5,6,7,8,9,10,11,12
 5000
-20 - Follows2
+24 - Follows
 assign a;
 Select a such that Follows (a, 3)
 2
 5000
-21 - ParentTest3
+25 - ParentTest
 stmt s;
 Select s such that Parent (s, 4)
 3
 5000
-22 - Pattern 
+26 - Pattern 
 assign a;
 Select a pattern a (_,"x + 2")
 5
 5000
-23 - Pattern2
+27 - Pattern
 assign a;
 Select a pattern a (_,_"x + 2"_)
 5
 5000
-24 - Pattern3
+28 - Pattern
 assign a;
 Select a pattern a (_,"a + b")
 7,10
 5000
-25 - Pattern4
+29 - Pattern
 assign a;
 Select a pattern a (_,_"a + b"_)
 7,10,12
+5000
+30 - Advanced
+assign a;
+Select a such that Follows(a,2) and Parent(3,4)
+1
+5000
+31 - Advanced
+assign a; stmt s
+Select a such that Follows*(1,a) and Follows(6,s)
+2,12
+5000
+31 - Advanced
+assign a;
+Select a such that Uses(a,"x") and Modifies(a,"x")
+5,6
+5000
+32 - Advanced
+stmt s;
+Select s such that Parent(9,s) and Modifies(s,"y")
+none
+5000
+33 - Advanced
+assign a;
+Select a such that Follows*(4,a) and Uses(a,"x")
+5,6
+5000
+34 - Advanced
+assign a;
+Select a such that Follows(10,a) and Parent*(9,a)
+11
+5000
+35 - Advanced
+assign a;
+Select a such that Follows*(4,a) and pattern a("x",_"x"_)
+5,6
+5000
+36 - Advanced
+assign a;
+Select a such that Follows*(1,a) and pattern a(_,_"b"_)
+7,8,12
+5000
+37 - Advanced
+assign a;
+Select a such that Parent(3,4) and pattern a(_,_"1"_)
+4,6,8,11
+5000
+38 - Advanced
+assign a;
+Select a such that Parent*(9,a) and pattern a("a","b-1")
+11
+5000
+39 - Advanced
+assign a; 
+Select a such that Parent(3,a) and pattern a(_,_"b+11"_)
+none
+5000
+40 - Advanced 
+assign a
+Select a such that Parent(1,2) and pattern a(_,_)
+none
 5000
