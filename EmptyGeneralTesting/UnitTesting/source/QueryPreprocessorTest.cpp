@@ -293,6 +293,33 @@ void QueryPreprocessorTest::testProgLine() {
     CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
 
+void QueryPreprocessorTest::testUses(){
+	queryTest = new QueryPreprocessor();
+	QueryTree* achieved = queryTest->parseQuery("stmt s; Select s such that Uses(s,_)");
+	CPPUNIT_ASSERT(achieved != NULL);
+	QueryTree* expected = new QueryTree();
+	QNode* expectedRoot = expected->createNode(QUERY,"");
+	QNode* expectedResultList = expected->createNode(RESULTLIST,"");
+	QNode* expectedSuchThatList = expected->createNode(SUCHTHATLIST,"");
+	QNode* expectedPatternList = expected->createNode(PATTERNLIST,"");
+	expected->setAsRoot(expectedRoot);
+	expected->addChild(expectedRoot,expectedResultList);
+	expected->addChild(expectedRoot,expectedSuchThatList);
+	expected->addChild(expectedRoot,expectedPatternList);
+
+	QNode* expectedResult = expected->createNode(STMTSYNONYM,"s");
+	expected->addChild(expectedResultList,expectedResult);
+
+	QNode* expectedUsesNode = expected->createNode(RELATION,"Uses");
+	QNode* expectedUsesChild1 = expected->createNode(STMTSYNONYM,"s");
+	QNode* expectedUsesChild2 = expected->createNode(ANY,"");
+	expected->addChild(expectedUsesNode,expectedUsesChild1);
+	expected->addChild(expectedUsesNode,expectedUsesChild2);
+	expected->addChild(expectedSuchThatList,expectedUsesNode);
+	
+	CPPUNIT_ASSERT(achieved->isEqual(expected));
+}
+
 void QueryPreprocessorTest::testInvalidQuery() {
     queryTest = new QueryPreprocessor();
     QueryTree* achieved = queryTest->parseQuery("Select");
