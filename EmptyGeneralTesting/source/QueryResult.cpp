@@ -39,17 +39,30 @@ QueryResult::QueryResult(vector<int> results, string synonym) {
 }
 
 QueryResult::QueryResult(vector<pair<int, int> > results, string synonym1, string synonym2) {
-    this->numSynonyms = 2;
-    this->synonyms.clear();
-    this->synonyms.push_back(synonym1);
-    this->synonyms.push_back(synonym2);
+	if (synonym1 == synonym2) {
+		this->numSynonyms = 1;
+		this->synonyms.clear();
+		this->synonyms.push_back(synonym1);
+		for (int i = 0; i < results.size(); i++) {
+			if (results[i].first == results[i].second) {
+				R_TUPLE tuple;
+				tuple.push_back(results[i].first);
+				this->addSolution(tuple);
+			}
+		}
+	} else {
+		this->numSynonyms = 2;
+		this->synonyms.clear();
+		this->synonyms.push_back(synonym1);
+		this->synonyms.push_back(synonym2);
 
-    for (int i = 0; i < (int)results.size(); i++) {
-        R_TUPLE tuple;
-        tuple.push_back(results[i].first);
-        tuple.push_back(results[i].second);
-        this->addSolution(tuple);
-    }
+		for (int i = 0; i < (int)results.size(); i++) {
+			R_TUPLE tuple;
+			tuple.push_back(results[i].first);
+			tuple.push_back(results[i].second);
+			this->addSolution(tuple);
+		}
+	}
 }
 
 void QueryResult::append(QueryResult result2) {
