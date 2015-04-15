@@ -30,9 +30,6 @@
     <ClCompile Include="..\source\Follows.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\Modifies.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
