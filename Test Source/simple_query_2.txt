@@ -135,12 +135,12 @@ Select s such that Uses(s,v) and Modifies (s,v);
 5000
 27 - Advance
 stmt s;while w;assign a;
-Select a such that Follows*(w,a) and pattern a(_, _"c"_)
+Select a such that Follows*(w,a) pattern a(_, _"c"_)
 10
 5000
 28 - Advance
 stmt s;while w;assign a;
-Select a such that Parent(w,a) and pattern a(_, "c+b")
+Select a such that Parent(w,a) pattern a(_, "c+b")
 5
 5000
 29 -  Advance //shouldnt prog line be the same?

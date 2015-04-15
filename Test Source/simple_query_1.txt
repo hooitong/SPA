@@ -175,31 +175,31 @@ Select a such that Follows(10,a) and Parent*(9,a)
 5000
 36 - Advanced
 assign a;
-Select a such that Follows*(4,a) and pattern a("x",_"x"_)
+Select a such that Follows*(4,a) pattern a("x",_"x"_)
 5,6
 5000
 37 - Advanced
 assign a;
-Select a such that Follows*(1,a) and pattern a(_,_"b"_)
+Select a such that Follows*(1,a) pattern a(_,_"b"_)
 7,8,12
 5000
 38 - Advanced
 assign a;
-Select a such that Parent(3,4) and pattern a(_,_"1"_)
+Select a such that Parent(3,4) pattern a(_,_"1"_)
 4,6,8,11
 5000
 39 - Advanced
 assign a;
-Select a such that Parent*(9,a) and pattern a("b","b-1")
+Select a such that Parent*(9,a) pattern a("b","b-1")
 11
 5000
 40 - Advanced
 assign a; 
-Select a such that Parent(3,a) and pattern a(_,_"b+11"_)
+Select a such that Parent(3,a) pattern a(_,_"b+11"_)
 none
 5000
 41 - Advanced 
 assign a
-Select a such that Parent(1,2) and pattern a(_,_)
+Select a such that Parent(1,2) pattern a(_,_)
 none
 5000
