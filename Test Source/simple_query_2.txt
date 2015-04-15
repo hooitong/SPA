@@ -153,3 +153,39 @@ stmt s; assign a; variable v;
 Select v such that Modifies(a, v) and Follows(a, s)
 a,b,c
 5000
+31 - UnderScoreParent
+stmt s;
+Select s such that Parent(_,s)
+5,6,7,8,9
+5000
+32 - UnderScoreParent
+stmt s;
+Select s such that Parent(s,_)
+4,7
+5000
+33 - UnderScoreFollows
+stmts s;
+Select s such that Follows(_,s)
+none
+5000
+34 - UnderScoreFollows
+stmts s;
+Select s such that Follows(s,_)
+none
+5000
+35 - UnderScoreModifies
+stmt s;
+Select s such that Modifies(s,_)
+1,2,3,4,5,6,7,8,9,10
+5000
+36 - UnderScoreModifies
+stmt s;
+Select s such that Modifies(_,s)
+none
+5000
+
+37 - UnderScoreUses
+stmt s;
+Select s such that Uses(s,_)
+none
+5000
