@@ -13,3 +13,9 @@ If there is error such as
 >could not open source file "TNode.h"
 
 Right click SPA > Properties > C/C++ > General > Additonal Include Directories > select the respective directory to the source folder.
+
+###How to Build and Test
+In VS2010, check whether you want to build in debug mode or release mode. After that, proceed to build the solution. You should find the .exe in the Debug/Release folder.
+
+Ensure that you have sample_source.txt for unit testing and integration.txt for integration testing in the same folder before you run.
+For the AutoTester, follow the guide provided to pass in the source and query file and specify the output file.
