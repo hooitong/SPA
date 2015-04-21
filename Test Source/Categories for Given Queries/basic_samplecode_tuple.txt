@@ -1,0 +1,30 @@
+1 - Follows1L
+stmt a, p1, p2, p3, p4;
+Select <a,p1, p2, p3, p4> such that Parent(p4, p3) and Parent(p3, p2) and Parent(p2, p1) and Parent(p1, a) and Modifies(a, "Romeo")
+13 12 11 9 5, 12 11 9 5 4
+5000
+2 - Follows2L
+assign a; stmt p1, p2, p3, p4;
+Select <a,p1, p2, p3, p4> such that Parent(p4, p3) and Parent(p3, p2) and Parent(p2, p1) and Parent(p1, a) and Modifies(a, "Romeo")
+13 12 11 9 5
+5000
+3 - Follows3L
+assign a; stmt p1, p2, p3, p4;
+Select <a,p1, p2, p3, p4> such that Parent*(p4, p3) and Parent*(p3, p2) and Parent*(p2, p1) and Parent*(p1, a) and Modifies(a, "Romeo")
+13 12 11 9 5, 13 12 11 9 4, 13 12 11 5 4, 13 12 9 5 4, 13 11 9 5 4
+5000
+4 - Follows4L
+assign a; stmt p1, p2, p3, p4; variable x;
+Select    <      a ,         x> such that Parent*(p4, p3) and Parent*(p3, p2) and Parent*(p2, p1) and Parent*(p1, a) and Modifies(a, x)
+13 Romeo, 14 b, 15 c, 17 c, 18 x
+5000
+5 - Follows5L
+assign a; stmt p1, p2, p3, p4; variable x;
+Select a, x such that Parent*(p4, p3) and Parent*(p3, p2) and Parent*(p2, p1) and Parent*(p1, a) and Modifies(a, x)
+none
+5000
+6 - Follows6L
+assign a; stmt p1, p2, p3, p4; variable x;
+Select <a x> such that Parent*(p4, p3) and Parent*(p3, p2) and Parent*(p2, p1) and Parent*(p1, a) and Modifies(a, x)
+none
+5000
