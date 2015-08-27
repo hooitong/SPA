@@ -1,4 +1,5 @@
 #include "QueryEvaluator.h"
+#include "FollowsEvaluator.h"
 
 QueryEvaluator::QueryEvaluator(PKB* pkb) {
     pkbInstance = pkb;
@@ -161,83 +162,8 @@ QueryResult QueryEvaluator::solveRelation(QNode* node) {
 
 
 QueryResult QueryEvaluator::solveFollows(QNode* node) {
-    assert(node->getQType() == RELATION && node->getString() == "Follows");
-    QNode* leftChild = node->getChildren()[0];
-    QNode* rightChild = node->getChildren()[1];
-    if (leftChild->getQType() == ANY) {
-        vector <STMTLINE> statements = pkbInstance->getAst()->getStmtLines(STMTN);
-        vector <QueryResult> results;
-        for (int i = 0; i < (int) statements.size(); i++) {
-            stringstream s;
-            s << statements[i];
-            QNode* node = new QNode(RELATION, "Follows");
-            QNode* newLeftChild = new QNode(CONST, s.str());
-            QNode* newRightChild = new QNode(rightChild->getQType(), rightChild->getString());
-            node->addChild(newLeftChild);
-            node->addChild(newRightChild);
-            results.push_back(solveFollows(node));
-            delete newLeftChild;
-            delete newRightChild;
-            delete node;
-        }
-        for (int j = 1; j < (int) results.size(); j++) {
-            results[0].append(results[j]);
-        }
-        return results[0];
-    }
-    if (rightChild->getQType() == ANY) {
-        vector <STMTLINE> statements = pkbInstance->getAst()->getStmtLines(STMTN);
-        vector <QueryResult> results;
-        for (int i = 0; i < (int) statements.size(); i++) {
-            stringstream s;
-            s << statements[i];
-            QNode* node = new QNode(RELATION, "Follows");
-            QNode* newLeftChild = new QNode(leftChild->getQType(), leftChild->getString());
-            QNode* newRightChild = new QNode(CONST, s.str());
-            node->addChild(newLeftChild);
-            node->addChild(newRightChild);
-            results.push_back(solveFollows(node));
-            delete newLeftChild;
-            delete newRightChild;
-            delete node;
-        }
-        for (int j = 1; j < (int) results.size(); j++) {
-            results[0].append(results[j]);
-        }
-        return results[0];
-    }
-    if (isSynonym(leftChild->getQType()) && isSynonym(rightChild->getQType())) {
-        TType type1 = synonymToTType(leftChild->getQType());
-        TType type2 = synonymToTType(rightChild->getQType());
-        return QueryResult(Follows(type1, type2),
-                           leftChild->getString(), rightChild->getString());
-    } else if (isSynonym(leftChild->getQType())) {
-        int line = getInteger(rightChild);
-        int resultLine = pkbInstance->getFollows()->getFollowsFrom(line);
-        TType type = synonymToTType(leftChild->getQType());
-
-        if (resultLine < 0 || (type != STMTN &&
-                               pkbInstance->getAst()->getTNode(resultLine)->getTType() != type)) {
-            return QueryResult(false);
-        } else {
-            return QueryResult(resultLine, leftChild->getString());
-        }
-    } else if (isSynonym(rightChild->getQType())) {
-        int line = getInteger(leftChild);
-        int resultLine = pkbInstance->getFollows()->getFollowedBy(line);
-        TType type = synonymToTType(rightChild->getQType());
-
-        if (resultLine < 0 || (type != STMTN &&
-                               pkbInstance->getAst()->getTNode(resultLine)->getTType() != type)) {
-            return QueryResult(false);
-        } else {
-            return QueryResult(resultLine, rightChild->getString());
-        }
-    } else {
-        int line1 = getInteger(leftChild);
-        int line2 = getInteger(rightChild);
-        return QueryResult(pkbInstance->getFollows()->isFollows(line1, line2));
-    }
+    FollowsEvaluator eval(pkbInstance);
+    return eval.evaluate(node);
 }
 
 QueryResult QueryEvaluator::solveFollowsStar(QNode* node) {

@@ -26,10 +26,12 @@
     <ClInclude Include="..\source\QueryPreprocessor.h" />
     <ClInclude Include="..\source\QueryResult.h" />
     <ClInclude Include="..\source\QueryTree.h" />
+    <ClInclude Include="..\source\RelationEvaluator.h" />
     <ClInclude Include="..\source\SPAFrontEnd.h" />
     <ClInclude Include="..\source\TNode.h" />
     <ClInclude Include="..\source\Uses.h" />
     <ClInclude Include="..\source\VarTable.h" />
+    <ClInclude Include="..\source\FollowsEvaluator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\AST.cpp" />
@@ -46,10 +48,12 @@
     <ClCompile Include="..\source\QueryPreprocessor.cpp" />
     <ClCompile Include="..\source\QueryResult.cpp" />
     <ClCompile Include="..\source\QueryTree.cpp" />
+    <ClCompile Include="..\source\RelationEvaluator.cpp" />
     <ClCompile Include="..\source\SPAFrontEnd.cpp" />
     <ClCompile Include="..\source\TNode.cpp" />
     <ClCompile Include="..\source\Uses.cpp" />
     <ClCompile Include="..\source\VarTable.cpp" />
+    <ClCompile Include="..\source\FollowsEvaluator.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DC21A1EA-D2C6-4D14-A2B4-E025B64BDE81}</ProjectGuid>
