@@ -1,3 +1,5 @@
+#pragma once
+
 #include <QNode.h>
 #include <QueryResult.h>
 #include <PKB.h>

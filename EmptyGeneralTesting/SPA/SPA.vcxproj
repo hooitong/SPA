@@ -15,6 +15,7 @@
     <ClInclude Include="..\source\DesignExtractor.h" />
     <ClInclude Include="..\source\Exception.h" />
     <ClInclude Include="..\source\Follows.h" />
+    <ClInclude Include="..\source\FollowsStarEvaluator.h" />
     <ClInclude Include="..\source\GlobalType.h" />
     <ClInclude Include="..\source\Modifies.h" />
     <ClInclude Include="..\source\Parent.h" />
@@ -38,6 +39,7 @@
     <ClCompile Include="..\source\DesignExtractor.cpp" />
     <ClCompile Include="..\source\Exception.cpp" />
     <ClCompile Include="..\source\Follows.cpp" />
+    <ClCompile Include="..\source\FollowsStarEvaluator.cpp" />
     <ClCompile Include="..\source\Modifies.cpp" />
     <ClCompile Include="..\source\Parent.cpp" />
     <ClCompile Include="..\source\Parser.cpp" />

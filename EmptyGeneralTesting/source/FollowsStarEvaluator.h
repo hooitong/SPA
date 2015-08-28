@@ -5,11 +5,11 @@
 #include <QNode.h>
 #include <RelationEvaluator.h>
 
-class FollowsEvaluator : RelationEvaluator
+class FollowsStarEvaluator : RelationEvaluator
 {
   public:
     QueryResult evaluate(QNode* node);
-    FollowsEvaluator(PKB* pkb): RelationEvaluator(pkb) {}
+    FollowsStarEvaluator(PKB* pkb): RelationEvaluator(pkb) {}
   private:
     QueryResult evaluateSynSyn(QNode* node);
     QueryResult evaluateSynConst(QNode* node);
