@@ -19,6 +19,7 @@
     <ClInclude Include="..\source\GlobalType.h" />
     <ClInclude Include="..\source\Modifies.h" />
     <ClInclude Include="..\source\Parent.h" />
+    <ClInclude Include="..\source\ParentEvaluator.h" />
     <ClInclude Include="..\source\Parser.h" />
     <ClInclude Include="..\source\ParsingToken.h" />
     <ClInclude Include="..\source\PKB.h" />
@@ -42,6 +43,7 @@
     <ClCompile Include="..\source\FollowsStarEvaluator.cpp" />
     <ClCompile Include="..\source\Modifies.cpp" />
     <ClCompile Include="..\source\Parent.cpp" />
+    <ClCompile Include="..\source\ParentEvaluator.cpp" />
     <ClCompile Include="..\source\Parser.cpp" />
     <ClCompile Include="..\source\ParsingToken.cpp" />
     <ClCompile Include="..\source\PKB.cpp" />
