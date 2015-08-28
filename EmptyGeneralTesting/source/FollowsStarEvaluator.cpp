@@ -82,8 +82,10 @@ QueryResult FollowsStarEvaluator::evaluateConstConst(QNode* node) {
 QueryResult FollowsStarEvaluator::evaluateConstSyn(QNode* node) {
     int leftConst = getInteger(node->getChildren()[0]);
     string rightSynonym = node->getChildren()[1]->getString();
+    TType rightType = synonymToTType(node->getChildren()[1]->getQType());
     Follows* follows = pkb->getFollows();
     vector<int> result = follows->getFollowedByStar(leftConst);
+    result = filter(result, rightType);
     if (result.size() > 0) {
         return QueryResult(result, rightSynonym);
     } else {
@@ -110,6 +112,7 @@ QueryResult FollowsStarEvaluator::evaluateSynConst(QNode* node) {
     TType leftType = synonymToTType(node->getChildren()[0]->getQType());
     int rightConst = getInteger(node->getChildren()[1]);
     vector<int> leftLines = pkb->getFollows()->getFollowsFromStar(rightConst);
+    leftLines = filter(leftLines, leftType);
     if (leftLines.size() > 0) {
         return QueryResult(leftLines, leftSynonym);
     } else {
@@ -128,7 +131,8 @@ QueryResult FollowsStarEvaluator::evaluateSynSyn(QNode* node) {
         vector<STMTLINE> rightLines = 
             pkb->getFollows()->getFollowedByStar(leftLines[i]);
         for (vector<STMTLINE>::size_type j = 0; j < rightLines.size(); j++) {
-            if (pkb->getAst()->getTNode(rightLines[j])->getTType() == rightType) {
+            if (rightType == STMTN || 
+                pkb->getAst()->getTNode(rightLines[j])->getTType() == rightType) {
                 resultVector.push_back(make_pair(leftLines[i], rightLines[j]));
             }
         }

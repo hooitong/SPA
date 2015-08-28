@@ -126,7 +126,8 @@ QueryResult ParentStarEvaluator::evaluateSynSyn(QNode* node) {
         vector<STMTLINE> rightLines = 
             pkb->getParent()->getChildOfStar(leftLines[i]);
         for (vector<STMTLINE>::size_type j = 0; j < rightLines.size(); j++) {
-            if (pkb->getAst()->getTNode(rightLines[j])->getTType() == rightType) {
+            if (rightType == STMTN ||
+                pkb->getAst()->getTNode(rightLines[j])->getTType() == rightType) {
                 resultVector.push_back(make_pair(leftLines[i], rightLines[j]));
             }
         }

@@ -80,7 +80,8 @@ QueryResult ParentEvaluator::evaluateConstConst(QNode* node) {
 QueryResult ParentEvaluator::evaluateConstSyn(QNode* node) {
     int leftConst = getInteger(node->getChildren()[0]);
     string rightSynonym = node->getChildren()[1]->getString();
-    vector<int> result = pkb->getParent()->getChildOf(leftConst);
+    TType type = synonymToTType(node->getChildren()[1]->getQType());
+    vector<int> result = filter(pkb->getParent()->getChildOf(leftConst), type);
     if (result.size() > 0) {
         return QueryResult(result, rightSynonym);
     } else {
@@ -109,6 +110,7 @@ QueryResult ParentEvaluator::evaluateSynConst(QNode* node) {
     int leftLine = pkb->getParent()->getParent(rightConst);
     if (leftLine >= 0) {
         vector <int> resultVector(1, leftLine);
+        resultVector = filter(resultVector, leftType);
         return QueryResult(resultVector, leftSynonym);
     } else {
         return QueryResult(false);
@@ -126,7 +128,8 @@ QueryResult ParentEvaluator::evaluateSynSyn(QNode* node) {
         vector<STMTLINE> rightLines = 
             pkb->getParent()->getChildOf(leftLines[i]);
         for (vector<STMTLINE>::size_type j = 0; j < rightLines.size(); j++) {
-            if (pkb->getAst()->getTNode(rightLines[j])->getTType() == rightType) {
+            if (rightType == STMTN || 
+                pkb->getAst()->getTNode(rightLines[j])->getTType() == rightType) {
                 resultVector.push_back(make_pair(leftLines[i], rightLines[j]));
             }
         }
