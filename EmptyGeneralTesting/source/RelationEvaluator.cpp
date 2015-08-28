@@ -37,3 +37,16 @@ TType RelationEvaluator::synonymToTType(QNodeType type) {
 	    return STMTN;
     }
 }
+
+vector<STMTLINE> RelationEvaluator::filter(vector<STMTLINE> original, TType type) {
+    if (type == STMTN) {
+        return original;
+    }
+    vector<STMTLINE> result;
+    for (vector<STMTLINE>::size_type i = 0; i < original.size(); i++) {
+        if (pkb->getAst()->getTNode(original[i])->getTType() == type) {
+            result.push_back(original[i]);
+        }
+    }
+    return result;
+}
