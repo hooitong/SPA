@@ -441,7 +441,7 @@ bool QueryPreprocessor::checkWhile(string pattern) {
         queryTree->addChild(patternNode,whileSynonymNode);
         queryTree->addChild(patternNode,leftHandSide);
         queryTree->addChild(patternNode,rightHandSide);
-        queryTree->addChild(patternListNode,patternNode);
+        queryTree->addChild(conditionsNode,patternNode);
         return true;
     }
     return false;
@@ -485,7 +485,7 @@ bool QueryPreprocessor::checkIf(string pattern) {
         queryTree->addChild(patternNode,ifSynonymNode);
         queryTree->addChild(patternNode,leftHandSide);
         queryTree->addChild(patternNode,rightHandSide);
-        queryTree->addChild(patternListNode,patternNode);
+        queryTree->addChild(conditionsNode,patternNode);
         return true;
     }
     return false;
