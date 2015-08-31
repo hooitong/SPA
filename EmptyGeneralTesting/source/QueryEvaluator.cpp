@@ -121,19 +121,15 @@ map<string, TType> QueryEvaluator::getSynonymMap(QNode* node) {
 }
 
 QueryResult QueryEvaluator::evaluate(QNode* node) {
-    if (node->getQType() == SUCHTHATLIST ||
-            node->getQType() == WITHLIST ||
-            node->getQType() == PATTERNLIST ||
+    if (node->getQType() == CONDITIONLIST ||
             node->getQType() == QUERY) {
         vector <string> emptySynonym;
         QueryResult result =QueryResult(true);
 
         vector<QNode*> children = node->getChildren();
         for (int i = 0; i < (int)children.size(); i++) {
-            if (children[i]->getQType() == SUCHTHATLIST ||
-                    children[i]->getQType() == WITHLIST ||
+            if (children[i]->getQType() == CONDITIONLIST ||
                     children[i]->getQType() == RELATION ||
-                    children[i]->getQType() == PATTERNLIST ||
                     children[i]->getQType() == PATTERN)
                 result = result.merge(evaluate(children[i]));
         }
