@@ -5,7 +5,7 @@
 #include <map>
 #include <fstream>
 #include <algorithm>
-//using namespace std;
+using namespace std;
 
 void addEntry(string condition, string array1[], string array2[], int len1,  int len2, int len3, int len4 );
 void addParentTEntry();
@@ -23,7 +23,7 @@ int main()
 {
 
     string array1[] = { "prog_line","stmt", "if", "while","call","assign", "procedure", "variable"};
-    string array2[] = { "prog_line","stmt","assign"}
+    string array2[] = { "prog_line","stmt","assign"};
 
 
     //the first two numbers is the range of the design entity  for arg1_list
