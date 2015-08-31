@@ -7,20 +7,10 @@
 #include <algorithm>
 using namespace std;
 
-void addEntry(string condition, string array1[], string array2[], int len1,  int len2, int len3, int len4 );
-void addParentTEntry();
-//map<string,attr_entry> attr_table;
-struct arg_type_list{
-	vector<string> synonym_type;
-};
-struct entry{ // for table driven type checking
-	arg_type_list arg1_list;
-	arg_type_list arg2_list;
-};
-map<string,entry> table;
 
-int main()
-{
+
+QueryTable::QueryTable(void) {
+
 
     string array1[] = { "prog_line","stmt", "if", "while","call","assign", "procedure", "variable"};
     string array2[] = { "prog_line","stmt","assign"};
@@ -51,14 +41,10 @@ int main()
 	}else{
 	    cout << "Not Found" <<endl;
 	} 
-   return 0;
-}
-
-void addParentTEntry(){
-    int a = 5;
 
 }
-void addEntry(string condition, string array1[], string array2[], int len1 , int len2, int len3, int len4){
+
+void QueryTable::addEntry(string condition, string array1[], string array2[], int len1 , int len2, int len3, int len4){
 	arg_type_list arg1_list,arg2_list;
     arg1_list.synonym_type.assign(array1 + len1 ,array1 + len2);
     arg2_list.synonym_type.assign(array2 + len3 ,array2 + len4);

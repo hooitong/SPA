@@ -2,14 +2,12 @@
 
 #include <string>
 #include <map>
+using namespace std;
 
 
-class QueryPreprocessor {
+class QueryTable {
   public:
-    
-    QueryPreprocessor(void);
-    ~QueryPreprocessor(void);
-
+	QueryTable(void);
     struct entity {
         string type;
         string synonym;
@@ -27,4 +25,4 @@ class QueryPreprocessor {
 	};
 	map<string,entry> table;
 
-}
+};
