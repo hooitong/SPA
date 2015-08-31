@@ -341,6 +341,26 @@ bool QueryPreprocessor::checkAttributeName(string attName) {
     }
 }
 bool QueryPreprocessor::checkAttribute(string attribute) {
+	//"with" attrCond
+	//attrCond : attrCompare ("and" attrCompare)
+	//attrCompare : ref '=' ref
+	//ref must be same type
+	//ref :attrRef| synonym | ""IDENT"" |Integer
+	//attrRef: synonym'.'attrName
+
+	//split into two and trim
+	//attribute = trim(attribute);
+	//pes = pointer of equal sign
+	/* pes = attribute.find("=")
+	if(pes == string::npos) return false;
+    string ref1 = trim(pattern.substr(0, pes)); // checked
+	string ref2 = trim(pattern.substr(pes+1, attribute.length() - pes -1)) //checked
+	*if((ref1 == attrRef && ref2 == attrRef) || (ref1 == synonym && ref2 == synonym) || ( ref1 == ""IDENT"" && ref2 == ""IDENT"") || ( ref1 == Integer && ref2 == Integer){
+	*
+	*}
+	*/
+
+
     return false;
 }
 
@@ -386,9 +406,88 @@ bool QueryPreprocessor::checkRelation(string relation) {
 
 /**************************Pattern *********************************/
 bool QueryPreprocessor::checkWhile(string pattern) {
+	//while : synonym "("varRef "," "_" ")"
+    pattern = trim(pattern);
+    //pointer of open bracket
+    int pob = pattern.find("(");
+    if(pob == string::npos) return false;
+    string synonym = trim(pattern.substr(0,pob));
+
+	if(getType(synonym)!="while") return false;
+    if(checkIdent(synonym)) {
+        //pointer of comma
+        int pc = pattern.find(",");
+        if(pc == string::npos) return false;
+        string varRef = trim(pattern.substr(pob + 1, pc - pob - 1));
+        QNode* patternNode = queryTree->createNode(PATTERN,"");
+        QNode* whileSynonymNode = queryTree->createNode(WHILESYNONYM,synonym);
+        QNode* leftHandSide = parseVarRef(varRef);
+        QNode* rightHandSide;
+        if (leftHandSide == NULL) {
+            return false;
+        }
+        int pcb = pattern.find_last_of(")");
+        if(pcb == string::npos || pcb != pattern.length() - 1) {
+            return false;
+        }
+        string expr = trim(pattern.substr(pc + 1, pcb - pc - 1));
+        string exprRemoveQuote = "";
+        if (expr == "_") {
+            exprRemoveQuote = "_";
+        } else {
+            return false;
+        }
+        rightHandSide = queryTree->createNode(EXPRESSION,exprRemoveQuote);
+        queryTree->addChild(patternNode,whileSynonymNode);
+        queryTree->addChild(patternNode,leftHandSide);
+        queryTree->addChild(patternNode,rightHandSide);
+        queryTree->addChild(patternListNode,patternNode);
+        return true;
+    }
     return false;
 }
 bool QueryPreprocessor::checkIf(string pattern) {
+    //if : synonym "("varRef "," "_" "," "_" ")"
+    pattern = trim(pattern);
+    //pointer of open bracket
+    int pob = pattern.find("(");
+    if(pob == string::npos) return false;
+    string synonym = trim(pattern.substr(0,pob));
+
+	if(getType(synonym)!="if") return false;
+    if(checkIdent(synonym)) {
+        //pointer of comma
+        int pc = pattern.find(",");
+		//pointer of second comma
+		int psc = pattern.find(",",pc + 1, 1);
+        if(pc == string::npos || psc == string::npos) return false;
+        string varRef = trim(pattern.substr(pob + 1, pc - pob - 1));
+        QNode* patternNode = queryTree->createNode(PATTERN,"");
+        QNode* ifSynonymNode = queryTree->createNode(IFSYNONYM,synonym);
+        QNode* leftHandSide = parseVarRef(varRef);
+        QNode* rightHandSide;
+        if (leftHandSide == NULL) {
+            return false;
+        }
+        int pcb = pattern.find_last_of(")");
+        if(pcb == string::npos || pcb != pattern.length() - 1) {
+            return false;
+        }
+        string expr = trim(pattern.substr(pc + 1, psc - pc - 1)); 
+		string expr2 = trim(pattern.substr(psc + 1,pcb - psc - 1));
+        string exprRemoveQuote = "";
+        if (expr == "_" && expr2 == "_") {
+            exprRemoveQuote = "_";
+        } else {
+            return false;
+        }
+        rightHandSide = queryTree->createNode(EXPRESSION,exprRemoveQuote);
+        queryTree->addChild(patternNode,ifSynonymNode);
+        queryTree->addChild(patternNode,leftHandSide);
+        queryTree->addChild(patternNode,rightHandSide);
+        queryTree->addChild(patternListNode,patternNode);
+        return true;
+    }
     return false;
 }
 bool QueryPreprocessor::checkAssign(string pattern, string patternName) {
@@ -440,7 +539,7 @@ bool QueryPreprocessor::checkAssign(string pattern, string patternName) {
     }
     return false;
 }
-
+//check_pattern
 bool QueryPreprocessor::checkPattern(string pattern) {
     int p = pattern.find("(");
     string patternName = trim(pattern.substr(0,p));
