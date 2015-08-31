@@ -24,11 +24,13 @@ QueryTree* QueryPreprocessor::parseQuery(string query) {
         QNode* root = queryTree->createNode(QUERY, "");
         queryTree->setAsRoot(root);
         resultListNode = queryTree->createNode(RESULTLIST, "");
-        suchthatListNode = queryTree->createNode(SUCHTHATLIST, "");
-        patternListNode = queryTree->createNode(PATTERNLIST, "");
+        /*suchthatListNode = queryTree->createNode(SUCHTHATLIST, "");
+        patternListNode = queryTree->createNode(PATTERNLIST, "");*/
         queryTree->addChild(root, resultListNode);
-        queryTree->addChild(root, suchthatListNode);
-        queryTree->addChild(root, patternListNode);
+        /*queryTree->addChild(root, suchthatListNode);
+        queryTree->addChild(root, patternListNode);*/
+		conditionsNode = queryTree->createNode(CONDITIONLIST, "");
+		queryTree->addChild(root, conditionsNode);
 
         int p = query.find("Select");
 
@@ -377,7 +379,7 @@ bool QueryPreprocessor::checkRelation(string relation) {
 
     queryTree->addChild(relationNode,leftHandSide);
     queryTree->addChild(relationNode,rightHandSide);
-    queryTree->addChild(suchthatListNode,relationNode);
+    queryTree->addChild(conditionsNode,relationNode);
 
     return true;
 }
@@ -433,7 +435,7 @@ bool QueryPreprocessor::checkAssign(string pattern, string patternName) {
         queryTree->addChild(patternNode,assignSynonymNode);
         queryTree->addChild(patternNode,leftHandSide);
         queryTree->addChild(patternNode,rightHandSide);
-        queryTree->addChild(patternListNode,patternNode);
+        queryTree->addChild(conditionsNode,patternNode);
         return true;
     }
     return false;

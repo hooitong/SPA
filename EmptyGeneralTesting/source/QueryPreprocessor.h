@@ -60,5 +60,7 @@ class QueryPreprocessor {
     map<int, int> posOfConds1;
     int table[5][24];
     QueryTree *queryTree;
-    QNode *resultListNode, *suchthatListNode, *patternListNode;
+    QNode *resultListNode;
+	//QNode *suchthatListNode, *patternListNode;
+	QNode *conditionsNode;
 };

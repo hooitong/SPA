@@ -25,12 +25,10 @@ void QueryPreprocessorTest::testNoCondition() {
     QueryTree* expected = new QueryTree();
     QNode* expectedRoot = expected->createNode(QUERY,"");
     QNode* expectedResultList = expected->createNode(RESULTLIST,"");
-    QNode* expectedSuchThatList = expected->createNode(SUCHTHATLIST,"");
-    QNode* expectedPatternList = expected->createNode(PATTERNLIST,"");
+    QNode* expectedConditionList = expected->createNode(CONDITIONLIST,"");
     expected->setAsRoot(expectedRoot);
     expected->addChild(expectedRoot,expectedResultList);
-    expected->addChild(expectedRoot,expectedSuchThatList);
-    expected->addChild(expectedRoot,expectedPatternList);
+    expected->addChild(expectedRoot,expectedConditionList);
     QNode* expectedResult = expected->createNode(STMTSYNONYM,"s");
     expected->addChild(expectedResultList,expectedResult);
     CPPUNIT_ASSERT(achieved->isEqual(expected));
@@ -43,12 +41,10 @@ void QueryPreprocessorTest::testNoConditionMoreComplex() {
     QueryTree* expected = new QueryTree();
     QNode* expectedRoot = expected->createNode(QUERY,"");
     QNode* expectedResultList = expected->createNode(RESULTLIST,"");
-    QNode* expectedSuchThatList = expected->createNode(SUCHTHATLIST,"");
-    QNode* expectedPatternList = expected->createNode(PATTERNLIST,"");
+    QNode* expectedConditionList = expected->createNode(CONDITIONLIST,"");
     expected->setAsRoot(expectedRoot);
     expected->addChild(expectedRoot,expectedResultList);
-    expected->addChild(expectedRoot,expectedSuchThatList);
-    expected->addChild(expectedRoot,expectedPatternList);
+    expected->addChild(expectedRoot,expectedConditionList);
     QNode* expectedResult = expected->createNode(ASSIGNSYNONYM,"a2");
     expected->addChild(expectedResultList,expectedResult);
     CPPUNIT_ASSERT(achieved->isEqual(expected));
@@ -61,12 +57,10 @@ void QueryPreprocessorTest::testOneCondition() {
     QueryTree* expected = new QueryTree();
     QNode* expectedRoot = expected->createNode(QUERY,"");
     QNode* expectedResultList = expected->createNode(RESULTLIST,"");
-    QNode* expectedSuchThatList = expected->createNode(SUCHTHATLIST,"");
-    QNode* expectedPatternList = expected->createNode(PATTERNLIST,"");
+    QNode* expectedConditionList = expected->createNode(CONDITIONLIST,"");
     expected->setAsRoot(expectedRoot);
     expected->addChild(expectedRoot,expectedResultList);
-    expected->addChild(expectedRoot,expectedSuchThatList);
-    expected->addChild(expectedRoot,expectedPatternList);
+    expected->addChild(expectedRoot,expectedConditionList);
     QNode* expectedResult = expected->createNode(ASSIGNSYNONYM,"a");
     expected->addChild(expectedResultList,expectedResult);
     QNode* expectedSuchThat = expected->createNode(RELATION,"Follows");
@@ -74,7 +68,7 @@ void QueryPreprocessorTest::testOneCondition() {
     QNode* expectedSuchThatChild2 = expected->createNode(CONST,"2");
     expected->addChild(expectedSuchThat,expectedSuchThatChild1);
     expected->addChild(expectedSuchThat,expectedSuchThatChild2);
-    expected->addChild(expectedSuchThatList,expectedSuchThat);
+    expected->addChild(expectedConditionList,expectedSuchThat);
     CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
 
@@ -85,12 +79,10 @@ void QueryPreprocessorTest::testOneConditionTwoSynonyms() {
     QueryTree* expected = new QueryTree();
     QNode* expectedRoot = expected->createNode(QUERY,"");
     QNode* expectedResultList = expected->createNode(RESULTLIST,"");
-    QNode* expectedSuchThatList = expected->createNode(SUCHTHATLIST,"");
-    QNode* expectedPatternList = expected->createNode(PATTERNLIST,"");
+    QNode* expectedConditionList = expected->createNode(CONDITIONLIST,"");
     expected->setAsRoot(expectedRoot);
     expected->addChild(expectedRoot,expectedResultList);
-    expected->addChild(expectedRoot,expectedSuchThatList);
-    expected->addChild(expectedRoot,expectedPatternList);
+    expected->addChild(expectedRoot,expectedConditionList);
     QNode* expectedResult = expected->createNode(WHILESYNONYM,"w");
     expected->addChild(expectedResultList,expectedResult);
     QNode* expectedSuchThat = expected->createNode(RELATION,"Follows");
@@ -98,7 +90,7 @@ void QueryPreprocessorTest::testOneConditionTwoSynonyms() {
     QNode* expectedSuchThatChild2 = expected->createNode(CONST,"1");
     expected->addChild(expectedSuchThat,expectedSuchThatChild1);
     expected->addChild(expectedSuchThat,expectedSuchThatChild2);
-    expected->addChild(expectedSuchThatList,expectedSuchThat);
+    expected->addChild(expectedConditionList,expectedSuchThat);
     CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
 void QueryPreprocessorTest::testPatternCondition() {
@@ -108,12 +100,10 @@ void QueryPreprocessorTest::testPatternCondition() {
     QueryTree* expected = new QueryTree();
     QNode* expectedRoot = expected->createNode(QUERY,"");
     QNode* expectedResultList = expected->createNode(RESULTLIST,"");
-    QNode* expectedSuchThatList = expected->createNode(SUCHTHATLIST,"");
-    QNode* expectedPatternList = expected->createNode(PATTERNLIST,"");
+    QNode* expectedConditionList = expected->createNode(CONDITIONLIST,"");
     expected->setAsRoot(expectedRoot);
     expected->addChild(expectedRoot,expectedResultList);
-    expected->addChild(expectedRoot,expectedSuchThatList);
-    expected->addChild(expectedRoot,expectedPatternList);
+    expected->addChild(expectedRoot,expectedConditionList);
     QNode* expectedResult = expected->createNode(ASSIGNSYNONYM,"a");
     expected->addChild(expectedResultList,expectedResult);
     QNode* expectedPatternNode = expected->createNode(PATTERN,"");
@@ -123,7 +113,7 @@ void QueryPreprocessorTest::testPatternCondition() {
     expected->addChild(expectedPatternNode,expectedPatternChild1);
     expected->addChild(expectedPatternNode,expectedPatternChild2);
     expected->addChild(expectedPatternNode,expectedPatternChild3);
-    expected->addChild(expectedPatternList,expectedPatternNode);
+    expected->addChild(expectedConditionList,expectedPatternNode);
     CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
 
@@ -134,12 +124,10 @@ void QueryPreprocessorTest::testPatternCondition1() {
     QueryTree* expected = new QueryTree();
     QNode* expectedRoot = expected->createNode(QUERY,"");
     QNode* expectedResultList = expected->createNode(RESULTLIST,"");
-    QNode* expectedSuchThatList = expected->createNode(SUCHTHATLIST,"");
-    QNode* expectedPatternList = expected->createNode(PATTERNLIST,"");
+    QNode* expectedConditionList = expected->createNode(CONDITIONLIST,"");
     expected->setAsRoot(expectedRoot);
     expected->addChild(expectedRoot,expectedResultList);
-    expected->addChild(expectedRoot,expectedSuchThatList);
-    expected->addChild(expectedRoot,expectedPatternList);
+    expected->addChild(expectedRoot,expectedConditionList);
     QNode* expectedResult = expected->createNode(ASSIGNSYNONYM,"a");
     expected->addChild(expectedResultList,expectedResult);
 
@@ -150,14 +138,14 @@ void QueryPreprocessorTest::testPatternCondition1() {
     expected->addChild(expectedPatternNode,expectedPatternChild1);
     expected->addChild(expectedPatternNode,expectedPatternChild2);
     expected->addChild(expectedPatternNode,expectedPatternChild3);
-    expected->addChild(expectedPatternList,expectedPatternNode);
+    expected->addChild(expectedConditionList,expectedPatternNode);
 
     QNode* expectedSuchThat = expected->createNode(RELATION,"Follows");
     QNode* expectedSuchThatChild1 = expected->createNode(STMTSYNONYM,"s");
     QNode* expectedSuchThatChild2 = expected->createNode(CONST,"1");
     expected->addChild(expectedSuchThat,expectedSuchThatChild1);
     expected->addChild(expectedSuchThat,expectedSuchThatChild2);
-    expected->addChild(expectedSuchThatList,expectedSuchThat);
+    expected->addChild(expectedConditionList,expectedSuchThat);
 
     CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
@@ -169,12 +157,10 @@ void QueryPreprocessorTest::testPatternCondition2() {
     QueryTree* expected = new QueryTree();
     QNode* expectedRoot = expected->createNode(QUERY,"");
     QNode* expectedResultList = expected->createNode(RESULTLIST,"");
-    QNode* expectedSuchThatList = expected->createNode(SUCHTHATLIST,"");
-    QNode* expectedPatternList = expected->createNode(PATTERNLIST,"");
+    QNode* expectedConditionList = expected->createNode(CONDITIONLIST,"");
     expected->setAsRoot(expectedRoot);
     expected->addChild(expectedRoot,expectedResultList);
-    expected->addChild(expectedRoot,expectedSuchThatList);
-    expected->addChild(expectedRoot,expectedPatternList);
+    expected->addChild(expectedRoot,expectedConditionList);
     QNode* expectedResult = expected->createNode(ASSIGNSYNONYM,"a");
     expected->addChild(expectedResultList,expectedResult);
     QNode* expectedPatternNode = expected->createNode(PATTERN,"");
@@ -184,7 +170,7 @@ void QueryPreprocessorTest::testPatternCondition2() {
     expected->addChild(expectedPatternNode,expectedPatternChild1);
     expected->addChild(expectedPatternNode,expectedPatternChild2);
     expected->addChild(expectedPatternNode,expectedPatternChild3);
-    expected->addChild(expectedPatternList,expectedPatternNode);
+    expected->addChild(expectedConditionList,expectedPatternNode);
     CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
 
@@ -195,12 +181,10 @@ void QueryPreprocessorTest::testPatternCondition3() {
     QueryTree* expected = new QueryTree();
     QNode* expectedRoot = expected->createNode(QUERY,"");
     QNode* expectedResultList = expected->createNode(RESULTLIST,"");
-    QNode* expectedSuchThatList = expected->createNode(SUCHTHATLIST,"");
-    QNode* expectedPatternList = expected->createNode(PATTERNLIST,"");
+    QNode* expectedConditionList = expected->createNode(CONDITIONLIST,"");
     expected->setAsRoot(expectedRoot);
     expected->addChild(expectedRoot,expectedResultList);
-    expected->addChild(expectedRoot,expectedSuchThatList);
-    expected->addChild(expectedRoot,expectedPatternList);
+    expected->addChild(expectedRoot,expectedConditionList);
     QNode* expectedResult = expected->createNode(ASSIGNSYNONYM,"a");
     expected->addChild(expectedResultList,expectedResult);
     QNode* expectedPatternNode = expected->createNode(PATTERN,"");
@@ -210,7 +194,7 @@ void QueryPreprocessorTest::testPatternCondition3() {
     expected->addChild(expectedPatternNode,expectedPatternChild1);
     expected->addChild(expectedPatternNode,expectedPatternChild2);
     expected->addChild(expectedPatternNode,expectedPatternChild3);
-    expected->addChild(expectedPatternList,expectedPatternNode);
+    expected->addChild(expectedConditionList,expectedPatternNode);
     CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
 
@@ -221,12 +205,10 @@ void QueryPreprocessorTest::testPatternCondition4() {
     QueryTree* expected = new QueryTree();
     QNode* expectedRoot = expected->createNode(QUERY,"");
     QNode* expectedResultList = expected->createNode(RESULTLIST,"");
-    QNode* expectedSuchThatList = expected->createNode(SUCHTHATLIST,"");
-    QNode* expectedPatternList = expected->createNode(PATTERNLIST,"");
+    QNode* expectedConditionList = expected->createNode(CONDITIONLIST,"");
     expected->setAsRoot(expectedRoot);
     expected->addChild(expectedRoot,expectedResultList);
-    expected->addChild(expectedRoot,expectedSuchThatList);
-    expected->addChild(expectedRoot,expectedPatternList);
+    expected->addChild(expectedRoot,expectedConditionList);
     QNode* expectedResult = expected->createNode(ASSIGNSYNONYM,"a");
     expected->addChild(expectedResultList,expectedResult);
     QNode* expectedPatternNode = expected->createNode(PATTERN,"");
@@ -236,7 +218,7 @@ void QueryPreprocessorTest::testPatternCondition4() {
     expected->addChild(expectedPatternNode,expectedPatternChild1);
     expected->addChild(expectedPatternNode,expectedPatternChild2);
     expected->addChild(expectedPatternNode,expectedPatternChild3);
-    expected->addChild(expectedPatternList,expectedPatternNode);
+    expected->addChild(expectedConditionList,expectedPatternNode);
     CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
 
@@ -247,12 +229,10 @@ void QueryPreprocessorTest::testPatternCondition5() {
     QueryTree* expected = new QueryTree();
     QNode* expectedRoot = expected->createNode(QUERY,"");
     QNode* expectedResultList = expected->createNode(RESULTLIST,"");
-    QNode* expectedSuchThatList = expected->createNode(SUCHTHATLIST,"");
-    QNode* expectedPatternList = expected->createNode(PATTERNLIST,"");
+    QNode* expectedConditionList = expected->createNode(CONDITIONLIST,"");
     expected->setAsRoot(expectedRoot);
     expected->addChild(expectedRoot,expectedResultList);
-    expected->addChild(expectedRoot,expectedSuchThatList);
-    expected->addChild(expectedRoot,expectedPatternList);
+    expected->addChild(expectedRoot,expectedConditionList);
     QNode* expectedResult = expected->createNode(ASSIGNSYNONYM,"a");
     expected->addChild(expectedResultList,expectedResult);
     QNode* expectedPatternNode = expected->createNode(PATTERN,"");
@@ -262,7 +242,7 @@ void QueryPreprocessorTest::testPatternCondition5() {
     expected->addChild(expectedPatternNode,expectedPatternChild1);
     expected->addChild(expectedPatternNode,expectedPatternChild2);
     expected->addChild(expectedPatternNode,expectedPatternChild3);
-    expected->addChild(expectedPatternList,expectedPatternNode);
+    expected->addChild(expectedConditionList,expectedPatternNode);
     CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
 
@@ -273,12 +253,10 @@ void QueryPreprocessorTest::testProgLine() {
     QueryTree* expected = new QueryTree();
     QNode* expectedRoot = expected->createNode(QUERY,"");
     QNode* expectedResultList = expected->createNode(RESULTLIST,"");
-    QNode* expectedSuchThatList = expected->createNode(SUCHTHATLIST,"");
-    QNode* expectedPatternList = expected->createNode(PATTERNLIST,"");
+    QNode* expectedConditionList = expected->createNode(CONDITIONLIST,"");
     expected->setAsRoot(expectedRoot);
     expected->addChild(expectedRoot,expectedResultList);
-    expected->addChild(expectedRoot,expectedSuchThatList);
-    expected->addChild(expectedRoot,expectedPatternList);
+    expected->addChild(expectedRoot,expectedConditionList);
 
     QNode* expectedResult = expected->createNode(PROGLINESYNONYM,"n");
     expected->addChild(expectedResultList,expectedResult);
@@ -288,7 +266,7 @@ void QueryPreprocessorTest::testProgLine() {
     QNode* expectedUsesChild2 = expected->createNode(VAR,"tmp");
     expected->addChild(expectedUsesNode,expectedUsesChild1);
     expected->addChild(expectedUsesNode,expectedUsesChild2);
-    expected->addChild(expectedSuchThatList,expectedUsesNode);
+    expected->addChild(expectedConditionList,expectedUsesNode);
 
     CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
@@ -300,12 +278,10 @@ void QueryPreprocessorTest::testUses(){
 	QueryTree* expected = new QueryTree();
 	QNode* expectedRoot = expected->createNode(QUERY,"");
 	QNode* expectedResultList = expected->createNode(RESULTLIST,"");
-	QNode* expectedSuchThatList = expected->createNode(SUCHTHATLIST,"");
-	QNode* expectedPatternList = expected->createNode(PATTERNLIST,"");
+	QNode* expectedConditionList = expected->createNode(CONDITIONLIST,"");
 	expected->setAsRoot(expectedRoot);
 	expected->addChild(expectedRoot,expectedResultList);
-	expected->addChild(expectedRoot,expectedSuchThatList);
-	expected->addChild(expectedRoot,expectedPatternList);
+	expected->addChild(expectedRoot,expectedConditionList);
 
 	QNode* expectedResult = expected->createNode(STMTSYNONYM,"s");
 	expected->addChild(expectedResultList,expectedResult);
@@ -315,7 +291,7 @@ void QueryPreprocessorTest::testUses(){
 	QNode* expectedUsesChild2 = expected->createNode(ANY,"");
 	expected->addChild(expectedUsesNode,expectedUsesChild1);
 	expected->addChild(expectedUsesNode,expectedUsesChild2);
-	expected->addChild(expectedSuchThatList,expectedUsesNode);
+	expected->addChild(expectedConditionList,expectedUsesNode);
 	
 	CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
@@ -381,12 +357,10 @@ void QueryPreprocessorTest::testMultipleReturn() {
     QueryTree* expected = new QueryTree();
     QNode* expectedRoot = expected->createNode(QUERY,"");
     QNode* expectedResultList = expected->createNode(RESULTLIST,"");
-    QNode* expectedSuchThatList = expected->createNode(SUCHTHATLIST,"");
-    QNode* expectedPatternList = expected->createNode(PATTERNLIST,"");
+    QNode* expectedConditionList = expected->createNode(CONDITIONLIST,"");
     expected->setAsRoot(expectedRoot);
     expected->addChild(expectedRoot,expectedResultList);
-    expected->addChild(expectedRoot,expectedSuchThatList);
-    expected->addChild(expectedRoot,expectedPatternList);
+    expected->addChild(expectedRoot,expectedConditionList);
     QNode* expectedResult1 = expected->createNode(STMTSYNONYM,"s1");
     QNode* expectedResult2 = expected->createNode(STMTSYNONYM,"s2");
     expected->addChild(expectedResultList,expectedResult1);
@@ -401,12 +375,10 @@ void QueryPreprocessorTest::testMultipleReturnAndSuchThat() {
     QueryTree* expected = new QueryTree();
     QNode* expectedRoot = expected->createNode(QUERY,"");
     QNode* expectedResultList = expected->createNode(RESULTLIST,"");
-    QNode* expectedSuchThatList = expected->createNode(SUCHTHATLIST,"");
-    QNode* expectedPatternList = expected->createNode(PATTERNLIST,"");
+    QNode* expectedConditionList = expected->createNode(CONDITIONLIST,"");
     expected->setAsRoot(expectedRoot);
     expected->addChild(expectedRoot,expectedResultList);
-    expected->addChild(expectedRoot,expectedSuchThatList);
-    expected->addChild(expectedRoot,expectedPatternList);
+    expected->addChild(expectedRoot,expectedConditionList);
 
     QNode* expectedResult1 = expected->createNode(STMTSYNONYM,"s");
     QNode* expectedResult2 = expected->createNode(VARIABLESYNONYM,"x");
@@ -418,7 +390,7 @@ void QueryPreprocessorTest::testMultipleReturnAndSuchThat() {
     QNode* expectedSuchThatChild2 = expected->createNode(VARIABLESYNONYM,"x");
     expected->addChild(expectedSuchThat,expectedSuchThatChild1);
     expected->addChild(expectedSuchThat,expectedSuchThatChild2);
-    expected->addChild(expectedSuchThatList,expectedSuchThat);
+    expected->addChild(expectedConditionList,expectedSuchThat);
 
     CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
@@ -430,12 +402,10 @@ void QueryPreprocessorTest::testMultipleReturnAndMultipleSuchThat() {
     QueryTree* expected = new QueryTree();
     QNode* expectedRoot = expected->createNode(QUERY,"");
     QNode* expectedResultList = expected->createNode(RESULTLIST,"");
-    QNode* expectedSuchThatList = expected->createNode(SUCHTHATLIST,"");
-    QNode* expectedPatternList = expected->createNode(PATTERNLIST,"");
+    QNode* expectedConditionList = expected->createNode(CONDITIONLIST,"");
     expected->setAsRoot(expectedRoot);
     expected->addChild(expectedRoot,expectedResultList);
-    expected->addChild(expectedRoot,expectedSuchThatList);
-    expected->addChild(expectedRoot,expectedPatternList);
+    expected->addChild(expectedRoot,expectedConditionList);
 
     QNode* expectedResult1 = expected->createNode(STMTSYNONYM,"s");
     QNode* expectedResult2 = expected->createNode(VARIABLESYNONYM,"x");
@@ -452,8 +422,8 @@ void QueryPreprocessorTest::testMultipleReturnAndMultipleSuchThat() {
     QNode* expectedSuchThatChild22 = expected->createNode(VAR,"x");
     expected->addChild(expectedSuchThat2,expectedSuchThatChild21);
     expected->addChild(expectedSuchThat2,expectedSuchThatChild22);
-    expected->addChild(expectedSuchThatList,expectedSuchThat1);
-    expected->addChild(expectedSuchThatList,expectedSuchThat2);
+    expected->addChild(expectedConditionList,expectedSuchThat1);
+    expected->addChild(expectedConditionList,expectedSuchThat2);
 
     CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
