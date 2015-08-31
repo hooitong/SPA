@@ -18,6 +18,7 @@
     <ClInclude Include="..\source\FollowsStarEvaluator.h" />
     <ClInclude Include="..\source\GlobalType.h" />
     <ClInclude Include="..\source\Modifies.h" />
+    <ClInclude Include="..\source\ModifiesEvaluator.h" />
     <ClInclude Include="..\source\Parent.h" />
     <ClInclude Include="..\source\ParentEvaluator.h" />
     <ClInclude Include="..\source\ParentStarEvaluator.h" />
@@ -43,6 +44,7 @@
     <ClCompile Include="..\source\Follows.cpp" />
     <ClCompile Include="..\source\FollowsStarEvaluator.cpp" />
     <ClCompile Include="..\source\Modifies.cpp" />
+    <ClCompile Include="..\source\ModifiesEvaluator.cpp" />
     <ClCompile Include="..\source\Parent.cpp" />
     <ClCompile Include="..\source\ParentEvaluator.cpp" />
     <ClCompile Include="..\source\ParentStarEvaluator.cpp" />
