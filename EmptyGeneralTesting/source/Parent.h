@@ -3,17 +3,15 @@
 #include <map>
 #include <vector>
 
+#include "BitTable.h"
 #include "GlobalType.h"
 
 class Parent {
   private:
-    std::multimap<STMTLINE, STMTLINE> parent2ChildMap;
-    std::map<STMTLINE, STMTLINE> child2ParentMap;
-    std::multimap<STMTLINE, STMTLINE> parent2ChildMapStar;
-    std::multimap<STMTLINE, STMTLINE> child2ParentMapStar;
-    std::multimap<STMTLINE,STMTLINE>::iterator it;
-    std::map<STMTLINE,STMTLINE>::iterator it2;
-    std::pair<std::multimap<STMTLINE,STMTLINE>::iterator, std::multimap<STMTLINE,STMTLINE>::iterator> ret;
+    BitTable parentToChild;
+    std::map<STMTLINE, STMTLINE> childToParent;
+    BitTable parentToChildStar;
+    BitTable childToParentStar;
 
   public:
     Parent(void);
