@@ -347,22 +347,51 @@ bool QueryPreprocessor::checkAttribute(string attribute) {
 	//ref must be same type
 	//ref :attrRef| synonym | ""IDENT"" |Integer
 	//attrRef: synonym'.'attrName
+	QNode* attributeNode = queryTree->createNode(ATTRIBUTE,"");
+    QNode* leftHandSide;
+    QNode* rightHandSide;
 
-	//split into two and trim
 	//attribute = trim(attribute);
 	//pes = pointer of equal sign
-	/* pes = attribute.find("=")
+	int pes = attribute.find("=");
 	if(pes == string::npos) return false;
-    string ref1 = trim(pattern.substr(0, pes)); // checked
-	string ref2 = trim(pattern.substr(pes+1, attribute.length() - pes -1)) //checked
-	*if((ref1 == attrRef && ref2 == attrRef) || (ref1 == synonym && ref2 == synonym) || ( ref1 == ""IDENT"" && ref2 == ""IDENT"") || ( ref1 == Integer && ref2 == Integer){
-	*
-	*}
-	*/
+    string ref1 = trim(attribute.substr(0, pes)); // checked
+	string ref2 = trim(attribute.substr(pes+1, attribute.length() - pes -1)); //checked
+	/*if(checkAttReference(ref1)&& checkAttReference(ref2)){
 
+	}else if(checkVarReference(ref1) && checkVarReference(ref2)){
+		leftHandSide = queryTree->createNode(VAR,ref1);
+		rightHandSide = queryTree->createNode(PROGLINESYNONYM,ref2);
+	}else if(checkIdent(ref1) &&  checkIdent(ref2)){
+		//check with table
+		bool synonym, synonym = false; 
+		for(size_t i = 0; i<refDeclared.size(); i++) {
+			if(ref1 == refDeclared.at(i).synonym && refDeclared.at(i).type =="prog_line") {
+				 synonym = true;
+			}
+        }
+		for(size_t i = 0; i<refDeclared.size(); i++) {
+			if(ref2 == refDeclared.at(i).synonym && refDeclared.at(i).type =="prog_line") {	
+				synonym = true;
+			}
+        }
+		leftHandSide = queryTree->createNode(PROGLINESYNONYM,ref1);
+		rightHandSide = queryTree->createNode(PROGLINESYNONYM,ref2);
+ 
+	}else if(checkInteger(ref1) && checkInteger(ref2)){
+		leftHandSide = queryTree->createNode(INTERGER,ref1);
+		rightHandSide = queryTree->createNode(INTERGER,ref2);
+	}
+	*/
+	//rightHandSide = queryTree->createNode(EXPRESSION,exprRemoveQuote);
+    //queryTree->addChild(withNode,assignSynonymNode);
+    //queryTree->addChild(withNode,leftHandSide);
+    //queryTree->addChild(withNode,rightHandSide);
+    //queryTree->addChild(conditionsNode,patternNode);
 
     return false;
 }
+
 
 /**************************Relation *********************************/
 bool QueryPreprocessor::checkRelation(string relation) {

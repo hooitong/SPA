@@ -29,7 +29,8 @@ class QueryPreprocessor {
     bool addTuple(string single_tuple);
     bool checkTuple(string tuple);
     bool existsRef(string reference);
-
+	bool checkAttrRef(string attributeReference);
+	bool checkAttrName(string attribute);
     bool checkFactor(string factor);
 
     /*------------------------------------------------*/

@@ -38,6 +38,8 @@ enum QNodeType {
     IFSYNONYM,
     PATTERN,
     RELATION,
+	ATTRIBUTE,
+	INTERGER,
     EXPRESSION,
     BOOLEAN,
     ASSIGN,
