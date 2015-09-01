@@ -13,4 +13,5 @@ class BitTable{
     void putRelation(int parent, int child);
     std::vector<bool>* getChildren(int parent);
     bool containsChild(int parent, int child);
+    std::vector<int> toVector(int parent);
 };

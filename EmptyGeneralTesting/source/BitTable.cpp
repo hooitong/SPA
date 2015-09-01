@@ -31,3 +31,12 @@ void BitTable::padVector(std::vector<bool> vector, int length) {
   }
 }
 
+std::vector<int> BitTable::toVector(int parent) {
+  /* Naive O(n) implementation */
+  std::vector<int> converted;
+  std::vector<bool> children = vectorList[parent];
+  for (std::vector<bool>::iterator it = children.begin() ; it != children.end(); ++it) {
+     if(*it) converted.push_back(it - children.begin());
+  }
+  return converted;
+}
