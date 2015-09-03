@@ -2,6 +2,7 @@
 #include <map>
 #include <vector>
 #include <string>
+#include "ParserUtils.h"
 #include "GlobalType.h"
 #include "ParsingToken.h"
 #include "AST.h"
@@ -9,6 +10,7 @@
 #include "Exception.h"
 #include "Tokenizer.h"
 #include "Grammar.h"
+#include "PKB.h"
 #include "PKB.h"
 
 class Parser {

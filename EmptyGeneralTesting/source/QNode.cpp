@@ -41,6 +41,26 @@ bool QNode::isEqualSubtree(QNode* node) {
     if (this->childrenNodes.size() != node->childrenNodes.size()) {
         return false;
     }
+
+	std::vector<bool> chosen((int)node->childrenNodes.size(), false);
+
+	for (int i = 0; i < (int)this->childrenNodes.size(); ++i) {
+		bool found = false;
+		for (int j = 0; j < (int)node->childrenNodes.size(); ++j) {
+			if (chosen[j]) {
+				continue;
+			}
+			if (this->childrenNodes[i]->isEqualSubtree(node->childrenNodes[j])) {
+				found = true;
+				chosen[j] = true;
+			}
+		}
+		if (!found) {
+			return false;
+		}
+	}
+	return true;
+
     for (int i = 0; i < (int)node->childrenNodes.size(); ++i) {
         if (!(this->childrenNodes[i])->isEqualSubtree(node->childrenNodes[i])) {
             return false;

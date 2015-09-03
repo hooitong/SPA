@@ -4,6 +4,7 @@
 #include <map>
 
 #include "GlobalType.h"
+#include "BitTable.h"
 
 class Follows {
   private:
@@ -11,10 +12,8 @@ class Follows {
     std::map<STMTLINE, STMTLINE> leftSiblingMap;
     std::map<STMTLINE,STMTLINE>::iterator it;
 
-    std::multimap<STMTLINE, STMTLINE> rightSiblingsMap;
-    std::multimap<STMTLINE, STMTLINE> leftSiblingsMap;
-    std::multimap<STMTLINE,STMTLINE>::iterator it2;
-    std::pair<std::multimap<STMTLINE,STMTLINE>::iterator, std::multimap<STMTLINE,STMTLINE>::iterator> ret;
+    BitTable rightSiblingsMap;
+    BitTable leftSiblingsMap;
 
   public:
     Follows(void);

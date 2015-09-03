@@ -5,11 +5,10 @@ map<GrammarTType, string> _typeToStringMap;
 map<GrammarTType, GrammarToken> _typeToTokenMap;
 
 
-Grammar::Grammar(){	
-
+Grammar::Grammar(void){
 }
 
-Grammar::~Grammar(void) {
+Grammar::~Grammar(void){
 }
 
 void Grammar::initiate(){

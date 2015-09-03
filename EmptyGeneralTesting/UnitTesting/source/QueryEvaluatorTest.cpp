@@ -174,7 +174,7 @@ QueryTree* QueryEvaluatorTest::createTree(
     QNode* query = tree->createNode(QUERY, "");
     QNode* resultList = tree->createNode(RESULTLIST, "");
     QNode* result1 = tree->createNode(typeResult, resultString);
-    QNode* suchThatList = tree->createNode(SUCHTHATLIST, "");
+    QNode* suchThatList = tree->createNode(CONDITIONLIST, "");
     QNode* relation = tree->createNode(RELATION, relationString);
     QNode* arg1 = tree->createNode(type1, s1);
     QNode* arg2 = tree->createNode(type2, s2);

@@ -6,9 +6,9 @@
 
 class UsesTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(UsesTest);
-    CPPUNIT_TEST(testSetStatement);
+  /*  CPPUNIT_TEST(testSetStatement);
     CPPUNIT_TEST(testGetUsedByStmt);
-    CPPUNIT_TEST(testGetUses);
+    CPPUNIT_TEST(testGetUses);*/
     CPPUNIT_TEST_SUITE_END();
 
   private:

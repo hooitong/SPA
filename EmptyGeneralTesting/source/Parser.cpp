@@ -1,11 +1,5 @@
 #include "Parser.h"
 
-#include <stack>
-#include <fstream>
-#include <iostream>
-
-#include "PKB.h"
-#include "ParserUtils.h"
 
 vector<ParsingToken> Parser::programTokenList;
 Grammar Parser::grammar;

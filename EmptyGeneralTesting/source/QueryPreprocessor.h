@@ -29,7 +29,8 @@ class QueryPreprocessor {
     bool addTuple(string single_tuple);
     bool checkTuple(string tuple);
     bool existsRef(string reference);
-
+	bool checkAttrRef(string attributeReference);
+	bool checkAttrName(string attribute);
     bool checkFactor(string factor);
 
     /*------------------------------------------------*/
@@ -60,5 +61,7 @@ class QueryPreprocessor {
     map<int, int> posOfConds1;
     int table[5][24];
     QueryTree *queryTree;
-    QNode *resultListNode, *suchthatListNode, *patternListNode;
+    QNode *resultListNode;
+	//QNode *suchthatListNode, *patternListNode;
+	QNode *conditionsNode;
 };

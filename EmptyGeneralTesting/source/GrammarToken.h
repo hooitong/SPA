@@ -8,6 +8,7 @@ class GrammarToken {
 
   public:
 	GrammarToken(GrammarTType type);
+
 	void setAllowMultiple();
 	void setString(string);
 	void addExpectedToken(GrammarToken expectedToken);

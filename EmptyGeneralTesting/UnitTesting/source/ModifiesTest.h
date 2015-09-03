@@ -6,9 +6,9 @@
 
 class ModifiesTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(ModifiesTest);
-    CPPUNIT_TEST(testSetStatement);
+ /*   CPPUNIT_TEST(testSetStatement);
     CPPUNIT_TEST(testGetModifiedByStmt);
-    CPPUNIT_TEST(testGetModifies);
+    CPPUNIT_TEST(testGetModifies);*/
     CPPUNIT_TEST_SUITE_END();
 
   private:

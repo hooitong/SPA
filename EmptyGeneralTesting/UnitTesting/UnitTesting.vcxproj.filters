@@ -57,10 +57,10 @@
     <ClCompile Include="source\VarTableTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\GrammarTest.cpp">
+    <ClCompile Include="source\TokenizerTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\TokenizerTest.cpp">
+    <ClCompile Include="source\GrammarTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -72,9 +72,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\FollowsTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\GrammarTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\ModifiesTest.h">
@@ -108,6 +105,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\TokenizerTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\GrammarTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

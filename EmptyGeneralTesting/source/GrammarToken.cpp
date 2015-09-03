@@ -1,10 +1,5 @@
 #include "GrammarToken.h"
 
-vector<vector<GrammarToken>> _expectedTokensList;
-bool _allowMultiple = false;
-string _text;
-GrammarTType _type = G_EMPTY;
-
 
 GrammarToken::GrammarToken(GrammarTType type){
 	GrammarToken::_type = type;
