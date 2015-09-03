@@ -17,7 +17,7 @@ class TNode {
 
   public:
     TNode(void);
-    TNode(TType,string);
+	TNode(bool);
     ~TNode(void);
 
     TType getTType();
@@ -29,7 +29,12 @@ class TNode {
     bool setParentNode(TNode* parentNode);
     TNode* getParentNode();
     bool addChild(TNode* child);
+	void setChildren(vector<TNode*> children);
     vector<TNode*> getChildren();
     bool setStmtLine(STMTLINE stmtNo);
+	void setNodeValue(string s);
+	void setTType(TType);
     STMTLINE getStmtLine();
+
+	void print(int lvl);
 };

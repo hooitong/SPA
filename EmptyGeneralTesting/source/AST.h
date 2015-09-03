@@ -13,12 +13,13 @@ class AST {
     std::multimap<TType, STMTLINE> TType2StmtMap;
     std::multimap<TType,STMTLINE>::iterator stmtIt;
     std::pair <std::multimap<TType,STMTLINE>::iterator, std::multimap<TType,STMTLINE>::iterator> stmtRet;
-    TNode* procedureRoot; // only support 1 procedure at the current iteration.
+    TNode* rootNode; // only support 1 procedure at the current iteration.
 
   public:
     AST(void);
     ~AST(void);
 
+	void setRelationShip(TNode* node);
     TNode* createTNode(TType nodeType, std::string value);
     bool setSibling(TNode* leftNode, TNode* rightNode);
     bool addChildTNode(TNode* parent, TNode* child);

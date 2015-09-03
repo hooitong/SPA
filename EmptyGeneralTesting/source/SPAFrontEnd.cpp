@@ -19,6 +19,7 @@ SPAFrontEnd* SPAFrontEnd::getInstance() {
 void SPAFrontEnd::parseSource(const std::string fileName) {
     // call Parser static method to parse given file into AST.
     Parser::parse(fileName);
+	Parser::buildAst();
 
     // Call DesignExtractor static method to parse AST further into PKB.
     DesignExtractor::extract();

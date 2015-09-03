@@ -8,8 +8,11 @@ typedef int PROCINDEX, PROGLINE, STMTLINE, VARINDEX, CONSTINDEX;
 
 //Used to represent the type of the TNode
 enum TType {
+	PROGRAMN,
     PROCEDUREN,
     STMTLSTN,
+	CALLN,
+	IFN,
     ASSIGNN,
     WHILEN,
     STMTN,
@@ -17,7 +20,9 @@ enum TType {
     CONSTN,
     PLUSN,
     MINUSN,
-    TIMESN
+    TIMESN,
+	UNKNOWNN,
+	EMPTYN
 };
 
 // Used to represent the type of the QNode
@@ -62,6 +67,28 @@ enum TokenType {
     SEMICOLON,  // ;
     OPEN_CURLY_BRACKET, // {
     CLOSE_CURLY_BRACKET // }
+};
+
+// Used to represent the type of GrammarToken, according to handbook page 11
+enum GrammarTType {
+    G_PROGRAM, 
+    G_PROCEDURE, 
+    G_STMTLST, 
+    G_STMT, 
+    G_CALL, 
+    G_WHILE, 
+    G_IF, 
+    G_ASSIGN, 
+    G_EXPR,
+    G_TERM, 
+    G_FACTOR,
+    G_VAR_NAME,
+	G_PROC_NAME,
+	G_CONST_VALUE,
+	G_NAME,
+	G_INTEGER,
+	G_EMPTY,
+	G_TEXT
 };
 
 // Used to represent the relationship between tree node

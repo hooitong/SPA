@@ -7,6 +7,9 @@
 #include "AST.h"
 #include <stdlib.h>
 #include "Exception.h"
+#include "Tokenizer.h"
+#include "Grammar.h"
+#include "PKB.h"
 
 class Parser {
 
@@ -15,27 +18,21 @@ class Parser {
     ~Parser(void);
 
     static void parse(string filename);
-    static TNode* buildExprAST(string expression);
+	static TNode* buildAst();
 
-    static string convertIntToString(int i);
+	static pair<TNode*, int> buildExprNodeProcess(int index, int endIndex);
+
 
   private:
-    static vector<ParsingToken*> programTokenList;
+    static vector<ParsingToken> programTokenList;
+		
+	static pair<TNode*, int> buildNodeProcess(GrammarTType currentTokenType, int index);
 
-    static void tokenizeLine(string line, int lineIndex, vector<ParsingToken*> *tokenList);
-    static void buildProcedureAST();
-    static TNode* buildExprAST(vector<ParsingToken *> exprTokenList, STMTLINE stmtLine, int displayedLineIndex);
-    static TNode* buildExprAST(vector<ParsingToken *> exprTokenList);
-
-    static ParsingToken* convertStringToToken(string aString, int lineIndex);
-    static bool isNumeric(string aString);
-    static bool isValidName(string aString);
-
-    static void linkTNodes(TNode *parentNode, TNode *leftNode, TNode *rightNode);
-    static void linkTNodeToPrevNodes(TNode *currNode, TNode *prevNode, TNodeRelation expectedRelation);
-
-    static void addVarToUses(VARNAME varName, STMTLINE stmt);
-    static void addVarToModifies(VARNAME varName, STMTLINE stmt);
-
-    static string getStringIndexOfVar(VARNAME varName);
+	static TNode* createVarOrConstNode(ParsingToken token);
+	static int getNextSemiColonIndex(int index);
+	static TType convertSymbolToTType(string symbol);
+	static vector<TNode*> prioritizeExpr(vector<ParsingToken> &tokens);
+	static TNode* combinePriotizedNodes(vector<TNode*> &nodes);
+	static Grammar grammar;
+	
 };

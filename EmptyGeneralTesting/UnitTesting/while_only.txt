@@ -1,0 +1,5 @@
+procedure TestProcedure {
+  while i{
+     x = 1;
+  }						
+}

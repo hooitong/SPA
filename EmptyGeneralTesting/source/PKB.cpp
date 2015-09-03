@@ -9,6 +9,10 @@ PKB* PKB::getPKB() {
     return pkbInstance;
 }
 
+void PKB::deletePKB() {
+    pkbInstance = NULL;
+}
+
 /* Constructor & Destructor */
 PKB::PKB(void) {
     varTable = new VarTable;

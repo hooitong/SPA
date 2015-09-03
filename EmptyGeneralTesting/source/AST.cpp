@@ -11,17 +11,34 @@ AST::AST(void) {
 }
 
 AST::~AST(void) {
+
+}
+
+
+void AST::setRelationShip(TNode* node){
+	for(int i = 0; i < node->getChildren().size(); i++){
+		
+		TNode* child = node->getChildren()[i];
+		if(child->getStmtLine() != -1){
+			this->setStmtLine(child, child->getStmtLine());
+		}
+		this->setRelationShip(child);
+	}
+
 }
 
 TNode* AST::createTNode(TType nodeType, std::string value) {
-    return new TNode(nodeType, value);
+    TNode* node = new TNode();
+	node->setTType(nodeType);
+	node->setNodeValue(value);
+	return node;
 }
 
 bool AST::setSibling(TNode* leftNode, TNode* rightNode) {
-    if((*leftNode).getRightSibling() != NULL) {
+    if((*leftNode).getRightSibling()->getTType() != EMPTYN) {
         return false;
     }
-    if((*rightNode).getLeftSibling() != NULL) {
+    if((*rightNode).getLeftSibling()->getTType() != EMPTYN) {
         return false;
     }
     (*leftNode).setRightSibling(rightNode);
@@ -30,7 +47,7 @@ bool AST::setSibling(TNode* leftNode, TNode* rightNode) {
 }
 
 bool AST::addChildTNode(TNode* parent, TNode* child) {
-    if((*child).getParentNode() != NULL) {
+	if((*child).getParentNode()->getTType() != EMPTYN) {
         return false;
     }
 
@@ -42,6 +59,7 @@ bool AST::addChildTNode(TNode* parent, TNode* child) {
 
 vector<TNode*> AST::getChildren(TNode* parent) {
     return (*parent).getChildren();
+
 }
 
 TNode* AST::getLeftSibling(TNode* node) {
@@ -70,18 +88,20 @@ string AST::getValue(TNode* node) {
 }
 
 bool AST::setStmtLine(TNode* node, STMTLINE stmtNumber) {
+	map<STMTLINE, TNode*>::iterator it = stmt2NodeMap.find(stmtNumber);
+	if(it != stmt2NodeMap.end()) return false;
     stmt2NodeMap[stmtNumber] = node;
-    (*node).setStmtLine(stmtNumber);
     return true;
 }
 
 bool AST::setRoot(TNode* root) {
-    procedureRoot = root;
+    rootNode = root;
+	this->setRelationShip(root);
     return true;
 }
 
 TNode* AST::getRoot() {
-    return procedureRoot;
+    return rootNode;
 }
 
 void AST::addToStmtLineMap(TType type, STMTLINE stmtNumber) {
@@ -114,11 +134,14 @@ bool AST::matchLeftPattern(STMTLINE stmtRoot, VARINDEX varToMatch) {
     } else {
         return std::atoi(childList[0]->getValue().c_str()) == varToMatch;
     }
+	return false;
 }
 
 bool AST::matchRightPattern(STMTLINE stmtRoot, std::string expression, bool strict) {
 
-    vector<TNode*> childList = getTNode(stmtRoot)->getChildren();
+	return false;
+
+    /*vector<TNode*> childList = getTNode(stmtRoot)->getChildren();
     if(childList.size() < 2 || childList[0]->getTType() != VARN) {
         return false;
     }
@@ -142,7 +165,7 @@ bool AST::matchRightPattern(STMTLINE stmtRoot, std::string expression, bool stri
         return true;
     } else {
         return traversedASTString.find(traversedQueryString) != string::npos;
-    }
+    }*/
 }
 
 string AST::convertTNodeListValueToString(vector<TNode*> nodes) {

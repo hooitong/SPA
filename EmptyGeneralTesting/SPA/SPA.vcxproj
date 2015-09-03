@@ -16,9 +16,12 @@
     <ClInclude Include="..\source\Exception.h" />
     <ClInclude Include="..\source\Follows.h" />
     <ClInclude Include="..\source\GlobalType.h" />
+    <ClInclude Include="..\source\Grammar.h" />
+    <ClInclude Include="..\source\GrammarToken.h" />
     <ClInclude Include="..\source\Modifies.h" />
     <ClInclude Include="..\source\Parent.h" />
     <ClInclude Include="..\source\Parser.h" />
+    <ClInclude Include="..\source\ParserUtils.h" />
     <ClInclude Include="..\source\ParsingToken.h" />
     <ClInclude Include="..\source\PKB.h" />
     <ClInclude Include="..\source\QNode.h" />
@@ -30,15 +33,19 @@
     <ClInclude Include="..\source\TNode.h" />
     <ClInclude Include="..\source\Uses.h" />
     <ClInclude Include="..\source\VarTable.h" />
+    <ClInclude Include="..\source\Tokenizer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\AST.cpp" />
     <ClCompile Include="..\source\DesignExtractor.cpp" />
     <ClCompile Include="..\source\Exception.cpp" />
     <ClCompile Include="..\source\Follows.cpp" />
+    <ClCompile Include="..\source\Grammar.cpp" />
+    <ClCompile Include="..\source\GrammarToken.cpp" />
     <ClCompile Include="..\source\Modifies.cpp" />
     <ClCompile Include="..\source\Parent.cpp" />
     <ClCompile Include="..\source\Parser.cpp" />
+    <ClCompile Include="..\source\ParserUtils.cpp" />
     <ClCompile Include="..\source\ParsingToken.cpp" />
     <ClCompile Include="..\source\PKB.cpp" />
     <ClCompile Include="..\source\QNode.cpp" />
@@ -50,6 +57,7 @@
     <ClCompile Include="..\source\TNode.cpp" />
     <ClCompile Include="..\source\Uses.cpp" />
     <ClCompile Include="..\source\VarTable.cpp" />
+    <ClCompile Include="..\source\Tokenizer.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DC21A1EA-D2C6-4D14-A2B4-E025B64BDE81}</ProjectGuid>

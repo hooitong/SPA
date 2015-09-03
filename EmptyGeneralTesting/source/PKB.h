@@ -22,6 +22,7 @@ class PKB {
   public:
     /* Static method to retrieve singleton instance */
     static PKB* getPKB();
+	static void deletePKB();
 
     /* Accessors methods to Design Abstractions in PKB */
     PKB();

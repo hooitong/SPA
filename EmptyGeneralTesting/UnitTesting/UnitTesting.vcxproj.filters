@@ -15,47 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\ASTTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\DesignExtractorTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\FollowsTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ModifiesTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ParentTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\ParserTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\QueryEvaluatorTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\QueryPreprocessorTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\QueryResultTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\QueryTreeTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\TNodeTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\UsesTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\VarTableTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="source\ASTTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -98,5 +57,58 @@
     <ClCompile Include="source\VarTableTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\GrammarTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\TokenizerTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source\ASTTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\DesignExtractorTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\FollowsTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\GrammarTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ModifiesTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ParentTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ParserTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\QueryEvaluatorTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\QueryPreprocessorTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\QueryResultTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\QueryTreeTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\TNodeTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\UsesTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\VarTableTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\TokenizerTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

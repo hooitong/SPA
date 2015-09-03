@@ -1,0 +1,8 @@
+procedure TestProcedure {
+  if x then{
+	x=10;
+  }	
+  else{
+  	y=20;
+  }						
+}

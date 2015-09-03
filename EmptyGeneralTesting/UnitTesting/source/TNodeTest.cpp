@@ -7,9 +7,12 @@
 void TNodeTest::setUp() {
     vTable = new VarTable;
     VARINDEX vX = (*vTable).insertVar("x");
-    node = new TNode(VARN, std::to_string(static_cast<long long>(vX))); //need to change to stmt number
-    nodePlus = new TNode(PLUSN, "");
-    nodeParent = new TNode(MINUSN, "");
+    node = new TNode(); //need to change to stmt number
+	node->setTType(VARN);
+    nodePlus = new TNode();
+	nodePlus->setTType(PLUSN);
+    nodeParent = new TNode();
+	nodeParent->setTType(MINUSN);
 }
 
 void TNodeTest::tearDown() {

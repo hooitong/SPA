@@ -5,23 +5,14 @@
 
 class ParsingToken {
   public:
-    ParsingToken(TokenType type, string sValue, int iValue);
+    ParsingToken(string s, int line);
     ParsingToken(void);
     ~ParsingToken(void);
 
-    TokenType getTokenType();
-    string getStringValue();
-    int getIntValue();
-    int getDisplayedLineIndex();
-
-    void setTokenType(TokenType type);
-    void setStringValue(string sValue);
-    void setIntValue(int iValue);
-    void setDisplayedLineIndex(int lineIndex);
-
+	string getString();
+	int getLineNumber();
+   
   private:
-    TokenType tokenType;
     string stringValue;
-    int intValue;
-    int displayedLineIndex;
+    int lineNumber;
 };

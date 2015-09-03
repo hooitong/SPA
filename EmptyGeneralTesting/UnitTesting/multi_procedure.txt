@@ -1,0 +1,7 @@
+procedure TestProcedure {
+  call AnotherProc;							
+}
+
+procedure AnotherProc {
+  call TestProcedure;							
+}

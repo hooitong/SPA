@@ -1,10 +1,9 @@
 #include "ParsingToken.h"
 
 /* Constructor & Destructor */
-ParsingToken::ParsingToken(TokenType type, string sValue, int iValue) {
-    tokenType = type;
+ParsingToken::ParsingToken(string sValue, int line) {
     stringValue = sValue;
-    intValue = iValue;
+    lineNumber = line;
 }
 
 ParsingToken::ParsingToken(void) {
@@ -15,34 +14,10 @@ ParsingToken::~ParsingToken(void) {
 
 }
 
-TokenType ParsingToken::getTokenType() {
-    return tokenType;
+string ParsingToken::getString(){
+	return stringValue;
 }
 
-string ParsingToken::getStringValue() {
-    return stringValue;
-}
-
-int ParsingToken::getIntValue() {
-    return intValue;
-}
-
-int ParsingToken::getDisplayedLineIndex() {
-    return displayedLineIndex;
-}
-
-void ParsingToken::setTokenType(TokenType type) {
-    tokenType = type;
-}
-
-void ParsingToken::setStringValue(string sValue) {
-    stringValue = sValue;
-}
-
-void ParsingToken::setIntValue(int iValue) {
-    intValue = iValue;
-}
-
-void ParsingToken::setDisplayedLineIndex(int lineIndex) {
-    displayedLineIndex = lineIndex;
+int ParsingToken::getLineNumber(){
+	return lineNumber;
 }

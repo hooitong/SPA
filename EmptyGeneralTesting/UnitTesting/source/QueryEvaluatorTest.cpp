@@ -132,7 +132,7 @@ void QueryEvaluatorTest::setupTestData() {
     uObj->setUsesStmt(t, 12);
 
 
-    AST* aObject = pkbObj->getAst();
+    /*AST* aObject = pkbObj->getAst();
     aObject->addToStmtLineMap(ASSIGNN, 1);
     aObject->setStmtLine(aObject->createTNode(ASSIGNN, ""), 1);
     aObject->addToStmtLineMap(ASSIGNN, 2);
@@ -156,7 +156,7 @@ void QueryEvaluatorTest::setupTestData() {
     aObject->addToStmtLineMap(ASSIGNN, 11);
     aObject->setStmtLine(aObject->createTNode(ASSIGNN, ""), 11);
     aObject->addToStmtLineMap(ASSIGNN, 12);
-    aObject->setStmtLine(aObject->createTNode(ASSIGNN, ""), 12);
+    aObject->setStmtLine(aObject->createTNode(ASSIGNN, ""), 12);*/
 }
 
 
