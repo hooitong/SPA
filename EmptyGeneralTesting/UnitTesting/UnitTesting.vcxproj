@@ -76,6 +76,7 @@
     <ClCompile Include="source\ModifiesTest.cpp" />
     <ClCompile Include="source\ParentTest.cpp" />
     <ClCompile Include="source\ParserTest.cpp" />
+    <ClCompile Include="source\ProcTableTest.cpp" />
     <ClCompile Include="source\QueryEvaluatorTest.cpp" />
     <ClCompile Include="source\QueryPreprocessorTest.cpp" />
     <ClCompile Include="source\QueryResultTest.cpp" />
@@ -95,6 +96,7 @@
     <ClInclude Include="source\ModifiesTest.h" />
     <ClInclude Include="source\ParentTest.h" />
     <ClInclude Include="source\ParserTest.h" />
+    <ClInclude Include="source\ProcTableTest.h" />
     <ClInclude Include="source\QueryEvaluatorTest.h" />
     <ClInclude Include="source\QueryPreprocessorTest.h" />
     <ClInclude Include="source\QueryResultTest.h" />
