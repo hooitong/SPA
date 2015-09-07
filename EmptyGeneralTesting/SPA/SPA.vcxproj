@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="..\source\AST.h" />
     <ClInclude Include="..\source\BitTable.h" />
+    <ClInclude Include="..\source\Calls.h" />
     <ClInclude Include="..\source\DesignExtractor.h" />
     <ClInclude Include="..\source\Exception.h" />
     <ClInclude Include="..\source\Follows.h" />
@@ -32,6 +33,7 @@
     <ClInclude Include="..\source\QueryEvaluator.h" />
     <ClInclude Include="..\source\QueryPreprocessor.h" />
     <ClInclude Include="..\source\QueryResult.h" />
+    <ClInclude Include="..\source\QueryTable.h" />
     <ClInclude Include="..\source\QueryTree.h" />
     <ClInclude Include="..\source\RelationEvaluator.h" />
     <ClInclude Include="..\source\SPAFrontEnd.h" />
@@ -45,6 +47,7 @@
   <ItemGroup>
     <ClCompile Include="..\source\AST.cpp" />
     <ClCompile Include="..\source\BitTable.cpp" />
+    <ClCompile Include="..\source\Calls.cpp" />
     <ClCompile Include="..\source\DesignExtractor.cpp" />
     <ClCompile Include="..\source\Exception.cpp" />
     <ClCompile Include="..\source\Follows.cpp" />
@@ -63,6 +66,7 @@
     <ClCompile Include="..\source\QueryEvaluator.cpp" />
     <ClCompile Include="..\source\QueryPreprocessor.cpp" />
     <ClCompile Include="..\source\QueryResult.cpp" />
+    <ClCompile Include="..\source\QueryTable.cpp" />
     <ClCompile Include="..\source\QueryTree.cpp" />
     <ClCompile Include="..\source\RelationEvaluator.cpp" />
     <ClCompile Include="..\source\SPAFrontEnd.cpp" />

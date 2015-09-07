@@ -29,6 +29,9 @@
     <ClCompile Include="..\source\Grammar.cpp" />
     <ClCompile Include="..\source\GrammarToken.cpp" />
     <ClCompile Include="..\source\Tokenizer.cpp" />
+    <ClCompile Include="..\source\ParserUtils.cpp" />
+    <ClCompile Include="..\source\QueryTable.cpp" />
+    <ClCompile Include="..\source\Calls.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\AST.h" />
@@ -57,10 +60,11 @@
     <ClInclude Include="..\source\VarTable.h" />
     <ClInclude Include="..\source\FollowsEvaluator.h" />
     <ClInclude Include="..\source\ParserUtils.h" />
-    <ClInclude Include="..\source\ParserUtils.cpp" />
     <ClInclude Include="..\source\BitTable.h" />
     <ClInclude Include="..\source\Grammar.h" />
     <ClInclude Include="..\source\GrammarToken.h" />
     <ClInclude Include="..\source\Tokenizer.h" />
+    <ClInclude Include="..\source\Calls.h" />
+    <ClInclude Include="..\source\QueryTable.h" />
   </ItemGroup>
 </Project>
