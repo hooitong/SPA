@@ -7,7 +7,7 @@
 class BitTable{
   private:
      std::map<int, std::vector<bool>> vectorList;
-     void padVector(std::vector<bool> vector, int length);
+     void padVector(std::vector<bool> *vector, int length);
 
   public:
     void putRelation(int parent, int child);

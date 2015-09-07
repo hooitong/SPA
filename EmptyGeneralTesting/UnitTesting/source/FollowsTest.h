@@ -6,14 +6,14 @@
 
 class FollowsTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(FollowsTest);
-  /*  CPPUNIT_TEST(testSet);
+    CPPUNIT_TEST(testSet);
     CPPUNIT_TEST(testSetStar);
     CPPUNIT_TEST(testIsFollows);
     CPPUNIT_TEST(testIsFollowsStar);
     CPPUNIT_TEST(testGetFollowsFrom);
     CPPUNIT_TEST(testGetFollowsFromStar);
     CPPUNIT_TEST(testGetFollowedBy);
-    CPPUNIT_TEST(testGetFollowedByStar);*/
+    CPPUNIT_TEST(testGetFollowedByStar);
     CPPUNIT_TEST_SUITE_END();
 
   private:

@@ -1,13 +1,14 @@
 #include "BitTable.h"
+#include <iostream>
 
 bool BitTable::containsChild(int parent, int child) {
-  std::vector<bool> children = vectorList[parent]; 
-  if(vectorList.size() <= child) {
-    int diff = child - vectorList.size();
+  std::vector<bool> *children = &vectorList[parent]; 
+  if(children->size() <= child) {
+    int diff = child - (children->size() - 1);
     padVector(children, diff);
     return false;
   } else {
-    return children.at(child);
+    return children->at(child);
   }
 }
 
@@ -16,18 +17,18 @@ std::vector<bool>* BitTable::getChildren(int parent) {
 }
 
 void BitTable::putRelation(int parent, int child) {
-  std::vector<bool> children = vectorList[parent];
-  if(vectorList.size() <= child) {
-    int diff = child - vectorList.size();
+  std::vector<bool> *children = &vectorList[parent];
+  if(children->size() <= child) {
+    int diff = child - (children->size() - 1);
     padVector(children, diff);
   }
-  children[child] = true;
+  children->at(child) = true;
 }
 
 /* Pad false values into vector by provided length */
-void BitTable::padVector(std::vector<bool> vector, int length) {
+void BitTable::padVector(std::vector<bool> *vector, int length) {
   for(int i = 0; i < length; i++) {
-    vector.push_back(false);
+    vector->push_back(false);
   }
 }
 

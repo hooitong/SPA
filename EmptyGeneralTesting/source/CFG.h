@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-class Calls {
+class CFG {
 public:
 	
 };
