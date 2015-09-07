@@ -15,18 +15,6 @@ AST::~AST(void) {
 }
 
 
-void AST::setRelationShip(TNode* node){
-	for(int i = 0; i < node->getChildren().size(); i++){
-		
-		TNode* child = node->getChildren()[i];
-		if(child->getStmtLine() != -1){
-			this->setStmtLine(child, child->getStmtLine());
-		}
-		this->setRelationShip(child);
-	}
-
-}
-
 TNode* AST::createTNode(TType nodeType, std::string value) {
     TNode* node = new TNode();
 	node->setTType(nodeType);
@@ -97,6 +85,7 @@ bool AST::setStmtLine(TNode* node, STMTLINE stmtNumber) {
 bool AST::setRoot(TNode* root) {
     rootNode = root;
 	this->setRelationShip(root);
+	this->setPKBRelationShips(root);
     return true;
 }
 
@@ -227,3 +216,56 @@ bool AST::ifNodeVisited(vector<TNode*> nodeList, TNode* node) {
     }
     return false;
 }
+
+
+void AST::setRelationShip(TNode* node){
+	for(int i = 0; i < node->getChildren().size(); i++){
+		
+		TNode* child = node->getChildren()[i];
+		if(child->getStmtLine() != -1){
+			this->setStmtLine(child, child->getStmtLine());
+		}
+
+		if(node->getChildren().size() > i+1){
+			TNode* rightChild = node->getChildren()[i+1];
+			this->setSibling(child, rightChild);
+		}
+
+		this->setRelationShip(child);
+	}
+
+}
+
+void AST::setPKBRelationShips(TNode* node){
+
+	for(int i = 0; i < node->getChildren().size(); i++){
+		
+		TNode* leftNode = node->getChildren()[i];
+		TNode* rightNode = leftNode->getRightSibling();
+		if(isPrimitiveTType(leftNode->getTType()) && isPrimitiveTType(rightNode->getTType())){
+			PKB::getPKB()->getFollows()->setFollows(leftNode->getStmtLine(), rightNode->getStmtLine());
+		} 
+		
+		/*while(rightNode->getTType() != EMPTYN){
+			PKB::getPKB()->getFollows()->setFollowsStar(leftNode->getStmtLine(), rightNode->getStmtLine());
+			rightNode = rightNode->getRightSibling();
+		}*/
+
+
+		if(leftNode->getTType() == VARN){
+			
+		}
+
+
+		
+		this->setPKBRelationShips(leftNode);
+
+	}
+}
+
+bool AST::isPrimitiveTType(TType type){
+	
+	return (type == ASSIGNN || type == WHILEN || type == CALLN || type == IFN);
+
+}
+

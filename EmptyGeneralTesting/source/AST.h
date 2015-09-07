@@ -20,6 +20,9 @@ class AST {
     ~AST(void);
 
 	void setRelationShip(TNode* node);
+	void setPKBRelationShips(TNode* rootNode);
+	bool isPrimitiveTType(TType type);
+
     TNode* createTNode(TType nodeType, std::string value);
     bool setSibling(TNode* leftNode, TNode* rightNode);
     bool addChildTNode(TNode* parent, TNode* child);
