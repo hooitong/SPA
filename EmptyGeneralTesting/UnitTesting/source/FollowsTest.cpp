@@ -98,15 +98,15 @@ void FollowsTest::testGetFollowsFromStar() {
     vector<STMTLINE> resultVector = (*fTest).getFollowsFromStar(2);
     CPPUNIT_ASSERT(resultVector[0] == 1);
     resultVector = (*fTest).getFollowsFromStar(3);
-    CPPUNIT_ASSERT(resultVector[0] == 2);
-    CPPUNIT_ASSERT(resultVector[1] == 1);
+    CPPUNIT_ASSERT(resultVector[0] == 1);
+    CPPUNIT_ASSERT(resultVector[1] == 2);
     resultVector = (*fTest).getFollowsFromStar(4);
-    CPPUNIT_ASSERT(resultVector[0] == 3);
-    CPPUNIT_ASSERT(resultVector[1] == 1);
-    CPPUNIT_ASSERT(resultVector[2] == 2);
+    CPPUNIT_ASSERT(resultVector[0] == 1);
+    CPPUNIT_ASSERT(resultVector[1] == 2);
+    CPPUNIT_ASSERT(resultVector[2] == 3);
     resultVector = (*fTest).getFollowsFromStar(8);
-    CPPUNIT_ASSERT(resultVector[0] == 7);
-    CPPUNIT_ASSERT(resultVector[1] == 6);
+    CPPUNIT_ASSERT(resultVector[0] == 6);
+    CPPUNIT_ASSERT(resultVector[1] == 7);
 
     /* Invalid inputs which should not return any left siblings */
     resultVector = (*fTest).getFollowsFromStar(10);
