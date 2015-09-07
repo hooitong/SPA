@@ -29,6 +29,7 @@
     <ClInclude Include="..\source\Parser.h" />
     <ClInclude Include="..\source\ParsingToken.h" />
     <ClInclude Include="..\source\PKB.h" />
+    <ClInclude Include="..\source\ProcTable.h" />
     <ClInclude Include="..\source\QNode.h" />
     <ClInclude Include="..\source\QueryEvaluator.h" />
     <ClInclude Include="..\source\QueryPreprocessor.h" />
@@ -62,6 +63,7 @@
     <ClCompile Include="..\source\Parser.cpp" />
     <ClCompile Include="..\source\ParsingToken.cpp" />
     <ClCompile Include="..\source\PKB.cpp" />
+    <ClCompile Include="..\source\ProcTable.cpp" />
     <ClCompile Include="..\source\QNode.cpp" />
     <ClCompile Include="..\source\QueryEvaluator.cpp" />
     <ClCompile Include="..\source\QueryPreprocessor.cpp" />
