@@ -227,15 +227,22 @@ void AST::setPKBRelationShips(TNode* node){
 
 	for(int i = 0; i < node->getChildren().size(); i++){
 		
-		///////////////////////
-		//follow & followstar
-		////////////////////////
 		TNode* leftNode = node->getChildren()[i];
 		TNode* rightNode = leftNode->getRightSibling();
 		if(isPrimitiveNode(leftNode) && isPrimitiveNode(rightNode)){
+			///////////////////////
+			//follow
+			////////////////////////
 			PKB::getPKB()->getFollows()->setFollows(leftNode->getStmtLine(), rightNode->getStmtLine());
+			///////////////////////
+			//cfg
+			////////////////////////
+			PKB::getPKB()->getCfg()->insert(leftNode->getStmtLine(), rightNode->getStmtLine());
 		} 
 		
+		///////////////////////
+		//followstar
+		////////////////////////
 		while(isPrimitiveNode(leftNode) && isPrimitiveNode(rightNode)){
 			PKB::getPKB()->getFollows()->setFollowsStar(leftNode->getStmtLine(), rightNode->getStmtLine());
 			rightNode = rightNode->getRightSibling();
@@ -348,7 +355,21 @@ void AST::setPKBRelationShips(TNode* node){
 				parentNode = parentNode->getParentNode();
 			}
 		}
+//---------------------------------------------------------------------
 
+		///////////////////////
+		//cfg
+		////////////////////////
+		if(leftNode->getTType() == WHILEN || leftNode->getTType() == IFN){
+			TNode* firstChildNode = leftNode->getChildren()[1]->getChildren()[0];
+			PKB::getPKB()->getCfg()->insert(leftNode->getStmtLine(), firstChildNode->getStmtLine());
+		}
+		
+		if(leftNode->getTType() == IFN){
+			TNode* secondChildNode = leftNode->getChildren()[2]->getChildren()[0];
+			PKB::getPKB()->getCfg()->insert(leftNode->getStmtLine(), secondChildNode->getStmtLine());
+		}
+		
 //----------------------------------------------------------------------
 
 		this->setPKBRelationShips(leftNode);
@@ -359,7 +380,7 @@ void AST::setPKBRelationShips(TNode* node){
 bool AST::isPrimitiveNode(TNode* node){
 	TType type = node->getTType();
 
-	return ((type == ASSIGNN || type == WHILEN || type == CALLN || type == IFN || type == PROCEDUREN) && node->getStmtLine() != -1);
+	return ((type == ASSIGNN || type == WHILEN || type == CALLN || type == IFN) && node->getStmtLine() != -1);
 
 }
 

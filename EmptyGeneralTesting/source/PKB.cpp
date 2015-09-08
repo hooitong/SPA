@@ -17,6 +17,7 @@ void PKB::deletePKB() {
 PKB::PKB(void) {
     varTable = new VarTable;
     ast = new AST;
+	cfg = new CFG;
     follows = new Follows;
     parent = new Parent;
     modifies = new Modifies;
@@ -29,6 +30,7 @@ PKB::~PKB(void) {
     /* Release all design abstraction back to the memory */
     delete varTable;
     delete ast;
+	delete cfg;
     delete follows;
     delete parent;
     delete modifies;
@@ -67,4 +69,8 @@ ProcTable* PKB::getProcTable(){
 
 Calls* PKB::getCalls(){
 	return calls;
+}
+
+CFG* PKB::getCfg(){
+	return cfg;
 }
