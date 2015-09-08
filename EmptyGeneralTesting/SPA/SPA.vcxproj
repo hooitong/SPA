@@ -29,6 +29,7 @@
     <ClInclude Include="..\source\QueryEvaluator.h" />
     <ClInclude Include="..\source\QueryPreprocessor.h" />
     <ClInclude Include="..\source\QueryResult.h" />
+    <ClInclude Include="..\source\QueryTable.h" />
     <ClInclude Include="..\source\QueryTree.h" />
     <ClInclude Include="..\source\RelationEvaluator.h" />
     <ClInclude Include="..\source\SPAFrontEnd.h" />
@@ -36,7 +37,6 @@
     <ClInclude Include="..\source\Uses.h" />
     <ClInclude Include="..\source\VarTable.h" />
     <ClInclude Include="..\source\FollowsEvaluator.h" />
-    <ClInclude Include="QueryTable.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\AST.cpp" />

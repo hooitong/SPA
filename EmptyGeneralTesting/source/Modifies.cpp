@@ -12,8 +12,17 @@ void Modifies::setModifiesStmt(VARINDEX varIndex, STMTLINE stmt) {
     stmtToVar.putRelation(stmt, varIndex);
 }
 
+void Modifies::setModifiesProc(PROCINDEX procIndex, VARINDEX varIndex) {
+	procToVar.putRelation(procIndex, varIndex);
+	varToProc.putRelation(varIndex, procIndex);
+}
+
 vector<VARINDEX> Modifies::getModifiedByStmt(STMTLINE stmtLine) {
     return stmtToVar.toVector(stmtLine);
+}
+
+vector<PROCINDEX> Modifies::getModifiedByProc(PROCINDEX procIndex) {
+	return procToVar.toVector(procIndex);
 }
 
 vector<STMTLINE> Modifies::getModifies(VARINDEX varIndex) {
