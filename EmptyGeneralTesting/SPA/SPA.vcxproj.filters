@@ -173,7 +173,7 @@
     <ClInclude Include="..\source\ModifiesEvaluator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="QueryTable.h">
+    <ClInclude Include="..\source\QueryTable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
