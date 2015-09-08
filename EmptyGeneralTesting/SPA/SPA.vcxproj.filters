@@ -97,6 +97,9 @@
     <ClCompile Include="..\source\QueryTree.cpp">
       <Filter>Query Processor\Query Preprocessor\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\CFG.cpp">
+      <Filter>PKB\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\AST.h">
@@ -197,6 +200,9 @@
     </ClInclude>
     <ClInclude Include="..\source\QNode.h">
       <Filter>Query Processor\Query Preprocessor\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\CFG.h">
+      <Filter>PKB\Header Flies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
