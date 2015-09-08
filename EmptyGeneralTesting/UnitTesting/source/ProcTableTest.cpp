@@ -24,8 +24,8 @@ void ProcTableTest::insertProcTest(){
 
 void ProcTableTest::getAllTest(){
 	PROCINDEX index = (*procTable).insertProc("winnieWhile");
-	PROCINDEX index = (*procTable).insertProc("issacIf");
-	PROCINDEX index = (*procTable).insertProc("winnieIssac");
+	PROCINDEX index2 = (*procTable).insertProc("issacIf");
+	PROCINDEX index3 = (*procTable).insertProc("winnieIssac");
 
 	CPPUNIT_ASSERT((*procTable).getSize() == 3);
 	

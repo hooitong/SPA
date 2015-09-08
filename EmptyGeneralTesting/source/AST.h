@@ -42,10 +42,7 @@ class AST {
     bool matchRightPattern(STMTLINE stmtRoot, std::string expression, bool strict);
 
 
-    // private methods for pattern matching
-    vector<TNode*> getDFS(TNode* node);
-    string convertTNodeListValueToString(vector<TNode*> nodes);
-    bool ifNodeVisited(vector<TNode*> nodeList, TNode* node);
+   
 
 
 
