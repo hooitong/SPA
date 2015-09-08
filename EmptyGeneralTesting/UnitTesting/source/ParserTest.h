@@ -11,9 +11,9 @@ class ParserTest : public CPPUNIT_NS::TestFixture {
 	CPPUNIT_TEST(testAssign);
 	CPPUNIT_TEST(testMultiProcedure);
     CPPUNIT_TEST(testNodeType);
-   /* CPPUNIT_TEST(testRelationsOfNodes);
+    CPPUNIT_TEST(testRelationsOfNodes);
     CPPUNIT_TEST(testModifies);
-    CPPUNIT_TEST(testUses);*/
+    CPPUNIT_TEST(testUses);
     CPPUNIT_TEST_SUITE_END();
 
   public:

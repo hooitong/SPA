@@ -17,19 +17,18 @@ class Parser {
 
   public:
     Parser(void);
+	Parser(vector<ParsingToken> tokens);
     ~Parser(void);
 
     static void parse(string filename);
 	static TNode* buildAst();
 
 	static pair<TNode*, int> buildExprNodeProcess(int index, int endIndex);
-
+	static pair<TNode*, int> buildNodeProcess(GrammarTType currentTokenType, int index);
 
   private:
     static vector<ParsingToken> programTokenList;
 		
-	static pair<TNode*, int> buildNodeProcess(GrammarTType currentTokenType, int index);
-
 	static TNode* createVarOrConstNode(ParsingToken token);
 	static int getNextSemiColonIndex(int index);
 	static TType convertSymbolToTType(string symbol);

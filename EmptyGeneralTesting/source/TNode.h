@@ -31,10 +31,14 @@ class TNode {
     bool addChild(TNode* child);
 	void setChildren(vector<TNode*> children);
     vector<TNode*> getChildren();
+	void getAllChildrenIncludeSub(vector<TNode*> &children);
     bool setStmtLine(STMTLINE stmtNo);
 	void setNodeValue(string s);
 	void setTType(TType);
     STMTLINE getStmtLine();
-
+	bool contain(TNode* node);
 	void print(int lvl);
+
+private:
+	bool containSubProc(TNode* node, TNode* toMatchNode);
 };

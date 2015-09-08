@@ -75,6 +75,16 @@ vector<TNode*> TNode::getChildren() {
     return childrenNodes;
 }
 
+void TNode::getAllChildrenIncludeSub(vector<TNode*> &children) {
+    
+	for(int i = 0; i<this->getChildren().size(); i ++){
+		TNode* child = this->getChildren()[i];
+		children.push_back(child);
+		child->getAllChildrenIncludeSub(children);
+	}
+
+}
+
 bool TNode::setStmtLine(STMTLINE stmtNo) {
     this->stmtNumber = stmtNo;
     return true;
@@ -90,6 +100,43 @@ void TNode::setNodeValue(string s){
 
 void TNode::setTType(TType t){
 	 type = t;
+}
+
+
+bool TNode::contain(TNode* node){
+
+	vector<TNode*> children;
+	this->getAllChildrenIncludeSub(children);
+	children.insert(children.begin(), this);
+	for(int i = 0; i<children.size(); i++){
+		if(children[i]->getTType() == node->getTType() && children[i]->getValue() == node->getValue()){
+			if(this->containSubProc(children[i], node)){
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+bool TNode::containSubProc(TNode* node, TNode* toMatchNode){
+	if(toMatchNode->getChildren().size() == 0 && node->getChildren().size() == 0) return true;
+
+	if(node->getChildren().size() < toMatchNode->getChildren().size()) return false;
+
+	for(int i = 0; i < toMatchNode->getChildren().size(); i++){
+		
+		if((toMatchNode->getChildren()[i]->getTType() == node->getChildren()[i]->getTType() 
+			&& toMatchNode->getChildren()[i]->getValue() == node->getChildren()[i]->getValue())){
+				this->containSubProc(node->getChildren()[i], toMatchNode->getChildren()[i]);
+		}
+		else{
+			return false;
+		}
+
+	}
+	
+	return true;
+
 }
 
 

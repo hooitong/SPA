@@ -4,6 +4,15 @@
 vector<ParsingToken> Parser::programTokenList;
 Grammar Parser::grammar;
 
+Parser::Parser(vector<ParsingToken> tokens){
+	Parser::grammar = Grammar::Grammar();
+	Parser::grammar.initiate();
+	programTokenList = tokens;	
+}
+
+Parser::~Parser(){
+}
+
 // parse source code from file
 void Parser::parse(string filename) {
   
@@ -134,7 +143,7 @@ pair<TNode*, int> Parser::buildNodeProcess(GrammarTType currentTokenType, int in
 					case G_FACTOR:
 					{
 						pair<TNode*, int> result;
-						if(type == G_EXPR){
+						if(type == G_EXPR || type == G_TERM){
 							result = buildExprNodeProcess(index, -1);
 						}
 						else{

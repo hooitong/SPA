@@ -57,6 +57,7 @@ string Tokenizer::appendWhiteSpace(string input){
 	symbolList.push_back("*");
 	symbolList.push_back("+");
 	symbolList.push_back("=");
+	symbolList.push_back("-");
 	for(int i=0; i <= symbolList.size() - 1 ; i++){
 		ParserUtils::replaceAll(input, symbolList[i], " " + symbolList[i] + " ");
 	}

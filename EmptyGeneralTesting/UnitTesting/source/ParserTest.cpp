@@ -195,6 +195,9 @@ void ParserTest::testNodeType() {
 }
 
 void ParserTest::testRelationsOfNodes() {
+	Parser::parse("sample_source.txt");
+	Parser::buildAst();
+   
     CPPUNIT_ASSERT(PKB::getPKB()->getFollows()->isFollows(1,2));
     CPPUNIT_ASSERT(PKB::getPKB()->getFollows()->isFollows(2,3));
     CPPUNIT_ASSERT(PKB::getPKB()->getFollows()->isFollows(3,4));
@@ -226,6 +229,10 @@ void ParserTest::testRelationsOfNodes() {
 }
 
 void ParserTest::testModifies() {
+
+	Parser::parse("sample_source.txt");
+	Parser::buildAst();
+
     VARINDEX index_i = PKB::getPKB()->getVarTable()->getVarIndex("i");
     CPPUNIT_ASSERT(ParserTest::isModifies(1, index_i));
 
@@ -257,6 +264,10 @@ void ParserTest::testModifies() {
 }
 
 void ParserTest::testUses() {
+
+	Parser::parse("sample_source.txt");
+	Parser::buildAst();
+
     VARINDEX index_a = PKB::getPKB()->getVarTable()->getVarIndex("a");
     CPPUNIT_ASSERT(ParserTest::isUses(3, index_a));
     CPPUNIT_ASSERT(ParserTest::isUses(4, index_a));
