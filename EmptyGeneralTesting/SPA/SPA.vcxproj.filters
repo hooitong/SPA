@@ -1,293 +1,180 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\source\QueryEvaluator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\source\AST.cpp">
-      <Filter>PKB\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\BitTable.cpp">
-      <Filter>PKB\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Calls.cpp">
-      <Filter>PKB\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Follows.cpp">
-      <Filter>PKB\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Modifies.cpp">
-      <Filter>PKB\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Parent.cpp">
-      <Filter>PKB\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ProcTable.cpp">
-      <Filter>PKB\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\VarTable.cpp">
-      <Filter>PKB\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Uses.cpp">
-      <Filter>PKB\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\PKB.cpp">
-      <Filter>PKB\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\TNode.cpp">
-      <Filter>PKB\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Grammar.cpp">
-      <Filter>Frontend\Parser\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\GrammarToken.cpp">
-      <Filter>Frontend\Parser\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Parser.cpp">
-      <Filter>Frontend\Parser\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ParserUtils.cpp">
-      <Filter>Frontend\Parser\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ParsingToken.cpp">
-      <Filter>Frontend\Parser\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Tokenizer.cpp">
-      <Filter>Frontend\Parser\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\SPAFrontEnd.cpp">
-      <Filter>Frontend\SPAFrontEnd\Source Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\source\DesignExtractor.cpp">
-      <Filter>Frontend\DesignExtractor\Source Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\source\Exception.cpp">
-      <Filter>Global\Source Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\FollowsEvaluator.cpp">
-      <Filter>Query Processor\Query Evaluator\Source Files</Filter>
+    <ClCompile Include="..\source\Follows.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\FollowsStarEvaluator.cpp">
-      <Filter>Query Processor\Query Evaluator\Source Files</Filter>
+    <ClCompile Include="..\source\Modifies.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\ModifiesEvaluator.cpp">
-      <Filter>Query Processor\Query Evaluator\Source Files</Filter>
+    <ClCompile Include="..\source\Parent.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\ParentEvaluator.cpp">
-      <Filter>Query Processor\Query Evaluator\Source Files</Filter>
+    <ClCompile Include="..\source\Parser.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\ParentStarEvaluator.cpp">
-      <Filter>Query Processor\Query Evaluator\Source Files</Filter>
+    <ClCompile Include="..\source\ParsingToken.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\QueryEvaluator.cpp">
-      <Filter>Query Processor\Query Evaluator\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\RelationEvaluator.cpp">
-      <Filter>Query Processor\Query Evaluator\Source Files</Filter>
+    <ClCompile Include="..\source\PKB.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\source\QNode.cpp">
-      <Filter>Query Processor\Query Preprocessor\Source Files</Filter>
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\QueryEvaluator.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\source\QueryPreprocessor.cpp">
-      <Filter>Query Processor\Query Preprocessor\Source Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\source\QueryResult.cpp">
-      <Filter>Query Processor\Query Preprocessor\Source Files</Filter>
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\SPAFrontEnd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\TNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Uses.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\VarTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\FollowsEvaluator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\RelationEvaluator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\FollowsStarEvaluator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\ParentEvaluator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\ParentStarEvaluator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\ModifiesEvaluator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QueryAttributeTable.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\source\QueryTable.cpp">
-      <Filter>Query Processor\Query Preprocessor\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\QueryTree.cpp">
-      <Filter>Query Processor\Query Preprocessor\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\CFG.cpp">
-      <Filter>PKB\Source Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\source\QueryEvaluator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\source\AST.h">
-      <Filter>PKB\Header Flies</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\BitTable.h">
-      <Filter>PKB\Header Flies</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Calls.h">
-      <Filter>PKB\Header Flies</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Follows.h">
-      <Filter>PKB\Header Flies</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Modifies.h">
-      <Filter>PKB\Header Flies</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Parent.h">
-      <Filter>PKB\Header Flies</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ProcTable.h">
-      <Filter>PKB\Header Flies</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Uses.h">
-      <Filter>PKB\Header Flies</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\VarTable.h">
-      <Filter>PKB\Header Flies</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\PKB.h">
-      <Filter>PKB\Header Flies</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\TNode.h">
-      <Filter>PKB\Header Flies</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Grammar.h">
-      <Filter>Frontend\Parser\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\GrammarToken.h">
-      <Filter>Frontend\Parser\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Parser.h">
-      <Filter>Frontend\Parser\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ParserUtils.h">
-      <Filter>Frontend\Parser\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ParsingToken.h">
-      <Filter>Frontend\Parser\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Tokenizer.h">
-      <Filter>Frontend\Parser\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\SPAFrontEnd.h">
-      <Filter>Frontend\SPAFrontEnd\Header Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\source\DesignExtractor.h">
-      <Filter>Frontend\DesignExtractor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\GlobalType.h">
-      <Filter>Global\Header Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Exception.h">
-      <Filter>Global\Header Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\ParentStarEvaluator.h">
-      <Filter>Query Processor\Query Evaluator\Header Files</Filter>
+    <ClInclude Include="..\source\Follows.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\FollowsEvaluator.h">
-      <Filter>Query Processor\Query Evaluator\Header Files</Filter>
+    <ClInclude Include="..\source\GlobalType.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\FollowsStarEvaluator.h">
-      <Filter>Query Processor\Query Evaluator\Header Files</Filter>
+    <ClInclude Include="..\source\Modifies.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\ModifiesEvaluator.h">
-      <Filter>Query Processor\Query Evaluator\Header Files</Filter>
+    <ClInclude Include="..\source\Parent.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\ParentEvaluator.h">
-      <Filter>Query Processor\Query Evaluator\Header Files</Filter>
+    <ClInclude Include="..\source\Parser.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\QueryEvaluator.h">
-      <Filter>Query Processor\Query Evaluator\Header Files</Filter>
+    <ClInclude Include="..\source\ParsingToken.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\RelationEvaluator.h">
-      <Filter>Query Processor\Query Evaluator\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryTree.h">
-      <Filter>Query Processor\Query Preprocessor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryTable.h">
-      <Filter>Query Processor\Query Preprocessor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryResult.h">
-      <Filter>Query Processor\Query Preprocessor\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryPreprocessor.h">
-      <Filter>Query Processor\Query Preprocessor\Header Files</Filter>
+    <ClInclude Include="..\source\PKB.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QNode.h">
-      <Filter>Query Processor\Query Preprocessor\Header Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\CFG.h">
-      <Filter>PKB\Header Flies</Filter>
+    <ClInclude Include="..\source\QueryEvaluator.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="PKB">
-      <UniqueIdentifier>{bf79478c-79ed-43c4-9064-53060415837c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Query Processor">
-      <UniqueIdentifier>{64da2328-0b92-4f48-b7e4-2a175afb3196}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Query Processor\Query Evaluator">
-      <UniqueIdentifier>{1f57e74a-9544-4b7d-9573-a72a0a3bd8f3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Query Processor\Query Preprocessor">
-      <UniqueIdentifier>{62e29f73-db51-4674-ab99-57fc53198b54}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Frontend">
-      <UniqueIdentifier>{431f8f37-d090-4524-b3eb-ecda4b4211c8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="PKB\Header Flies">
-      <UniqueIdentifier>{fa1b8b74-15eb-47db-a225-2966bd2a7402}</UniqueIdentifier>
-      <Extensions>.h</Extensions>
-    </Filter>
-    <Filter Include="PKB\Source Files">
-      <UniqueIdentifier>{05477281-3d0c-4e8e-aee8-d500754e7fef}</UniqueIdentifier>
-      <Extensions>.cpp</Extensions>
-    </Filter>
-    <Filter Include="Global">
-      <UniqueIdentifier>{b57e9786-fb57-4cb8-8ca6-ea0baab665ac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Frontend\Parser">
-      <UniqueIdentifier>{049af86f-8c8f-4b72-a59d-0f182af77cf3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Frontend\Parser\Header Files">
-      <UniqueIdentifier>{9e875305-2b71-4ce0-8038-1f73afe60408}</UniqueIdentifier>
-      <Extensions>.h</Extensions>
-    </Filter>
-    <Filter Include="Frontend\Parser\Source Files">
-      <UniqueIdentifier>{08e37055-b727-42bd-b22e-235735c4b567}</UniqueIdentifier>
-      <Extensions>.cpp</Extensions>
-    </Filter>
-    <Filter Include="Frontend\DesignExtractor">
-      <UniqueIdentifier>{aa00176d-9bbc-4c84-a64f-7c550350338d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Frontend\SPAFrontEnd">
-      <UniqueIdentifier>{6c9c61be-be4e-4f16-84bd-a6004f73f5d2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Frontend\SPAFrontEnd\Header Files">
-      <UniqueIdentifier>{0c39dd15-71e5-4004-aad1-3ae067a38653}</UniqueIdentifier>
-      <Extensions>.h</Extensions>
-    </Filter>
-    <Filter Include="Frontend\SPAFrontEnd\Source Files">
-      <UniqueIdentifier>{404f0597-b8a5-4ff9-b70f-dffbdd6c373d}</UniqueIdentifier>
-      <Extensions>.cpp</Extensions>
-    </Filter>
-    <Filter Include="Frontend\DesignExtractor\Header Files">
-      <UniqueIdentifier>{6b1ba70b-1a2d-4acc-94f4-89123368acb6}</UniqueIdentifier>
-      <Extensions>.h</Extensions>
-    </Filter>
-    <Filter Include="Frontend\DesignExtractor\Source Files">
-      <UniqueIdentifier>{f5d0de01-0f82-4c4f-af2d-3979b1a54193}</UniqueIdentifier>
-      <Extensions>.cpp</Extensions>
-    </Filter>
-    <Filter Include="Global\Header Files">
-      <UniqueIdentifier>{1a0595e8-89aa-4287-ac32-89f49bf57f87}</UniqueIdentifier>
-      <Extensions>.h</Extensions>
-    </Filter>
-    <Filter Include="Global\Source Files">
-      <UniqueIdentifier>{b1ada265-fcfb-4c73-a253-ad6b8a618187}</UniqueIdentifier>
-      <Extensions>.cpp</Extensions>
-    </Filter>
-    <Filter Include="Query Processor\Query Evaluator\Header Files">
-      <UniqueIdentifier>{3e6fe20d-2d7a-4878-8f75-b69bc358503c}</UniqueIdentifier>
-      <Extensions>.h</Extensions>
-    </Filter>
-    <Filter Include="Query Processor\Query Evaluator\Source Files">
-      <UniqueIdentifier>{6b1b9e06-7740-4f98-bab8-adc9f543a99a}</UniqueIdentifier>
-      <Extensions>.cpp</Extensions>
-    </Filter>
-    <Filter Include="Query Processor\Query Preprocessor\Header Files">
-      <UniqueIdentifier>{d1c5c6ed-ce6e-472f-92a0-f3dba4ab3c44}</UniqueIdentifier>
-      <Extensions>.h</Extensions>
-    </Filter>
-    <Filter Include="Query Processor\Query Preprocessor\Source Files">
-      <UniqueIdentifier>{5eb6f6bc-4373-48f3-bb61-ac3b3e2e2aed}</UniqueIdentifier>
-      <Extensions>.cpp</Extensions>
-    </Filter>
+    <ClInclude Include="..\source\QueryPreprocessor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryResult.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryTree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SPAFrontEnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\TNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Uses.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\VarTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\FollowsEvaluator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\RelationEvaluator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\FollowsStarEvaluator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ParentEvaluator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ParentStarEvaluator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ModifiesEvaluator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="QueryTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

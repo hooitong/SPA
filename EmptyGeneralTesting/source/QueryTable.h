@@ -14,6 +14,11 @@ class QueryTable {
         string synonym;
     };
 
+	struct attribute{ // for attr_compare table
+        vector<string> prefix_type;
+        string intOrStrType;
+    };
+
 	void addEntry(string condition, string array1[], string array2[], int len1,  int len2, int len3, int len4 );
 	void addParentTEntry();
 	//map<string,attr_entry> attr_table;
@@ -25,5 +30,6 @@ class QueryTable {
 		arg_type_list arg2_list;
 	};
 	map<string,entry> table;
+	map<string,entry> attributeTable;
 
 };
