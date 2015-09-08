@@ -357,6 +357,111 @@ bool QueryPreprocessor::checkAttribute(string attribute) {
 	if(pes == string::npos) return false;
     string ref1 = trim(attribute.substr(0, pes)); // checked
 	string ref2 = trim(attribute.substr(pes+1, attribute.length() - pes -1)); //checked
+	/*
+	string intOrStrType;
+    bool flag1 = false;
+    bool flag2 = false;
+    string ref1_prefix, ref1_postfix, ref2_prefix, ref2_postfix;
+	string ref1_type, ref2_type;
+
+    int unsigned p1 = ref1.find(".");
+    if(p1<ref1.size()){
+        //means its attrRef
+        ref1_prefix = trim(ref1.substr(0,p1));
+        ref1_postfix = trim(ref1.substr(p1+1,ref1.size()-p1-1));
+        attribute e = attributeTable[ref1_postfix];
+        //get_type see which design entity it is declared
+        ref1_type = get_type(ref1_prefix);
+		for(unsigned int i=0;i<e.prefix_type.size();i++){
+			if(ref1_type == e.prefix_type[i]){
+            flag1 = true;
+            intOrStrType = e.intOrStrType;
+			break;
+			}
+		}
+        
+
+    }else{
+        if(check_Integer(ref1)){
+            ref1_prefix = ref1;
+			//ref1_type = "integer";
+            intOrStrType = "integer";
+            flag1 = true;
+        }else if(check_synonym(ref1)){
+            string temp_type = get_type(ref1);
+            if(temp_type == "prog_line"){
+                ref1_prefix = ref1;
+				//ref1_type = "prog_line";
+                intOrStrType = "integer";
+                flag1 = true;
+            }
+        }else{
+            if(ref1[0]=='"' && ref1[ref1.size()-1]=='"'){
+				ref1_prefix = ref1.substr(1,ref1.size()-2); //strip ""
+                //ref1_type = "string";
+                intOrStrType = "string";
+                flag1 = true;
+            }
+        }
+    }
+
+    unsigned int p2 = ref2.find(".");
+    if(p2<ref2.size()){
+        ref2_prefix = trim(ref2.substr(0,p2));
+        ref2_postfix = trim(ref2.substr(p2+1,ref2.size()-p2-1));
+        attribute e = attributeTable[ref2_postfix];
+        ref2_type = get_type(ref2_prefix);
+		for(unsigned int i=0;i<e.prefix_type.size();i++){
+		
+			if(ref2_type == e.prefix_type[i]){
+				if(intOrStrType!=e.intOrStrType)
+					return false;
+				flag2 = true;
+				break;
+			}
+		}
+    }else{
+        if(check_Integer(ref2)){
+            ref2_prefix = ref2;
+            ref2_type = "integer";
+            if(intOrStrType != "integer")
+                return false;
+            flag2 = true;
+        }else if(check_synonym(ref2)){
+            //get_type see which design entity it is declared
+            ref2_type = get_type(ref2);
+            if(ref2_type == "prog_line"){
+                ref2_prefix = ref2;
+                if(intOrStrType != "integer")
+                    return false;
+                flag2 = true;
+            }
+        }else{
+            if(ref2[0]=='"' && ref2[ref2.size()-1]=='"'){
+				ref2_prefix = ref2.substr(1,ref2.size()-2);
+                ref2_type = "string";
+                if(intOrStrType != "string")
+                    return false;
+                flag2 = true;
+            }
+        }
+    }
+
+    if(flag1&&flag2){
+       
+        --attr_compare* compare = new attr_compare(ref1_prefix,ref1_type,ref2_prefix,ref2_type,intOrStrType);
+
+		bool b1 = ref1_type=="string"||ref1_type=="integer";
+		bool b2 = ref2_type=="string"||ref2_type=="integer";
+		if(b1||b2)
+			constant_relations.push_front(compare);
+        else 
+			relations.push_front(compare);
+        --
+        return true;
+    }
+    else return false;
+	*/
 	/*if(checkAttReference(ref1)&& checkAttReference(ref2)){
 
 	}else if(checkVarReference(ref1) && checkVarReference(ref2)){
