@@ -7,6 +7,8 @@
 #include "Parent.h"
 #include "Modifies.h"
 #include "Uses.h"
+#include "ProcTable.h"
+#include "Calls.h"
 
 class PKB {
   private:
@@ -18,6 +20,8 @@ class PKB {
     Parent* parent;
     Modifies* modifies;
     Uses* uses;
+	ProcTable* procTable;
+	Calls* calls;
 
   public:
     /* Static method to retrieve singleton instance */
@@ -33,5 +37,6 @@ class PKB {
     Parent* getParent();
     Modifies* getModifies();
     Uses* getUses();
-
+	ProcTable* getProcTable();
+	Calls* getCalls();
 };

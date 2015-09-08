@@ -21,6 +21,8 @@ PKB::PKB(void) {
     parent = new Parent;
     modifies = new Modifies;
     uses = new Uses;
+	calls = new Calls;
+	procTable = new ProcTable;
 }
 
 PKB::~PKB(void) {
@@ -31,6 +33,8 @@ PKB::~PKB(void) {
     delete parent;
     delete modifies;
     delete uses;
+	delete calls;
+	delete procTable;
 }
 
 VarTable* PKB::getVarTable() {
@@ -55,4 +59,12 @@ Modifies* PKB::getModifies() {
 
 Uses* PKB::getUses() {
     return uses;
+}
+
+ProcTable* PKB::getProcTable(){
+	return procTable;
+}
+
+Calls* PKB::getCalls(){
+	return calls;
 }

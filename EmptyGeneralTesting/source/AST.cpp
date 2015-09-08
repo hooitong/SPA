@@ -223,8 +223,8 @@ void AST::setPKBRelationShips(TNode* node){
 		}
 	}
 	
+//----------------------------------------------------
 
-	
 	for(int i = 0; i < node->getChildren().size(); i++){
 		
 		///////////////////////
@@ -240,6 +240,42 @@ void AST::setPKBRelationShips(TNode* node){
 			PKB::getPKB()->getFollows()->setFollowsStar(leftNode->getStmtLine(), rightNode->getStmtLine());
 			rightNode = rightNode->getRightSibling();
 		}
+
+//----------------------------------------------------
+
+		if(leftNode->getTType() == PROCEDUREN){
+			//////////////////////
+			//proctable
+			/////////////////////
+			PROCINDEX procIndex = PKB::getPKB()->getProcTable()->insertProc(leftNode->getValue());
+		}
+
+		if(leftNode->getTType() == CALLN){
+			//////////////////////
+			//proctable
+			/////////////////////
+			PROCINDEX calledIndex = PKB::getPKB()->getProcTable()->insertProc(leftNode->getValue());
+			TNode* parentNode = leftNode->getParentNode();
+			while(parentNode->getTType() != PROCEDUREN){
+				parentNode = parentNode->getParentNode();
+			}
+			PROCINDEX callerIndex = PKB::getPKB()->getProcTable()->insertProc(parentNode->getValue());
+			//////////////////////
+			//calls
+			/////////////////////
+			PKB::getPKB()->getCalls()->setCalls(callerIndex, calledIndex);
+
+			//////////////////////
+			//callstar
+			/////////////////////
+			PKB::getPKB()->getCalls()->setCallsStar(callerIndex, calledIndex);
+			vector<PROCINDEX> callsToByCalled = PKB::getPKB()->getCalls()->getCallsToStar(calledIndex);
+			for(int q = 0; q<callsToByCalled.size(); q++){
+				PKB::getPKB()->getCalls()->setCallsStar(callsToByCalled[q], calledIndex);
+			}
+		}
+
+
 
 //----------------------------------------------------
 
