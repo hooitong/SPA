@@ -3,6 +3,7 @@
 
 vector<ParsingToken> Parser::programTokenList;
 Grammar Parser::grammar;
+int Parser::maxIndex = 0;
 
 Parser::Parser(vector<ParsingToken> tokens){
 	Parser::grammar = Grammar::Grammar();
@@ -15,29 +16,52 @@ Parser::~Parser(){
 
 // parse source code from file
 void Parser::parse(string filename) {
-  
-    try {
-		Parser::grammar = Grammar::Grammar();
-		Parser::grammar.initiate();
-		Tokenizer tokenizer = Tokenizer::Tokenizer(filename);
-		programTokenList = tokenizer.start();
-		
-    } catch (SyntaxErrorException e) {
-        cout << e.message();
-        exit (EXIT_FAILURE);
-    } catch (InvalidNameException e) {
-        cout << e.message();
-        exit (EXIT_FAILURE);
-    } catch (InvalidProcedureException e) {
-        cout << e.message();
-        exit (EXIT_FAILURE);
-    }
+	Parser::grammar = Grammar::Grammar();
+	Parser::grammar.initiate();
+	Tokenizer tokenizer = Tokenizer::Tokenizer(filename);
+	programTokenList = tokenizer.start();
 }
 
 TNode* Parser::buildAst(){
+	maxIndex = 0;
 	TNode* root = Parser::buildNodeProcess(G_PROGRAM, 0).first;
+	if(root->getTType() == EMPTYN){
+		throw SyntaxErrorException(programTokenList.at(maxIndex).getLineNumber());
+	}
 	PKB::getPKB()->getAst()->setRoot(root);
+	Parser::verifyProcedureRules(root);
 	return root;
+}
+
+void Parser::verifyProcedureRules(TNode* node){
+	vector<TNode*> procedureNodes;
+	node->getAllChildrenIncludeSubByTType(procedureNodes, PROCEDUREN);
+
+	for(int i = 0; i<procedureNodes.size(); i++){
+		vector<TNode*> callsNodes;
+		procedureNodes[i]->getAllChildrenIncludeSubByTType(callsNodes, CALLN);
+		for(int k=0; k< callsNodes.size(); k++){
+			bool found = false;
+			for(int g=0; g<procedureNodes.size(); g++){
+				if(procedureNodes[g]->getValue() == callsNodes[k]->getValue()){
+					found = true;
+					break;
+				}
+			}
+			if(!found){
+				throw InvalidProcedureException(callsNodes[k]->getStmtLine());
+			}
+		}
+
+		for(int k = 0; k<procedureNodes.size(); k++){
+			if(k!=i){
+				if(procedureNodes[k]->getValue() == procedureNodes[i]->getValue()){
+					throw InvalidNameException(procedureNodes[k]->getStmtLine());
+				}
+			}
+		}
+
+	}
 }
 
 pair<TNode*, int> Parser::buildNodeProcess(GrammarTType currentTokenType, int index){
@@ -169,6 +193,7 @@ pair<TNode*, int> Parser::buildNodeProcess(GrammarTType currentTokenType, int in
 							if(expectedToken.isAllowMultiple()){
 								matchAtLeastOneRule = true;
 								q = -1;
+								
 							}
 						}
 					}
@@ -180,6 +205,7 @@ pair<TNode*, int> Parser::buildNodeProcess(GrammarTType currentTokenType, int in
 							parentTNode->setStmtLine(programTokenList.at(index).getLineNumber());
 							parentTNode->setNodeValue(programTokenList.at(index).getString());
 							index++;
+							updateMaxIndex(index);
 							hasSubRule = true;
 						}
 						else{
@@ -193,6 +219,7 @@ pair<TNode*, int> Parser::buildNodeProcess(GrammarTType currentTokenType, int in
 							parentTNode->setStmtLine(programTokenList.at(index).getLineNumber());
 							parentTNode->setNodeValue(programTokenList.at(index).getString());
 							index++;
+							updateMaxIndex(index);
 							hasSubRule = true;
 						}
 						else{
@@ -202,8 +229,11 @@ pair<TNode*, int> Parser::buildNodeProcess(GrammarTType currentTokenType, int in
 					break;
 
 					case G_TEXT:
+						if(index > programTokenList.size() -1) throw SyntaxErrorException(programTokenList.at(index-1).getLineNumber()); 
+						
 						if(programTokenList.at(index).getString() == expectedToken.getString()){
 							index++;
+							updateMaxIndex(index);
 							hasSubRule = true;
 						}
 						else{
@@ -218,16 +248,14 @@ pair<TNode*, int> Parser::buildNodeProcess(GrammarTType currentTokenType, int in
 				if(q == expectedTokens[i].size()-1 && hasSubRule){
 					matchAtLeastOneRule = true;
 					breakOuter = true;
+					updateMaxIndex(index);
 				}
 
 				if(breakInner) break;
 		
 			}
-
 			if(breakOuter) break;
-
 		}
-	
 	}
 
 	if((parentTNode->getTType() == EMPTYN || parentTNode->getTType() == UNKNOWNN)){
@@ -249,6 +277,8 @@ pair<TNode*, int> Parser::buildNodeProcess(GrammarTType currentTokenType, int in
 pair<TNode*, int> Parser::buildExprNodeProcess(int index, int endIndex){
 
 	if(endIndex == -1) endIndex = Parser::getNextSemiColonIndex(index);
+	if(endIndex == -1) return make_pair<TNode*, int>(new TNode, endIndex);
+
 
 	vector<ParsingToken> tokens;
 	for(int i = index; i < endIndex; i++) tokens.push_back(programTokenList[i]);
@@ -278,7 +308,11 @@ TNode* Parser::combinePriotizedNodes(vector<TNode*> &nodes){
 	if(maxIndex != -1){
 		TNode* leftNode = nodes[maxIndex-1];
 		TNode* symbolNode = nodes[maxIndex];
+		if(maxIndex+1 >= nodes.size()){
+			throw SyntaxErrorException(programTokenList.at(Parser::maxIndex).getLineNumber());
+		}
 		TNode* rightNode = nodes[maxIndex+1];
+
 		symbolNode->addChild(leftNode);
 		symbolNode->addChild(rightNode);
 		symbolNode->setNodeValue("-1");
@@ -287,7 +321,13 @@ TNode* Parser::combinePriotizedNodes(vector<TNode*> &nodes){
 		combinePriotizedNodes(nodes);
 	}
 
-	return nodes[0];
+	if(nodes.size() == 0){
+		return new TNode();
+	}
+	else{
+		return nodes[0];
+	}
+	
 
 }
 
@@ -319,12 +359,15 @@ vector<TNode*> Parser::prioritizeExpr(vector<ParsingToken> &tokens){
 		}
 
 	}
+
+	if(base !=0) nodes.clear();
 	return nodes;
 }
 
 int Parser::getNextSemiColonIndex(int index){
 	string token;
 	while(token != ";"){
+		if(index > programTokenList.size()-1) return -1;
 		token = programTokenList.at(index).getString();
 		index++;
 	}
@@ -341,6 +384,9 @@ TNode* Parser::createVarOrConstNode(ParsingToken token){
 	}
 	else if(ParserUtils::isNumeric(nameOrValue)){
 		node->setTType(CONSTN);
+	}
+	else{
+		throw SyntaxErrorException(programTokenList.at(maxIndex).getLineNumber());
 	}
 
 	node->setNodeValue(nameOrValue);
@@ -359,3 +405,9 @@ TType Parser::convertSymbolToTType(string symbol){
 		return TIMESN;
 	}
 }
+
+void Parser::updateMaxIndex(int newIndex){
+	maxIndex = newIndex;
+}
+
+

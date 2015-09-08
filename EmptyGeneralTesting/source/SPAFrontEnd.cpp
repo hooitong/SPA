@@ -18,8 +18,21 @@ SPAFrontEnd* SPAFrontEnd::getInstance() {
 
 void SPAFrontEnd::parseSource(const std::string fileName) {
     // call Parser static method to parse given file into AST.
-    Parser::parse(fileName);
-	Parser::buildAst();
+	try
+	{
+	   Parser::parse(fileName);
+	   Parser::buildAst();
+	} catch (SyntaxErrorException e) {
+        cout << e.message();
+        exit (EXIT_FAILURE);
+    } catch (InvalidNameException e) {
+        cout << e.message();
+        exit (EXIT_FAILURE);
+    } catch (InvalidProcedureException e) {
+        cout << e.message();
+        exit (EXIT_FAILURE);
+    }
+
 
     // Call DesignExtractor static method to parse AST further into PKB.
     DesignExtractor::extract();

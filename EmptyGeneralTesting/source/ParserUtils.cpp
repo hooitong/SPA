@@ -35,6 +35,9 @@ bool ParserUtils::isValidName(string aString) {
     }
 }
 
+bool ParserUtils::isValidNameOrNumeric(string aString){
+	return ParserUtils::isValidName(aString) || ParserUtils::isNumeric(aString);
+}
 
 vector<string> ParserUtils::split(const string &s, char delim) {
     vector<std::string> elems;

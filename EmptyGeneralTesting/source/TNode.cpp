@@ -85,6 +85,17 @@ void TNode::getAllChildrenIncludeSub(vector<TNode*> &children) {
 
 }
 
+
+void TNode::getAllChildrenIncludeSubByTType(vector<TNode*> &children, TType type) {
+    
+	for(int i = 0; i<this->getChildren().size(); i ++){
+		TNode* child = this->getChildren()[i];
+		if(child->getTType() == type) children.push_back(child);
+		child->getAllChildrenIncludeSubByTType(children, type);
+	}
+
+}
+
 bool TNode::setStmtLine(STMTLINE stmtNo) {
     this->stmtNumber = stmtNo;
     return true;
