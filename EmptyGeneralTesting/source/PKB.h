@@ -9,6 +9,7 @@
 #include "Uses.h"
 #include "ProcTable.h"
 #include "Calls.h"
+#include "CFG.h"
 
 class PKB {
   private:
@@ -16,6 +17,7 @@ class PKB {
 
     VarTable* varTable;
     AST* ast;
+	CFG* cfg;
     Follows* follows;
     Parent* parent;
     Modifies* modifies;
@@ -39,4 +41,5 @@ class PKB {
     Uses* getUses();
 	ProcTable* getProcTable();
 	Calls* getCalls();
+	CFG* getCfg();
 };

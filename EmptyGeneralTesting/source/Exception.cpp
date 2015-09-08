@@ -9,13 +9,12 @@ InvalidNameException::~InvalidNameException() {
 }
 
 string InvalidNameException::message() {
-    string s = std::to_string(static_cast<long long>(lineIndex));
-    string message = "Invalid name error at line ";
-    return message.append(s);
+    string message = "Duplicate procedure name error.";
+    return message;
 }
 
-InvalidProcedureException::InvalidProcedureException() {
-
+InvalidProcedureException::InvalidProcedureException(STMTLINE line) {
+	lineIndex = line;
 }
 
 InvalidProcedureException::~InvalidProcedureException() {
@@ -23,7 +22,9 @@ InvalidProcedureException::~InvalidProcedureException() {
 }
 
 string InvalidProcedureException::message() {
-    return "Invalid procedure ";
+    string s = std::to_string(static_cast<long long>(lineIndex));
+    string message = "Invalid procedure call at line ";
+    return message.append(s);
 }
 
 SyntaxErrorException::SyntaxErrorException(STMTLINE line) {

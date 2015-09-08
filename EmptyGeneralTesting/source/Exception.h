@@ -17,10 +17,13 @@ class InvalidNameException : public exception {
 
 class InvalidProcedureException : public exception {
   public:
-    InvalidProcedureException();
+    InvalidProcedureException(STMTLINE line);
     ~InvalidProcedureException();
 
     string message();
+
+	private:
+	 STMTLINE lineIndex;
 };
 
 class SyntaxErrorException : public exception {

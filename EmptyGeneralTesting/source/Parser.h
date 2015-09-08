@@ -35,5 +35,8 @@ class Parser {
 	static vector<TNode*> prioritizeExpr(vector<ParsingToken> &tokens);
 	static TNode* combinePriotizedNodes(vector<TNode*> &nodes);
 	static Grammar grammar;
+	static int maxIndex;
+	static void updateMaxIndex(int index);
+	static void verifyProcedureRules(TNode* node);
 	
 };

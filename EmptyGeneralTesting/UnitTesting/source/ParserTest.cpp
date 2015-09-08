@@ -3,7 +3,6 @@
 
 #include "ParserTest.h"
 #include "PKB.h"
-#include "Parser.h"
 #include "GlobalType.h"
 #include "Modifies.h"
 
@@ -322,6 +321,156 @@ void ParserTest::testUses() {
 
     VARINDEX index_w = PKB::getPKB()->getVarTable()->getVarIndex("w");
     CPPUNIT_ASSERT(ParserTest::isUses(20, index_w));
+}
+
+void ParserTest::testExceptions(){
+	//no procedure exception
+	string code = "x = 123;";	
+	Parser parser = buildParserByCodeString(code);
+	try
+	{
+	    parser.buildAst();
+		CPPUNIT_ASSERT(0 == 1);		//should throw syntax error exception
+	} catch (SyntaxErrorException e) {
+        CPPUNIT_ASSERT(1 == 1);
+    } 
+	
+	//empty procedure
+	code = "procedure abc{}";	
+	parser = buildParserByCodeString(code);
+	try
+	{
+	    parser.buildAst();
+		CPPUNIT_ASSERT(0 == 1);		//should throw syntax error exception
+	} catch (SyntaxErrorException e) {
+        CPPUNIT_ASSERT(1 == 1);
+    }
+
+
+	//empty stmtlst
+	code = "procedure abc{"
+		"		while a{}"
+			"}";	
+	parser = buildParserByCodeString(code);
+	try
+	{
+	    parser.buildAst();
+		CPPUNIT_ASSERT(0 == 1);		//should throw syntax error exception
+	} catch (SyntaxErrorException e) {
+        CPPUNIT_ASSERT(1 == 1);
+    }
+
+	//invalid while
+	code = "procedure abc{"
+		"		while 123{"
+					"a = 1;"
+				"}"
+			"}";	
+	parser = buildParserByCodeString(code);
+	try
+	{
+	    parser.buildAst();
+		CPPUNIT_ASSERT(0 == 1);		//should throw syntax error exception
+	} catch (SyntaxErrorException e) {
+        CPPUNIT_ASSERT(1 == 1);
+    }
+
+	//no close bracket
+	code = "procedure abc{"
+				"a = b;";
+	parser = buildParserByCodeString(code);
+	try
+	{
+	    parser.buildAst();
+		CPPUNIT_ASSERT(0 == 1);		//should throw syntax error exception
+	} catch (SyntaxErrorException e) {
+        CPPUNIT_ASSERT(1 == 1);
+    } 
+
+	//invalid variable name
+	code = "procedure abc{"
+			"a = 1;"
+			"123 = b;"
+			"}";
+	parser = buildParserByCodeString(code);
+	try
+	{
+	    parser.buildAst();
+		CPPUNIT_ASSERT(0 == 1);		//should throw syntax error exception
+	} catch (SyntaxErrorException e) {
+        CPPUNIT_ASSERT(1 == 1);
+	}
+
+	//no close parentesis
+	code = "procedure abc{"
+			"a = (1 * 2;"
+			"}";
+	parser = buildParserByCodeString(code);
+	try
+	{
+	    parser.buildAst();
+		CPPUNIT_ASSERT(0 == 1);		//should throw syntax error exception
+	} catch (SyntaxErrorException e) {
+        CPPUNIT_ASSERT(1 == 1);
+    } 
+
+
+	//missing var
+	code = "procedure abc{"
+			"a = 1 + [;"
+			"}";
+	parser = buildParserByCodeString(code);
+	try
+	{
+	    parser.buildAst();
+		CPPUNIT_ASSERT(0 == 1);		//should throw syntax error exception
+	} catch (SyntaxErrorException e) {
+        CPPUNIT_ASSERT(1 == 1);
+    } 
+
+	//duplicate procedure names
+	code = "procedure abc{"
+			"a = 1 + 1;"
+			"}"
+			"procedure abc{"
+			"b = 1 + 2;"
+			"}";
+	parser = buildParserByCodeString(code);
+	try
+	{
+	    parser.buildAst();
+		CPPUNIT_ASSERT(0 == 1);		//should throw syntax error exception
+	} catch (InvalidNameException e) {
+        CPPUNIT_ASSERT(1 == 1);
+    } 
+
+	
+	//invalid procedure name from call
+	code = "procedure abc{"
+			"call cde;"
+			"}"
+			"procedure efg{"
+			"b = 1 + 2;"
+			"}";
+	parser = buildParserByCodeString(code);
+	try
+	{
+	    parser.buildAst();
+		CPPUNIT_ASSERT(0 == 1);		//should throw syntax error exception
+	} catch (InvalidProcedureException e) {
+        CPPUNIT_ASSERT(1 == 1);
+    } 
+
+
+
+}
+
+Parser ParserTest::buildParserByCodeString(string code){
+	Tokenizer tokenizer = Tokenizer::Tokenizer();
+	vector<ParsingToken> tokens;
+	tokenizer.tokenizeLine(code, 0, tokens);
+	return Parser::Parser(tokens); 
+
 }
 
 bool ParserTest::isModifies(STMTLINE stmt, VARINDEX varIndex) {

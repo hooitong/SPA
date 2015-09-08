@@ -70,6 +70,7 @@
   <ItemGroup>
     <ClCompile Include="source\ASTTest.cpp" />
     <ClCompile Include="source\CallsTest.cpp" />
+    <ClCompile Include="source\CFGTest.cpp" />
     <ClCompile Include="source\DesignExtractorTest.cpp" />
     <ClCompile Include="source\FollowsTest.cpp" />
     <ClCompile Include="source\GrammarTest.cpp" />
@@ -90,6 +91,7 @@
   <ItemGroup>
     <ClInclude Include="source\ASTTest.h" />
     <ClInclude Include="source\CallsTest.h" />
+    <ClInclude Include="source\CFGTest.h" />
     <ClInclude Include="source\DesignExtractorTest.h" />
     <ClInclude Include="source\FollowsTest.h" />
     <ClInclude Include="source\GrammarTest.h" />
