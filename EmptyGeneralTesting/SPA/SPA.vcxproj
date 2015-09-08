@@ -56,7 +56,6 @@
     <ClCompile Include="..\source\QueryEvaluator.cpp" />
     <ClCompile Include="..\source\QueryPreprocessor.cpp" />
     <ClCompile Include="..\source\QueryResult.cpp" />
-    <ClCompile Include="..\source\QueryTable.cpp" />
     <ClCompile Include="..\source\RelationEvaluator.cpp" />
     <ClCompile Include="..\source\SPAFrontEnd.cpp" />
     <ClCompile Include="..\source\TNode.cpp" />
