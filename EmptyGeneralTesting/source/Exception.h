@@ -37,6 +37,17 @@ class SyntaxErrorException : public exception {
     STMTLINE lineIndex;
 };
 
+class RecursiveCallException : public exception {
+  public:
+    RecursiveCallException(STMTLINE line);
+    ~RecursiveCallException();
+
+    string message();
+
+  private:
+    STMTLINE lineIndex;
+};
+
 class InvalidQueryDeclarationException : public exception {
   public:
     InvalidQueryDeclarationException ();

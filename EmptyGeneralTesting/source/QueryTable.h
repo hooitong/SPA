@@ -30,6 +30,6 @@ class QueryTable {
 		arg_type_list arg2_list;
 	};
 	map<string,entry> table;
-	map<string,entry> attributeTable;
+	map<string,attribute> attributeTable;
 
 };

@@ -20,6 +20,6 @@ class Modifies {
     void setModifiesStmt(VARINDEX varIndex, STMTLINE stmt);
 	void setModifiesProc(PROCINDEX procIndex, VARINDEX varIndex);
     vector<VARINDEX> getModifiedByStmt(STMTLINE stmtLine);
-	vector<PROCINDEX> getModifiedByProc(PROCINDEX procIndex);
+	vector<VARINDEX> getModifiedByProc(PROCINDEX procIndex);
     vector<STMTLINE> getModifies(VARINDEX varIndex);
 };

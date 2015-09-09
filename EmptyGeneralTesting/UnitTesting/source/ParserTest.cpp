@@ -439,7 +439,7 @@ void ParserTest::testExceptions(){
 	try
 	{
 	    parser.buildAst();
-		CPPUNIT_ASSERT(0 == 1);		//should throw syntax error exception
+		CPPUNIT_ASSERT(0 == 1);		//should throw InvalidNameException
 	} catch (InvalidNameException e) {
         CPPUNIT_ASSERT(1 == 1);
     } 
@@ -456,12 +456,24 @@ void ParserTest::testExceptions(){
 	try
 	{
 	    parser.buildAst();
-		CPPUNIT_ASSERT(0 == 1);		//should throw syntax error exception
+		CPPUNIT_ASSERT(0 == 1);		//should throw InvalidProcedureException
 	} catch (InvalidProcedureException e) {
         CPPUNIT_ASSERT(1 == 1);
     } 
 
-
+	
+	//recursive procedure call error
+	code = "procedure abc{"
+			"call abc;"
+			"}";
+	parser = buildParserByCodeString(code);
+	try
+	{
+	    parser.buildAst();
+		CPPUNIT_ASSERT(0 == 1);		//should throw RecursiveCallException
+	} catch (RecursiveCallException e) {
+        CPPUNIT_ASSERT(1 == 1);
+    } 
 
 }
 
