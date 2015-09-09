@@ -38,7 +38,7 @@ QueryResult ModifiesEvaluator::evaluateAnyAny(QNode* node) {
     Modifies* follows = pkb->getModifies();
     vector<STMTLINE> leftLines = pkb->getAst()->getStmtLines(TType::STMTN);
     for (vector<STMTLINE>::size_type i = 0; i < leftLines.size(); i++) {
-        if (pkb->getModifies()->getModifies(leftLines[i]).size() > 0) {
+        if (pkb->getModifies()->getModifiedByStmt(leftLines[i]).size() > 0) {
             return QueryResult(true);
         }
     }

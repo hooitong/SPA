@@ -30,6 +30,7 @@ QueryResult::QueryResult(vector<int> results, string synonym) {
     this->numSynonyms = 1;
     this->synonyms.clear();
     this->synonyms.push_back(synonym);
+    this->indexMap[synonym] = 0;
 
     for (int i = 0; i < (int)results.size(); i++) {
         R_TUPLE tuple;
@@ -41,6 +42,7 @@ QueryResult::QueryResult(vector<int> results, string synonym) {
 QueryResult::QueryResult(vector<pair<int, int> > results, string synonym1, string synonym2) {
 	if (synonym1 == synonym2) {
 		this->numSynonyms = 1;
+        this->indexMap[synonym1] = 0;
 		this->synonyms.clear();
 		this->synonyms.push_back(synonym1);
 		for (int i = 0; i < results.size(); i++) {
@@ -55,6 +57,8 @@ QueryResult::QueryResult(vector<pair<int, int> > results, string synonym1, strin
 		this->synonyms.clear();
 		this->synonyms.push_back(synonym1);
 		this->synonyms.push_back(synonym2);
+        this->indexMap[synonym1] = 0;
+        this->indexMap[synonym2] = 1;
 
 		for (int i = 0; i < (int)results.size(); i++) {
 			R_TUPLE tuple;

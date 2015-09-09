@@ -48,7 +48,7 @@ std::list<string> QueryEvaluator::evaluate(QueryTree* tree) {
             if (synonymMap[resultSynonym[j]] == VARN) {
                 oss << pkbInstance->getVarTable()->getVarName(solutions[i][j]);
             } else if (synonymMap[resultSynonym[j]] == PROCEDUREN) {
-                //TODO: link to procedure
+                oss << pkbInstance->getProcTable()->getProcName(solutions[i][j]);
             } else {
                 oss << solutions[i][j];
             }

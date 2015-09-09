@@ -9,7 +9,7 @@
 
 class QueryEvaluatorTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(QueryEvaluatorTest);
-   /* CPPUNIT_TEST(testFollowsLeft);
+    CPPUNIT_TEST(testFollowsLeft);
     CPPUNIT_TEST(testFollowsRight);
     CPPUNIT_TEST(testFollowsBoth);
     CPPUNIT_TEST(testFollowsNone);
@@ -27,7 +27,7 @@ class QueryEvaluatorTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testModifiesLeft);
     CPPUNIT_TEST(testModifiesRight);
     CPPUNIT_TEST(testModifiesBoth);
-    CPPUNIT_TEST(testModifiesNone);*/
+    CPPUNIT_TEST(testModifiesNone);
     CPPUNIT_TEST_SUITE_END();
 
   private:
