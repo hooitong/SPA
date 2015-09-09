@@ -87,9 +87,6 @@
     <ClCompile Include="..\source\ModifiesEvaluator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QueryAttributeTable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\QueryEvaluator.h">
@@ -168,9 +165,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\source\ModifiesEvaluator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryTable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
