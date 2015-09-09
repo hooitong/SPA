@@ -31,6 +31,7 @@ class TNode {
     bool addChild(TNode* child);
 	void setChildren(vector<TNode*> children);
     vector<TNode*> getChildren();
+	TNode* getParentByTType(TType type);
 	void getAllChildrenIncludeSub(vector<TNode*> &children);
 	void getAllChildrenIncludeSubByTType(vector<TNode*> &children, TType type);
     bool setStmtLine(STMTLINE stmtNo);

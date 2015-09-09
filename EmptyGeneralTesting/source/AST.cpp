@@ -86,6 +86,7 @@ bool AST::setRoot(TNode* root) {
     rootNode = root;
 	this->setRelationShip(root);
 	this->setPKBRelationShips(root);
+	this->setInterprocedureModifiesUses();
     return true;
 }
 
@@ -300,6 +301,8 @@ void AST::setPKBRelationShips(TNode* node){
 				while(parentNode->getTType() != EMPTYN){
 					if(isPrimitiveNode(parentNode)){
 						PKB::getPKB()->getModifies()->setModifiesStmt(varIndex, parentNode->getStmtLine());
+						PROCINDEX procIndex = PKB::getPKB()->getProcTable()->insertProc(parentNode->getParentByTType(PROCEDUREN)->getValue());
+						PKB::getPKB()->getModifies()->setModifiesProc(procIndex, varIndex);
 					}
 					parentNode = parentNode->getParentNode();
 				}
@@ -333,6 +336,8 @@ void AST::setPKBRelationShips(TNode* node){
 						////////////////////////
 						VARINDEX varIndex = PKB::getPKB()->getVarTable()->insertVar(usedVarNodes[i]->getValue());
 						PKB::getPKB()->getUses()->setUsesStmt(varIndex, parentNode->getStmtLine());
+						PROCINDEX procIndex = PKB::getPKB()->getProcTable()->insertProc(parentNode->getParentByTType(PROCEDUREN)->getValue());
+						PKB::getPKB()->getUses()->setUsesProc(procIndex, varIndex);
 					}
 				}
 				parentNode = parentNode->getParentNode();
@@ -351,6 +356,8 @@ void AST::setPKBRelationShips(TNode* node){
 			while(parentNode->getTType() != EMPTYN){
 				if(isPrimitiveNode(parentNode)){
 					PKB::getPKB()->getUses()->setUsesStmt(varIndex, parentNode->getStmtLine());
+					PROCINDEX procIndex = PKB::getPKB()->getProcTable()->insertProc(parentNode->getParentByTType(PROCEDUREN)->getValue());
+					PKB::getPKB()->getUses()->setUsesProc(procIndex, varIndex);
 				}
 				parentNode = parentNode->getParentNode();
 			}
@@ -376,6 +383,29 @@ void AST::setPKBRelationShips(TNode* node){
 
 	}
 }
+
+void AST::setInterprocedureModifiesUses(){
+	vector<VARINDEX> procIndexes = PKB::getPKB()->getProcTable()->getAllProcIndex();
+	
+	for(int i = 0; i < procIndexes.size(); i++){
+		vector<PROCINDEX> calledByStarVec = PKB::getPKB()->getCalls()->getCalledByStar(procIndexes[i]);
+		vector<VARINDEX> modifies, uses;
+		for(int q = 0; q < calledByStarVec.size(); q++){
+			vector<VARINDEX> calledByModifies = PKB::getPKB()->getModifies()->getModifiedByProc(calledByStarVec[q]);
+			vector<VARINDEX> calledByUses = PKB::getPKB()->getUses()->getUsedByProc(calledByStarVec[q]);
+			modifies.insert( modifies.end(), calledByModifies.begin(), calledByModifies.end());		
+			uses.insert( uses.end(), calledByUses.begin(), calledByUses.end());
+		}
+		for(int q = 0; q< modifies.size(); q++){
+			PKB::getPKB()->getModifies()->setModifiesProc(procIndexes[i], modifies[q]);
+		}
+		for(int q = 0; q< uses.size(); q++){
+			PKB::getPKB()->getUses()->setUsesProc(procIndexes[i], uses[q]);
+		}
+	}
+
+}
+
 
 bool AST::isPrimitiveNode(TNode* node){
 	TType type = node->getTType();

@@ -40,17 +40,17 @@ QueryTable::QueryTable(void) {
     procNameList.push_back("call");
     procNameList.push_back("procedure");
     attribute procNameEntry ={procNameList,"string"};
-    attributeTable["procName"] =procNameEntry;
+    //attributeTable["procName"] =procNameEntry;
 
     vector<string> varNameList;
     varNameList.push_back("variable");
     attribute varNameEntry = {varNameList,"string"};
-    attributeTable["varName"] = varNameEntry;
+   // attributeTable["varName"] = varNameEntry;
 
     vector<string> valueList;
     valueList.push_back("constant");
     attribute valueEntry= {valueList,"integer"};
-    attributeTable["value"] = valueEntry;
+   // attributeTable["value"] = valueEntry;
 
     vector<string> stmtList;
     stmtList.push_back("call");
@@ -59,12 +59,12 @@ QueryTable::QueryTable(void) {
     stmtList.push_back("while");
     stmtList.push_back("stmt");
     attribute stmtEntry = {stmtList,"integer"};
-    attributeTable["stmt#"] = stmtEntry;
+   // attributeTable["stmt#"] = stmtEntry;
 
     vector<string> progLineList;
     progLineList.push_back("prog_line");
     attribute progLineEntry = {progLineList,"integer"};
-    attributeTable["prog_line"] = progLineEntry;
+   // attributeTable["prog_line"] = progLineEntry;
 	entry boo = table["Modifies"];
 	if (find(boo.arg2_list.synonym_type.begin(), boo.arg2_list.synonym_type.end(),"procedure")!= boo.arg2_list.synonym_type.end() ){
 	    cout << "Found" <<endl;

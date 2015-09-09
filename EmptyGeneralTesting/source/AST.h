@@ -21,6 +21,7 @@ class AST {
 
 	void setRelationShip(TNode* node);
 	void setPKBRelationShips(TNode* rootNode);
+	void setInterprocedureModifiesUses();
 	bool isPrimitiveNode(TNode* node);
 
     TNode* createTNode(TType nodeType, std::string value);

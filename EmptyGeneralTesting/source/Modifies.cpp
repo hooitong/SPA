@@ -21,7 +21,7 @@ vector<VARINDEX> Modifies::getModifiedByStmt(STMTLINE stmtLine) {
     return stmtToVar.toVector(stmtLine);
 }
 
-vector<PROCINDEX> Modifies::getModifiedByProc(PROCINDEX procIndex) {
+vector<VARINDEX> Modifies::getModifiedByProc(PROCINDEX procIndex) {
 	return procToVar.toVector(procIndex);
 }
 
