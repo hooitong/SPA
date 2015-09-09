@@ -40,7 +40,9 @@ void Parser::verifyProcedureRules(TNode* node){
 	for(int i = 0; i<procedureNodes.size(); i++){
 		vector<TNode*> callsNodes;
 		procedureNodes[i]->getAllChildrenIncludeSubByTType(callsNodes, CALLN);
+		
 		for(int k=0; k< callsNodes.size(); k++){
+			//not found procedure name in call
 			bool found = false;
 			for(int g=0; g<procedureNodes.size(); g++){
 				if(procedureNodes[g]->getValue() == callsNodes[k]->getValue()){
@@ -51,8 +53,15 @@ void Parser::verifyProcedureRules(TNode* node){
 			if(!found){
 				throw InvalidProcedureException(callsNodes[k]->getStmtLine());
 			}
+
+			
+			//recursively procedure call error
+			if(callsNodes[k]->getValue() == procedureNodes[i]->getValue()){
+				throw RecursiveCallException(callsNodes[k]->getStmtLine());
+			}
 		}
 
+		//duplicate procedure name
 		for(int k = 0; k<procedureNodes.size(); k++){
 			if(k!=i){
 				if(procedureNodes[k]->getValue() == procedureNodes[i]->getValue()){

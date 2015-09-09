@@ -41,6 +41,21 @@ string SyntaxErrorException::message() {
     return message.append(s);
 }
 
+RecursiveCallException::RecursiveCallException(STMTLINE line) {
+    lineIndex = line;
+}
+
+RecursiveCallException::~RecursiveCallException() {
+
+}
+
+string RecursiveCallException::message() {
+    string s = std::to_string(static_cast<long long>(lineIndex));
+    string message = "Recursive call error at line ";
+    return message.append(s);
+}
+
+
 InvalidSelectException::InvalidSelectException() {
 
 }

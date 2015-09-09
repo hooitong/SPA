@@ -150,6 +150,16 @@ bool TNode::containSubProc(TNode* node, TNode* toMatchNode){
 
 }
 
+TNode* TNode::getParentByTType(TType type){
+	TNode* parent = this->getParentNode();
+	while(parent->getTType() != EMPTYN){
+		if(parent->getTType() == type){
+			return parent;
+		}
+		parent = parent->getParentNode();
+	}
+	return NULL;
+}
 
 
 void TNode::print(int lvl){
