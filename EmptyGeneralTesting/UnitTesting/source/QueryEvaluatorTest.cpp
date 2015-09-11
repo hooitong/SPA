@@ -901,18 +901,6 @@ void QueryEvaluatorTest::testModifiesRight() {
     result = evaluator.evaluate(tree);
     CPPUNIT_ASSERT(result == expected);
     delete tree;
-
-    tree = createTree(VARIABLESYNONYM, "v", "Modifies", ANY, "", VARIABLESYNONYM, "v");
-
-    expected.clear();
-    expected.push_back("a");
-    expected.push_back("b");
-    expected.push_back("c");
-    expected.push_back("i");
-    expected.push_back("t");
-    result = evaluator.evaluate(tree);
-    CPPUNIT_ASSERT(result == expected);
-    delete tree;
 }
 
 void QueryEvaluatorTest::testModifiesBoth() {
@@ -982,22 +970,6 @@ void QueryEvaluatorTest::testModifiesNone() {
 
 
     tree = createTree(VARIABLESYNONYM, "v", "Modifies", CONST, "5", VAR, "x");
-
-    expected.clear();
-    result = evaluator.evaluate(tree);
-    CPPUNIT_ASSERT(result == expected);
-    delete tree;
-
-    tree = createTree(WHILESYNONYM, "w", "Modifies", ANY, "", ANY, "");
-
-    expected.clear();
-    expected.push_back("5");
-    expected.push_back("7");
-    result = evaluator.evaluate(tree);
-    CPPUNIT_ASSERT(result == expected);
-    delete tree;
-
-    tree = createTree(WHILESYNONYM, "w", "Modifies", ANY, "", VAR, "x");
 
     expected.clear();
     result = evaluator.evaluate(tree);

@@ -8,7 +8,7 @@ class ModifiesTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(ModifiesTest);
     CPPUNIT_TEST(testSetStatement);
     CPPUNIT_TEST(testGetModifiedByStmt);
-    CPPUNIT_TEST(testGetModifies);
+    CPPUNIT_TEST(testGetModifiesForStmt);
     CPPUNIT_TEST_SUITE_END();
 
   private:
@@ -20,5 +20,5 @@ class ModifiesTest : public CPPUNIT_NS::TestFixture {
 
     void testSetStatement();
     void testGetModifiedByStmt();
-    void testGetModifies();
+    void testGetModifiesForStmt();
 };

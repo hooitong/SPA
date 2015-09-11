@@ -158,12 +158,12 @@ void ParserUsesTest::testUsesVarIndex() {
     // for each variable in procedure ABC, check whether STMTLINE returned is valid.
     vector<STMTLINE> result;
 
-    result = uTest->getUses(varTest->getVarIndex("w"));
+    result = uTest->getUsesForStmt(varTest->getVarIndex("w"));
     CPPUNIT_ASSERT(containStmtLine(&result, 4));
     CPPUNIT_ASSERT(containStmtLine(&result, 20));
     CPPUNIT_ASSERT(matchSize(&result, 2));
 
-    result = uTest->getUses(varTest->getVarIndex("x"));
+    result = uTest->getUsesForStmt(varTest->getVarIndex("x"));
     CPPUNIT_ASSERT(containStmtLine(&result, 4));
     CPPUNIT_ASSERT(containStmtLine(&result, 5));
     CPPUNIT_ASSERT(containStmtLine(&result, 9));
@@ -172,7 +172,7 @@ void ParserUsesTest::testUsesVarIndex() {
     CPPUNIT_ASSERT(containStmtLine(&result, 18));
     CPPUNIT_ASSERT(matchSize(&result, 6));
 
-    result = uTest->getUses(varTest->getVarIndex("c"));
+    result = uTest->getUsesForStmt(varTest->getVarIndex("c"));
     CPPUNIT_ASSERT(containStmtLine(&result, 4));
     CPPUNIT_ASSERT(containStmtLine(&result, 5));
     CPPUNIT_ASSERT(containStmtLine(&result, 9));
@@ -181,7 +181,7 @@ void ParserUsesTest::testUsesVarIndex() {
     CPPUNIT_ASSERT(containStmtLine(&result, 17));
     CPPUNIT_ASSERT(matchSize(&result, 6));
 
-    result = uTest->getUses(varTest->getVarIndex("delta"));
+    result = uTest->getUsesForStmt(varTest->getVarIndex("delta"));
     CPPUNIT_ASSERT(containStmtLine(&result, 4));
     CPPUNIT_ASSERT(containStmtLine(&result, 5));
     CPPUNIT_ASSERT(containStmtLine(&result, 9));
@@ -191,7 +191,7 @@ void ParserUsesTest::testUsesVarIndex() {
     CPPUNIT_ASSERT(matchSize(&result, 6));
 
 
-    result = uTest->getUses(varTest->getVarIndex("l"));
+    result = uTest->getUsesForStmt(varTest->getVarIndex("l"));
     CPPUNIT_ASSERT(containStmtLine(&result, 4));
     CPPUNIT_ASSERT(containStmtLine(&result, 5));
     CPPUNIT_ASSERT(containStmtLine(&result, 9));
@@ -200,7 +200,7 @@ void ParserUsesTest::testUsesVarIndex() {
     CPPUNIT_ASSERT(containStmtLine(&result, 15));
     CPPUNIT_ASSERT(matchSize(&result, 6));
 
-    result = uTest->getUses(varTest->getVarIndex("width"));
+    result = uTest->getUsesForStmt(varTest->getVarIndex("width"));
     CPPUNIT_ASSERT(containStmtLine(&result, 4));
     CPPUNIT_ASSERT(containStmtLine(&result, 5));
     CPPUNIT_ASSERT(containStmtLine(&result, 9));
@@ -209,7 +209,7 @@ void ParserUsesTest::testUsesVarIndex() {
     CPPUNIT_ASSERT(containStmtLine(&result, 15));
     CPPUNIT_ASSERT(matchSize(&result, 6));
 
-    result = uTest->getUses(varTest->getVarIndex("Romeo"));
+    result = uTest->getUsesForStmt(varTest->getVarIndex("Romeo"));
     CPPUNIT_ASSERT(containStmtLine(&result, 4));
     CPPUNIT_ASSERT(containStmtLine(&result, 5));
     CPPUNIT_ASSERT(containStmtLine(&result, 9));
@@ -219,7 +219,7 @@ void ParserUsesTest::testUsesVarIndex() {
     CPPUNIT_ASSERT(containStmtLine(&result, 15));
     CPPUNIT_ASSERT(matchSize(&result, 7));
 
-    result = uTest->getUses(varTest->getVarIndex("right"));
+    result = uTest->getUsesForStmt(varTest->getVarIndex("right"));
     CPPUNIT_ASSERT(containStmtLine(&result, 4));
     CPPUNIT_ASSERT(containStmtLine(&result, 5));
     CPPUNIT_ASSERT(containStmtLine(&result, 9));
@@ -227,55 +227,55 @@ void ParserUsesTest::testUsesVarIndex() {
     CPPUNIT_ASSERT(containStmtLine(&result, 12));
     CPPUNIT_ASSERT(matchSize(&result, 5));
 
-    result = uTest->getUses(varTest->getVarIndex("left"));
+    result = uTest->getUsesForStmt(varTest->getVarIndex("left"));
     CPPUNIT_ASSERT(containStmtLine(&result, 4));
     CPPUNIT_ASSERT(containStmtLine(&result, 5));
     CPPUNIT_ASSERT(containStmtLine(&result, 9));
     CPPUNIT_ASSERT(containStmtLine(&result, 11));
     CPPUNIT_ASSERT(matchSize(&result, 4));
 
-    result = uTest->getUses(varTest->getVarIndex("I"));
+    result = uTest->getUsesForStmt(varTest->getVarIndex("I"));
     CPPUNIT_ASSERT(containStmtLine(&result, 4));
     CPPUNIT_ASSERT(containStmtLine(&result, 5));
     CPPUNIT_ASSERT(containStmtLine(&result, 7));
     CPPUNIT_ASSERT(containStmtLine(&result, 8));
     CPPUNIT_ASSERT(matchSize(&result, 4));
 
-    result = uTest->getUses(varTest->getVarIndex("k"));
+    result = uTest->getUsesForStmt(varTest->getVarIndex("k"));
     CPPUNIT_ASSERT(containStmtLine(&result, 4));
     CPPUNIT_ASSERT(containStmtLine(&result, 5));
     CPPUNIT_ASSERT(containStmtLine(&result, 7));
     CPPUNIT_ASSERT(containStmtLine(&result, 8));
     CPPUNIT_ASSERT(matchSize(&result, 4));
 
-    result = uTest->getUses(varTest->getVarIndex("j1k"));
+    result = uTest->getUsesForStmt(varTest->getVarIndex("j1k"));
     CPPUNIT_ASSERT(containStmtLine(&result, 4));
     CPPUNIT_ASSERT(containStmtLine(&result, 5));
     CPPUNIT_ASSERT(containStmtLine(&result, 7));
     CPPUNIT_ASSERT(containStmtLine(&result, 8));
     CPPUNIT_ASSERT(matchSize(&result, 4));
 
-    result = uTest->getUses(varTest->getVarIndex("chArlie"));
+    result = uTest->getUsesForStmt(varTest->getVarIndex("chArlie"));
     CPPUNIT_ASSERT(containStmtLine(&result, 4));
     CPPUNIT_ASSERT(containStmtLine(&result, 5));
     CPPUNIT_ASSERT(containStmtLine(&result, 7));
     CPPUNIT_ASSERT(containStmtLine(&result, 8));
     CPPUNIT_ASSERT(matchSize(&result, 4));
 
-    result = uTest->getUses(varTest->getVarIndex("tmp"));
+    result = uTest->getUsesForStmt(varTest->getVarIndex("tmp"));
     CPPUNIT_ASSERT(containStmtLine(&result, 4));
     CPPUNIT_ASSERT(containStmtLine(&result, 5));
     CPPUNIT_ASSERT(containStmtLine(&result, 6));
     CPPUNIT_ASSERT(containStmtLine(&result, 7));
     CPPUNIT_ASSERT(matchSize(&result, 4));
 
-    result = uTest->getUses(varTest->getVarIndex("beta"));
+    result = uTest->getUsesForStmt(varTest->getVarIndex("beta"));
     CPPUNIT_ASSERT(containStmtLine(&result, 4));
     CPPUNIT_ASSERT(containStmtLine(&result, 5));
     CPPUNIT_ASSERT(containStmtLine(&result, 6));
     CPPUNIT_ASSERT(matchSize(&result, 3));
 
-    result = uTest->getUses(varTest->getVarIndex("a"));
+    result = uTest->getUsesForStmt(varTest->getVarIndex("a"));
     CPPUNIT_ASSERT(containStmtLine(&result, 3));
     CPPUNIT_ASSERT(containStmtLine(&result, 4));
     CPPUNIT_ASSERT(matchSize(&result, 2));
