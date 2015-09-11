@@ -21,6 +21,6 @@ class Uses {
 	void setUsesProc(PROCINDEX procIndex, STMTLINE stmt);
     vector<VARINDEX> getUsedByStmt(STMTLINE stmtLine);
 	vector<PROCINDEX> getUsedByProc(PROCINDEX proc);
-    vector<STMTLINE> getUsesFromVar(VARINDEX varIndex);
-	vector<PROCINDEX> getUsesFromProc(VARINDEX varIndex);
+    vector<STMTLINE> getUsesForStmt(VARINDEX varIndex);
+	vector<PROCINDEX> getUsesForProc(VARINDEX varIndex);
 };
