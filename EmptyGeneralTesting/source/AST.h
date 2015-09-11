@@ -15,15 +15,17 @@ class AST {
     std::pair <std::multimap<TType,STMTLINE>::iterator, std::multimap<TType,STMTLINE>::iterator> stmtRet;
     TNode* rootNode; // only support 1 procedure at the current iteration.
 
-  public:
-    AST(void);
-    ~AST(void);
-
 	void setRelationShip(TNode* node);
 	void setPKBRelationShips(TNode* rootNode);
+	void setInterprocedureCallStar();
+	void recursiveInterprocedureCallStar(PROCINDEX currentProc, PROCINDEX originalProc, bool first, vector<PROCINDEX> &result);
 	void setInterprocedureModifiesUses();
 	bool isPrimitiveNode(TNode* node);
 
+  public:
+    AST(void);
+    ~AST(void);
+	
     TNode* createTNode(TType nodeType, std::string value);
     bool setSibling(TNode* leftNode, TNode* rightNode);
     bool addChildTNode(TNode* parent, TNode* child);

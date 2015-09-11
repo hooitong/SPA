@@ -86,6 +86,7 @@ bool AST::setRoot(TNode* root) {
     rootNode = root;
 	this->setRelationShip(root);
 	this->setPKBRelationShips(root);
+	this->setInterprocedureCallStar();
 	this->setInterprocedureModifiesUses();
     return true;
 }
@@ -273,14 +274,6 @@ void AST::setPKBRelationShips(TNode* node){
 			/////////////////////
 			PKB::getPKB()->getCalls()->setCalls(callerIndex, calledIndex);
 
-			//////////////////////
-			//callstar
-			/////////////////////
-			PKB::getPKB()->getCalls()->setCallsStar(callerIndex, calledIndex);
-			vector<PROCINDEX> callsToByCalled = PKB::getPKB()->getCalls()->getCallsToStar(calledIndex);
-			for(int q = 0; q<callsToByCalled.size(); q++){
-				PKB::getPKB()->getCalls()->setCallsStar(callsToByCalled[q], calledIndex);
-			}
 		}
 
 
@@ -381,6 +374,33 @@ void AST::setPKBRelationShips(TNode* node){
 
 		this->setPKBRelationShips(leftNode);
 
+	}
+}
+
+void AST::setInterprocedureCallStar(){
+	vector<VARINDEX> procIndexes = PKB::getPKB()->getProcTable()->getAllProcIndex();
+	
+	for(int i = 0; i < procIndexes.size(); i++){
+		vector<PROCINDEX> calledBy = PKB::getPKB()->getCalls()->getCalledBy(procIndexes[i]);
+		vector<PROCINDEX> result;
+		for(int q = 0; q < calledBy.size(); q++){
+			recursiveInterprocedureCallStar(calledBy[q], calledBy[q], true, result);
+		}
+		for(int q = 0; q < result.size(); q++){
+			PKB::getPKB()->getCalls()->setCallsStar(procIndexes[i], result[q]);
+		}
+	}
+}
+
+void AST::recursiveInterprocedureCallStar(PROCINDEX currentProc, PROCINDEX originalProc, bool first, vector<PROCINDEX> &result){
+	if(currentProc == originalProc && !first) return;
+
+	result.push_back(currentProc);
+
+	vector<PROCINDEX> calledBy = PKB::getPKB()->getCalls()->getCalledBy(currentProc);
+	for(int q = 0; q < calledBy.size(); q++){
+		result.push_back(calledBy[q]);
+		recursiveInterprocedureCallStar(calledBy[q], originalProc, false, result);
 	}
 }
 
