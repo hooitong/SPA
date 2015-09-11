@@ -20,66 +20,88 @@ QueryPreprocessor::~QueryPreprocessor(void) {
 }
 
 QueryTree* QueryPreprocessor::parseQuery(string query) {
+	//cout << endl << "=====RUNNNING CASE -> " << query << endl;
     try {
         queryTree = new QueryTree();
         QNode* root = queryTree->createNode(QUERY, "");
         queryTree->setAsRoot(root);
-        
-		resultListNode = queryTree->createNode(RESULTLIST, "");
-        queryTree->addChild(root, resultListNode);
 		
 		conditionsNode = queryTree->createNode(CONDITIONLIST, "");
 		queryTree->addChild(root, conditionsNode);
 
-        int p = query.find("Select");
+        int select_index = query.find("Select");
 
-        if (p == string::npos) {
+        if (select_index == string::npos) {
             return NULL;
         }
-
-        string result_cl;
-        string declaration_string = trim(query.substr(0,p));
+        
+        string declaration_string = trim(query.substr(0,select_index));
 		declaration = new QueryPreprocessorDeclaration(declaration_string);
+
+		result = new QueryPreprocessorResult(declaration);
+		condition = new QueryPreprocessorCondition(declaration);
+
+		int first_condition_index = getFirstConditionIndex(query, select_index);
+
+		string result_string = trim(query.substr(select_index + 6, first_condition_index - (select_index + 6)));
+		string condition_string = trim(query.substr(first_condition_index, query.length() - first_condition_index));
+
+		resultListNode = result->getResultTree(result_string);
+		queryTree->addChild(root, resultListNode);
+
+		if (checkConditionExists(query)) {
+
+			map<int,int>::iterator it = posOfConds.begin();
+			//pointer  to first condition/clause
+			int ptf = it -> first;
+
+			while (ptf < (int)query.length()) {
+				int type = it -> second;
+				++it;
+				int pts;
+				if (it == posOfConds.end()) {
+					pts = query.length();
+				} else {
+					pts = it -> first;
+				}
+				string clause = trim(query.substr(ptf, pts - ptf));
+				if (!trimAndCheckClause(clause, type)) {
+					return NULL;
+				}
+				ptf = pts;
+			}
+
+		}
+
 		if (!declaration->isValidDeclaration()) {
 			return NULL;
 		}
+		
+		if (!result->isValidResult()) {
+			return NULL;
+		}
 
-        if(!checkConditionExists(query)) {
-            result_cl = trim(query.substr(p+6, query.length()-p-6));
-            if (!checkTuple(result_cl)) {
-                return NULL;
-            }
-            return queryTree;
-        }
-
-        map<int,int>::iterator it = posOfConds.begin();
-        //pointer  to first condition/clause
-        int ptf = it -> first;
-
-        result_cl = trim(query.substr(p+6, ptf-p-6));
-        if(!checkTuple(result_cl)) {
-            return NULL;
-        }
-
-        while (ptf < (int)query.length()) {
-            int type = it -> second;
-            ++it;
-            int pts;
-            if (it == posOfConds.end()) {
-                pts = query.length();
-            } else {
-                pts = it -> first;
-            }
-            string clause = trim(query.substr(ptf, pts - ptf));
-            if (!trimAndCheckClause(clause, type)) {
-                return NULL;
-            }
-            ptf = pts;
-        }
         return queryTree;
     } catch (exception e) {
         return NULL;
     }
+}
+
+int QueryPreprocessor::getFirstConditionIndex(string query, int start_index) {
+	int first_index = query.length();
+	int first_index_such_that = query.find("such that", start_index);
+	int first_index_pattern = query.find("pattern", start_index);
+	int first_index_with = query.find("with", start_index);
+	if (first_index_such_that != string::npos) {
+		first_index = min(first_index, first_index_such_that);
+	}
+	if (first_index_pattern != string::npos) {
+		first_index = min(first_index, first_index_pattern);
+	}
+	if (first_index_with != string::npos) {
+		first_index = min(first_index, first_index_with);
+	}
+	return first_index;
 }
 
 bool QueryPreprocessor::checkConditionExists(string query) {
@@ -217,16 +239,16 @@ bool QueryPreprocessor::checkInteger(string number) {
     }
     return true;
 }
-bool QueryPreprocessor::checkElem(string elem) {
-    return (isIdent(elem) || checkAttReference(elem));
+bool QueryPreprocessor::isElem(string elem) {
+    return (isIdent(elem) || isAttReference(elem));
 }
-bool QueryPreprocessor::checkAttReference(string attReference) {
+bool QueryPreprocessor::isAttReference(string attReference) {
 
     int p = attReference.find(".");
     if(p == string::npos) return false;
     string s =  attReference.substr(0,p);
     string attribute = attReference.substr(p+1,attReference.length() - p - 1);
-    return (isIdent(s)&&checkAttributeName(attribute));
+    return (isIdent(s)&&isAttributeName(attribute));
 
 }
 bool QueryPreprocessor::checkVarReference(string varReference) {
@@ -304,7 +326,7 @@ QNode* QueryPreprocessor::parseEntRefNoUnderscore(string argument) {
 }
 
 /**************************With  *********************************/
-bool QueryPreprocessor::checkAttributeName(string attName) {
+bool QueryPreprocessor::isAttributeName(string attName) {
     if((attName == "procName") || (attName == "varName") || (attName == "value") || (attName == "stmt#")) {
         return true;
     } else {
@@ -433,7 +455,7 @@ bool QueryPreprocessor::checkAttribute(string attribute) {
     }
     else return false;
 	*/
-	/*if(checkAttReference(ref1)&& checkAttReference(ref2)){
+	/*if(isAttReference(ref1)&& isAttReference(ref2)){
 
 	}else if(checkVarReference(ref1) && checkVarReference(ref2)){
 		leftHandSide = queryTree->createNode(VAR,ref1);
@@ -665,47 +687,6 @@ bool QueryPreprocessor::checkPattern(string pattern) {
     return false;
 }
 
-/**************************result  *********************************/
-
-bool QueryPreprocessor::addTuple(string single_tuple) {
-    single_tuple = trim(single_tuple);
-	if (!declaration->isDeclaredSynonym(single_tuple)) {
-        return false;
-    }
-	QNode* resultNode = declaration->getSynonymTypeNode(single_tuple);
-	if (resultNode == NULL) {
-		return false;
-	}
-    queryTree->addChild(resultListNode, resultNode);
-    return true;
-}
-
-bool QueryPreprocessor::checkTuple(string tuple) {
-    tuple = trim(tuple);
-    if(checkElem(tuple)) {
-		if(declaration->isDeclaredSynonym(tuple)) {
-            return addTuple(tuple);
-        } else {
-            return false;
-        }
-    } else if (tuple.at(0) == '<') {
-        tuple = trim(tuple.substr(1,(int)tuple.size() - 2));
-        int pt = 0;
-        while (pt < (int)tuple.size()) {
-            int nextpt = tuple.find(',',pt);
-            if (nextpt == string::npos) {
-                nextpt = (int)tuple.size();
-            }
-            string single_tuple = trim(tuple.substr(pt,nextpt-pt));
-            if (!addTuple(single_tuple)) {
-                return false;
-            }
-            pt = nextpt + 1;
-        }
-        return true;
-    }
-    return false;
-}
 /************************** Others *********************************/
 
 string QueryPreprocessor::trim(string s) {

@@ -5,6 +5,8 @@
 
 #include "QueryTree.h"
 #include "QueryPreprocessorDeclaration.h"
+#include "QueryPreprocessorResult.h"
+#include "QueryPreprocessorCondition.h"
 
 class QueryPreprocessor {
   public:
@@ -13,11 +15,11 @@ class QueryPreprocessor {
     ~QueryPreprocessor(void);
 
     /*--------------------checking -------------------*/
-    bool checkAttributeName(string attName);
+    static bool isAttributeName(string attName);
     static bool isIdent(string ident);
     bool checkInteger(string number);
-    bool checkAttReference(string attReference);
-    bool checkElem(string elem);
+    static bool isAttReference(string attReference);
+    static bool isElem(string elem);
     bool checkVarReference(string varReference);
     static bool isDesignEntityType(string entity);
     bool addTuple(string single_tuple);
@@ -48,6 +50,7 @@ class QueryPreprocessor {
 	QNode* parseEntRefNoUnderscore(string argument);
 
   private:
+	int getFirstConditionIndex(string query, int start_index);
     map<int, int> posOfConds;
 
     map<int, int> posOfConds1;
@@ -56,5 +59,6 @@ class QueryPreprocessor {
     QNode *resultListNode;
 	QNode *conditionsNode;
 	QueryPreprocessorDeclaration* declaration;
-
+	QueryPreprocessorResult* result;
+	QueryPreprocessorCondition* condition;
 };
