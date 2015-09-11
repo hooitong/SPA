@@ -40,7 +40,7 @@ void UsesTest::testGetUsedByStmt() {
 }
 
 // Test whether getUses works as intended
-void UsesTest::testGetUses() {
+void UsesTest::testGetUsesForStmt() {
     testSetStatement();
 
     /* Valid input and correct StmtLine should be returned */

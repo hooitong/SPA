@@ -128,11 +128,11 @@ void ParserModifiesTest::testModifiesVarIndex() {
     // for each variable in procedure ABC, check whether STMTLINE returned is valid.
     vector<STMTLINE> result;
 
-    result = mTest->getModifies(varTest->getVarIndex("i"));
+    result = mTest->getModifiesForStmt(varTest->getVarIndex("i"));
     CPPUNIT_ASSERT(containStmtLine(&result, 1));
     CPPUNIT_ASSERT(matchSize(&result, 1));
 
-    result = mTest->getModifies(varTest->getVarIndex("b"));
+    result = mTest->getModifiesForStmt(varTest->getVarIndex("b"));
     CPPUNIT_ASSERT(containStmtLine(&result, 2));
     CPPUNIT_ASSERT(containStmtLine(&result, 4));
     CPPUNIT_ASSERT(containStmtLine(&result, 5));
@@ -142,12 +142,12 @@ void ParserModifiesTest::testModifiesVarIndex() {
     CPPUNIT_ASSERT(containStmtLine(&result, 14));
     CPPUNIT_ASSERT(matchSize(&result, 7));
 
-    result = mTest->getModifies(varTest->getVarIndex("w"));
+    result = mTest->getModifiesForStmt(varTest->getVarIndex("w"));
     CPPUNIT_ASSERT(containStmtLine(&result, 4));
     CPPUNIT_ASSERT(containStmtLine(&result, 20));
     CPPUNIT_ASSERT(matchSize(&result, 2));
 
-    result = mTest->getModifies(varTest->getVarIndex("c"));
+    result = mTest->getModifiesForStmt(varTest->getVarIndex("c"));
     CPPUNIT_ASSERT(containStmtLine(&result, 3));
     CPPUNIT_ASSERT(containStmtLine(&result, 4));
     CPPUNIT_ASSERT(containStmtLine(&result, 5));
@@ -159,13 +159,13 @@ void ParserModifiesTest::testModifiesVarIndex() {
     CPPUNIT_ASSERT(containStmtLine(&result, 17));
     CPPUNIT_ASSERT(matchSize(&result, 9));
 
-    result = mTest->getModifies(varTest->getVarIndex("a"));
+    result = mTest->getModifiesForStmt(varTest->getVarIndex("a"));
     CPPUNIT_ASSERT(containStmtLine(&result, 4));
     CPPUNIT_ASSERT(containStmtLine(&result, 5));
     CPPUNIT_ASSERT(containStmtLine(&result, 19));
     CPPUNIT_ASSERT(matchSize(&result, 3));
 
-    result = mTest->getModifies(varTest->getVarIndex("Romeo"));
+    result = mTest->getModifiesForStmt(varTest->getVarIndex("Romeo"));
     CPPUNIT_ASSERT(containStmtLine(&result, 4));
     CPPUNIT_ASSERT(containStmtLine(&result, 5));
     CPPUNIT_ASSERT(containStmtLine(&result, 9));
@@ -174,7 +174,7 @@ void ParserModifiesTest::testModifiesVarIndex() {
     CPPUNIT_ASSERT(containStmtLine(&result, 13));
     CPPUNIT_ASSERT(matchSize(&result, 6));
 
-    result = mTest->getModifies(varTest->getVarIndex("oSCar"));
+    result = mTest->getModifiesForStmt(varTest->getVarIndex("oSCar"));
     CPPUNIT_ASSERT(containStmtLine(&result, 4));
     CPPUNIT_ASSERT(containStmtLine(&result, 5));
     CPPUNIT_ASSERT(containStmtLine(&result, 6));
@@ -182,7 +182,7 @@ void ParserModifiesTest::testModifiesVarIndex() {
     CPPUNIT_ASSERT(containStmtLine(&result, 8));
     CPPUNIT_ASSERT(matchSize(&result, 5));
 
-    result = mTest->getModifies(varTest->getVarIndex("x"));
+    result = mTest->getModifiesForStmt(varTest->getVarIndex("x"));
     CPPUNIT_ASSERT(containStmtLine(&result, 4));
     CPPUNIT_ASSERT(containStmtLine(&result, 5));
     CPPUNIT_ASSERT(containStmtLine(&result, 9));

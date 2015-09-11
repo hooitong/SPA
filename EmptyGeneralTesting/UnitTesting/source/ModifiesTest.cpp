@@ -40,7 +40,7 @@ void ModifiesTest::testGetModifiedByStmt() {
 }
 
 // Test whether getModifies works as intended
-void ModifiesTest::testGetModifies() {
+void ModifiesTest::testGetModifiesForStmt() {
     testSetStatement();
 
     /* Valid input and correct StmtLine should be returned */

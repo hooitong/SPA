@@ -19,8 +19,8 @@ PROCINDEX ProcTable::insertProc(PROCNAME procName) {
     procInfo procedure = {};
     procedure.proc_name = procName;
     procedure.proc_index = currentMapIndex;
-    procIndexMap[currentMapIndex] = procedure;
-    procNameMap[procName] = procedure;
+    procIndexMap[currentMapIndex] = &procedure;
+    procNameMap[procName] = &procedure;
 
     /* Increment the static index */
     PROCINDEX newIndex = currentMapIndex++;
@@ -32,21 +32,17 @@ PROCNAME ProcTable::getProcName(PROCINDEX procIndex) {
     if(procIndex < 0 || procIndex >= currentMapIndex) {
         return "!Invalid!";
     } else {
-        return procIndexMap[procIndex].proc_name;
+        return procIndexMap[procIndex]->proc_name;
     }
 }
 
 PROCINDEX ProcTable::getProcIndex(PROCNAME procName) {
-    map<PROCNAME, procInfo>::iterator itr = procNameMap.find(procName);
+    map<PROCNAME, procInfo*>::iterator itr = procNameMap.find(procName);
     if(itr != procNameMap.end()) {
-        return itr->second.proc_index;
+        return itr->second->proc_index;
     } else {
         return -1;
     }
-}
-
-int ProcTable::getSize() {
-    return currentMapIndex;
 }
 
 vector<PROCINDEX> ProcTable::getAllProcIndex() {
@@ -60,7 +56,27 @@ vector<PROCINDEX> ProcTable::getAllProcIndex() {
 vector<PROCNAME> ProcTable::getAllProcName() {
     vector<PROCNAME> listOfProcName;
     for(int i = 0; i < currentMapIndex; i++) {
-        listOfProcName.push_back(procIndexMap[i].proc_name);
+        listOfProcName.push_back(procIndexMap[i]->proc_name);
     }
     return listOfProcName;
+}
+
+int ProcTable::getSize() {
+	return currentMapIndex;
+}
+
+void ProcTable::setGRoot(PROCINDEX index, GNode * node) {
+	procIndexMap[index]->cfgRoot = node;
+}
+
+GNode* ProcTable::getGRoot(PROCINDEX index) {
+	return procIndexMap[index]->cfgRoot;
+}
+
+void ProcTable::setTRoot(PROCINDEX index, TNode * node) {
+	procIndexMap[index]->astRoot = node;
+}
+
+TNode* ProcTable::getTRoot(PROCINDEX index) {
+	return procIndexMap[index]->astRoot;
 }
