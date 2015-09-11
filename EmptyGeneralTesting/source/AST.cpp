@@ -79,6 +79,7 @@ bool AST::setStmtLine(TNode* node, STMTLINE stmtNumber) {
 	map<STMTLINE, TNode*>::iterator it = stmt2NodeMap.find(stmtNumber);
 	if(it != stmt2NodeMap.end()) return false;
     stmt2NodeMap[stmtNumber] = node;
+	this->addToStmtLineMap(node->getTType(), stmtNumber);
     return true;
 }
 
