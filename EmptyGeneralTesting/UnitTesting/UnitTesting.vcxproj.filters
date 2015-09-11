@@ -75,6 +75,9 @@
     <ClCompile Include="source\CallsEvaluatorTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\CallsStarEvaluatorTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\ASTTest.h">
@@ -132,6 +135,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\CallsEvaluatorTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\CallsStarEvaluatorTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
