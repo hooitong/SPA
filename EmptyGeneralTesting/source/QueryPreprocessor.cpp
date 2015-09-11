@@ -23,30 +23,29 @@ QueryTree* QueryPreprocessor::parseQuery(string query) {
         queryTree = new QueryTree();
         QNode* root = queryTree->createNode(QUERY, "");
         queryTree->setAsRoot(root);
-        resultListNode = queryTree->createNode(RESULTLIST, "");
-        /*suchthatListNode = queryTree->createNode(SUCHTHATLIST, "");
-        patternListNode = queryTree->createNode(PATTERNLIST, "");*/
+        
+		resultListNode = queryTree->createNode(RESULTLIST, "");
         queryTree->addChild(root, resultListNode);
-        /*queryTree->addChild(root, suchthatListNode);
-        queryTree->addChild(root, patternListNode);*/
+		
 		conditionsNode = queryTree->createNode(CONDITIONLIST, "");
 		queryTree->addChild(root, conditionsNode);
 
         int p = query.find("Select");
 
-        if(p == string::npos) {
+        if (p == string::npos) {
             return NULL;
         }
 
         string result_cl;
-        string declaration = trim(query.substr(0,p));
+        string declaration_string = trim(query.substr(0,p));
+		declaration = new QueryPreprocessorDeclaration(declaration_string);
+		if (!declaration->isValidDeclaration()) {
+			return NULL;
+		}
+
         if(!checkConditionExists(query)) {
-            if(checkDeclaration(declaration)) {
-                result_cl = trim(query.substr(p+6, query.length()-p-6));
-                if (!checkTuple(result_cl)) {
-                    return NULL;
-                }
-            } else {
+            result_cl = trim(query.substr(p+6, query.length()-p-6));
+            if (!checkTuple(result_cl)) {
                 return NULL;
             }
             return queryTree;
@@ -57,7 +56,7 @@ QueryTree* QueryPreprocessor::parseQuery(string query) {
         int ptf = it -> first;
 
         result_cl = trim(query.substr(p+6, ptf-p-6));
-        if(!(checkDeclaration(declaration) && checkTuple(result_cl))) {
+        if(!checkTuple(result_cl)) {
             return NULL;
         }
 
@@ -191,7 +190,7 @@ bool QueryPreprocessor::splitAndCheckClause(string clause, int num) {
 
 }
 /**************************Tools *********************************/
-bool QueryPreprocessor::checkIdent(string ident) {
+bool QueryPreprocessor::isIdent(string ident) {
     if(ident.length() == 0)
         return false;
 
@@ -218,7 +217,7 @@ bool QueryPreprocessor::checkInteger(string number) {
     return true;
 }
 bool QueryPreprocessor::checkElem(string elem) {
-    return (checkIdent(elem) || checkAttReference(elem));
+    return (isIdent(elem) || checkAttReference(elem));
 }
 bool QueryPreprocessor::checkAttReference(string attReference) {
 
@@ -226,7 +225,7 @@ bool QueryPreprocessor::checkAttReference(string attReference) {
     if(p == string::npos) return false;
     string s =  attReference.substr(0,p);
     string attribute = attReference.substr(p+1,attReference.length() - p - 1);
-    return (checkIdent(s)&&checkAttributeName(attribute));
+    return (isIdent(s)&&checkAttributeName(attribute));
 
 }
 bool QueryPreprocessor::checkVarReference(string varReference) {
@@ -235,9 +234,9 @@ bool QueryPreprocessor::checkVarReference(string varReference) {
     } else {
         return false;
     }
-    return (checkIdent(varReference));
+    return (isIdent(varReference));
 }
-bool QueryPreprocessor::checkDesignEntity(string entity) {
+bool QueryPreprocessor::isDesignEntityType(string entity) {
     for(int i = 0; i < 10; i++) {
         if(entity == designEntity[i])
             return true;
@@ -249,7 +248,7 @@ bool QueryPreprocessor::checkFactor(string factor) {
     factor = trim(factor);
     if(factor  == "") return false;
 
-    return checkInteger(factor) || checkIdent(factor);
+    return checkInteger(factor) || isIdent(factor);
 }
 
 QNode* QueryPreprocessor::parseStmtRef(string argument) {
@@ -257,17 +256,12 @@ QNode* QueryPreprocessor::parseStmtRef(string argument) {
         return queryTree->createNode(ANY,"");
     } else if (isdigit(argument.at(0))) {
         return queryTree->createNode(CONST,argument);
-    } else if (existsRef(argument)) {
-        if (getType(argument) == "stmt") {
-            return queryTree->createNode(STMTSYNONYM,argument);
-        } else if (getType(argument) == "while") {
-            return queryTree->createNode(WHILESYNONYM,argument);
-        } else if (getType(argument) == "assign") {
-            return queryTree->createNode(ASSIGNSYNONYM,argument);
-        } else if (getType(argument) == "prog_line") {
-            return queryTree->createNode(PROGLINESYNONYM,argument);
-        }
-    }
+    } else if (declaration->isDeclaredSynonym(argument)) {
+		string synonym_type = declaration->getSynonymType(argument);
+		if (synonym_type == "stmt" || synonym_type == "while" || synonym_type == "assign" || synonym_type == "prog_line") {
+			return declaration->getSynonymTypeNode(argument);
+		}
+	}
     return NULL;
 }
 
@@ -276,11 +270,12 @@ QNode* QueryPreprocessor::parseVarRef(string argument) {
         return queryTree->createNode(ANY,"");
     } else if (argument.at(0) == '\"' && argument.at((int)argument.size()-1) == '\"') {
         return queryTree->createNode(VAR,trim(argument.substr(1,(int)argument.size()-2)));
-    } else if (existsRef(argument)) {
-        if (getType(argument) == "variable") {
-            return queryTree->createNode(VARIABLESYNONYM,argument);
-        }
-    }
+    } else if (declaration->isDeclaredSynonym(argument)) {
+		string synonym_type = declaration->getSynonymType(argument);
+		if (synonym_type == "variable") {
+			return declaration->getSynonymTypeNode(argument);
+		}
+	}
     return NULL;
 }
 
@@ -291,19 +286,12 @@ QNode* QueryPreprocessor::parseEntRef(string argument) {
         return queryTree->createNode(CONST,argument);
     } else if (argument.at(0) == '\"' && argument.at((int)argument.size()-1) == '\"') {
         return queryTree->createNode(VAR,trim(argument.substr(1,(int)argument.size()-2)));
-    } else if (existsRef(argument)) {
-        if (getType(argument) == "stmt") {
-            return queryTree->createNode(STMTSYNONYM,argument);
-        } else if (getType(argument) == "while") {
-            return queryTree->createNode(WHILESYNONYM,argument);
-        } else if (getType(argument) == "assign") {
-            return queryTree->createNode(ASSIGNSYNONYM,argument);
-        } else if (getType(argument) == "prog_line") {
-            return queryTree->createNode(PROGLINESYNONYM,argument);
-        } else if (getType(argument) == "variable") {
-            return queryTree->createNode(VARIABLESYNONYM,argument);
-        }
-    }
+	} else if (declaration->isDeclaredSynonym(argument)) {
+		string synonym_type = declaration->getSynonymType(argument);
+		if (synonym_type == "stmt" || synonym_type == "while" || synonym_type == "assign" || synonym_type == "prog_line" || synonym_type == "variable") {
+			return declaration->getSynonymTypeNode(argument);
+		}
+	}
     return NULL;
 }
 
@@ -312,24 +300,6 @@ QNode* QueryPreprocessor::parseEntRefNoUnderscore(string argument) {
 		return NULL;
 	}
 	return parseEntRef(argument);
-}
-
-/**************************Use Declaration *********************************/
-bool QueryPreprocessor::existsRef(string reference) {
-    for(size_t i = 0; i<refDeclared.size(); i++) {
-        if(reference == refDeclared.at(i).synonym) {
-            return true;
-        }
-    }
-    return false;
-}
-string QueryPreprocessor::getType(string synonym) {
-    for(size_t i = 0; i<refDeclared.size(); i++) {
-        if(synonym == refDeclared.at(i).synonym) {
-            return refDeclared.at(i).type;
-        }
-    }
-    return "";
 }
 
 /**************************With  *********************************/
@@ -467,7 +437,7 @@ bool QueryPreprocessor::checkAttribute(string attribute) {
 	}else if(checkVarReference(ref1) && checkVarReference(ref2)){
 		leftHandSide = queryTree->createNode(VAR,ref1);
 		rightHandSide = queryTree->createNode(PROGLINESYNONYM,ref2);
-	}else if(checkIdent(ref1) &&  checkIdent(ref2)){
+	}else if(isIdent(ref1) &&  isIdent(ref2)){
 		//check with table
 		bool synonym, synonym = false; 
 		for(size_t i = 0; i<refDeclared.size(); i++) {
@@ -547,8 +517,10 @@ bool QueryPreprocessor::checkWhile(string pattern) {
     if(pob == string::npos) return false;
     string synonym = trim(pattern.substr(0,pob));
 
-	if(getType(synonym)!="while") return false;
-    if(checkIdent(synonym)) {
+	if (declaration->getSynonymType(synonym) != "while") {
+		return false;
+	}
+    if (isIdent(synonym)) {
         //pointer of comma
         int pc = pattern.find(",");
         if(pc == string::npos) return false;
@@ -588,8 +560,10 @@ bool QueryPreprocessor::checkIf(string pattern) {
     if(pob == string::npos) return false;
     string synonym = trim(pattern.substr(0,pob));
 
-	if(getType(synonym)!="if") return false;
-    if(checkIdent(synonym)) {
+	if (declaration->getSynonymType(synonym) != "if") {
+		return false;
+	}
+    if (isIdent(synonym)) {
         //pointer of comma
         int pc = pattern.find(",");
 		//pointer of second comma
@@ -630,7 +604,7 @@ bool QueryPreprocessor::checkAssign(string pattern, string patternName) {
     int pob = pattern.find("(");
     if(pob == string::npos) return false;
     string synonym = trim(pattern.substr(0,pob));
-    if(checkIdent(synonym)) {
+    if(isIdent(synonym)) {
         //pointer of comma
         int pc = pattern.find(",");
         if(pc == string::npos) return false;
@@ -677,8 +651,8 @@ bool QueryPreprocessor::checkAssign(string pattern, string patternName) {
 bool QueryPreprocessor::checkPattern(string pattern) {
     int p = pattern.find("(");
     string patternName = trim(pattern.substr(0,p));
-    if (existsRef(patternName)) {
-        string type = getType(patternName);
+	if (declaration->isDeclaredSynonym(patternName)) {
+		string type = declaration->getSynonymType(patternName);
         if (type == "while") {
             return checkWhile(pattern);
         } else if (type == "if") {
@@ -690,82 +664,17 @@ bool QueryPreprocessor::checkPattern(string pattern) {
     return false;
 }
 
-/**************************declaration  *********************************/
-bool QueryPreprocessor::checkDeclaration(string declaration) {
-    //psc = pointer of semicolon
-    declaration = trim(declaration);
-    if(declaration == "") {
-        return true;
-    }
-    int psc = declaration.find(";");
-    string declar_clause = declaration.substr(0, psc);
-    while(psc != string::npos) {
-        declar_clause = trim(declar_clause);
-        //ps = pointer of space
-        int ps = declar_clause.find(" ");
-        string type = trim(declar_clause.substr(0,ps));
-        if(checkDesignEntity(type)) {
-            size_t pc = ps;
-            do {
-                //pc = pointer of comma
-                int pnc = declar_clause.find(",", pc + 1);
-                if (pnc == string::npos) {
-                    pnc = declar_clause.length();
-                }
-                string synonym = trim(declar_clause.substr(pc + 1, pnc - pc - 1));
-                if(checkIdent(synonym) && (!existsRef(synonym))) {
-                    entity e = {type, synonym};
-                    refDeclared.push_back(e);
-                } else {
-                    return false;
-                }
-                pc = pnc;
-            } while (pc < declar_clause.size());
-
-        } else {
-            return false;
-        }
-        //pnsc = pointer of next semicolon
-        size_t pnsc = declaration.find(";", psc+1);
-        if(pnsc == string::npos) {
-            break;
-        }
-        if(pnsc < declaration.length()) {
-            declar_clause = declaration.substr(psc + 1, pnsc - psc -1);
-        }
-        psc = pnsc;
-    }
-    return true;
-}
-
 /**************************result  *********************************/
 
 bool QueryPreprocessor::addTuple(string single_tuple) {
     single_tuple = trim(single_tuple);
-    if (!existsRef(single_tuple)) {
+	if (!declaration->isDeclaredSynonym(single_tuple)) {
         return false;
     }
-    string type = getType(single_tuple);
-    QNode* resultNode;
-    if (type == "assign") {
-        resultNode = queryTree->createNode(ASSIGNSYNONYM, single_tuple);
-    } else if (type == "stmt") {
-        resultNode = queryTree->createNode(STMTSYNONYM, single_tuple);
-    } else if (type == "while") {
-        resultNode = queryTree->createNode(WHILESYNONYM, single_tuple);
-    } else if (type == "variable") {
-        resultNode = queryTree->createNode(VARIABLESYNONYM, single_tuple);
-    } else if (type == "constant") {
-        resultNode = queryTree->createNode(CONSTSYNONYM, single_tuple);
-    } else if (type == "prog_line") {
-        resultNode = queryTree->createNode(PROGLINESYNONYM, single_tuple);
-    } else if (type == "procedure") {
-        resultNode = queryTree->createNode(PROCEDURESYNONYM, single_tuple);
-    } else if (type == "if") {
-        resultNode = queryTree->createNode(IFSYNONYM, single_tuple);
-    } else {
-        return false;
-    }
+	QNode* resultNode = declaration->getSynonymTypeNode(single_tuple);
+	if (resultNode == NULL) {
+		return false;
+	}
     queryTree->addChild(resultListNode, resultNode);
     return true;
 }
@@ -773,7 +682,7 @@ bool QueryPreprocessor::addTuple(string single_tuple) {
 bool QueryPreprocessor::checkTuple(string tuple) {
     tuple = trim(tuple);
     if(checkElem(tuple)) {
-        if(existsRef(tuple)) {
+		if(declaration->isDeclaredSynonym(tuple)) {
             return addTuple(tuple);
         } else {
             return false;
