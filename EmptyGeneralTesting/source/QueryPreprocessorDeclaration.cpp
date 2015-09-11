@@ -11,7 +11,6 @@ QueryPreprocessorDeclaration::QueryPreprocessorDeclaration(string declaration_st
         return;
     }
 	int current_pointer = 0;
-
 	while (true) {
 		int next_semicolon = declaration_string.find(";", current_pointer);
 		if (next_semicolon == string::npos) {
@@ -36,11 +35,12 @@ void QueryPreprocessorDeclaration::processDeclarationClause(string declaration_c
 	}
 
 	int current_pointer_clause = space_pointer + 1;
-	while (true) {
+	bool end_of_clause = false;
+	while (!end_of_clause) {
 		int next_comma = declaration_clause.find(",", current_pointer_clause);
 		if (next_comma == string::npos) {
-			//end of this declaration clause, move to the next declaraion clause (if any)
-			break;
+			end_of_clause = true;
+			next_comma = declaration_clause.length();
 		}
 		string synonym_name = QueryPreprocessor::trim(declaration_clause.substr(current_pointer_clause, next_comma - current_pointer_clause));
 		if (isDeclaredSynonym(synonym_name) || !QueryPreprocessor::isIdent(synonym_name)) {
