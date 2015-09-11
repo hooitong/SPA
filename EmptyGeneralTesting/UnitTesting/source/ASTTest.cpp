@@ -82,7 +82,6 @@ void ASTTest::testSetStmtLine() {
     (*ast).setStmtLine(node, 2);
     CPPUNIT_ASSERT((*ast).getTNode(2) == node);
 
-    (*ast).addToStmtLineMap(PLUSN, 2);
     vector<STMTLINE> stmtLines = (*ast).getStmtLines(PLUSN) ;
     CPPUNIT_ASSERT(stmtLines.size() == 1);
     CPPUNIT_ASSERT(stmtLines[0] == 2);
@@ -92,9 +91,9 @@ void ASTTest::testSetRoot() {
     TNode* node = (*ast).createTNode(PLUSN, "");
     (*ast).setRoot(node);
     (*ast).setStmtLine(node, 2);
-    (*ast).addToStmtLineMap(PLUSN, 2);
     vector<STMTLINE> stmtLines = (*ast).getStmtLines(PLUSN) ;
     CPPUNIT_ASSERT((*ast).getRoot() == node);
+	CPPUNIT_ASSERT((*ast).getStmtLines(PLUSN).size() == 1);
 }
 
 void ASTTest::testIsMatch() {
