@@ -134,19 +134,23 @@ bool TNode::containSubProc(TNode* node, TNode* toMatchNode){
 
 	if(node->getChildren().size() < toMatchNode->getChildren().size()) return false;
 
+	bool result = false;
+
 	for(int i = 0; i < toMatchNode->getChildren().size(); i++){
 		
 		if((toMatchNode->getChildren()[i]->getTType() == node->getChildren()[i]->getTType() 
 			&& toMatchNode->getChildren()[i]->getValue() == node->getChildren()[i]->getValue())){
-				this->containSubProc(node->getChildren()[i], toMatchNode->getChildren()[i]);
+				result = this->containSubProc(node->getChildren()[i], toMatchNode->getChildren()[i]);
 		}
 		else{
 			return false;
 		}
 
+		if(!result) break;
+
 	}
 	
-	return true;
+	return result;
 
 }
 
