@@ -26,4 +26,6 @@ class ProcTable {
     int getSize();
     vector<VARINDEX> getAllProcIndex();
     vector<VARNAME> getAllProcName();
+
+	void setGRoot(PROCINDEX index, GNode node);
 };

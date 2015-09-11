@@ -22,10 +22,12 @@
     <ClInclude Include="..\source\Follows.h" />
     <ClInclude Include="..\source\FollowsStarEvaluator.h" />
     <ClInclude Include="..\source\GlobalType.h" />
+    <ClInclude Include="..\source\GNode.h" />
     <ClInclude Include="..\source\Grammar.h" />
     <ClInclude Include="..\source\GrammarToken.h" />
     <ClInclude Include="..\source\Modifies.h" />
     <ClInclude Include="..\source\ModifiesEvaluator.h" />
+    <ClInclude Include="..\source\Next.h" />
     <ClInclude Include="..\source\Parent.h" />
     <ClInclude Include="..\source\ParentEvaluator.h" />
     <ClInclude Include="..\source\ParentStarEvaluator.h" />
@@ -59,10 +61,12 @@
     <ClCompile Include="..\source\Exception.cpp" />
     <ClCompile Include="..\source\Follows.cpp" />
     <ClCompile Include="..\source\FollowsStarEvaluator.cpp" />
+    <ClCompile Include="..\source\GNode.cpp" />
     <ClCompile Include="..\source\Grammar.cpp" />
     <ClCompile Include="..\source\GrammarToken.cpp" />
     <ClCompile Include="..\source\Modifies.cpp" />
     <ClCompile Include="..\source\ModifiesEvaluator.cpp" />
+    <ClCompile Include="..\source\Next.cpp" />
     <ClCompile Include="..\source\Parent.cpp" />
     <ClCompile Include="..\source\ParentEvaluator.cpp" />
     <ClCompile Include="..\source\ParentStarEvaluator.cpp" />
