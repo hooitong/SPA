@@ -4,16 +4,7 @@
 QueryResult ModifiesEvaluator::evaluate(QNode* node) {
     QNode* leftChild = node->getChildren()[0];
     QNode* rightChild = node->getChildren()[1];
-    if (leftChild->getQType() == ANY && 
-        rightChild->getQType() == ANY) {
-        return evaluateAnyAny(node);
-    } else if (leftChild->getQType() == ANY && 
-        isSynonym(rightChild->getQType())) {
-        return evaluateAnySyn(node);
-    } else if (leftChild->getQType() == ANY &&
-        rightChild->getQType() == VAR) {
-        return evaluateAnyConst(node);
-    } else if (isSynonym(leftChild->getQType()) &&
+    if (isSynonym(leftChild->getQType()) &&
         rightChild->getQType() == ANY) {
         return evaluateSynAny(node);
     } else if (isSynonym(leftChild->getQType()) &&
@@ -32,37 +23,6 @@ QueryResult ModifiesEvaluator::evaluate(QNode* node) {
         rightChild->getQType() == VAR) {
         return evaluateConstConst(node);
     }
-}
-
-QueryResult ModifiesEvaluator::evaluateAnyAny(QNode* node) {
-    Modifies* follows = pkb->getModifies();
-    vector<STMTLINE> leftLines = pkb->getAst()->getStmtLines(TType::STMTN);
-    for (vector<STMTLINE>::size_type i = 0; i < leftLines.size(); i++) {
-        if (pkb->getModifies()->getModifiedByStmt(leftLines[i]).size() > 0) {
-            return QueryResult(true);
-        }
-    }
-    return QueryResult(false);
-}
-
-QueryResult ModifiesEvaluator::evaluateAnyConst(QNode* node) {
-    VARNAME rightName = node->getChildren()[1]->getString();
-    VARINDEX rightConst = pkb->getVarTable()->getVarIndex(rightName);
-    vector<STMTLINE> leftLines = pkb->getModifies()->getModifies(rightConst);
-    return QueryResult(leftLines.size() > 0);
-}
-
-QueryResult ModifiesEvaluator::evaluateAnySyn(QNode* node) {
-    string rightName = node->getChildren()[1]->getString();
-    vector<VARINDEX> vars = pkb->getVarTable()->getAllVarIndex();
-    vector<int> result;
-    for (vector<VARINDEX>::size_type i = 0; i < vars.size(); i++) {
-        vector <STMTLINE> leftLines = pkb->getModifies()->getModifies(vars[i]);
-        if (leftLines.size() > 0) {
-            result.push_back(vars[i]);
-        }
-    }
-    return QueryResult(result, rightName);
 }
 
 QueryResult ModifiesEvaluator::evaluateConstAny(QNode* node) {
@@ -112,7 +72,7 @@ QueryResult ModifiesEvaluator::evaluateSynConst(QNode* node) {
     TType leftType = synonymToTType(node->getChildren()[0]->getQType());
     VARNAME rightName = node->getChildren()[1]->getString();
     int rightConst = pkb->getVarTable()->getVarIndex(rightName);
-    vector<int> leftLines = pkb->getModifies()->getModifies(rightConst);
+    vector<int> leftLines = pkb->getModifies()->getModifiesForStmt(rightConst);
     if (leftLines.size() > 0) {
         vector <int> resultVector;
         resultVector = filter(leftLines, leftType);

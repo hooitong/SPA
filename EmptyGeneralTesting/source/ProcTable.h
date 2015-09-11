@@ -4,6 +4,7 @@
 #include <map>
 
 #include "GlobalType.h"
+#include "GNode.h"
 
 struct procInfo {
     PROCINDEX proc_index;

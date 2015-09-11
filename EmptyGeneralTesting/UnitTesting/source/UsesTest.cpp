@@ -46,17 +46,17 @@ void UsesTest::testGetUses() {
     /* Valid input and correct StmtLine should be returned */
     vector<STMTLINE> vLocal;
     vLocal.push_back(2);
-    vector<STMTLINE> v = (*uses).getUses(1);
+    vector<STMTLINE> v = (*uses).getUsesForStmt(1);
     CPPUNIT_ASSERT(vLocal == v);
     CPPUNIT_ASSERT(vLocal.size() == 1);
 
     vLocal.push_back(1);
-    v = (*uses).getUses(0);
+    v = (*uses).getUsesForStmt(0);
     CPPUNIT_ASSERT(vLocal[1] == v[0]);
     CPPUNIT_ASSERT(vLocal[0] == v[1]);
     CPPUNIT_ASSERT(vLocal.size() == 2);
 
     /* Invalid input and no StmtLine should be returned */
-    v = (*uses).getUses(2);
+    v = (*uses).getUsesForStmt(2);
     CPPUNIT_ASSERT(v.empty());
 }
