@@ -87,10 +87,12 @@ void ParserPatternTest::testRightPatternUnStrict() {
     CPPUNIT_ASSERT(ast->matchRightPattern(13, "Romeo + 1", false));
     CPPUNIT_ASSERT(ast->matchRightPattern(14, "0", false));
     CPPUNIT_ASSERT(ast->matchRightPattern(15, "delta		+ l  + width + Romeo", false));//test tab
+	CPPUNIT_ASSERT(!ast->matchRightPattern(15, "l + width + Romeo", false));
     CPPUNIT_ASSERT(ast->matchRightPattern(17, "c + 1", false));
     CPPUNIT_ASSERT(ast->matchRightPattern(18, "x + 1", false));
     CPPUNIT_ASSERT(ast->matchRightPattern(19, "2", false));
     CPPUNIT_ASSERT(ast->matchRightPattern(20, "w + 1", false));
+
 }
 
 void ParserPatternTest::testRightPatternSubExpr() {
