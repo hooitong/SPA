@@ -5,16 +5,21 @@
 
 #include "GlobalType.h"
 
+class TNode;
+class GNode;
+
 struct procInfo {
     PROCINDEX proc_index;
     PROCNAME proc_name;
+	TNode * astRoot;
+	GNode * cfgRoot;
 };
 
 class ProcTable {
   private:
-    map<PROCINDEX, procInfo> procIndexMap;
-    map<PROCNAME, procInfo> procNameMap;
-    PROCINDEX currentMapIndex;
+    map<PROCINDEX, procInfo*> procIndexMap;
+    map<PROCNAME, procInfo*> procNameMap;
+	PROCINDEX currentMapIndex;
 
   public:
     ProcTable(void);
@@ -23,9 +28,11 @@ class ProcTable {
     PROCINDEX insertProc(PROCNAME procName);
     PROCNAME getProcName(PROCINDEX procIndex);
     PROCINDEX getProcIndex(PROCNAME procName);
-    int getSize();
     vector<VARINDEX> getAllProcIndex();
     vector<VARNAME> getAllProcName();
-
-	void setGRoot(PROCINDEX index, GNode node);
+	int getSize();
+	void setGRoot(PROCINDEX index, GNode * node);
+	GNode* getGRoot(PROCINDEX index);
+	void setTRoot(PROCINDEX index, TNode * node);
+	TNode* getTRoot(PROCINDEX index);
 };
