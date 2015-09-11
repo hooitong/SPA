@@ -25,6 +25,10 @@ vector<PROCINDEX> Uses::getUsedByProc(PROCINDEX proc) {
 	return procToVar.toVector(proc);
 }
 
-vector<STMTLINE> Uses::getUses(VARINDEX varIndex) {
-    return varToStmt.toVector(varIndex);
+vector<STMTLINE> Uses::getUsesForStmt(VARINDEX varIndex) {
+	return varToStmt.toVector(varIndex);
+}
+
+vector<PROCINDEX> Uses::getUsesForProc(VARINDEX varIndex) {
+	return varToProc.toVector(varIndex);
 }
