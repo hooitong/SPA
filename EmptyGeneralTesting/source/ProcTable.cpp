@@ -16,11 +16,11 @@ PROCINDEX ProcTable::insertProc(PROCNAME procName) {
     }
 
     /* Create new procInfo and insert into both index and name maps */
-    procInfo procedure = {};
-    procedure.proc_name = procName;
-    procedure.proc_index = currentMapIndex;
-    procIndexMap[currentMapIndex] = &procedure;
-    procNameMap[procName] = &procedure;
+    procInfo * procedure = new procInfo;
+    procedure->proc_name = procName;
+    procedure->proc_index = currentMapIndex;
+    procIndexMap[currentMapIndex] = procedure;
+    procNameMap[procName] = procedure;
 
     /* Increment the static index */
     PROCINDEX newIndex = currentMapIndex++;
