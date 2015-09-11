@@ -1,13 +1,24 @@
 ﻿#pragma once
+
+#include "BitTable.h"
 #include "GlobalType.h"
+
 #include <vector>
 
 class Next {
+private:
+	std::map<PROGLINE, PROGLINE> beforeToNext;
+	std::map<PROGLINE, PROGLINE> nextToBefore;
+	BitTable beforeToAfter;
+	BitTable afterToBefore;
+
 public:
-	bool isNext(PROGLINE first, PROGLINE second);
-	bool isNextStar(PROGLINE first, PROGLINE second);
-	vector<PROGLINE> getBefore(PROGLINE current);
+	void setNext(PROGLINE before, PROGLINE next);
+	void setNextStar(PROGLINE before, PROGLINE next);
+	bool isNext(PROGLINE before, PROGLINE next);
+	bool isNextStar(PROGLINE before, PROGLINE next);
+	PROGLINE getBefore(PROGLINE current);
 	vector<PROGLINE> getBeforeStar(PROGLINE current);
-	vector<PROGLINE> getNext(PROGLINE current);
+	PROGLINE getNext(PROGLINE current);
 	vector<PROGLINE> getNextStar(PROGLINE current);
 };
