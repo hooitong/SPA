@@ -8,26 +8,18 @@ PROGLINE GNode::getLineNumber() {
 	return lineNumber;
 }
 
-GNode* GNode::getNextMain() {
-	return forwardMainNode;
+vector<GNode*> GNode::getForwardNodes() {
+	return forwardNodes;
 }
 
-GNode* GNode::getNextSide() {
-	return forwardSideNode;
-}
-
-GNode* GNode::getPrev() {
+GNode* GNode::getPrevNode() {
 	return backNode;
 }
 
-void GNode::setNextMain(GNode* main) {
-	forwardMainNode = main;
+void GNode::addForwardNode(GNode* forward) {
+	forwardNodes.push_back(forward);
 }
 
-void GNode::setNextSide(GNode* side) {
-	forwardSideNode = side;
-}
-
-void GNode::setPrev(GNode* prev) {
+void GNode::setPrevNode(GNode* prev) {
 	backNode = prev;
 }
