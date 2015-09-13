@@ -25,9 +25,8 @@ vector<CFG::innerGraph*> CFG::getAllCFG() {
 	return allCFG;
 }
 
-
-/*DEPRECATED: Need to refactor and use the implementation above */
-void CFG::insert(STMTLINE from, STMTLINE to){
+void CFG::insert(STMTLINE from, STMTLINE to, PROCINDEX procIndex){
+	GNode* nodeFrom = new GNode(from);
 	stmtToNextStmt.putRelation(from, to);
 }
 

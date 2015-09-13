@@ -15,121 +15,249 @@ DesignExtractor::~DesignExtractor(void) {
 
 // public method that extracts all remaining relationships in the PKB
 void DesignExtractor::extract() {
-    extractFollowsStar();
-    extractParentStar();
-    extractModifiesContainer();
-    extractUsesContainer();
+	setPKBRelationShips(PKB::getPKB()->getAst()->getRoot());
+	setInterprocedureCallStar();
+	setInterprocedureModifiesUses();
 }
 
-// method that extracts the Follows* relationship from the Follow map.
-void DesignExtractor::extractFollowsStar() {
-    PKB* pkbObj = PKB::getPKB();
-    Follows* f = (*pkbObj).getFollows();
-    vector<STMTLINE> allStmtLines = (*pkbObj).getAst()->getStmtLines(STMTN);
 
-    // for each stmtline, set relation setFollowStar for every right sibling
-    for (std::vector<int>::iterator it = allStmtLines.begin() ; it != allStmtLines.end(); ++it) {
-        STMTLINE nextSibling = f->getFollowedBy(*it);
-        while(nextSibling != -1) {
-            f->setFollowsStar(*it, nextSibling);
-            nextSibling = f->getFollowedBy(nextSibling);
-        }
-    }
+
+void DesignExtractor::setPKBRelationShips(TNode* node){
+
+	///////////////////////
+	//parent & parentstar
+	///////////////////////
+	if(isPrimitiveNode(node)){
+		TNode* parentNode = node->getParentNode();
+		bool foundParent = false;
+		while(parentNode->getTType() != EMPTYN){
+
+			if(isPrimitiveNode(parentNode)){
+				if(foundParent == false){		
+					PKB::getPKB()->getParent()->setParent(parentNode->getStmtLine(), node->getStmtLine());
+					PKB::getPKB()->getParent()->setParentStar(parentNode->getStmtLine(), node->getStmtLine());
+					foundParent = true;
+				}
+				else{			//already found parent, next found parent should be parentstar only		
+					PKB::getPKB()->getParent()->setParentStar(parentNode->getStmtLine(), node->getStmtLine());
+				}
+			}
+
+			parentNode = parentNode->getParentNode();
+		
+		}
+	}
+	
+//----------------------------------------------------
+
+	for(int i = 0; i < node->getChildren().size(); i++){
+		
+		TNode* leftNode = node->getChildren()[i];
+		TNode* rightNode = leftNode->getRightSibling();
+		if(isPrimitiveNode(leftNode) && isPrimitiveNode(rightNode)){
+			///////////////////////
+			//follow
+			////////////////////////
+			PKB::getPKB()->getFollows()->setFollows(leftNode->getStmtLine(), rightNode->getStmtLine());
+			///////////////////////
+			//cfg
+			////////////////////////
+			PKB::getPKB()->getCfg()->insert(leftNode->getStmtLine(), rightNode->getStmtLine(),
+					PKB::getPKB()->getProcTable()->getProcIndex(leftNode->getParentByTType(PROCEDUREN)->getValue()));
+		} 
+		
+		///////////////////////
+		//followstar
+		////////////////////////
+		while(isPrimitiveNode(leftNode) && isPrimitiveNode(rightNode)){
+			PKB::getPKB()->getFollows()->setFollowsStar(leftNode->getStmtLine(), rightNode->getStmtLine());
+			rightNode = rightNode->getRightSibling();
+		}
+
+//----------------------------------------------------
+
+		if(leftNode->getTType() == PROCEDUREN){
+			//////////////////////
+			//proctable
+			/////////////////////
+			PROCINDEX procIndex = PKB::getPKB()->getProcTable()->insertProc(leftNode->getValue());
+		}
+
+		if(leftNode->getTType() == CALLN){
+			//////////////////////
+			//proctable
+			/////////////////////
+			PROCINDEX calledIndex = PKB::getPKB()->getProcTable()->insertProc(leftNode->getValue());
+			TNode* parentNode = leftNode->getParentNode();
+			while(parentNode->getTType() != PROCEDUREN){
+				parentNode = parentNode->getParentNode();
+			}
+			PROCINDEX callerIndex = PKB::getPKB()->getProcTable()->insertProc(parentNode->getValue());
+			//////////////////////
+			//calls
+			/////////////////////
+			PKB::getPKB()->getCalls()->setCalls(callerIndex, calledIndex);
+
+		}
+
+
+
+//----------------------------------------------------
+
+		if(leftNode->getTType() == VARN){
+			///////////////////////
+			//vartable
+			////////////////////////
+			VARINDEX varIndex = PKB::getPKB()->getVarTable()->insertVar(leftNode->getValue());
+			
+			///////////////////////
+			//modifies
+			////////////////////////
+			TNode* parentNode = leftNode->getParentNode();
+			if(leftNode->getLeftSibling()->getTType() == EMPTYN && parentNode->getTType() == ASSIGNN){
+				while(parentNode->getTType() != EMPTYN){
+					if(isPrimitiveNode(parentNode)){
+						PKB::getPKB()->getModifies()->setModifiesStmt(varIndex, parentNode->getStmtLine());
+						PROCINDEX procIndex = PKB::getPKB()->getProcTable()->insertProc(parentNode->getParentByTType(PROCEDUREN)->getValue());
+						PKB::getPKB()->getModifies()->setModifiesProc(procIndex, varIndex);
+					}
+					parentNode = parentNode->getParentNode();
+				}
+
+				
+			}
+		}
+
+//----------------------------------------------------------------------
+
+		if(leftNode->getTType() == ASSIGNN){
+			vector<TNode*> children;
+			vector<TNode*> usedVarNodes;
+
+			leftNode->getAllChildrenIncludeSub(children);
+			
+			for(int i = 0; i < children.size(); i++){
+				if((children[i]->getParentNode()->getTType() != ASSIGNN 
+					|| children[i]->getLeftSibling()->getTType() != EMPTYN)
+					&& children[i]->getTType() == VARN){
+					usedVarNodes.push_back(children[i]);
+				}
+			}
+
+			TNode* parentNode = leftNode;
+			while(parentNode->getTType() != EMPTYN){
+				if(isPrimitiveNode(parentNode)){
+					for(int i = 0; i < usedVarNodes.size(); i++){
+						///////////////////////
+						//vartable & uses
+						////////////////////////
+						VARINDEX varIndex = PKB::getPKB()->getVarTable()->insertVar(usedVarNodes[i]->getValue());
+						PKB::getPKB()->getUses()->setUsesStmt(varIndex, parentNode->getStmtLine());
+						PROCINDEX procIndex = PKB::getPKB()->getProcTable()->insertProc(parentNode->getParentByTType(PROCEDUREN)->getValue());
+						PKB::getPKB()->getUses()->setUsesProc(procIndex, varIndex);
+					}
+				}
+				parentNode = parentNode->getParentNode();
+			}
+		}
+
+//----------------------------------------------------------------------
+
+		if(leftNode->getTType() == WHILEN || leftNode->getTType() == IFN){
+			TNode* varNode = leftNode->getChildren()[0];
+			///////////////////////
+			//vartable & uses
+			////////////////////////
+			VARINDEX varIndex = PKB::getPKB()->getVarTable()->insertVar(varNode->getValue());
+			TNode* parentNode = leftNode;
+			while(parentNode->getTType() != EMPTYN){
+				if(isPrimitiveNode(parentNode)){
+					PKB::getPKB()->getUses()->setUsesStmt(varIndex, parentNode->getStmtLine());
+					PROCINDEX procIndex = PKB::getPKB()->getProcTable()->insertProc(parentNode->getParentByTType(PROCEDUREN)->getValue());
+					PKB::getPKB()->getUses()->setUsesProc(procIndex, varIndex);
+				}
+				parentNode = parentNode->getParentNode();
+			}
+		}
+//---------------------------------------------------------------------
+
+		///////////////////////
+		//cfg
+		////////////////////////
+		if(leftNode->getTType() == WHILEN || leftNode->getTType() == IFN){
+			TNode* firstChildNode = leftNode->getChildren()[1]->getChildren()[0];
+			PKB::getPKB()->getCfg()->insert(leftNode->getStmtLine(), firstChildNode->getStmtLine(), 
+							PKB::getPKB()->getProcTable()->getProcIndex(leftNode->getParentByTType(PROCEDUREN)->getValue()));
+		}
+		
+		if(leftNode->getTType() == IFN){
+			TNode* secondChildNode = leftNode->getChildren()[2]->getChildren()[0];
+			PKB::getPKB()->getCfg()->insert(leftNode->getStmtLine(), secondChildNode->getStmtLine(),
+							PKB::getPKB()->getProcTable()->getProcIndex(leftNode->getParentByTType(PROCEDUREN)->getValue()));
+		}
+		
+//----------------------------------------------------------------------
+
+		setPKBRelationShips(leftNode);
+
+	}
 }
 
-// helper method that calls a recursive method to extract the relation.
-void DesignExtractor::extractParentStar() {
-    PKB* pkbObj = PKB::getPKB();
-    Parent* p = (*pkbObj).getParent();
-    STMTLINE root = 1;
-
-    // extract the first statement
-    vector<STMTLINE> parents;
-    recursiveExtractParent(p, root, parents);
-
-    // for each sibling of the root, call the extraction
-    vector<STMTLINE> rightRootSiblings = pkbObj->getFollows()->getFollowedByStar(root);
-    for (std::vector<int>::iterator it = rightRootSiblings.begin(); it != rightRootSiblings.end(); ++it) {
-        recursiveExtractParent(p, *it, parents);
-    }
+void DesignExtractor::setInterprocedureCallStar(){
+	vector<VARINDEX> procIndexes = PKB::getPKB()->getProcTable()->getAllProcIndex();
+	
+	for(int i = 0; i < procIndexes.size(); i++){
+		vector<PROCINDEX> calledBy = PKB::getPKB()->getCalls()->getCalledBy(procIndexes[i]);
+		vector<PROCINDEX> result;
+		for(int q = 0; q < calledBy.size(); q++){
+			recursiveInterprocedureCallStar(calledBy[q], calledBy[q], true, result);
+		}
+		for(int q = 0; q < result.size(); q++){
+			PKB::getPKB()->getCalls()->setCallsStar(procIndexes[i], result[q]);
+		}
+	}
 }
 
-// recursive method which starts from the root of the AST/Procedure and based on the parent mapping to
-// set the necessary parent* relationship.
-void DesignExtractor::recursiveExtractParent(Parent* pObj, STMTLINE root, vector<STMTLINE> parents) {
-    // for each parent, set relation setParent* for each parent on current root
-    for (std::vector<int>::iterator it = parents.begin(); it != parents.end(); ++it) {
-        pObj->setParentStar(*it, root);
-    }
+void DesignExtractor::recursiveInterprocedureCallStar(PROCINDEX currentProc, PROCINDEX originalProc, bool first, vector<PROCINDEX> &result){
+	if(currentProc == originalProc && !first) return;
 
-    // add this stmtline to vector of parents
-    parents.push_back(root);
+	result.push_back(currentProc);
 
-    // for each child of current root, call recursive method
-    vector<STMTLINE> children = pObj->getChildOf(root);
-    for (std::vector<int>::iterator it = children.begin(); it != children.end(); ++it) {
-        recursiveExtractParent(pObj, *it, parents);
-    }
-
-    // end of recursion
-    return;
+	vector<PROCINDEX> calledBy = PKB::getPKB()->getCalls()->getCalledBy(currentProc);
+	for(int q = 0; q < calledBy.size(); q++){
+		result.push_back(calledBy[q]);
+		recursiveInterprocedureCallStar(calledBy[q], originalProc, false, result);
+	}
 }
 
-void DesignExtractor::extractModifiesContainer() {
-    PKB* pkbObj = PKB::getPKB();
-    vector<STMTLINE> aList = pkbObj->getAst()->getStmtLines(ASSIGNN);
-    for(std::vector<STMTLINE>::iterator i = aList.begin(); i != aList.end(); ++i) {
-        vector<STMTLINE> pList = pkbObj->getParent()->getParentStar(*i);
-        vector<VARINDEX> vList = pkbObj->getModifies()->getModifiedByStmt(*i);
-        for(std::vector<VARINDEX>::iterator k = vList.begin(); k != vList.end(); ++k) {
-            for(std::vector<STMTLINE>::iterator j = pList.begin(); j != pList.end(); ++j) {
-                if(!isModifiesDuplicate(*j, *k)) {
-                    pkbObj->getModifies()->setModifiesStmt(*k, *j);
-                }
-            }
-        }
-    }
+void DesignExtractor::setInterprocedureModifiesUses(){
+	vector<VARINDEX> procIndexes = PKB::getPKB()->getProcTable()->getAllProcIndex();
+	
+	for(int i = 0; i < procIndexes.size(); i++){
+		vector<PROCINDEX> calledByStarVec = PKB::getPKB()->getCalls()->getCalledByStar(procIndexes[i]);
+		vector<VARINDEX> modifies, uses;
+		for(int q = 0; q < calledByStarVec.size(); q++){
+			vector<VARINDEX> calledByModifies = PKB::getPKB()->getModifies()->getModifiedByProc(calledByStarVec[q]);
+			vector<VARINDEX> calledByUses = PKB::getPKB()->getUses()->getUsedByProc(calledByStarVec[q]);
+			modifies.insert( modifies.end(), calledByModifies.begin(), calledByModifies.end());		
+			uses.insert( uses.end(), calledByUses.begin(), calledByUses.end());
+		}
+		for(int q = 0; q< modifies.size(); q++){
+			PKB::getPKB()->getModifies()->setModifiesProc(procIndexes[i], modifies[q]);
+		}
+		for(int q = 0; q< uses.size(); q++){
+			PKB::getPKB()->getUses()->setUsesProc(procIndexes[i], uses[q]);
+		}
+	}
+
 }
 
-void DesignExtractor::extractUsesContainer() {
-    PKB* pkbObj = PKB::getPKB();
 
-    // Add Uses Relation to Direct Container
-    vector<STMTLINE> aList = pkbObj->getAst()->getStmtLines(ASSIGNN);
-    for(std::vector<STMTLINE>::iterator i = aList.begin(); i != aList.end(); ++i) {
-        STMTLINE parent = pkbObj->getParent()->getParent(*i);
-        if(parent == -1) continue;
-        vector<VARINDEX> vList = pkbObj->getUses()->getUsedByStmt(*i);
-        for(std::vector<VARINDEX>::iterator k = vList.begin(); k != vList.end(); ++k) {
-            if(!isUsesDuplicate(parent, *k)) {
-                pkbObj->getUses()->setUsesStmt(*k, parent);
-            }
-        }
-    }
+bool DesignExtractor::isPrimitiveNode(TNode* node){
+	TType type = node->getTType();
 
-    // Propagate Uses Relationship among Containers Hierarchy
-    vector<STMTLINE> cList = pkbObj->getAst()->getStmtLines(WHILEN);
-    for(std::vector<STMTLINE>::iterator i = cList.begin(); i != cList.end(); ++i) {
-        vector<STMTLINE> pList = pkbObj->getParent()->getParentStar(*i);
-        vector<VARINDEX> vList = pkbObj->getUses()->getUsedByStmt(*i);
-        for(std::vector<VARINDEX>::iterator k = vList.begin(); k != vList.end(); ++k) {
-            for(std::vector<STMTLINE>::iterator j = pList.begin(); j != pList.end(); ++j) {
-                if(!isUsesDuplicate(*j, *k)) {
-                    pkbObj->getUses()->setUsesStmt(*k, *j);
-                }
-            }
-        }
-    }
+	return ((type == ASSIGNN || type == WHILEN || type == CALLN || type == IFN) && node->getStmtLine() != -1);
+
 }
 
-bool DesignExtractor::isModifiesDuplicate(STMTLINE source, VARINDEX item) {
-    Modifies* mObj = PKB::getPKB()->getModifies();
-    vector<VARINDEX> list = mObj->getModifiedByStmt(source);
-    return find(list.begin(), list.end(), item) != list.end();
-}
 
-bool DesignExtractor::isUsesDuplicate(STMTLINE source, VARINDEX item) {
-    Uses* uObj = PKB::getPKB()->getUses();
-    vector<VARINDEX> list = uObj->getUsedByStmt(source);
-    return find(list.begin(), list.end(), item) != list.end();
-}

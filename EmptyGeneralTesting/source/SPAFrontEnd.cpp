@@ -22,6 +22,7 @@ void SPAFrontEnd::parseSource(const std::string fileName) {
 	{
 	   Parser::parse(fileName);
 	   Parser::buildAst();
+	   DesignExtractor::extract();
 	} catch (SyntaxErrorException e) {
         cout << e.message();
         exit (EXIT_FAILURE);
