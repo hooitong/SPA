@@ -23,7 +23,7 @@ private:
 	BitTable stmtToNextStmt;
 
 public:
-	void insert(STMTLINE from, STMTLINE to);
+	void insert(STMTLINE from, STMTLINE to, PROCINDEX procIndex);
 	vector<STMTLINE> getImmediateToStmts(STMTLINE from);
 	void getAllToStmts(STMTLINE from, vector<STMTLINE> &result);
 

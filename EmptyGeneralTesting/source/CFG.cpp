@@ -19,14 +19,15 @@ vector<GNode*> CFG::getAllRootNodes() {
 	return allCFG;
 }
 
+
+void CFG::insert(STMTLINE from, STMTLINE to, PROCINDEX procIndex){
+	GNode* nodeFrom = new GNode(from);
+}
+
 GNode* CFG::getGNode(PROGLINE line) {
 	return lineToNode[line];
 }
 
-/*DEPRECATED: Need to refactor and use the implementation above */
-void CFG::insert(STMTLINE from, STMTLINE to){
-	stmtToNextStmt.putRelation(from, to);
-}
 
 vector<STMTLINE> CFG::getImmediateToStmts(STMTLINE from){
 	return stmtToNextStmt.toVector(from);
