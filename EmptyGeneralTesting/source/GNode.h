@@ -7,7 +7,7 @@ class GNode {
 private:	
 	PROGLINE lineNumber;
 	vector<GNode*> forwardNodes;
-	GNode* backNode;
+	vector<GNode*> backNode;
 
 public:
 	GNode(PROGLINE lineNumber);
@@ -15,7 +15,7 @@ public:
 
 	PROGLINE getLineNumber();
 	vector<GNode*> getForwardNodes();
-	GNode* getPrevNode();
+	vector<GNode*> getPrevNode();
 	void addForwardNode(GNode* forward);
-	void setPrevNode(GNode* prev);
+	void addPrevNode(GNode* prev);
 };
