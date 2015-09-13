@@ -1,12 +1,12 @@
 ﻿#pragma once
 
 #include "GlobalType.h"
+#include <vector>
 
 class GNode {
 private:	
 	PROGLINE lineNumber;
-	GNode* forwardMainNode;
-	GNode* forwardSideNode;
+	vector<GNode*> forwardNodes;
 	GNode* backNode;
 
 public:
@@ -14,10 +14,8 @@ public:
 	~GNode(void);
 
 	PROGLINE getLineNumber();
-	GNode* getNextMain();
-	GNode* getNextSide();
-	GNode* getPrev();
-	void setNextMain(GNode* main);
-	void setNextSide(GNode* side);
-	void setPrev(GNode* prev);
+	vector<GNode*> getForwardNodes();
+	GNode* getPrevNode();
+	void addForwardNode(GNode* forward);
+	void setPrevNode(GNode* prev);
 };
