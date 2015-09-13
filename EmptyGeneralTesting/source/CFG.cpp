@@ -1,30 +1,27 @@
 ﻿#include "CFG.h"
 
-/* Inner Graph Implementation */
-GNode* CFG::innerGraph::getRoot() {
-	return graphRoot;
-}
-
-GNode* CFG::innerGraph::getGNode(PROGLINE line) {
-	return lineToNode[line];
-}
-
 
 /* CFG Class Implementation */
-CFG::innerGraph* CFG::initProcCFG(PROCINDEX proc) {
-	procToCFG[proc] = new innerGraph;
-	return procToCFG[proc];
+void CFG::setProcToRoot(PROCINDEX proc, GNode* root) {
+	procToRoot[proc] = root;
 }
 
-vector<CFG::innerGraph*> CFG::getAllCFG() {
-	vector<CFG::innerGraph*> allCFG;
-	std::map<PROCINDEX, innerGraph*>::iterator it;
-	for (it = procToCFG.begin(); it != procToCFG.end(); ++it) {
+void CFG::setLineToNode(PROGLINE lineNumber, GNode* node) {
+	lineToNode[lineNumber] = node;
+}
+
+vector<GNode*> CFG::getAllRootNodes() {
+	vector<GNode*> allCFG;
+	std::map<PROCINDEX, GNode*>::iterator it;
+	for (it = procToRoot.begin(); it != procToRoot.end(); ++it) {
 		allCFG.push_back(it->second);
 	}
 	return allCFG;
 }
 
+GNode* CFG::getGNode(PROGLINE line) {
+	return lineToNode[line];
+}
 
 /*DEPRECATED: Need to refactor and use the implementation above */
 void CFG::insert(STMTLINE from, STMTLINE to){
