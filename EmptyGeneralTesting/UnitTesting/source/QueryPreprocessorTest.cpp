@@ -486,7 +486,7 @@ void QueryPreprocessorTest::testMultiplePatternAndMultipleSuchThat() {
 
 	QNode* expectedPatternNode = expected->createNode(PATTERN,"");
     QNode* expectedPatternChild1 = expected->createNode(ASSIGNSYNONYM,"a");
-    QNode* expectedPatternChild2 = expected->createNode(VAR,"b");
+    QNode* expectedPatternChild2 = expected->createNode(VARIABLESYNONYM,"b");
     QNode* expectedPatternChild3 = expected->createNode(EXPRESSION,"_x+y_");
     expected->addChild(expectedPatternNode,expectedPatternChild1);
     expected->addChild(expectedPatternNode,expectedPatternChild2);
@@ -499,7 +499,7 @@ void QueryPreprocessorTest::testMultiplePatternAndMultipleSuchThat() {
 
 void QueryPreprocessorTest::testMultipleReturnAndPatternAndSuchThat() {
     queryTest = new QueryPreprocessor();
-    QueryTree* achieved = queryTest->parseQuery("assign a;variable x; stmt s; Select <s,x> such that Modifies(s,x) and Modifies(s,\"x\") pattern a(b,_\"x+y\"_) and pattern a(_,\"(x+y)*z\")");
+    QueryTree* achieved = queryTest->parseQuery("assign a;variable x; stmt s; Select <s,x> such that Modifies(s,x) and Modifies(s,\"x\") pattern a(\"b\",_\"x+y\"_) and a(_,\"(x+y)*z\")");
     CPPUNIT_ASSERT(achieved != NULL);
     QueryTree* expected = new QueryTree();
     QNode* expectedRoot = expected->createNode(QUERY,"");

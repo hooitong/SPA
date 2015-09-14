@@ -140,8 +140,8 @@ void QueryPreprocessorCondition::processPattern(string pattern_string) {
 	} else if (declaration->getSynonymType(pattern_synonym) == "while") {
 		// TODO : Support the pattern if the synonym is ASSIGN synonym
 	} else if (declaration->getSynonymType(pattern_synonym) == "assign") {
-		int closed_bracket_position = pattern_string.find(")", comma_position);
-		if (closed_bracket_position == string::npos || closed_bracket_position != pattern_string.length() - 1) {
+		int closed_bracket_position = pattern_string.length() - 1;
+		if (pattern_string.at(closed_bracket_position) != ')') {
 			is_valid = false;
 			return;
 		}
@@ -150,11 +150,17 @@ void QueryPreprocessorCondition::processPattern(string pattern_string) {
 			is_valid = false;
 			return;
 		}
+
 		string pattern_right_hand_remove_quote = removeExpressionQuote(pattern_right_hand);
 		QNode* pattern_node = new QNode(PATTERN, "");
 		QNode* assign_synonym_node = declaration->getSynonymTypeNode(pattern_synonym);
 		QNode* left_pattern_node = parseRef(pattern_left_hand);
 		QNode* right_pattern_node = new QNode(EXPRESSION, pattern_right_hand_remove_quote);
+
+		if (left_pattern_node == NULL) {
+			is_valid = false;
+			return;
+		}
 
 		if (left_pattern_node->getQType() == VAR || left_pattern_node->getQType() == VARIABLESYNONYM
 		    || left_pattern_node->getQType() == ANY) {
