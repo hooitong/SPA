@@ -69,14 +69,18 @@ void ParserTest::testIf() {
 	CPPUNIT_ASSERT(root->getChildren().at(0)->getChildren().at(0)->getTType() == STMTLSTN);
 	TNode* ifRoot = root->getChildren().at(0)->getChildren().at(0)->getChildren().at(0);
 	CPPUNIT_ASSERT(ifRoot->getTType() == IFN);
+	CPPUNIT_ASSERT(ifRoot->getStmtLine() == 1);
 
 	CPPUNIT_ASSERT(ifRoot->getChildren().at(0)->getTType() == VARN);
 	CPPUNIT_ASSERT(ifRoot->getChildren().at(1)->getTType() == STMTLSTN);
+	
 	CPPUNIT_ASSERT(ifRoot->getChildren().at(1)->getChildren().at(0)->getTType() == ASSIGNN);
+	CPPUNIT_ASSERT(ifRoot->getChildren().at(1)->getChildren().at(0)->getStmtLine() == 2);
 	CPPUNIT_ASSERT(ifRoot->getChildren().at(1)->getChildren().at(0)->getChildren().at(0)->getTType() == VARN);
 	CPPUNIT_ASSERT(ifRoot->getChildren().at(1)->getChildren().at(0)->getChildren().at(1)->getTType() == CONSTN);
 	CPPUNIT_ASSERT(ifRoot->getChildren().at(2)->getTType() == STMTLSTN);
 	CPPUNIT_ASSERT(ifRoot->getChildren().at(2)->getChildren().at(0)->getTType() == ASSIGNN);
+	CPPUNIT_ASSERT(ifRoot->getChildren().at(2)->getChildren().at(0)->getStmtLine() == 3);
 	CPPUNIT_ASSERT(ifRoot->getChildren().at(2)->getChildren().at(0)->getChildren().at(0)->getTType() == VARN);
 	CPPUNIT_ASSERT(ifRoot->getChildren().at(2)->getChildren().at(0)->getChildren().at(1)->getTType() == CONSTN);
 }

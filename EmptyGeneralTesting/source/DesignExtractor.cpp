@@ -31,12 +31,12 @@ void DesignExtractor::extractVariousRelationship(TNode* node){
 	///////////////////////
 	//parent & parentstar
 	///////////////////////
-	if(isPrimitiveNode(node)){
+	if(isPrimaryNode(node)){
 		TNode* parentNode = node->getParentNode();
 		bool foundParent = false;
 		while(parentNode->getTType() != EMPTYN){
 
-			if(isPrimitiveNode(parentNode)){
+			if(isPrimaryNode(parentNode)){
 				if(foundParent == false){		
 					PKB::getPKB()->getParent()->setParent(parentNode->getStmtLine(), node->getStmtLine());
 					PKB::getPKB()->getParent()->setParentStar(parentNode->getStmtLine(), node->getStmtLine());
@@ -58,7 +58,7 @@ void DesignExtractor::extractVariousRelationship(TNode* node){
 		
 		TNode* leftNode = node->getChildren()[i];
 		TNode* rightNode = leftNode->getRightSibling();
-		if(isPrimitiveNode(leftNode) && isPrimitiveNode(rightNode)){
+		if(isPrimaryNode(leftNode) && isPrimaryNode(rightNode)){
 			///////////////////////
 			//follow
 			////////////////////////
@@ -73,7 +73,7 @@ void DesignExtractor::extractVariousRelationship(TNode* node){
 		///////////////////////
 		//followstar
 		////////////////////////
-		while(isPrimitiveNode(leftNode) && isPrimitiveNode(rightNode)){
+		while(isPrimaryNode(leftNode) && isPrimaryNode(rightNode)){
 			PKB::getPKB()->getFollows()->setFollowsStar(leftNode->getStmtLine(), rightNode->getStmtLine());
 			rightNode = rightNode->getRightSibling();
 		}
@@ -120,7 +120,7 @@ void DesignExtractor::extractVariousRelationship(TNode* node){
 			TNode* parentNode = leftNode->getParentNode();
 			if(leftNode->getLeftSibling()->getTType() == EMPTYN && parentNode->getTType() == ASSIGNN){
 				while(parentNode->getTType() != EMPTYN){
-					if(isPrimitiveNode(parentNode)){
+					if(isPrimaryNode(parentNode)){
 						PKB::getPKB()->getModifies()->setModifiesStmt(varIndex, parentNode->getStmtLine());
 						PROCINDEX procIndex = PKB::getPKB()->getProcTable()->insertProc(parentNode->getParentByTType(PROCEDUREN)->getValue());
 						PKB::getPKB()->getModifies()->setModifiesProc(procIndex, varIndex);
@@ -150,7 +150,7 @@ void DesignExtractor::extractVariousRelationship(TNode* node){
 
 			TNode* parentNode = leftNode;
 			while(parentNode->getTType() != EMPTYN){
-				if(isPrimitiveNode(parentNode)){
+				if(isPrimaryNode(parentNode)){
 					for(int i = 0; i < usedVarNodes.size(); i++){
 						///////////////////////
 						//vartable & uses
@@ -175,7 +175,7 @@ void DesignExtractor::extractVariousRelationship(TNode* node){
 			VARINDEX varIndex = PKB::getPKB()->getVarTable()->insertVar(varNode->getValue());
 			TNode* parentNode = leftNode;
 			while(parentNode->getTType() != EMPTYN){
-				if(isPrimitiveNode(parentNode)){
+				if(isPrimaryNode(parentNode)){
 					PKB::getPKB()->getUses()->setUsesStmt(varIndex, parentNode->getStmtLine());
 					PROCINDEX procIndex = PKB::getPKB()->getProcTable()->insertProc(parentNode->getParentByTType(PROCEDUREN)->getValue());
 					PKB::getPKB()->getUses()->setUsesProc(procIndex, varIndex);
@@ -263,29 +263,53 @@ void DesignExtractor::recursiveInterprocedureCallStar(PROCINDEX currentProc, PRO
 
 //modifies & uses in between different procedures is between extracted here
 void DesignExtractor::extractInterprocedureModifiesUses(){
-	vector<VARINDEX> procIndexes = PKB::getPKB()->getProcTable()->getAllProcIndex();
+	vector<PROCINDEX> procIndexes = PKB::getPKB()->getProcTable()->getAllProcIndex();
 	
 	for(int i = 0; i < procIndexes.size(); i++){
-		vector<PROCINDEX> calledByStarVec = PKB::getPKB()->getCalls()->getCalledByStar(procIndexes[i]);
-		vector<VARINDEX> modifies, uses;
-		for(int q = 0; q < calledByStarVec.size(); q++){
-			vector<VARINDEX> calledByModifies = PKB::getPKB()->getModifies()->getModifiedByProc(calledByStarVec[q]);
-			vector<VARINDEX> calledByUses = PKB::getPKB()->getUses()->getUsedByProc(calledByStarVec[q]);
-			modifies.insert( modifies.end(), calledByModifies.begin(), calledByModifies.end());		
-			uses.insert( uses.end(), calledByUses.begin(), calledByUses.end());
-		}
-		for(int q = 0; q< modifies.size(); q++){
-			PKB::getPKB()->getModifies()->setModifiesProc(procIndexes[i], modifies[q]);
-		}
-		for(int q = 0; q< uses.size(); q++){
-			PKB::getPKB()->getUses()->setUsesProc(procIndexes[i], uses[q]);
+		TNode* procedureNode = PKB::getPKB()->getAst()->getProcTNodeByIndex(procIndexes[i]);
+		vector<TNode*> procedureCallNodes;
+		procedureNode->getAllChildrenIncludeSubByTType(procedureCallNodes, CALLN);
+
+		for(int b = 0; b < procedureCallNodes.size(); b++){
+			PROCINDEX callingProcIndex = PKB::getPKB()->getProcTable()->getProcIndex(procedureCallNodes[b]->getValue());
+			vector<TNode*> parents = procedureCallNodes[b]->getAllParentNodes();
+			vector<PROCINDEX> calledByStarVec = PKB::getPKB()->getCalls()->getCalledByStar(callingProcIndex);
+			vector<VARINDEX> modifies = PKB::getPKB()->getModifies()->getModifiedByProc(callingProcIndex);
+			vector<VARINDEX> uses = PKB::getPKB()->getUses()->getUsedByProc(callingProcIndex);
+			for(int q = 0; q < calledByStarVec.size(); q++){
+				vector<VARINDEX> calledByModifies = PKB::getPKB()->getModifies()->getModifiedByProc(calledByStarVec[q]);
+				vector<VARINDEX> calledByUses = PKB::getPKB()->getUses()->getUsedByProc(calledByStarVec[q]);
+
+				modifies.insert( modifies.end(), calledByModifies.begin(), calledByModifies.end());		
+				uses.insert( uses.end(), calledByUses.begin(), calledByUses.end());
+			}
+			for(int q = 0; q< modifies.size(); q++){
+				PKB::getPKB()->getModifies()->setModifiesProc(procIndexes[i], modifies[q]);
+				PKB::getPKB()->getModifies()->setModifiesStmt(modifies[q], procedureCallNodes[b]->getStmtLine());
+
+				for(int z = 0; z < parents.size(); z++){
+					if(isPrimaryNode(parents[z])){
+						PKB::getPKB()->getModifies()->setModifiesStmt(modifies[q], parents[z]->getStmtLine());
+					}
+				}
+			}
+			for(int q = 0; q< uses.size(); q++){
+				PKB::getPKB()->getUses()->setUsesProc(procIndexes[i], uses[q]);
+				PKB::getPKB()->getUses()->setUsesStmt(uses[q], procedureCallNodes[b]->getStmtLine());
+
+				for(int z = 0; z < parents.size(); z++){
+					if(isPrimaryNode(parents[z])){
+						PKB::getPKB()->getUses()->setUsesStmt(uses[q], parents[z]->getStmtLine());
+					}
+				}
+			}
+
 		}
 	}
-
 }
 
 
-bool DesignExtractor::isPrimitiveNode(TNode* node){
+bool DesignExtractor::isPrimaryNode(TNode* node){
 	TType type = node->getTType();
 
 	return ((type == ASSIGNN || type == WHILEN || type == CALLN || type == IFN) && node->getStmtLine() != -1);

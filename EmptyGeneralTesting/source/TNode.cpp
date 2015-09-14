@@ -165,6 +165,15 @@ TNode* TNode::getParentByTType(TType type){
 	return NULL;
 }
 
+vector<TNode*> TNode::getAllParentNodes(){
+	vector<TNode*> result;
+	TNode* parentNode = this->getParentNode();
+	while(parentNode->getTType() != EMPTYN){
+		result.push_back(parentNode);
+		parentNode = parentNode->getParentNode();
+	}
+	return result;
+}
 
 void TNode::print(int lvl){
 

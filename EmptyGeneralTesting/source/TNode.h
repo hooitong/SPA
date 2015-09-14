@@ -28,6 +28,7 @@ class TNode {
     TNode* getRightSibling();
     bool setParentNode(TNode* parentNode);
     TNode* getParentNode();
+	vector<TNode*> getAllParentNodes();
     bool addChild(TNode* child);
 	void setChildren(vector<TNode*> children);
     vector<TNode*> getChildren();

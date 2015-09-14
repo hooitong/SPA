@@ -13,7 +13,7 @@ class DesignExtractor {
 	static void recursiveInterprocedureCallStar(PROCINDEX currentProc, PROCINDEX originalProc, bool first, vector<PROCINDEX> &result);
 	static void extractInterprocedureModifiesUses();
 	static void extractNext();
-	static bool isPrimitiveNode(TNode* node);
+	static bool isPrimaryNode(TNode* node);
 
   public:
     DesignExtractor();

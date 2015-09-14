@@ -18,47 +18,52 @@ void ParserFollowsTest::testFollows() {
     CPPUNIT_ASSERT(fTest->isFollows(1, 2));
     CPPUNIT_ASSERT(fTest->isFollows(2, 3));
     CPPUNIT_ASSERT(fTest->isFollows(3, 4));
-    CPPUNIT_ASSERT(fTest->isFollows(5, 20));
     CPPUNIT_ASSERT(fTest->isFollows(6, 7));
-    CPPUNIT_ASSERT(fTest->isFollows(7, 9));
-    CPPUNIT_ASSERT(fTest->isFollows(9, 19));
-    CPPUNIT_ASSERT(fTest->isFollows(10, 11));
-    CPPUNIT_ASSERT(fTest->isFollows(12, 16));
-    CPPUNIT_ASSERT(fTest->isFollows(16, 18));
-    CPPUNIT_ASSERT(fTest->isFollows(13, 14));
-    CPPUNIT_ASSERT(fTest->isFollows(14, 15));
+	CPPUNIT_ASSERT(fTest->isFollows(10, 11));
+	CPPUNIT_ASSERT(fTest->isFollows(12, 13));
+	CPPUNIT_ASSERT(fTest->isFollows(14, 15));
+	CPPUNIT_ASSERT(fTest->isFollows(15, 16));
+	CPPUNIT_ASSERT(fTest->isFollows(17, 20));
+	CPPUNIT_ASSERT(fTest->isFollows(18, 19));
+	CPPUNIT_ASSERT(fTest->isFollows(26, 27));
+	CPPUNIT_ASSERT(fTest->isFollows(28, 29));
+	CPPUNIT_ASSERT(fTest->isFollows(29, 30));
+	CPPUNIT_ASSERT(fTest->isFollows(31, 34));
+	CPPUNIT_ASSERT(fTest->isFollows(32, 33));
+
 
     // Incorrect Relationships
-    CPPUNIT_ASSERT(!fTest->isFollows(4, 20));
-    CPPUNIT_ASSERT(!fTest->isFollows(19, 20));
-    CPPUNIT_ASSERT(!fTest->isFollows(1, 3));
-    CPPUNIT_ASSERT(!fTest->isFollows(1, 4));
-    CPPUNIT_ASSERT(!fTest->isFollows(5, 19));
+    CPPUNIT_ASSERT(!fTest->isFollows(4, 5));
+	CPPUNIT_ASSERT(!fTest->isFollows(4, 22));
+	CPPUNIT_ASSERT(!fTest->isFollows(5, 6));
+	CPPUNIT_ASSERT(!fTest->isFollows(7, 8));
+	CPPUNIT_ASSERT(!fTest->isFollows(23, 24));
+	CPPUNIT_ASSERT(!fTest->isFollows(25, 26));
+	CPPUNIT_ASSERT(!fTest->isFollows(27, 28));
+	CPPUNIT_ASSERT(!fTest->isFollows(31, 32));
+	CPPUNIT_ASSERT(!fTest->isFollows(36, 37));
 }
 
 // Test whether the parser and PKB is able to capture all the Follows* relationship
 void ParserFollowsTest::testFollowsStar() {
-    // All Follows Relationship in Procedure ABC
     CPPUNIT_ASSERT(fTest->isFollowsStar(1, 2));
     CPPUNIT_ASSERT(fTest->isFollowsStar(2, 3));
     CPPUNIT_ASSERT(fTest->isFollowsStar(3, 4));
-    CPPUNIT_ASSERT(fTest->isFollowsStar(5, 20));
     CPPUNIT_ASSERT(fTest->isFollowsStar(6, 7));
-    CPPUNIT_ASSERT(fTest->isFollowsStar(7, 9));
-    CPPUNIT_ASSERT(fTest->isFollowsStar(9, 19));
-    CPPUNIT_ASSERT(fTest->isFollowsStar(10, 11));
-    CPPUNIT_ASSERT(fTest->isFollowsStar(12, 16));
-    CPPUNIT_ASSERT(fTest->isFollowsStar(16, 18));
-    CPPUNIT_ASSERT(fTest->isFollowsStar(13, 14));
-    CPPUNIT_ASSERT(fTest->isFollowsStar(14, 15));
+	CPPUNIT_ASSERT(fTest->isFollowsStar(10, 11));
+	CPPUNIT_ASSERT(fTest->isFollowsStar(12, 13));
+	CPPUNIT_ASSERT(fTest->isFollowsStar(14, 15));
+	CPPUNIT_ASSERT(fTest->isFollowsStar(15, 16));
+	CPPUNIT_ASSERT(fTest->isFollowsStar(17, 20));
+	CPPUNIT_ASSERT(fTest->isFollowsStar(18, 19));
+	CPPUNIT_ASSERT(fTest->isFollowsStar(26, 27));
+	CPPUNIT_ASSERT(fTest->isFollowsStar(28, 29));
+	CPPUNIT_ASSERT(fTest->isFollowsStar(29, 30));
+	CPPUNIT_ASSERT(fTest->isFollowsStar(31, 34));
+	CPPUNIT_ASSERT(fTest->isFollowsStar(32, 33));
 
-    // All Follows* Relationship in Procedure ABC (exclude prev)
-    CPPUNIT_ASSERT(fTest->isFollowsStar(1, 3));
+    // All Follows* Relationship in Procedures (exclude prev)
     CPPUNIT_ASSERT(fTest->isFollowsStar(1, 4));
-    CPPUNIT_ASSERT(fTest->isFollowsStar(2, 4));
-    CPPUNIT_ASSERT(fTest->isFollowsStar(6, 9));
-    CPPUNIT_ASSERT(fTest->isFollowsStar(6, 19));
-    CPPUNIT_ASSERT(fTest->isFollowsStar(7, 19));
-    CPPUNIT_ASSERT(fTest->isFollowsStar(12, 18));
-    CPPUNIT_ASSERT(fTest->isFollowsStar(13, 15));
+	CPPUNIT_ASSERT(fTest->isFollowsStar(14, 16));
+	CPPUNIT_ASSERT(fTest->isFollowsStar(28, 30));
 }
