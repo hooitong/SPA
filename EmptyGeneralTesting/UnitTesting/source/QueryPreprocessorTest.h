@@ -11,6 +11,7 @@ class QueryPreprocessorTest : public CPPUNIT_NS::TestFixture {
 	CPPUNIT_TEST(testNoConditionMoreComplex);
 	CPPUNIT_TEST(testOneCondition);
 	CPPUNIT_TEST(testOneConditionTwoSynonyms);
+	CPPUNIT_TEST(testRepeatCondition);
 	CPPUNIT_TEST(testPatternCondition);
 	CPPUNIT_TEST(testPatternCondition1);
 	CPPUNIT_TEST(testPatternCondition2);
@@ -28,10 +29,11 @@ class QueryPreprocessorTest : public CPPUNIT_NS::TestFixture {
 	CPPUNIT_TEST(testUsesInvalid);
 	CPPUNIT_TEST(testInvalidNotDeclared);
 	CPPUNIT_TEST(testInvalidNotDeclared2);
-	//BONUS. NOT IN CS3201
 	CPPUNIT_TEST(testMultipleReturn);
 	CPPUNIT_TEST(testMultipleReturnAndSuchThat);
 	CPPUNIT_TEST(testMultipleReturnAndMultipleSuchThat);
+	CPPUNIT_TEST(testMultiplePatternAndMultipleSuchThat);
+	CPPUNIT_TEST(testMultipleReturnAndPatternAndSuchThat);
     CPPUNIT_TEST_SUITE_END();
 
   private:
@@ -44,6 +46,7 @@ class QueryPreprocessorTest : public CPPUNIT_NS::TestFixture {
 	void testNoConditionMoreComplex();
 	void testOneCondition();
 	void testOneConditionTwoSynonyms();
+	void testRepeatCondition();
 	void testPatternCondition();
 	void testPatternCondition1();
 	void testPatternCondition2();
@@ -64,4 +67,7 @@ class QueryPreprocessorTest : public CPPUNIT_NS::TestFixture {
 	void testMultipleReturn();
 	void testMultipleReturnAndSuchThat();
 	void testMultipleReturnAndMultipleSuchThat();
+	void testMultiplePatternAndMultipleSuchThat();
+	void testMultipleReturnAndPatternAndSuchThat();
+
 };
