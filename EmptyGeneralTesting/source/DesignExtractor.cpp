@@ -15,14 +15,18 @@ DesignExtractor::~DesignExtractor(void) {
 
 // public method that extracts all remaining relationships in the PKB
 void DesignExtractor::extract() {
-	setPKBRelationShips(PKB::getPKB()->getAst()->getRoot());
-	setInterprocedureCallStar();
-	setInterprocedureModifiesUses();
+	extractVariousRelationship(PKB::getPKB()->getAst()->getRoot());
+	extractInterprocedureCallStar();
+	extractInterprocedureModifiesUses();
+	extractNext();
 }
 
 
-
-void DesignExtractor::setPKBRelationShips(TNode* node){
+//
+// parent, parentstar, follow, followstar, calls, modifies, cfg, vartable, proctable 
+// are being extracted using this function
+//
+void DesignExtractor::extractVariousRelationship(TNode* node){
 
 	///////////////////////
 	//parent & parentstar
@@ -195,15 +199,42 @@ void DesignExtractor::setPKBRelationShips(TNode* node){
 			PKB::getPKB()->getCfg()->insert(leftNode->getStmtLine(), secondChildNode->getStmtLine(),
 							PKB::getPKB()->getProcTable()->getProcIndex(leftNode->getParentByTType(PROCEDUREN)->getValue()));
 		}
+
+		//while looping of last node to first in cfg
+		if(leftNode->getTType() == WHILEN){
+			vector<TNode*> children = leftNode->getChildren()[1]->getChildren();
+			TNode* lastNode = children.at(children.size()-1);
+
+			if(lastNode->getTType() == IFN){	//if last child node of while is IF node
+				vector<TNode*> ifBranchChildren = lastNode->getChildren()[1]->getChildren();
+				vector<TNode*> elseBranchChildren = lastNode->getChildren()[2]->getChildren();
+				TNode* ifBranchLastNode = ifBranchChildren.at(ifBranchChildren.size()-1);
+				TNode* elseBranchLastNode = elseBranchChildren.at(elseBranchChildren.size()-1);
+
+				PKB::getPKB()->getCfg()->insert(ifBranchLastNode->getStmtLine(), leftNode->getStmtLine() ,
+							PKB::getPKB()->getProcTable()->getProcIndex(leftNode->getParentByTType(PROCEDUREN)->getValue()));
+
+				PKB::getPKB()->getCfg()->insert(elseBranchLastNode->getStmtLine(), leftNode->getStmtLine() ,
+							PKB::getPKB()->getProcTable()->getProcIndex(leftNode->getParentByTType(PROCEDUREN)->getValue()));
+			}
+			else{
+				PKB::getPKB()->getCfg()->insert(lastNode->getStmtLine(), leftNode->getStmtLine() ,
+							PKB::getPKB()->getProcTable()->getProcIndex(leftNode->getParentByTType(PROCEDUREN)->getValue()));
+			}
+
+			
+		}
+	
 		
 //----------------------------------------------------------------------
 
-		setPKBRelationShips(leftNode);
+		extractVariousRelationship(leftNode);
 
 	}
 }
 
-void DesignExtractor::setInterprocedureCallStar(){
+//callstar in between different procedure is being extracted here
+void DesignExtractor::extractInterprocedureCallStar(){
 	vector<VARINDEX> procIndexes = PKB::getPKB()->getProcTable()->getAllProcIndex();
 	
 	for(int i = 0; i < procIndexes.size(); i++){
@@ -230,7 +261,8 @@ void DesignExtractor::recursiveInterprocedureCallStar(PROCINDEX currentProc, PRO
 	}
 }
 
-void DesignExtractor::setInterprocedureModifiesUses(){
+//modifies & uses in between different procedures is between extracted here
+void DesignExtractor::extractInterprocedureModifiesUses(){
 	vector<VARINDEX> procIndexes = PKB::getPKB()->getProcTable()->getAllProcIndex();
 	
 	for(int i = 0; i < procIndexes.size(); i++){
@@ -260,4 +292,22 @@ bool DesignExtractor::isPrimitiveNode(TNode* node){
 
 }
 
+//next and nextstar is extracted in this function
+void DesignExtractor::extractNext(){
+	vector<GNode*> gNodes = PKB::getPKB()->getCfg()->getAllGNodes();
+	for(int i = 0; i < gNodes.size(); i++){
+		
+		vector<GNode*> nodes = gNodes[i]->getForwardNodes();
+		for(int q = 0; q< nodes.size(); q++){
+			PKB::getPKB()->getNext()->setNext(gNodes[i]->getLineNumber(), nodes[q]->getLineNumber());
+		}
+		
+		vector<GNode*> allNodes;
+		gNodes[i]->getAllPossibleForwardNodes(gNodes[i]->getLineNumber(), allNodes);
+		for(int q = 0; q< allNodes.size(); q++){
+			PKB::getPKB()->getNext()->setNextStar(gNodes[i]->getLineNumber(), allNodes[q]->getLineNumber());
+		}
+	}
 
+
+}

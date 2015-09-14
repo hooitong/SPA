@@ -8,10 +8,11 @@
 
 class DesignExtractor {
   private:
-    static void setPKBRelationShips(TNode* rootNode);
-	static void setInterprocedureCallStar();
+    static void extractVariousRelationship(TNode* rootNode);
+	static void extractInterprocedureCallStar();
 	static void recursiveInterprocedureCallStar(PROCINDEX currentProc, PROCINDEX originalProc, bool first, vector<PROCINDEX> &result);
-	static void setInterprocedureModifiesUses();
+	static void extractInterprocedureModifiesUses();
+	static void extractNext();
 	static bool isPrimitiveNode(TNode* node);
 
   public:
