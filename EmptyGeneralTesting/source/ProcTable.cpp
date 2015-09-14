@@ -65,14 +65,6 @@ int ProcTable::getSize() {
 	return currentMapIndex;
 }
 
-void ProcTable::setGRoot(PROCINDEX index, GNode * node) {
-	procIndexMap[index]->cfgRoot = node;
-}
-
-GNode* ProcTable::getGRoot(PROCINDEX index) {
-	return procIndexMap[index]->cfgRoot;
-}
-
 void ProcTable::setTRoot(PROCINDEX index, TNode * node) {
 	procIndexMap[index]->astRoot = node;
 }

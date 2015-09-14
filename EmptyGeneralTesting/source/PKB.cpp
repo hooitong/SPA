@@ -24,6 +24,7 @@ PKB::PKB(void) {
     uses = new Uses;
 	calls = new Calls;
 	procTable = new ProcTable;
+	next = new Next;
 }
 
 PKB::~PKB(void) {
@@ -37,6 +38,7 @@ PKB::~PKB(void) {
     delete uses;
 	delete calls;
 	delete procTable;
+	delete next;
 }
 
 VarTable* PKB::getVarTable() {
@@ -73,4 +75,8 @@ Calls* PKB::getCalls(){
 
 CFG* PKB::getCfg(){
 	return cfg;
+}
+
+Next* PKB::getNext(){
+	return next;
 }

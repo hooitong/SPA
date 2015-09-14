@@ -20,6 +20,8 @@ CPPUNIT_TEST_SUITE_REGISTRATION(ParserTest);
 void ParserTest::testMultiProcedure() {
 	Parser::parse("multi_procedure.txt");
 	TNode* root = Parser::buildAst();
+	DesignExtractor::extract();
+
 	CPPUNIT_ASSERT(root->getTType() == PROGRAMN);
 	CPPUNIT_ASSERT(root->getChildren().at(0)->getTType() == PROCEDUREN);
 	CPPUNIT_ASSERT(root->getChildren().at(0)->getChildren().at(0)->getTType() == STMTLSTN);
@@ -32,6 +34,8 @@ void ParserTest::testMultiProcedure() {
 void ParserTest::testAssign() {
 	Parser::parse("assignment.txt");
 	TNode* root = Parser::buildAst();
+	DesignExtractor::extract();
+
 	CPPUNIT_ASSERT(root->getTType() == PROGRAMN);
 	CPPUNIT_ASSERT(root->getChildren().at(0)->getTType() == PROCEDUREN);
 	CPPUNIT_ASSERT(root->getChildren().at(0)->getChildren().at(0)->getTType() == STMTLSTN);
@@ -58,6 +62,8 @@ void ParserTest::testAssign() {
 void ParserTest::testIf() {
 	Parser::parse("if_only.txt");
 	TNode* root = Parser::buildAst();
+	DesignExtractor::extract();
+
 	CPPUNIT_ASSERT(root->getTType() == PROGRAMN);
 	CPPUNIT_ASSERT(root->getChildren().at(0)->getTType() == PROCEDUREN);
 	CPPUNIT_ASSERT(root->getChildren().at(0)->getChildren().at(0)->getTType() == STMTLSTN);
@@ -78,6 +84,8 @@ void ParserTest::testIf() {
 void ParserTest::testWhile() {
 	Parser::parse("while_only.txt");
 	TNode* root = Parser::buildAst();
+	DesignExtractor::extract();
+
 	CPPUNIT_ASSERT(root->getTType() == PROGRAMN);
 	CPPUNIT_ASSERT(root->getChildren().at(0)->getTType() == PROCEDUREN);
 	CPPUNIT_ASSERT(root->getChildren().at(0)->getChildren().at(0)->getTType() == STMTLSTN);
@@ -95,6 +103,7 @@ void ParserTest::testNodeType() {
 
 	Parser::parse("sample_source.txt");
 	Parser::buildAst();
+	DesignExtractor::extract();
     AST* ast = PKB::getPKB()->getAst();
 
 	TNode* programNode = ast->getRoot();
@@ -196,6 +205,7 @@ void ParserTest::testNodeType() {
 void ParserTest::testRelationsOfNodes() {
 	Parser::parse("sample_source.txt");
 	Parser::buildAst();
+	DesignExtractor::extract();
    
     CPPUNIT_ASSERT(PKB::getPKB()->getFollows()->isFollows(1,2));
     CPPUNIT_ASSERT(PKB::getPKB()->getFollows()->isFollows(2,3));
@@ -231,6 +241,7 @@ void ParserTest::testModifies() {
 
 	Parser::parse("sample_source.txt");
 	Parser::buildAst();
+	DesignExtractor::extract();
 
     VARINDEX index_i = PKB::getPKB()->getVarTable()->getVarIndex("i");
     CPPUNIT_ASSERT(ParserTest::isModifies(1, index_i));
@@ -266,6 +277,7 @@ void ParserTest::testUses() {
 
 	Parser::parse("sample_source.txt");
 	Parser::buildAst();
+	DesignExtractor::extract();
 
     VARINDEX index_a = PKB::getPKB()->getVarTable()->getVarIndex("a");
     CPPUNIT_ASSERT(ParserTest::isUses(3, index_a));

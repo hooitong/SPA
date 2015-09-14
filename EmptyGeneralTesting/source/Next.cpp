@@ -10,12 +10,12 @@ void Next::setNextStar(PROGLINE before, PROGLINE next) {
 	afterToBefore.putRelation(next, before);
 }
 
-bool Next::isNext(PROGLINE first, PROGLINE second) {
-	return beforeToNext[first] == second;
+bool Next::isNext(PROGLINE before, PROGLINE next) {
+	return beforeToNext[before] == next;
 }
 
-bool Next::isNextStar(PROGLINE first, PROGLINE second) {
-	return beforeToAfter.containsChild(first, second);
+bool Next::isNextStar(PROGLINE before, PROGLINE next) {
+	return beforeToAfter.containsChild(before, next);
 }
 
 PROGLINE Next::getBefore(PROGLINE current) {

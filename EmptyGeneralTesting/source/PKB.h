@@ -10,6 +10,7 @@
 #include "ProcTable.h"
 #include "Calls.h"
 #include "CFG.h"
+#include "Next.h"
 
 class PKB {
   private:
@@ -24,6 +25,7 @@ class PKB {
     Uses* uses;
 	ProcTable* procTable;
 	Calls* calls;
+	Next* next;
 
   public:
     /* Static method to retrieve singleton instance */
@@ -42,4 +44,5 @@ class PKB {
 	ProcTable* getProcTable();
 	Calls* getCalls();
 	CFG* getCfg();
+	Next* getNext();
 };

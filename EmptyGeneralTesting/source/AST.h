@@ -16,11 +16,7 @@ class AST {
     TNode* rootNode; // only support 1 procedure at the current iteration.
 
 	void setRelationShip(TNode* node);
-	void setPKBRelationShips(TNode* rootNode);
-	void setInterprocedureCallStar();
-	void recursiveInterprocedureCallStar(PROCINDEX currentProc, PROCINDEX originalProc, bool first, vector<PROCINDEX> &result);
-	void setInterprocedureModifiesUses();
-	bool isPrimitiveNode(TNode* node);
+	
 
   public:
     AST(void);
