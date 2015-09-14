@@ -18,5 +18,4 @@ public:
 
 private:
 	map<string, pair<vector<QNodeType>, vector<QNodeType> > > relation_name_to_available_types;
-
 };
