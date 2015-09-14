@@ -397,7 +397,7 @@ void QueryPreprocessorTest::testMultipleReturnAndSuchThat() {
 
 void QueryPreprocessorTest::testMultipleReturnAndMultipleSuchThat() {
     queryTest = new QueryPreprocessor();
-    QueryTree* achieved = queryTest->parseQuery("stmt s; variable x; Select <s,x> such that Modifies(s,x) and Modifies(s,\"x\"");
+    QueryTree* achieved = queryTest->parseQuery("stmt s; variable x; Select <s,x> such that Modifies(s,x) and Modifies(s,\"x\")");
     CPPUNIT_ASSERT(achieved != NULL);
     QueryTree* expected = new QueryTree();
     QNode* expectedRoot = expected->createNode(QUERY,"");

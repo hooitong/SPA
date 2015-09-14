@@ -32,32 +32,23 @@ class QueryPreprocessor {
 
     static string trim(string s);
 
-    bool checkConditionExists(string query);
-    bool trimAndCheckClause(string clause, int num);
-    bool splitAndCheckClause(string clause, int num);
     bool checkAttribute(string attribute);
     bool checkPattern(string pattern);
-    bool checkRelation(string relation);
     bool checkWhile(string pattern);
     bool checkIf(string pattern);
     bool checkAssign(string pattern, string patternName);
     bool checkDeclaration(string declaration);
     bool checkExpression(string expression);
     int findIndexOfType(string type);
-    QNode* parseStmtRef(string argument);
-    QNode* parseVarRef(string argument);
-    QNode* parseEntRef(string argument);
-	QNode* parseEntRefNoUnderscore(string argument);
 
   private:
 	int getFirstConditionIndex(string query, int start_index);
     map<int, int> posOfConds;
 
     map<int, int> posOfConds1;
-    int table[5][24];
     QueryTree *queryTree;
     QNode *resultListNode;
-	QNode *conditionsNode;
+	QNode *conditionListNode;
 	QueryPreprocessorDeclaration* declaration;
 	QueryPreprocessorResult* result;
 	QueryPreprocessorCondition* condition;

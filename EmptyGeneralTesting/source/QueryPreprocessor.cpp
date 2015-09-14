@@ -26,8 +26,8 @@ QueryTree* QueryPreprocessor::parseQuery(string query) {
         QNode* root = queryTree->createNode(QUERY, "");
         queryTree->setAsRoot(root);
 		
-		conditionsNode = queryTree->createNode(CONDITIONLIST, "");
-		queryTree->addChild(root, conditionsNode);
+		//conditionListNode = queryTree->createNode(CONDITIONLIST, "");
+		//queryTree->addChild(root, conditionListNode);
 
         int select_index = query.find("Select");
 
@@ -49,35 +49,16 @@ QueryTree* QueryPreprocessor::parseQuery(string query) {
 		resultListNode = result->getResultTree(result_string);
 		queryTree->addChild(root, resultListNode);
 
-		if (checkConditionExists(query)) {
-
-			map<int,int>::iterator it = posOfConds.begin();
-			//pointer  to first condition/clause
-			int ptf = it -> first;
-
-			while (ptf < (int)query.length()) {
-				int type = it -> second;
-				++it;
-				int pts;
-				if (it == posOfConds.end()) {
-					pts = query.length();
-				} else {
-					pts = it -> first;
-				}
-				string clause = trim(query.substr(ptf, pts - ptf));
-				if (!trimAndCheckClause(clause, type)) {
-					return NULL;
-				}
-				ptf = pts;
-			}
-
-		}
+		conditionListNode = condition->getConditionTree(condition_string);
+		queryTree->addChild(root, conditionListNode);
 
 		if (!declaration->isValidDeclaration()) {
 			return NULL;
 		}
-		
 		if (!result->isValidResult()) {
+			return NULL;
+		}
+		if (!condition->isValidCondition()) {
 			return NULL;
 		}
 
@@ -102,115 +83,6 @@ int QueryPreprocessor::getFirstConditionIndex(string query, int start_index) {
 		first_index = min(first_index, first_index_with);
 	}
 	return first_index;
-}
-
-bool QueryPreprocessor::checkConditionExists(string query) {
-    string query1;
-    query1 = query;
-    for(int i = 0; i < query1.length(); i++) {
-        query1[i] = tolower(query1[i]);
-    }
-    //pointer of such that condition
-    int pst = query.find("such that");
-    int pst1 = query1.find("such that");
-    //pointer of pattern condition
-    int pp = query.find("pattern");
-    int pp1 = query1.find("pattern");
-    //pointer of with condition
-    int pw = query.find("with");
-    int pw1 = query.find("with");
-
-    if(pst == string::npos && pp == string::npos && pw == string::npos) {
-        return false;
-    }
-
-    while(pst != string::npos) {
-        posOfConds.insert(pair<int,int>(pst, 9));
-        pst = query.find("such that",pst + 1);
-    }
-    while(pst1 != string::npos) {
-        posOfConds1.insert(pair<int,int>(pst1, 9));
-        pst1 = query1.find("such that",pst1 + 1);
-    }
-
-    while(pp != string::npos) {
-        posOfConds.insert(pair<int,int>(pp, 7));
-        pp = query.find("pattern", pp + 1);
-    }
-
-    while(pp1 != string::npos) {
-        posOfConds1.insert(pair<int,int>(pp1, 7));
-        pp1 = query1.find("pattern", pp1 + 1);
-    }
-
-    while(pw != string::npos) {
-        posOfConds.insert(pair<int,int>(pw, 4));
-        pw = query.find("with", pw + 1);
-    }
-
-    while(pw1 != string::npos) {
-        posOfConds1.insert(pair<int,int>(pw1, 4));
-        pw1 = query1.find("with", pw1 + 1);
-    }
-    if(posOfConds.size() != posOfConds1.size()) {
-        return false;
-    }
-
-    return true;
-}
-
-bool QueryPreprocessor::trimAndCheckClause(string clause, int num) {
-    clause = trim(clause);
-    clause = clause.substr(num,clause.size()-num);
-
-    return splitAndCheckClause(clause, num);
-}
-
-bool QueryPreprocessor::splitAndCheckClause(string clause, int num) {
-    clause = trim(clause);
-    int p = clause.find(" and ");
-    // there doesn't exist "and"
-
-    if(p != string::npos) {
-        string s1 = trim(clause.substr(0,p));
-        string s2 = trim(clause.substr(p+5,clause.size()-p-5));
-
-        bool valid = true;
-        switch(num) {
-        case 4:
-            valid = valid && checkAttribute(s1);
-            break;
-        case 7:
-            valid = valid && checkPattern(s1);
-            break;
-        case 9:
-            valid = valid && checkRelation(s1);
-            break;
-        default:
-            return false;
-            break;
-        }
-        return valid && splitAndCheckClause(s2, num);
-
-    } else {
-
-        switch(num) {
-        case 4:
-            return checkAttribute(clause);
-            break;
-        case 7:
-            return checkPattern(clause);
-            break;
-        case 9:
-            return checkRelation(clause);
-            break;
-        default:
-            return false;
-            break;
-        }
-
-    }
-
 }
 /**************************Tools *********************************/
 bool QueryPreprocessor::isIdent(string ident) {
@@ -272,57 +144,6 @@ bool QueryPreprocessor::checkFactor(string factor) {
     if(factor  == "") return false;
 
     return checkInteger(factor) || isIdent(factor);
-}
-
-QNode* QueryPreprocessor::parseStmtRef(string argument) {
-    if (argument == "_") {
-        return queryTree->createNode(ANY,"");
-    } else if (isdigit(argument.at(0))) {
-        return queryTree->createNode(CONST,argument);
-    } else if (declaration->isDeclaredSynonym(argument)) {
-		string synonym_type = declaration->getSynonymType(argument);
-		if (synonym_type == "stmt" || synonym_type == "while" || synonym_type == "assign" || synonym_type == "prog_line") {
-			return declaration->getSynonymTypeNode(argument);
-		}
-	}
-    return NULL;
-}
-
-QNode* QueryPreprocessor::parseVarRef(string argument) {
-    if (argument == "_") {
-        return queryTree->createNode(ANY,"");
-    } else if (argument.at(0) == '\"' && argument.at((int)argument.size()-1) == '\"') {
-        return queryTree->createNode(VAR,trim(argument.substr(1,(int)argument.size()-2)));
-    } else if (declaration->isDeclaredSynonym(argument)) {
-		string synonym_type = declaration->getSynonymType(argument);
-		if (synonym_type == "variable") {
-			return declaration->getSynonymTypeNode(argument);
-		}
-	}
-    return NULL;
-}
-
-QNode* QueryPreprocessor::parseEntRef(string argument) {
-    if (argument == "_") {
-        return queryTree->createNode(ANY,"");
-    } else if (isdigit(argument.at(0))) {
-        return queryTree->createNode(CONST,argument);
-    } else if (argument.at(0) == '\"' && argument.at((int)argument.size()-1) == '\"') {
-        return queryTree->createNode(VAR,trim(argument.substr(1,(int)argument.size()-2)));
-	} else if (declaration->isDeclaredSynonym(argument)) {
-		string synonym_type = declaration->getSynonymType(argument);
-		if (synonym_type == "stmt" || synonym_type == "while" || synonym_type == "assign" || synonym_type == "prog_line" || synonym_type == "variable") {
-			return declaration->getSynonymTypeNode(argument);
-		}
-	}
-    return NULL;
-}
-
-QNode* QueryPreprocessor::parseEntRefNoUnderscore(string argument) {
-	if (argument == "_") {
-		return NULL;
-	}
-	return parseEntRef(argument);
 }
 
 /**************************With  *********************************/
@@ -490,48 +311,8 @@ bool QueryPreprocessor::checkAttribute(string attribute) {
     return false;
 }
 
-
-/**************************Relation *********************************/
-bool QueryPreprocessor::checkRelation(string relation) {
-    int p1 = relation.find("(");
-    string relationType = trim(relation.substr(0,p1));
-    int p2 = relation.find(",");
-    string argument1 = trim(relation.substr(p1+1,p2-p1-1));
-    int p3 = relation.find(")");
-    string argument2 = trim(relation.substr(p2+1,p3-p2-1));
-
-    QNode* relationNode = queryTree->createNode(RELATION,relationType);
-    QNode* leftHandSide;
-    QNode* rightHandSide;
-
-    if (relationType == "Modifies") {
-        leftHandSide = parseEntRefNoUnderscore(argument1);
-        rightHandSide = parseVarRef(argument2);
-    } else if (relationType == "Uses") {
-        leftHandSide = parseEntRefNoUnderscore(argument1);
-        rightHandSide = parseVarRef(argument2);
-    } else if (relationType == "Parent" || relationType == "Parent*") {
-        leftHandSide = parseStmtRef(argument1);
-        rightHandSide = parseStmtRef(argument2);
-    } else if (relationType == "Follows" || relationType == "Follows*") {
-        leftHandSide = parseStmtRef(argument1);
-        rightHandSide = parseStmtRef(argument2);
-    } else {
-        return false;
-    }
-
-    if (leftHandSide == NULL || rightHandSide == NULL) {
-        return false;
-    }
-
-    queryTree->addChild(relationNode,leftHandSide);
-    queryTree->addChild(relationNode,rightHandSide);
-    queryTree->addChild(conditionsNode,relationNode);
-
-    return true;
-}
-
 /**************************Pattern *********************************/
+/*
 bool QueryPreprocessor::checkWhile(string pattern) {
 	//while : synonym "("varRef "," "_" ")"
     pattern = trim(pattern);
@@ -570,7 +351,7 @@ bool QueryPreprocessor::checkWhile(string pattern) {
         queryTree->addChild(patternNode,whileSynonymNode);
         queryTree->addChild(patternNode,leftHandSide);
         queryTree->addChild(patternNode,rightHandSide);
-        queryTree->addChild(conditionsNode,patternNode);
+        queryTree->addChild(conditionListNode,patternNode);
         return true;
     }
     return false;
@@ -616,7 +397,7 @@ bool QueryPreprocessor::checkIf(string pattern) {
         queryTree->addChild(patternNode,ifSynonymNode);
         queryTree->addChild(patternNode,leftHandSide);
         queryTree->addChild(patternNode,rightHandSide);
-        queryTree->addChild(conditionsNode,patternNode);
+        queryTree->addChild(conditionListNode,patternNode);
         return true;
     }
     return false;
@@ -665,7 +446,7 @@ bool QueryPreprocessor::checkAssign(string pattern, string patternName) {
         queryTree->addChild(patternNode,assignSynonymNode);
         queryTree->addChild(patternNode,leftHandSide);
         queryTree->addChild(patternNode,rightHandSide);
-        queryTree->addChild(conditionsNode,patternNode);
+        queryTree->addChild(conditionListNode,patternNode);
         return true;
     }
     return false;
@@ -686,7 +467,7 @@ bool QueryPreprocessor::checkPattern(string pattern) {
     }
     return false;
 }
-
+*/
 /************************** Others *********************************/
 
 string QueryPreprocessor::trim(string s) {
