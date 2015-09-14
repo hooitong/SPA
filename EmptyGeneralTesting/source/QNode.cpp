@@ -35,6 +35,9 @@ bool QNode::isEqualSubtree(QNode* node) {
     /*std::cout << node->name << " " << this->name << endl;
     std::cout << node->type << " " << this->type << endl;
     std::cout << node->childrenNodes.size() << " " << this->childrenNodes.size() << endl;*/
+	if (node == NULL) {
+		return false;
+	}
     if (this->name != node->name || this->type != node->type) {
         return false;
     }

@@ -15,6 +15,7 @@ public:
 
 	PROGLINE getLineNumber();
 	vector<GNode*> getForwardNodes();
+	void getAllPossibleForwardNodes(STMTLINE start, vector<GNode*> &result);
 	vector<GNode*> getPrevNode();
 	void addForwardNode(GNode* forward);
 	void addPrevNode(GNode* prev);

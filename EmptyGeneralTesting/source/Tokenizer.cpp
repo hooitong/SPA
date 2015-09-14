@@ -37,7 +37,7 @@ void Tokenizer::tokenizeLine(string line, int lineIndex, vector<ParsingToken> &t
 	vector<string> tokens;
 	tokens = ParserUtils::split(line, ' ');
 	for(int i = 0; i<tokens.size(); i++){
-		if(tokens[i].size() >= 2 && tokens[i].at(0) == '\\' && tokens[i].at(1) == '\\'){
+		if(tokens[i].size() >= 2 && (tokens[i].at(0) == '/' && tokens[i].at(1) == '/' || tokens[i].at(0) == '\\' && tokens[i].at(1) == '\\')){
 			return; //return immediately as the rest of the line is commented
 		}
 		else{
@@ -71,7 +71,8 @@ string Tokenizer::appendWhiteSpace(string input){
 }
 
 bool Tokenizer::isCodeBody(string code){
-	bool foundAlpha = false;
+	code = Tokenizer::appendWhiteSpace(code);
+	bool foundAlpha = false;	//has alphanumeric in string
 	ParserUtils::replaceAll(code," ","");
 
 	for(std::string::iterator it = code.begin(); it != code.end(); ++it) {
@@ -82,7 +83,7 @@ bool Tokenizer::isCodeBody(string code){
 	}
 
 
-	if(!foundAlpha || foundAlpha && code.find("procedure") == 0){
+	if(!foundAlpha || foundAlpha && code.find("procedure") == 0 || foundAlpha && code.find("else") == 0){
 		return false;
 	}
 	else{

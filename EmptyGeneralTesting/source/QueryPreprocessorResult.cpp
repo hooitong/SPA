@@ -5,10 +5,10 @@ using namespace std;
 
 QueryPreprocessorResult::QueryPreprocessorResult(QueryPreprocessorDeclaration* declaration) {
 	this->declaration = declaration;
+	isValid = true;
 }
 
 QNode* QueryPreprocessorResult::getResultTree(string result_string) {
-	isValid = true;
 	QNode* result_root = new QNode(RESULTLIST, "");
 	if (result_string.at(0) == '<' && result_string.at(result_string.length() - 1) == '>') {
 		int current_position = 1;
@@ -32,6 +32,7 @@ QNode* QueryPreprocessorResult::getResultTree(string result_string) {
 }
 
 QNode* QueryPreprocessorResult::getResultNode(string synonym_name) {
+	// TODO (jonathanirvings) : Implement for synonym_name = <something>.<something>
 	if(declaration->isDeclaredSynonym(synonym_name) && QueryPreprocessor::isElem(synonym_name)) {
 		return declaration->getSynonymTypeNode(synonym_name);
     }

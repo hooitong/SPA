@@ -197,3 +197,13 @@ void AST::setRelationShip(TNode* node){
 
 }
 
+TNode* AST::getProcTNodeByIndex(PROCINDEX index){
+	vector<TNode*> procedures;
+	this->getRoot()->getAllChildrenIncludeSubByTType(procedures, PROCEDUREN);
+	for(int i = 0; i < procedures.size(); i ++){
+		if(PKB::getPKB()->getProcTable()->getProcIndex(procedures[i]->getValue()) == index){
+			return procedures[i];
+		}
+	}
+	return NULL;
+}

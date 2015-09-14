@@ -30,6 +30,7 @@ class AST {
     TNode* getRightSibling(TNode* node);
     TNode* getParentTNode(TNode* node);
     TNode* getTNode(STMTLINE line);
+	TNode* getProcTNodeByIndex(PROCINDEX index);
     bool setRoot(TNode* root);
     TNode* getRoot();
     std::string getValue(TNode* node);
@@ -39,7 +40,7 @@ class AST {
     bool isMatch(TNode* node, TType type);
     bool matchLeftPattern(STMTLINE stmtRoot, VARINDEX varToMatch);
     bool matchRightPattern(STMTLINE stmtRoot, std::string expression, bool strict);
-
+	
 
    
 

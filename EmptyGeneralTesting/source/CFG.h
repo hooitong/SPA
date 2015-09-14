@@ -15,16 +15,9 @@ public:
 	void setProcToRoot(PROCINDEX proc, GNode* root);
 	void setLineToNode(PROGLINE lineNumber, GNode* node);
 	vector<GNode*> getAllRootNodes();
+	vector<GNode*> getAllGNodes();
 	GNode* getGNode(PROGLINE line);
-
-
-/* Need to revise the API and implementation below to use the interface on the top.*/
-private:
-	BitTable stmtToNextStmt;
-
-public:
 	void insert(STMTLINE from, STMTLINE to, PROCINDEX procIndex);
-	vector<STMTLINE> getImmediateToStmts(STMTLINE from);
-	void getAllToStmts(STMTLINE from, vector<STMTLINE> &result);
+
 
 };
