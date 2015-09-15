@@ -304,3 +304,13 @@ set<int> QueryResult::getPossibleValues(string synonym)
         return it->second;
     }
 }
+
+int QueryResult::getSolutionsSize()
+{
+    return this->solutions.size();
+}
+
+int QueryResult::getSolutionForSynonym(int solutionIndex, string synonym)
+{
+    return this->solutions[solutionIndex][this->indexMap[synonym]];
+}

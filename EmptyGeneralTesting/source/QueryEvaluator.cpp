@@ -18,7 +18,6 @@ std::list<string> QueryEvaluator::evaluate(QueryTree* tree) {
     }
     QueryResult result = evaluate(tree->getRoot());
 
-
     vector <string> resultSynonym;
     map <string, TType> synonymMap;
     vector<QueryResult> resultFilters;
@@ -38,22 +37,19 @@ std::list<string> QueryEvaluator::evaluate(QueryTree* tree) {
 
     result = result.filter(resultSynonym);
 
-    vector <vector<int> > solutions = result.getResult();
+    int solutionsSize = result.getSolutionsSize();
 
     std::list<string> resultList;
-    for (int i = 0; i < (int)solutions.size(); i++) {
+    for (int i = 0; i < solutionsSize; i++) {
         ostringstream oss;
-        for (int j = 0; j < (int) solutions[i].size(); j++) {
-            if (j > 0) {
-                oss << " ";
-            }
+        for (int j = 0; j < (int) resultSynonym.size(); j++) {
 
             if (synonymMap[resultSynonym[j]] == VARN) {
-                oss << pkbInstance->getVarTable()->getVarName(solutions[i][j]);
+                oss << pkbInstance->getVarTable()->getVarName(result.getSolutionForSynonym(i, resultSynonym[j]));
             } else if (synonymMap[resultSynonym[j]] == PROCEDUREN) {
-                oss << pkbInstance->getProcTable()->getProcName(solutions[i][j]);
+                oss << pkbInstance->getProcTable()->getProcName(result.getSolutionForSynonym(i, resultSynonym[j]));
             } else {
-                oss << solutions[i][j];
+                oss << result.getSolutionForSynonym(i, resultSynonym[j]);
             }
         }
         resultList.push_back(oss.str());
