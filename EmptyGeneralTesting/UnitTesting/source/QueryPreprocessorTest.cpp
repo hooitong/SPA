@@ -327,7 +327,7 @@ void QueryPreprocessorTest::testSuchThatCondition1() {
 
     QNode* expectedSuchThat2 = expected->createNode(RELATION,"Calls*");
     QNode* expectedSuchThatChild21 = expected->createNode(PROCEDURESYNONYM,"p1");
-    QNode* expectedSuchThatChild22 = expected->createNode(PROC,"\"foo\"");
+    QNode* expectedSuchThatChild22 = expected->createNode(VAR,"foo");
 	expected->addChild(expectedSuchThat2,expectedSuchThatChild21);
     expected->addChild(expectedSuchThat2,expectedSuchThatChild22);
 
@@ -336,7 +336,6 @@ void QueryPreprocessorTest::testSuchThatCondition1() {
 	CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
 void QueryPreprocessorTest::testSuchThatCondition2() {
-	// TODO (jonathanirvings) : This testcase fails. Debug this.
 	queryTest = new QueryPreprocessor();
     QueryTree* achieved = queryTest->parseQuery("while w1, w2; Select <w1,w2> such that Parent(7, w1) and Parent*(w1,w2)");
     CPPUNIT_ASSERT(achieved != NULL);
@@ -348,9 +347,9 @@ void QueryPreprocessorTest::testSuchThatCondition2() {
     expected->addChild(expectedRoot,expectedResultList);
     expected->addChild(expectedRoot,expectedConditionList);
 
-	QNode* expectedResult = expected->createNode(PROCEDURESYNONYM,"w1");
+	QNode* expectedResult = expected->createNode(WHILESYNONYM,"w1");
     expected->addChild(expectedResultList,expectedResult);
-	QNode* expectedResult1 = expected->createNode(PROCEDURESYNONYM,"w2");
+	QNode* expectedResult1 = expected->createNode(WHILESYNONYM,"w2");
     expected->addChild(expectedResultList,expectedResult1);
 	
     QNode* expectedSuchThat1 = expected->createNode(RELATION,"Parent");
@@ -398,11 +397,13 @@ void QueryPreprocessorTest::testSuchThatCondition3() {
 	expected->addChild(expectedSuchThat2,expectedSuchThatChild21);
     expected->addChild(expectedSuchThat2,expectedSuchThatChild22);
 
+	expected->addChild(expectedConditionList, expectedSuchThat1);
+	expected->addChild(expectedConditionList, expectedSuchThat2);
+
 	CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
 
 void QueryPreprocessorTest::testSuchThatCondition4() {
-	// TODO (jonathanirvings) : This testcase fails. Implements the BOOLEAN return.
 	queryTest = new QueryPreprocessor();
     QueryTree* achieved = queryTest->parseQuery("Select BOOLEAN such that Next*(6,7) and Affects*(2,4)");
     CPPUNIT_ASSERT(achieved != NULL);
@@ -429,12 +430,15 @@ void QueryPreprocessorTest::testSuchThatCondition4() {
 	expected->addChild(expectedSuchThat2,expectedSuchThatChild21);
     expected->addChild(expectedSuchThat2,expectedSuchThatChild22);
 
+	expected->addChild(expectedConditionList, expectedSuchThat1);
+	expected->addChild(expectedConditionList, expectedSuchThat2);
+
 	CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
+
 void QueryPreprocessorTest::testSuchThatCondition5() {
-	// TODO (jonathanirvings) : This testcase fails. Debug this.
 	queryTest = new QueryPreprocessor();
-    QueryTree* achieved = queryTest->parseQuery("variable x; Select x such that Modifies(x, \"hero\")  and Uses(\"a\", \"b\" ");
+    QueryTree* achieved = queryTest->parseQuery("procedure x; Select x such that Modifies(x, \"hero\")  and Uses(\"a\", \"b\")");
     CPPUNIT_ASSERT(achieved != NULL);
     QueryTree* expected = new QueryTree();
     QNode* expectedRoot = expected->createNode(QUERY,"");
@@ -444,11 +448,11 @@ void QueryPreprocessorTest::testSuchThatCondition5() {
     expected->addChild(expectedRoot,expectedResultList);
     expected->addChild(expectedRoot,expectedConditionList);
 
-	QNode* expectedResult = expected->createNode(VARIABLESYNONYM,"x");
+	QNode* expectedResult = expected->createNode(PROCEDURESYNONYM,"x");
     expected->addChild(expectedResultList,expectedResult);
 	
     QNode* expectedSuchThat1 = expected->createNode(RELATION,"Modifies");
-    QNode* expectedSuchThatChild11 = expected->createNode(VARIABLESYNONYM,"x");
+    QNode* expectedSuchThatChild11 = expected->createNode(PROCEDURESYNONYM,"x");
     QNode* expectedSuchThatChild12 = expected->createNode(VAR,"hero");
     expected->addChild(expectedSuchThat1,expectedSuchThatChild11);
     expected->addChild(expectedSuchThat1,expectedSuchThatChild12);
@@ -459,8 +463,45 @@ void QueryPreprocessorTest::testSuchThatCondition5() {
 	expected->addChild(expectedSuchThat2,expectedSuchThatChild21);
     expected->addChild(expectedSuchThat2,expectedSuchThatChild22);
 
+	expected->addChild(expectedConditionList, expectedSuchThat1);
+	expected->addChild(expectedConditionList, expectedSuchThat2);
+
 	CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
+
+void QueryPreprocessorTest::testSuchThatCondition6() {
+	queryTest = new QueryPreprocessor();
+    QueryTree* achieved = queryTest->parseQuery("variable x; Select x such that Modifies(x, \"hero\")  and Uses(\"a\", \"b\")");
+	// Left hand side of Modifies cannot be a variable
+    CPPUNIT_ASSERT(achieved == NULL);
+}
+
+void QueryPreprocessorTest::testSuchThatCondition7() {
+	queryTest = new QueryPreprocessor();
+    QueryTree* achieved = queryTest->parseQuery("procedure q; Select q such that Calls(q,\"calvinCall\")");
+    CPPUNIT_ASSERT(achieved != NULL);
+    QueryTree* expected = new QueryTree();
+    QNode* expectedRoot = expected->createNode(QUERY,"");
+    QNode* expectedResultList = expected->createNode(RESULTLIST,"");
+    QNode* expectedConditionList = expected->createNode(CONDITIONLIST,"");
+    expected->setAsRoot(expectedRoot);
+    expected->addChild(expectedRoot,expectedResultList);
+    expected->addChild(expectedRoot,expectedConditionList);
+
+	QNode* expectedResult = expected->createNode(PROCEDURESYNONYM,"q");
+    expected->addChild(expectedResultList,expectedResult);
+	
+    QNode* expectedSuchThat1 = expected->createNode(RELATION,"Calls");
+    QNode* expectedSuchThatChild11 = expected->createNode(PROCEDURESYNONYM,"q");
+    QNode* expectedSuchThatChild12 = expected->createNode(VAR,"calvinCall");
+    expected->addChild(expectedSuchThat1,expectedSuchThatChild11);
+    expected->addChild(expectedSuchThat1,expectedSuchThatChild12);
+
+	expected->addChild(expectedConditionList, expectedSuchThat1);
+
+	CPPUNIT_ASSERT(achieved->isEqual(expected));
+}
+
 void QueryPreprocessorTest::testProgLine() {
     queryTest = new QueryPreprocessor();
     QueryTree* achieved = queryTest->parseQuery("prog_line n; assign a;   Select   n such that Uses(a, \"tmp\")");
