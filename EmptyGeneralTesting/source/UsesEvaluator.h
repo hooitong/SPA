@@ -17,7 +17,10 @@ class UsesEvaluator : RelationEvaluator
     QueryResult evaluateConstSyn(QNode* node);
     QueryResult evaluateConstConst(QNode* node);
     QueryResult evaluateConstAny(QNode* node);
-    QueryResult evaluateAnySyn(QNode* node);
-    QueryResult evaluateAnyConst(QNode* node);
-    QueryResult evaluateAnyAny(QNode* node);
+    QueryResult evaluateProcsynSyn(QNode* node);
+    QueryResult evaluateProcsynConst(QNode* node);
+    QueryResult evaluateProcsynAny(QNode* node);
+    QueryResult evaluateProcSyn(QNode* node);
+    QueryResult evaluateProcConst(QNode* node);
+    QueryResult evaluateProcAny(QNode* node);
 };

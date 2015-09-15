@@ -6,23 +6,106 @@ QueryResult UsesEvaluator::evaluate(QNode* node) {
     QNode* rightChild = node->getChildren()[1];
     if (isSynonym(leftChild->getQType()) &&
         rightChild->getQType() == ANY) {
-        return evaluateSynAny(node);
+        if (leftChild->getQType() == PROCEDURESYNONYM) {
+            return evaluateProcsynAny(node);
+        } else {
+            return evaluateSynAny(node);
+        }
     } else if (isSynonym(leftChild->getQType()) &&
         isSynonym(rightChild->getQType())) {
-        return evaluateSynSyn(node);
+        if (leftChild->getQType() == PROCEDURESYNONYM) {
+            return evaluateProcsynSyn(node);
+        } else {
+            return evaluateSynSyn(node);
+        }
     } else if (isSynonym(leftChild->getQType()) &&
         rightChild->getQType() == VAR) {
+        if (leftChild->getQType() == PROCEDURESYNONYM) {
+            return evaluateProcsynConst(node);
+        } else {
+            return evaluateSynConst(node);
+        }
         return evaluateSynConst(node);
     } else if (leftChild->getQType() == CONST &&
         rightChild->getQType() == ANY) {
-        return evaluateConstAny(node);
+        if (leftChild->getString()[0] >= '0' && leftChild->getString()[0] <= '9') {
+            return evaluateConstAny(node);
+        } else {
+            return evaluateProcAny(node);
+        }
     } else if (leftChild->getQType() == CONST &&
         isSynonym(rightChild->getQType())) {
-        return evaluateConstSyn(node);
+        if (leftChild->getString()[0] >= '0' && leftChild->getString()[0] <= '9') {
+            return evaluateConstSyn(node);
+        } else {
+            return evaluateProcSyn(node);
+        }
     } else if (leftChild->getQType() == CONST &&
         rightChild->getQType() == VAR) {
-        return evaluateConstConst(node);
+        if (leftChild->getString()[0] >= '0' && leftChild->getString()[0] <= '9') {
+            return evaluateConstConst(node);
+        } else {
+            return evaluateProcConst(node);
+        }
     }
+}
+
+QueryResult UsesEvaluator::evaluateProcsynSyn(QNode* node) {
+    string leftSynonym = node->getChildren()[0]->getString();
+    string rightSynonym = node->getChildren()[1]->getString();
+    vector<PROCINDEX> leftIndex = pkb->getProcTable()->getAllProcIndex();
+    vector <pair<PROCINDEX, VARINDEX> > result;
+    for (vector<PROCINDEX>::size_type i = 0; i < leftIndex.size(); i++) {
+        vector <VARINDEX> rightIndex = pkb->getUses()->getUsedByProc(leftIndex[i]);
+        for (vector<VARINDEX>::size_type j = 0; j < rightIndex.size(); j++) {
+            result.push_back(make_pair(leftIndex[i], rightIndex[j]));
+        }
+    }
+    return QueryResult(result, leftSynonym, rightSynonym);
+}
+
+QueryResult UsesEvaluator::evaluateProcsynConst(QNode* node) {
+    string leftSynonym = node->getChildren()[0]->getString();
+    int rightIndex = getInteger(node->getChildren()[1]);
+    vector<PROCINDEX> leftIndex = pkb->getUses()->getUsesForProc(rightIndex);
+    return QueryResult(leftIndex, leftSynonym);
+}
+
+QueryResult UsesEvaluator::evaluateProcsynAny(QNode* node) {
+    string leftSynonym = node->getChildren()[0]->getString();
+    vector<PROCINDEX> leftPossible = pkb->getProcTable()->getAllProcIndex();
+    vector<PROCINDEX> result;
+    for (vector<PROCINDEX>::size_type i = 0; i < leftPossible.size(); i++) {
+        vector<VARINDEX> rightPossible = pkb->getUses()->getUsedByProc(leftPossible[i]);
+        if (rightPossible.size() > 0) {
+            result.push_back(leftPossible[i]);
+        }
+    }
+    return QueryResult(result, leftSynonym);
+}
+
+QueryResult UsesEvaluator::evaluateProcSyn(QNode* node) {
+    string rightSynonym = node->getChildren()[1]->getString();
+    string leftName = node->getChildren()[0]->getString();
+    int leftIndex = pkb->getProcTable()->getProcIndex(leftName);
+    vector<VARINDEX> rightIndex = pkb->getUses()->getUsedByProc(leftIndex);
+    return QueryResult(rightIndex, rightSynonym);
+}
+
+QueryResult UsesEvaluator::evaluateProcAny(QNode* node) {
+    string leftName = node->getChildren()[0]->getString();
+    int leftIndex = pkb->getProcTable()->getProcIndex(leftName);
+    vector<VARINDEX> rightIndex = pkb->getUses()->getUsedByProc(leftIndex);
+    return QueryResult(rightIndex.size() > 0);
+}
+
+QueryResult UsesEvaluator::evaluateProcConst(QNode* node) {
+    string leftName = node->getChildren()[0]->getString();
+    int leftIndex = pkb->getProcTable()->getProcIndex(leftName);
+    string rightName = node->getChildren()[1]->getString();
+    int rightIndex = pkb->getVarTable()->getVarIndex(rightName);
+    vector<VARINDEX> rightAll = pkb->getUses()->getUsedByProc(leftIndex);
+    return QueryResult(find(rightAll.begin(), rightAll.end(), rightIndex) != rightAll.end());
 }
 
 QueryResult UsesEvaluator::evaluateConstAny(QNode* node) {
