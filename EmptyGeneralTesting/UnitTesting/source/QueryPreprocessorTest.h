@@ -25,6 +25,7 @@ class QueryPreprocessorTest : public CPPUNIT_NS::TestFixture {
   CPPUNIT_TEST(testSuchThatCondition5);
   CPPUNIT_TEST(testSuchThatCondition6);
   CPPUNIT_TEST(testSuchThatCondition7);
+  CPPUNIT_TEST(testSuchThatCondition8);
   CPPUNIT_TEST(testProgLine);
   CPPUNIT_TEST(testInvalidQuery);
   CPPUNIT_TEST(testPatternInvalid);
@@ -68,6 +69,7 @@ public:
   void testSuchThatCondition5();
   void testSuchThatCondition6();
   void testSuchThatCondition7();
+  void testSuchThatCondition8();
   void testProgLine();
   void testPatternInvalid();
   void testPatternInvalid2();
