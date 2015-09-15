@@ -5,14 +5,13 @@
 #include "GlobalType.h"
 
 class TokenizerTest : public CPPUNIT_NS::TestFixture {
-    CPPUNIT_TEST_SUITE(TokenizerTest);
-    CPPUNIT_TEST(testTokenize);
-    CPPUNIT_TEST_SUITE_END();
+  CPPUNIT_TEST_SUITE(TokenizerTest);
+  CPPUNIT_TEST(testTokenize);
+  CPPUNIT_TEST_SUITE_END();
 
-  public:
-    void setUp();
-    void tearDown();
+public:
+  void setUp();
+  void tearDown();
 
-    void testTokenize();
-
+  void testTokenize();
 };
