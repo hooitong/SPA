@@ -2,6 +2,7 @@
 
 #include "GlobalType.h"
 #include <vector>
+#include <algorithm>
 
 class GNode {
 private:	
@@ -15,7 +16,7 @@ public:
 
 	PROGLINE getLineNumber();
 	vector<GNode*> getForwardNodes();
-	void getAllPossibleForwardNodes(STMTLINE start, vector<GNode*> &result);
+	void getAllPossibleForwardNodes(STMTLINE start, bool rec, vector<GNode*> &result);
 	vector<GNode*> getPrevNode();
 	void addForwardNode(GNode* forward);
 	void addPrevNode(GNode* prev);

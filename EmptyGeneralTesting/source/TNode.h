@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "GlobalType.h"
+#include "ParserUtils.h"
 
 class TNode {
   private:
@@ -35,6 +36,7 @@ class TNode {
 	TNode* getParentByTType(TType type);
 	void getAllChildrenIncludeSub(vector<TNode*> &children);
 	void getAllChildrenIncludeSubByTType(vector<TNode*> &children, TType type);
+
     bool setStmtLine(STMTLINE stmtNo);
 	void setNodeValue(string s);
 	void setTType(TType);

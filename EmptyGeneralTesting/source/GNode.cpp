@@ -24,14 +24,16 @@ void GNode::addPrevNode(GNode* prev) {
 	backNode.push_back(prev);
 }
 
-void GNode::getAllPossibleForwardNodes(STMTLINE start, vector<GNode*> &results){
-	if(forwardNodes.size() == 0 || lineNumber == start){
+void GNode::getAllPossibleForwardNodes(STMTLINE start, bool rec, vector<GNode*> &results){
+	if(forwardNodes.size() == 0 || (lineNumber == start && rec)){
 		return;
 	}
 	else{
 		for(int i = 0; i < forwardNodes.size(); i ++){
-			results.push_back(forwardNodes[i]);
-			forwardNodes[i]->getAllPossibleForwardNodes(start, results);
+			if(find(results.begin(), results.end(), forwardNodes[i]) == results.end()) {
+				results.push_back(forwardNodes[i]);
+				forwardNodes[i]->getAllPossibleForwardNodes(start, true, results);
+			}
 		}
 	}
 
