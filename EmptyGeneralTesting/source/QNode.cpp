@@ -1,6 +1,7 @@
 #include "QNode.h"
 
 #include <vector>
+#include <iostream>
 
 #include "GlobalType.h"
 
@@ -32,8 +33,8 @@ void QNode::addChild(QNode* node) {
 }
 
 bool QNode::isEqualSubtree(QNode* node) {
-    /*std::cout << node->name << " " << this->name << endl;
-    std::cout << node->type << " " << this->type << endl;
+    /*std::cout << node->name << " " << this->name << "            ";
+    std::cout << node->type << " " << this->type << "            ";
     std::cout << node->childrenNodes.size() << " " << this->childrenNodes.size() << endl;*/
 	if (node == NULL) {
 		return false;
@@ -56,6 +57,7 @@ bool QNode::isEqualSubtree(QNode* node) {
 			if (this->childrenNodes[i]->isEqualSubtree(node->childrenNodes[j])) {
 				found = true;
 				chosen[j] = true;
+				break;
 			}
 		}
 		if (!found) {
