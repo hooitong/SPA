@@ -36,9 +36,9 @@ void ProcTableTest::getAllTest(){
 	
 	CPPUNIT_ASSERT(resultIndex.size() == 3);
 	
-	CPPUNIT_ASSERT(resultIndex.at(0) == 0);
-	CPPUNIT_ASSERT(resultIndex.at(1) == 1);
-	CPPUNIT_ASSERT(resultIndex.at(2) == 2);
+	CPPUNIT_ASSERT(resultIndex.at(0) == 1);
+	CPPUNIT_ASSERT(resultIndex.at(1) == 2);
+	CPPUNIT_ASSERT(resultIndex.at(2) == 3);
 
 	vector<PROCNAME> resultName = (*procTable).getAllProcName();
 
