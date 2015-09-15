@@ -17,7 +17,7 @@ class QueryPreprocessor {
     /*--------------------checking -------------------*/
     static bool isAttributeName(string attName);
     static bool isIdent(string ident);
-    bool checkInteger(string number);
+    static bool checkInteger(string number);
     static bool isAttReference(string attReference);
     static bool isElem(string elem);
     bool checkVarReference(string varReference);

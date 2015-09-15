@@ -1,6 +1,7 @@
 #include "QueryPreprocessorDeclaration.h"
 #include "QueryPreprocessor.h"
 #include <string>
+#include <iostream>
 using namespace std;
 
 QueryPreprocessorDeclaration::QueryPreprocessorDeclaration(string declaration_string) {
