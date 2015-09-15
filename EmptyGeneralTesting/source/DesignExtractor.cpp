@@ -325,6 +325,8 @@ void DesignExtractor::extractNext(){
 		for(int q = 0; q< nodes.size(); q++){
 			PKB::getPKB()->getNext()->setNext(gNodes[i]->getLineNumber(), nodes[q]->getLineNumber());
 		}
+
+		
 		
 		vector<GNode*> allNodes;
 		gNodes[i]->getAllPossibleForwardNodes(gNodes[i]->getLineNumber(), allNodes);

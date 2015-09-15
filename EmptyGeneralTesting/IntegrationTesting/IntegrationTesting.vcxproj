@@ -68,15 +68,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\IntegrationTest.cpp" />
+    <ClCompile Include="source\ParserCallsTest.cpp" />
     <ClCompile Include="source\ParserFollowsTest.cpp" />
     <ClCompile Include="source\ParserModifiesTest.cpp" />
+    <ClCompile Include="source\ParserNextTest.cpp" />
     <ClCompile Include="source\ParserParentTest.cpp" />
     <ClCompile Include="source\ParserPatternTest.cpp" />
     <ClCompile Include="source\ParserUsesTest.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\ParserCallsTest.h" />
     <ClInclude Include="source\ParserFollowsTest.h" />
     <ClInclude Include="source\ParserModifiesTest.h" />
+    <ClInclude Include="source\ParserNextTest.h" />
     <ClInclude Include="source\ParserParentTest.h" />
     <ClInclude Include="source\ParserPatternTest.h" />
     <ClInclude Include="source\ParserUsesTest.h" />
