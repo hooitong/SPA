@@ -311,6 +311,60 @@ void QueryResultTest::testMultipleMerge() {
     CPPUNIT_ASSERT(expected == result);
 }
 
+void QueryResultTest::testPossibleResult() {
+    vector <string> synonym;
+    synonym.push_back("a");
+    synonym.push_back("b");
+    synonym.push_back("c");
+    synonym.push_back("d");
+
+    vector<int> resultone1;
+    resultone1.push_back(1);
+    resultone1.push_back(2);
+    resultone1.push_back(3);
+    resultone1.push_back(4);
+
+    vector<int> resultone2;
+    resultone2.push_back(4);
+    resultone2.push_back(6);
+    resultone2.push_back(5);
+    resultone2.push_back(7);
+
+    vector <int> resultone3;
+    resultone3.push_back(1);
+    resultone3.push_back(2);
+    resultone3.push_back(10);
+    resultone3.push_back(11);
+
+    set<int> possibleA;
+    possibleA.insert(1);
+    possibleA.insert(4);
+
+    set<int> possibleB;
+    possibleB.insert(2);
+    possibleB.insert(6);
+
+    set<int> possibleC;
+    possibleC.insert(3);
+    possibleC.insert(5);
+    possibleC.insert(10);
+
+    set<int> possibleD;
+    possibleD.insert(4);
+    possibleD.insert(7);
+    possibleD.insert(11);
+
+    QueryResult now(synonym);
+    now.addSolution(resultone1);
+    now.addSolution(resultone2);
+    now.addSolution(resultone3);
+
+    CPPUNIT_ASSERT(now.getPossibleValues("a") == possibleA);
+    CPPUNIT_ASSERT(now.getPossibleValues("b") == possibleB);
+    CPPUNIT_ASSERT(now.getPossibleValues("c") == possibleC);
+    CPPUNIT_ASSERT(now.getPossibleValues("d") == possibleD);
+}
+
 void QueryResultTest::testFilter() {
     vector <string> synonym1;
     synonym1.push_back("a");
