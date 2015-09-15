@@ -26,7 +26,7 @@ std::list<string> QueryEvaluator::evaluate(QueryTree* tree) {
     bool isBoolean = false;
     for (int i = 0; i < (int) children.size(); i++) {
         if (children[i]->getQType() == RESULTLIST) {
-            if (children[i]->getChildren().size() == 0 && children[i]->getChildren()[0]->getQType() == BOOLEAN) {
+            if (children[i]->getChildren().size() == 1 && children[i]->getChildren()[0]->getQType() == BOOLEAN) {
                 isBoolean = true;
             } else {
                 resultSynonym = getResultSynonyms(children[i]);
