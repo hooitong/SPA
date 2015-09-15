@@ -23,36 +23,53 @@ std::list<string> QueryEvaluator::evaluate(QueryTree* tree) {
     vector<QueryResult> resultFilters;
 
     vector <QNode*> children = tree->getRoot()->getChildren();
+    bool isBoolean = false;
     for (int i = 0; i < (int) children.size(); i++) {
         if (children[i]->getQType() == RESULTLIST) {
-            resultSynonym = getResultSynonyms(children[i]);
-            synonymMap = getSynonymMap(children[i]);
-            resultFilters = getResultFilters(children[i]);
+            if (children[i]->getChildren().size() == 0 && children[i]->getChildren()[0]->getQType() == BOOLEAN) {
+                isBoolean = true;
+            } else {
+                resultSynonym = getResultSynonyms(children[i]);
+                synonymMap = getSynonymMap(children[i]);
+                resultFilters = getResultFilters(children[i]);
+            }
         }
     }
 
-    for (int i = 0; i < (int) resultFilters.size(); i++) {
-        result = result.merge(resultFilters[i]);
-    }
+    if (!isBoolean) {
 
-    result = result.filter(resultSynonym);
+        for (int i = 0; i < (int) resultFilters.size(); i++) {
+            result = result.merge(resultFilters[i]);
+        }
+
+        result = result.filter(resultSynonym);
+    }
 
     int solutionsSize = result.getSolutionsSize();
 
     std::list<string> resultList;
-    for (int i = 0; i < solutionsSize; i++) {
-        ostringstream oss;
-        for (int j = 0; j < (int) resultSynonym.size(); j++) {
-
-            if (synonymMap[resultSynonym[j]] == VARN) {
-                oss << pkbInstance->getVarTable()->getVarName(result.getSolutionForSynonym(i, resultSynonym[j]));
-            } else if (synonymMap[resultSynonym[j]] == PROCEDUREN) {
-                oss << pkbInstance->getProcTable()->getProcName(result.getSolutionForSynonym(i, resultSynonym[j]));
-            } else {
-                oss << result.getSolutionForSynonym(i, resultSynonym[j]);
-            }
+    if (isBoolean) {
+        if (solutionsSize > 0) {
+            resultList.push_back("TRUE");
+        } else {
+            resultList.push_back("FALSE");
         }
-        resultList.push_back(oss.str());
+
+    } else {
+        for (int i = 0; i < solutionsSize; i++) {
+            ostringstream oss;
+            for (int j = 0; j < (int) resultSynonym.size(); j++) {
+
+                if (synonymMap[resultSynonym[j]] == VARN) {
+                    oss << pkbInstance->getVarTable()->getVarName(result.getSolutionForSynonym(i, resultSynonym[j]));
+                } else if (synonymMap[resultSynonym[j]] == PROCEDUREN) {
+                    oss << pkbInstance->getProcTable()->getProcName(result.getSolutionForSynonym(i, resultSynonym[j]));
+                } else {
+                    oss << result.getSolutionForSynonym(i, resultSynonym[j]);
+                }
+            }
+            resultList.push_back(oss.str());
+        }
     }
 
     return resultList;
