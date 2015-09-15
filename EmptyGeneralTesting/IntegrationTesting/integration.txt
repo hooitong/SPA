@@ -22,7 +22,7 @@ if a then{									//4
               c = c -1   	; } 						//19
             x = x+ 1; }}							//20
       else   {								
-          call Init; } } }							//21				
+          call Init; } } }						//21				
 	else{
   call Init; 									//22
 }

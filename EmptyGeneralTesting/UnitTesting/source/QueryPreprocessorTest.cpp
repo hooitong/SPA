@@ -301,8 +301,9 @@ void QueryPreprocessorTest::testSuchThatCondition() {
 
 	CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
-void QueryPreprocessorTest::testSuchThatCondition1() {
 
+void QueryPreprocessorTest::testSuchThatCondition1() {
+	//TODO (jonathanirvings) : This testcase fails. Debug this.
 	queryTest = new QueryPreprocessor();
     QueryTree* achieved = queryTest->parseQuery("procedure p, p1; Select <p,p1> such that Calls(p,p1) and Calls*(p1,\"foo\")");
     CPPUNIT_ASSERT(achieved != NULL);
@@ -335,7 +336,7 @@ void QueryPreprocessorTest::testSuchThatCondition1() {
 	CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
 void QueryPreprocessorTest::testSuchThatCondition2() {
-
+	// TODO (jonathanirvings) : This testcase fails. Debug this.
 	queryTest = new QueryPreprocessor();
     QueryTree* achieved = queryTest->parseQuery("while w1, w2; Select <w1,w2> such that Parent(7, w1) and Parent*(w1,w2)");
     CPPUNIT_ASSERT(achieved != NULL);
@@ -370,7 +371,7 @@ void QueryPreprocessorTest::testSuchThatCondition2() {
 	CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
 void QueryPreprocessorTest::testSuchThatCondition3() {
-
+	// TODO (jonathanirvings) : This testcase fails. Add underscore alternative for left hand side of Calls and Modifies
 	queryTest = new QueryPreprocessor();
     QueryTree* achieved = queryTest->parseQuery("assign a; Select a such that Calls(_,_) and Modifies(_,_)");
     CPPUNIT_ASSERT(achieved != NULL);
@@ -401,7 +402,7 @@ void QueryPreprocessorTest::testSuchThatCondition3() {
 }
 
 void QueryPreprocessorTest::testSuchThatCondition4() {
-
+	// TODO (jonathanirvings) : This testcase fails. Implements the BOOLEAN return.
 	queryTest = new QueryPreprocessor();
     QueryTree* achieved = queryTest->parseQuery("Select BOOLEAN such that Next*(6,7) and Affects*(2,4)");
     CPPUNIT_ASSERT(achieved != NULL);
@@ -431,7 +432,7 @@ void QueryPreprocessorTest::testSuchThatCondition4() {
 	CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
 void QueryPreprocessorTest::testSuchThatCondition5() {
-
+	// TODO (jonathanirvings) : This testcase fails. Debug this.
 	queryTest = new QueryPreprocessor();
     QueryTree* achieved = queryTest->parseQuery("variable x; Select x such that Modifies(x, \"hero\")  and Uses(\"a\", \"b\" ");
     CPPUNIT_ASSERT(achieved != NULL);

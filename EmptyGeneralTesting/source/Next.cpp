@@ -1,8 +1,8 @@
 ﻿#include "Next.h"
 
 void Next::setNext(PROGLINE before, PROGLINE next) {
-	beforeToNext[before] = next;
-	nextToBefore[next] = before;
+	beforeToNext.putRelation(before, next);
+	nextToBefore.putRelation(next, before);
 }
 
 void Next::setNextStar(PROGLINE before, PROGLINE next) {
@@ -11,25 +11,23 @@ void Next::setNextStar(PROGLINE before, PROGLINE next) {
 }
 
 bool Next::isNext(PROGLINE before, PROGLINE next) {
-	return beforeToNext[before] == next;
+	return beforeToNext.containsChild(before, next);
 }
 
 bool Next::isNextStar(PROGLINE before, PROGLINE next) {
 	return beforeToAfter.containsChild(before, next);
 }
 
-PROGLINE Next::getBefore(PROGLINE current) {
-	int before = nextToBefore[current];
-	return before == 0 ? -1 : before;
+vector<PROGLINE> Next::getBefore(PROGLINE current) {
+	return nextToBefore.toVector(current);
 }
 
 vector<PROGLINE> Next::getBeforeStar(PROGLINE current) {
 	return afterToBefore.toVector(current);
 }
 
-PROGLINE Next::getNext(PROGLINE current) {
-	int next = beforeToNext[current];
-	return next == 0 ? -1 : next;
+vector<PROGLINE> Next::getNext(PROGLINE current) {
+	return beforeToNext.toVector(current);
 }
 
 vector<PROGLINE> Next::getNextStar(PROGLINE current) {
