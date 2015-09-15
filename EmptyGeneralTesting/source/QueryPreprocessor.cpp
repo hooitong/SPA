@@ -20,7 +20,7 @@ QueryPreprocessor::~QueryPreprocessor(void) {
 }
 
 QueryTree* QueryPreprocessor::parseQuery(string query) {
-	//cout << endl << "=====RUNNNING CASE -> " << query << endl;
+	// cout << endl << "=====RUNNNING CASE -> " << query << endl;
     try {
         queryTree = new QueryTree();
         QNode* root = queryTree->createNode(QUERY, "");
