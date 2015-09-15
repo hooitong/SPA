@@ -1,0 +1,4 @@
+1 - BasicNext
+Select BOOLEAN such that Next*(20,21)
+true
+5000
