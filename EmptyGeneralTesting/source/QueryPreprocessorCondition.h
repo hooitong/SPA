@@ -5,6 +5,7 @@
 #include "QNode.h"
 #include "QueryPreprocessorDeclaration.h"
 #include "QueryRelationTable.h"
+#include "QueryTable.h"
 using namespace std;
 
 class QueryPreprocessorCondition
@@ -17,6 +18,7 @@ public:
 
 private:
 	QueryRelationTable* relation_table;
+	QueryTable* query_table;
 	QNode* condition_root;
 	QueryPreprocessorDeclaration* declaration;
 	bool is_valid;
