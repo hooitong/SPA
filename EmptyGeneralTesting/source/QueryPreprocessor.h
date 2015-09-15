@@ -31,6 +31,8 @@ class QueryPreprocessor {
     /*------------------------------------------------*/
 
     static string trim(string s);
+	static int find(string long_string, string substring_to_find, int start_search_index);
+	static int find(string long_string, string substring_to_find);
 
     bool checkAttribute(string attribute);
     bool checkPattern(string pattern);

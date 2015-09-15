@@ -502,7 +502,6 @@ void QueryPreprocessorTest::testSuchThatCondition7() {
 }
 
 void QueryPreprocessorTest::testSuchThatCondition8() {
-  // TODO (jonathanirvings) : Testcase fails. Be careful when trying to parse "and". Ignore "and" in quotation.
   queryTest = new QueryPreprocessor();
   QueryTree* achieved = queryTest->parseQuery("procedure p; Select p such that Calls(\"mandyModifies\",p)");
   CPPUNIT_ASSERT(achieved != NULL);

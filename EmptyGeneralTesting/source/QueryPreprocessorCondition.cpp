@@ -19,9 +19,9 @@ QNode* QueryPreprocessorCondition::getConditionTree(string condition_string) {
 	bool is_end_of_condition = false;
 
 	while (!is_end_of_condition) {
-		int next_such_that_position = condition_string.find("such that", current_position + 1);
-		int next_with_position = condition_string.find("with", current_position + 1);
-		int next_pattern_position = condition_string.find("pattern", current_position + 1);
+		int next_such_that_position = QueryPreprocessor::find(condition_string, "such that", current_position + 1);
+		int next_with_position = QueryPreprocessor::find(condition_string, "with", current_position + 1);
+		int next_pattern_position = QueryPreprocessor::find(condition_string, "pattern", current_position + 1);
 		int next_min_position = condition_string.length();
 		if (next_such_that_position != string::npos) {
 			next_min_position = min(next_min_position, next_such_that_position);
@@ -45,11 +45,11 @@ QNode* QueryPreprocessorCondition::getConditionTree(string condition_string) {
 // parsing a list of conditions separated by "and" into one condition and call the appropriate method for each condition type
 void QueryPreprocessorCondition::processConditions(string conditions_string) {
 	string condition_type;
-	if (conditions_string.find("such that") == 0) {
+	if (QueryPreprocessor::find(conditions_string, "such that") == 0) {
 		condition_type = "such that";
-	} else if (conditions_string.find("with") == 0) {
+	} else if (QueryPreprocessor::find(conditions_string, "with") == 0) {
 		condition_type = "with";
-	} else if (conditions_string.find("pattern") == 0) {
+	} else if (QueryPreprocessor::find(conditions_string, "pattern") == 0) {
 		condition_type = "pattern";
 	} else {
 		is_valid = false;
@@ -58,7 +58,7 @@ void QueryPreprocessorCondition::processConditions(string conditions_string) {
 	int current_position = condition_type.length();
 	bool is_end_of_such_that = false;
 	while (!is_end_of_such_that) {
-		int next_and_position = conditions_string.find("and", current_position);
+		int next_and_position = QueryPreprocessor::find(conditions_string, "and", current_position);
 		if (next_and_position == string::npos) {
 			is_end_of_such_that = true;
 			next_and_position = conditions_string.length();

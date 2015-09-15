@@ -486,5 +486,36 @@ string QueryPreprocessor::trim(string s) {
     return s;
 }
 
+int QueryPreprocessor::find(string long_string, string substring_to_find, int start_search_index) {
+	bool is_inside_quotes = false;
+	int number_of_open_brackets = 0;
+	for (int i = start_search_index; i < long_string.length(); ++i) {
+		if (i + substring_to_find.length() > long_string.length()) {
+			return string::npos;
+		}
+		if (long_string.at(i) == '"') {
+			is_inside_quotes = !is_inside_quotes;
+		} else if (long_string.at(i) == '(') {
+			++number_of_open_brackets;
+		} else if (long_string.at(i) == ')') {
+			--number_of_open_brackets;
+		}
+		if (!is_inside_quotes && number_of_open_brackets == 0) {
+			bool is_string_match = true;
+			for (int j = 0; j < substring_to_find.length(); ++j) {
+				if (long_string.at(i + j) != substring_to_find.at(j)) {
+					is_string_match = false;
+					break;
+				}
+			}
+			if (is_string_match) {
+				return i;
+			}
+		}
+	}
+}
 
+int QueryPreprocessor::find(string long_string, string substring_to_find) {
+	return find(long_string, substring_to_find, 0);
+}
 
