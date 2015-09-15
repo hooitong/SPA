@@ -5,17 +5,17 @@
 #include "Grammar.h"
 
 class GrammarTest : public CPPUNIT_NS::TestFixture {
-    CPPUNIT_TEST_SUITE(GrammarTest);
-    CPPUNIT_TEST(testSetup);
-	CPPUNIT_TEST(testConvert);
-    CPPUNIT_TEST_SUITE_END();
+  CPPUNIT_TEST_SUITE(GrammarTest);
+  CPPUNIT_TEST(testSetup);
+  CPPUNIT_TEST(testConvert);
+  CPPUNIT_TEST_SUITE_END();
 
-  private:
+private:
 
-  public:
-    void setUp();
-    void tearDown();
+public:
+  void setUp();
+  void tearDown();
 
-    void testSetup();
-	void testConvert();
+  void testSetup();
+  void testConvert();
 };

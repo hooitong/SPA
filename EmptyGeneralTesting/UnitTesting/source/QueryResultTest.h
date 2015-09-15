@@ -14,10 +14,9 @@ class QueryResultTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testPossibleResult);
     CPPUNIT_TEST_SUITE_END();
 
-  public:
+public:
     void setUp();
     void tearDown();
-
     void testEqual();
     void testEqualReorder();
     void testDifferent();

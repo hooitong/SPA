@@ -68,6 +68,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="NextTest.cpp" />
     <ClCompile Include="source\ASTTest.cpp" />
     <ClCompile Include="source\CallsEvaluatorTest.cpp" />
     <ClCompile Include="source\CallsStarEvaluatorTest.cpp" />
@@ -91,6 +92,7 @@
     <ClCompile Include="source\VarTableTest.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="NextTest.h" />
     <ClInclude Include="source\ASTTest.h" />
     <ClInclude Include="source\CallsEvaluatorTest.h" />
     <ClInclude Include="source\CallsStarEvaluatorTest.h" />
