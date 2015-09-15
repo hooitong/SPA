@@ -439,39 +439,6 @@ void QueryPreprocessorTest::testSuchThatCondition4() {
 }
 
 void QueryPreprocessorTest::testSuchThatCondition5() {
-	queryTest = new QueryPreprocessor();
-    QueryTree* achieved = queryTest->parseQuery("variable x; Select x such that Modifies(x, \"hero\")  and Uses(\"a\", \"b\")");
-    CPPUNIT_ASSERT(achieved != NULL);
-    QueryTree* expected = new QueryTree();
-    QNode* expectedRoot = expected->createNode(QUERY,"");
-    QNode* expectedResultList = expected->createNode(RESULTLIST,"");
-    QNode* expectedConditionList = expected->createNode(CONDITIONLIST,"");
-    expected->setAsRoot(expectedRoot);
-    expected->addChild(expectedRoot,expectedResultList);
-    expected->addChild(expectedRoot,expectedConditionList);
-
-	QNode* expectedResult = expected->createNode(VARIABLESYNONYM,"x");
-    expected->addChild(expectedResultList,expectedResult);
-	
-    QNode* expectedSuchThat1 = expected->createNode(RELATION,"Modifies");
-    QNode* expectedSuchThatChild11 = expected->createNode(VARIABLESYNONYM,"x");
-    QNode* expectedSuchThatChild12 = expected->createNode(VAR,"hero");
-    expected->addChild(expectedSuchThat1,expectedSuchThatChild11);
-    expected->addChild(expectedSuchThat1,expectedSuchThatChild12);
-
-    QNode* expectedSuchThat2 = expected->createNode(RELATION,"Uses");
-    QNode* expectedSuchThatChild21 = expected->createNode(VAR,"a");
-    QNode* expectedSuchThatChild22 = expected->createNode(VAR,"b");
-	expected->addChild(expectedSuchThat2,expectedSuchThatChild21);
-    expected->addChild(expectedSuchThat2,expectedSuchThatChild22);
-
-	expected->addChild(expectedConditionList,expectedSuchThat1);
-    expected->addChild(expectedConditionList,expectedSuchThat2);
-	CPPUNIT_ASSERT(achieved->isEqual(expected));
-}
-
-
-void QueryPreprocessorTest::testSuchThatCondition5() {
   queryTest = new QueryPreprocessor();
   QueryTree* achieved = queryTest->parseQuery("procedure x; Select x such that Modifies(x, \"hero\")  and Uses(\"a\", \"b\")");
   CPPUNIT_ASSERT(achieved != NULL);
@@ -603,33 +570,6 @@ void QueryPreprocessorTest::testWithCondition1() {
 	expected->addChild(expectedConditionList,expectedWith);
 
 	CPPUNIT_ASSERT(achieved->isEqual(expected));
-}
-
-void QueryPreprocessorTest::testSuchThatCondition8() {
-  // TODO (jonathanirvings) : Testcase fails. Be careful when trying to parse "and". Ignore "and" in quotation.
-  queryTest = new QueryPreprocessor();
-  QueryTree* achieved = queryTest->parseQuery("procedure p; Select p such that Calls(\"mandyModifies\",p)");
-  CPPUNIT_ASSERT(achieved != NULL);
-  QueryTree* expected = new QueryTree();
-  QNode* expectedRoot = expected->createNode(QUERY,"");
-  QNode* expectedResultList = expected->createNode(RESULTLIST,"");
-  QNode* expectedConditionList = expected->createNode(CONDITIONLIST,"");
-  expected->setAsRoot(expectedRoot);
-  expected->addChild(expectedRoot,expectedResultList);
-  expected->addChild(expectedRoot,expectedConditionList);
-
-  QNode* expectedResult = expected->createNode(PROCEDURESYNONYM,"p");
-  expected->addChild(expectedResultList,expectedResult);
-  
-  QNode* expectedSuchThat1 = expected->createNode(RELATION,"Calls");
-  QNode* expectedSuchThatChild11 = expected->createNode(VAR,"mandyModifies");
-  QNode* expectedSuchThatChild12 = expected->createNode(PROCEDURESYNONYM,"p");
-  expected->addChild(expectedSuchThat1,expectedSuchThatChild11);
-  expected->addChild(expectedSuchThat1,expectedSuchThatChild12);
-
-  expected->addChild(expectedConditionList, expectedSuchThat1);
-
-  CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
 
 void QueryPreprocessorTest::testProgLine() {

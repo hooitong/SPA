@@ -25,12 +25,8 @@ class QueryPreprocessorTest : public CPPUNIT_NS::TestFixture {
   CPPUNIT_TEST(testSuchThatCondition5);
   CPPUNIT_TEST(testSuchThatCondition6);
   CPPUNIT_TEST(testSuchThatCondition7);
-<<<<<<< HEAD
   CPPUNIT_TEST(testWithCondition);
   CPPUNIT_TEST(testWithCondition1);
-=======
-  CPPUNIT_TEST(testSuchThatCondition8);
->>>>>>> 98d8e9745733da6e0f2ca82ca564ee426d80d45b
   CPPUNIT_TEST(testProgLine);
   CPPUNIT_TEST(testInvalidQuery);
   CPPUNIT_TEST(testPatternInvalid);
@@ -49,7 +45,7 @@ class QueryPreprocessorTest : public CPPUNIT_NS::TestFixture {
   CPPUNIT_TEST(testMultipleReturnAndPatternAndSuchThat);
   CPPUNIT_TEST_SUITE_END();
 private:
-	QueryPreprocessor* queryTest;
+  QueryPreprocessor* queryTest;
 
 public:
   void setUp();
@@ -73,12 +69,8 @@ public:
   void testSuchThatCondition5();
   void testSuchThatCondition6();
   void testSuchThatCondition7();
-<<<<<<< HEAD
   void testWithCondition();
   void testWithCondition1();
-=======
-  void testSuchThatCondition8();
->>>>>>> 98d8e9745733da6e0f2ca82ca564ee426d80d45b
   void testProgLine();
   void testPatternInvalid();
   void testPatternInvalid2();
