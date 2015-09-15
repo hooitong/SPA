@@ -334,6 +334,7 @@ void QueryPreprocessorTest::testSuchThatCondition1() {
   CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
 
+
 void QueryPreprocessorTest::testSuchThatCondition2() {
   queryTest = new QueryPreprocessor();
   QueryTree* achieved = queryTest->parseQuery("while w1, w2; Select <w1,w2> such that Parent(7, w1) and Parent*(w1,w2)");
@@ -367,72 +368,74 @@ void QueryPreprocessorTest::testSuchThatCondition2() {
   expected->addChild(expectedConditionList,expectedSuchThat2);
 
   CPPUNIT_ASSERT(achieved->isEqual(expected));
+
 }
 
 void QueryPreprocessorTest::testSuchThatCondition3() {
-  queryTest = new QueryPreprocessor();
-  QueryTree* achieved = queryTest->parseQuery("assign a; Select a such that Calls(_,_) and Modifies(_,_)");
-  CPPUNIT_ASSERT(achieved != NULL);
-  QueryTree* expected = new QueryTree();
-  QNode* expectedRoot = expected->createNode(QUERY,"");
-  QNode* expectedResultList = expected->createNode(RESULTLIST,"");
-  QNode* expectedConditionList = expected->createNode(CONDITIONLIST,"");
-  expected->setAsRoot(expectedRoot);
-  expected->addChild(expectedRoot,expectedResultList);
-  expected->addChild(expectedRoot,expectedConditionList);
-  
-  QNode* expectedResult = expected->createNode(ASSIGNSYNONYM,"a");
-  expected->addChild(expectedResultList,expectedResult);
-  
-  QNode* expectedSuchThat1 = expected->createNode(RELATION,"Calls");
-  QNode* expectedSuchThatChild11 = expected->createNode(ANY,"");
-  QNode* expectedSuchThatChild12 = expected->createNode(ANY,"");
-  expected->addChild(expectedSuchThat1,expectedSuchThatChild11);
-  expected->addChild(expectedSuchThat1,expectedSuchThatChild12);
+	queryTest = new QueryPreprocessor();
+    QueryTree* achieved = queryTest->parseQuery("assign a; Select a such that Calls(_,_) and Modifies(_,_)");
+    CPPUNIT_ASSERT(achieved != NULL);
+    QueryTree* expected = new QueryTree();
+    QNode* expectedRoot = expected->createNode(QUERY,"");
+    QNode* expectedResultList = expected->createNode(RESULTLIST,"");
+    QNode* expectedConditionList = expected->createNode(CONDITIONLIST,"");
+    expected->setAsRoot(expectedRoot);
+    expected->addChild(expectedRoot,expectedResultList);
+    expected->addChild(expectedRoot,expectedConditionList);
+	
+	QNode* expectedResult = expected->createNode(ASSIGNSYNONYM,"a");
+    expected->addChild(expectedResultList,expectedResult);
+	
+    QNode* expectedSuchThat1 = expected->createNode(RELATION,"Calls");
+    QNode* expectedSuchThatChild11 = expected->createNode(ANY,"");
+    QNode* expectedSuchThatChild12 = expected->createNode(ANY,"");
+    expected->addChild(expectedSuchThat1,expectedSuchThatChild11);
+    expected->addChild(expectedSuchThat1,expectedSuchThatChild12);
 
-  QNode* expectedSuchThat2 = expected->createNode(RELATION,"Modifies");
-  QNode* expectedSuchThatChild21 = expected->createNode(ANY,"");
-  QNode* expectedSuchThatChild22 = expected->createNode(ANY,"");
-  expected->addChild(expectedSuchThat2,expectedSuchThatChild21);
-  expected->addChild(expectedSuchThat2,expectedSuchThatChild22);
+    QNode* expectedSuchThat2 = expected->createNode(RELATION,"Modifies");
+    QNode* expectedSuchThatChild21 = expected->createNode(ANY,"");
+    QNode* expectedSuchThatChild22 = expected->createNode(ANY,"");
+	expected->addChild(expectedSuchThat2,expectedSuchThatChild21);
+    expected->addChild(expectedSuchThat2,expectedSuchThatChild22);
 
-  expected->addChild(expectedConditionList, expectedSuchThat1);
-  expected->addChild(expectedConditionList, expectedSuchThat2);
+	expected->addChild(expectedConditionList,expectedSuchThat1);
+    expected->addChild(expectedConditionList,expectedSuchThat2);
 
-  CPPUNIT_ASSERT(achieved->isEqual(expected));
+	CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
 
 void QueryPreprocessorTest::testSuchThatCondition4() {
-  queryTest = new QueryPreprocessor();
-  QueryTree* achieved = queryTest->parseQuery("Select BOOLEAN such that Next*(6,7) and Affects*(2,4)");
-  CPPUNIT_ASSERT(achieved != NULL);
-  QueryTree* expected = new QueryTree();
-  QNode* expectedRoot = expected->createNode(QUERY,"");
-  QNode* expectedResultList = expected->createNode(RESULTLIST,"");
-  QNode* expectedConditionList = expected->createNode(CONDITIONLIST,"");
-  expected->setAsRoot(expectedRoot);
-  expected->addChild(expectedRoot,expectedResultList);
-  expected->addChild(expectedRoot,expectedConditionList);
-  
-  QNode* expectedResult = expected->createNode(BOOLEAN,"");
-  expected->addChild(expectedResultList,expectedResult);
-  
-  QNode* expectedSuchThat1 = expected->createNode(RELATION,"Next*");
-  QNode* expectedSuchThatChild11 = expected->createNode(CONST,"6");
-  QNode* expectedSuchThatChild12 = expected->createNode(CONST,"7");
-  expected->addChild(expectedSuchThat1,expectedSuchThatChild11);
-  expected->addChild(expectedSuchThat1,expectedSuchThatChild12);
 
-  QNode* expectedSuchThat2 = expected->createNode(RELATION,"Affects*");
-  QNode* expectedSuchThatChild21 = expected->createNode(CONST,"2");
-  QNode* expectedSuchThatChild22 = expected->createNode(CONST,"4");
-  expected->addChild(expectedSuchThat2,expectedSuchThatChild21);
-  expected->addChild(expectedSuchThat2,expectedSuchThatChild22);
+	queryTest = new QueryPreprocessor();
+    QueryTree* achieved = queryTest->parseQuery("Select BOOLEAN such that Next*(6,7) and Affects*(2,4)");
+    CPPUNIT_ASSERT(achieved != NULL);
+    QueryTree* expected = new QueryTree();
+    QNode* expectedRoot = expected->createNode(QUERY,"");
+    QNode* expectedResultList = expected->createNode(RESULTLIST,"");
+    QNode* expectedConditionList = expected->createNode(CONDITIONLIST,"");
+    expected->setAsRoot(expectedRoot);
+    expected->addChild(expectedRoot,expectedResultList);
+    expected->addChild(expectedRoot,expectedConditionList);
+		
+	QNode* expectedResult = expected->createNode(BOOLEAN,"");
+    expected->addChild(expectedResultList,expectedResult);
+	
+    QNode* expectedSuchThat1 = expected->createNode(RELATION,"Next*");
+    QNode* expectedSuchThatChild11 = expected->createNode(CONST,"6");
+    QNode* expectedSuchThatChild12 = expected->createNode(CONST,"7");
+    expected->addChild(expectedSuchThat1,expectedSuchThatChild11);
+    expected->addChild(expectedSuchThat1,expectedSuchThatChild12);
 
-  expected->addChild(expectedConditionList, expectedSuchThat1);
-  expected->addChild(expectedConditionList, expectedSuchThat2);
+    QNode* expectedSuchThat2 = expected->createNode(RELATION,"Affects*");
+    QNode* expectedSuchThatChild21 = expected->createNode(CONST,"2");
+    QNode* expectedSuchThatChild22 = expected->createNode(CONST,"4");
+	expected->addChild(expectedSuchThat2,expectedSuchThatChild21);
+    expected->addChild(expectedSuchThat2,expectedSuchThatChild22);
 
-  CPPUNIT_ASSERT(achieved->isEqual(expected));
+	expected->addChild(expectedConditionList,expectedSuchThat1);
+    expected->addChild(expectedConditionList,expectedSuchThat2);
+
+	CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
 
 void QueryPreprocessorTest::testSuchThatCondition5() {
@@ -523,8 +526,73 @@ void QueryPreprocessorTest::testSuchThatCondition8() {
   expected->addChild(expectedSuchThat1,expectedSuchThatChild12);
 
   expected->addChild(expectedConditionList, expectedSuchThat1);
+}
 
-  CPPUNIT_ASSERT(achieved->isEqual(expected));
+void QueryPreprocessorTest::testWithCondition() {
+
+	queryTest = new QueryPreprocessor();
+	QueryTree* achieved = queryTest->parseQuery("stmt s; constant c; Select s with s.stmt# = c.value");
+    CPPUNIT_ASSERT(achieved != NULL);
+    QueryTree* expected = new QueryTree();
+    QNode* expectedRoot = expected->createNode(QUERY,"");
+    QNode* expectedResultList = expected->createNode(RESULTLIST,"");
+    QNode* expectedConditionList = expected->createNode(CONDITIONLIST,"");
+    expected->setAsRoot(expectedRoot);
+    expected->addChild(expectedRoot,expectedResultList);
+    expected->addChild(expectedRoot,expectedConditionList);
+
+	QNode* expectedResult = expected->createNode(STMTSYNONYM,"s");
+    expected->addChild(expectedResultList,expectedResult);
+	
+    QNode* expectedWith = expected->createNode(ATTRIBUTE,"s.stmt# = c.value");
+    QNode* expectedWithChild11 = expected->createNode(STMTSYNONYM,"s");
+	QNode* expectedWithChild12 = expected->createNode(CONST,"stmt#");
+	QNode* expectedWithChild13 = expected->createNode(CONSTSYNONYM,"c");
+    QNode* expectedWithChild14 = expected->createNode(CONST,"value");
+    expected->addChild(expectedWith,expectedWithChild11);
+    expected->addChild(expectedWith,expectedWithChild12);
+	expected->addChild(expectedWith,expectedWithChild13);
+    expected->addChild(expectedWith,expectedWithChild14);
+	expected->addChild(expectedConditionList,expectedWith);
+
+	CPPUNIT_ASSERT(achieved->isEqual(expected));
+
+}
+
+void QueryPreprocessorTest::testWithCondition1() {
+
+	queryTest = new QueryPreprocessor();
+	QueryTree* achieved = queryTest->parseQuery("stmt s, s1; Select s1 such that Follows(s, s1) with s.stmt# = 10");
+    CPPUNIT_ASSERT(achieved != NULL);
+    QueryTree* expected = new QueryTree();
+    QNode* expectedRoot = expected->createNode(QUERY,"");
+    QNode* expectedResultList = expected->createNode(RESULTLIST,"");
+    QNode* expectedConditionList = expected->createNode(CONDITIONLIST,"");
+    expected->setAsRoot(expectedRoot);
+    expected->addChild(expectedRoot,expectedResultList);
+    expected->addChild(expectedRoot,expectedConditionList);
+
+	QNode* expectedResult = expected->createNode(STMTSYNONYM,"s1");
+    expected->addChild(expectedResultList,expectedResult);
+		
+    QNode* expectedSuchThat1 = expected->createNode(RELATION,"Follows");
+    QNode* expectedSuchThatChild11 = expected->createNode(STMTSYNONYM,"s");
+    QNode* expectedSuchThatChild12 = expected->createNode(STMTSYNONYM,"s1");
+    expected->addChild(expectedSuchThat1,expectedSuchThatChild11);
+    expected->addChild(expectedSuchThat1,expectedSuchThatChild12);
+	
+    QNode* expectedWith = expected->createNode(ATTRIBUTE,"s.stmt# = 10");
+    QNode* expectedWithChild11 = expected->createNode(STMTSYNONYM,"s");
+	QNode* expectedWithChild12 = expected->createNode(CONST,"stmt#");
+	QNode* expectedWithChild13 = expected->createNode(INTERGER,"10");
+    expected->addChild(expectedWith,expectedWithChild11);
+    expected->addChild(expectedWith,expectedWithChild12);
+	expected->addChild(expectedWith,expectedWithChild13);
+
+	expected->addChild(expectedConditionList,expectedSuchThat1);
+	expected->addChild(expectedConditionList,expectedWith);
+
+	CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
 
 void QueryPreprocessorTest::testProgLine() {
