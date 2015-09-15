@@ -5,21 +5,20 @@
 #include "Uses.h"
 
 class UsesTest : public CPPUNIT_NS::TestFixture {
-    CPPUNIT_TEST_SUITE(UsesTest);
-    CPPUNIT_TEST(testSetStatement);
-    CPPUNIT_TEST(testGetUsedByStmt);
-    CPPUNIT_TEST(testGetUsesForStmt);
-    CPPUNIT_TEST_SUITE_END();
+  CPPUNIT_TEST_SUITE(UsesTest);
+  CPPUNIT_TEST(testSetStatement);
+  CPPUNIT_TEST(testGetUsedByStmt);
+  CPPUNIT_TEST(testGetUsesForStmt);
+  CPPUNIT_TEST_SUITE_END();
 
-  private:
-    Uses* uses;
+private:
+  Uses* uses;
 
-  public:
-    void setUp();
-    void tearDown();
+public:
+  void setUp();
+  void tearDown();
 
-    void testSetStatement();
-    void testGetUsedByStmt();
-    void testGetUsesForStmt();
-
+  void testSetStatement();
+  void testGetUsedByStmt();
+  void testGetUsesForStmt();
 };

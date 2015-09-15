@@ -22,6 +22,7 @@ int main(int argc, char* argv[]) {
     suite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserModifiesTest").makeTest());
     suite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserUsesTest").makeTest());
     suite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserPatternTest").makeTest());
+	suite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserCallsTest").makeTest());
 
     CppUnit::TestFactoryRegistry::getRegistry().addTestToSuite(suite);
     CppUnit::TextUi::TestRunner runner;

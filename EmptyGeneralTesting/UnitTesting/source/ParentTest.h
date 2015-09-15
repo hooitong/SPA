@@ -5,30 +5,30 @@
 #include "Parent.h"
 
 class ParentTest : public CPPUNIT_NS::TestFixture {
-    CPPUNIT_TEST_SUITE(ParentTest);
-    CPPUNIT_TEST(testSet);
-    CPPUNIT_TEST(testSetStar);
-    CPPUNIT_TEST(testIsParent);
-    CPPUNIT_TEST(testIsParentStar);
-    CPPUNIT_TEST(testGetParent);
-    CPPUNIT_TEST(testGetParentStar);
-    CPPUNIT_TEST(testGetChildOf);
-    CPPUNIT_TEST(testGetChildOfStar);
-    CPPUNIT_TEST_SUITE_END();
+  CPPUNIT_TEST_SUITE(ParentTest);
+  CPPUNIT_TEST(testSet);
+  CPPUNIT_TEST(testSetStar);
+  CPPUNIT_TEST(testIsParent);
+  CPPUNIT_TEST(testIsParentStar);
+  CPPUNIT_TEST(testGetParent);
+  CPPUNIT_TEST(testGetParentStar);
+  CPPUNIT_TEST(testGetChildOf);
+  CPPUNIT_TEST(testGetChildOfStar);
+  CPPUNIT_TEST_SUITE_END();
 
-  private:
-    Parent* pTest;
+private:
+  Parent* pTest;
 
-  public:
-    void setUp();
-    void tearDown();
+public:
+  void setUp();
+  void tearDown();
 
-    void testSet();
-    void testSetStar();
-    void testIsParent();
-    void testIsParentStar();
-    void testGetParent();
-    void testGetParentStar();
-    void testGetChildOf();
-    void testGetChildOfStar();
+  void testSet();
+  void testSetStar();
+  void testIsParent();
+  void testIsParentStar();
+  void testGetParent();
+  void testGetParentStar();
+  void testGetChildOf();
+  void testGetChildOfStar();
 };

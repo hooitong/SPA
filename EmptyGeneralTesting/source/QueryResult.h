@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <set>
 
 #include "GlobalType.h"
 
@@ -14,6 +15,7 @@ class QueryResult {
     int numSynonyms;
     vector<string> synonyms;
     map<string, int> indexMap;
+    map<string, set<int> > possibleValues;
 
     vector <R_TUPLE> solutions;
     pair<CROSS_INDEX_LIST, CROSS_INDEX_LIST> matchingSynonyms(QueryResult result2);

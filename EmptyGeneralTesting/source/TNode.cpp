@@ -175,6 +175,8 @@ vector<TNode*> TNode::getAllParentNodes(){
 	return result;
 }
 
+
+
 void TNode::print(int lvl){
 
 	if(lvl == 0) cout << "\n";

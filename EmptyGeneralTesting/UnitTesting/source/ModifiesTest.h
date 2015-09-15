@@ -5,20 +5,20 @@
 #include "Modifies.h"
 
 class ModifiesTest : public CPPUNIT_NS::TestFixture {
-    CPPUNIT_TEST_SUITE(ModifiesTest);
-    CPPUNIT_TEST(testSetStatement);
-    CPPUNIT_TEST(testGetModifiedByStmt);
-    CPPUNIT_TEST(testGetModifiesForStmt);
-    CPPUNIT_TEST_SUITE_END();
+  CPPUNIT_TEST_SUITE(ModifiesTest);
+  CPPUNIT_TEST(testSetStatement);
+  CPPUNIT_TEST(testGetModifiedByStmt);
+  CPPUNIT_TEST(testGetModifiesForStmt);
+  CPPUNIT_TEST_SUITE_END();
 
-  private:
-    Modifies* modifies;
+private:
+  Modifies* modifies;
 
-  public:
-    void setUp();
-    void tearDown();
+public:
+  void setUp();
+  void tearDown();
 
-    void testSetStatement();
-    void testGetModifiedByStmt();
-    void testGetModifiesForStmt();
+  void testSetStatement();
+  void testGetModifiedByStmt();
+  void testGetModifiesForStmt();
 };

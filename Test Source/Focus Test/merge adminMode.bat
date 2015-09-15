@@ -1,0 +1,1 @@
+type Query_*.txt. > QueryMerged.txt

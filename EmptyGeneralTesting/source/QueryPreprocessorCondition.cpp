@@ -395,11 +395,11 @@ string QueryPreprocessorCondition::removeExpressionQuote(string expression) {
 
 QNode* QueryPreprocessorCondition::parseRef(string argument) {
     if (argument == "_") {
-        return new QNode(ANY,"");
+        return new QNode(ANY, "");
     } else if (isdigit(argument.at(0))) {
-        return new QNode(CONST,argument);
+        return new QNode(CONST, argument);
     } else if (argument.at(0) == '"' && argument.at(argument.size() - 1) == '"') {
-		return new QNode(VAR,QueryPreprocessor::trim(argument.substr(1, argument.size()-2)));
+		return new QNode(VAR, QueryPreprocessor::trim(argument.substr(1, argument.size()-2)));
 	} else if (declaration->isDeclaredSynonym(argument)) {
 		return declaration->getSynonymTypeNode(argument);
 	}

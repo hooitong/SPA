@@ -19,6 +19,9 @@ QueryResult::QueryResult(int result, string synonym) {
 
     R_TUPLE tuple;
     tuple.push_back(result);
+    possibleValues[synonym] = set<int>();
+    possibleValues[synonym].insert(result);
+
     this->addSolution(tuple);
 }
 
@@ -31,16 +34,19 @@ QueryResult::QueryResult(vector<int> results, string synonym) {
     this->synonyms.clear();
     this->synonyms.push_back(synonym);
     this->indexMap[synonym] = 0;
+    possibleValues[synonym] = set<int>();
 
     for (int i = 0; i < (int)results.size(); i++) {
         R_TUPLE tuple;
         tuple.push_back(results[i]);
         this->addSolution(tuple);
+        possibleValues[synonym].insert(results[i]);
     }
 }
 
 QueryResult::QueryResult(vector<pair<int, int> > results, string synonym1, string synonym2) {
 	if (synonym1 == synonym2) {
+        possibleValues[synonym1] = set<int>();
 		this->numSynonyms = 1;
         this->indexMap[synonym1] = 0;
 		this->synonyms.clear();
@@ -50,9 +56,12 @@ QueryResult::QueryResult(vector<pair<int, int> > results, string synonym1, strin
 				R_TUPLE tuple;
 				tuple.push_back(results[i].first);
 				this->addSolution(tuple);
+                this->possibleValues[synonym1].insert(results[i].first);
 			}
 		}
 	} else {
+        possibleValues[synonym1] = set<int>();
+        possibleValues[synonym2] = set<int>();
 		this->numSynonyms = 2;
 		this->synonyms.clear();
 		this->synonyms.push_back(synonym1);
@@ -64,6 +73,8 @@ QueryResult::QueryResult(vector<pair<int, int> > results, string synonym1, strin
 			R_TUPLE tuple;
 			tuple.push_back(results[i].first);
 			tuple.push_back(results[i].second);
+            possibleValues[synonym1].insert(results[i].first);
+            possibleValues[synonym2].insert(results[i].second);
 			this->addSolution(tuple);
 		}
 	}
@@ -85,7 +96,7 @@ void QueryResult::append(QueryResult result2) {
     assert (synonyms == result2.getSynonyms());
 
     for (int i = 0; i < (int) newSolutions.size(); i++) {
-        solutions.push_back(newSolutions[i]);
+        addSolution(newSolutions[i]);
     }
     sort(solutions.begin(), solutions.end());
     solutions.erase(unique(solutions.begin(), solutions.end()), solutions.end());
@@ -97,6 +108,7 @@ QueryResult::QueryResult(vector<string> synonyms) {
     for (int i = 0; i < numSynonyms; i++) {
         assert(indexMap.find(synonyms[i]) == indexMap.end());
         indexMap[synonyms[i]] = i;
+        possibleValues[synonyms[i]] = set<int>();
     }
     solutions.clear();
 }
@@ -106,6 +118,9 @@ QueryResult::~QueryResult() {
 
 void QueryResult::addSolution(vector <int> solution) {
     assert(solution.size() == numSynonyms);
+    for (vector<string>::size_type i = 0; i < synonyms.size(); i++) {
+        possibleValues[synonyms[i]].insert(solution[i]);
+    }
     solutions.push_back(solution);
 }
 

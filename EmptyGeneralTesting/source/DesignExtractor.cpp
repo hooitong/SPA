@@ -140,22 +140,23 @@ void DesignExtractor::extractVariousRelationship(TNode* node){
 
 			leftNode->getAllChildrenIncludeSub(children);
 			
-			for(int i = 0; i < children.size(); i++){
-				if((children[i]->getParentNode()->getTType() != ASSIGNN 
-					|| children[i]->getLeftSibling()->getTType() != EMPTYN)
-					&& children[i]->getTType() == VARN){
-					usedVarNodes.push_back(children[i]);
+			for(int b = 0; b < children.size(); b++){
+				if((children[b]->getParentNode()->getTType() != ASSIGNN 
+					|| children[b]->getLeftSibling()->getTType() != EMPTYN)
+					&& children[b]->getTType() == VARN)
+				{
+					usedVarNodes.push_back(children[b]);
 				}
 			}
 
 			TNode* parentNode = leftNode;
 			while(parentNode->getTType() != EMPTYN){
 				if(isPrimaryNode(parentNode)){
-					for(int i = 0; i < usedVarNodes.size(); i++){
+					for(int b = 0; b < usedVarNodes.size(); b++){
 						///////////////////////
 						//vartable & uses
 						////////////////////////
-						VARINDEX varIndex = PKB::getPKB()->getVarTable()->insertVar(usedVarNodes[i]->getValue());
+						VARINDEX varIndex = PKB::getPKB()->getVarTable()->insertVar(usedVarNodes[b]->getValue());
 						PKB::getPKB()->getUses()->setUsesStmt(varIndex, parentNode->getStmtLine());
 						PROCINDEX procIndex = PKB::getPKB()->getProcTable()->insertProc(parentNode->getParentByTType(PROCEDUREN)->getValue());
 						PKB::getPKB()->getUses()->setUsesProc(procIndex, varIndex);
@@ -202,26 +203,13 @@ void DesignExtractor::extractVariousRelationship(TNode* node){
 
 		//while looping of last node to first in cfg
 		if(leftNode->getTType() == WHILEN){
-			vector<TNode*> children = leftNode->getChildren()[1]->getChildren();
-			TNode* lastNode = children.at(children.size()-1);
 
-			if(lastNode->getTType() == IFN){	//if last child node of while is IF node
-				vector<TNode*> ifBranchChildren = lastNode->getChildren()[1]->getChildren();
-				vector<TNode*> elseBranchChildren = lastNode->getChildren()[2]->getChildren();
-				TNode* ifBranchLastNode = ifBranchChildren.at(ifBranchChildren.size()-1);
-				TNode* elseBranchLastNode = elseBranchChildren.at(elseBranchChildren.size()-1);
-
-				PKB::getPKB()->getCfg()->insert(ifBranchLastNode->getStmtLine(), leftNode->getStmtLine() ,
-							PKB::getPKB()->getProcTable()->getProcIndex(leftNode->getParentByTType(PROCEDUREN)->getValue()));
-
-				PKB::getPKB()->getCfg()->insert(elseBranchLastNode->getStmtLine(), leftNode->getStmtLine() ,
-							PKB::getPKB()->getProcTable()->getProcIndex(leftNode->getParentByTType(PROCEDUREN)->getValue()));
+			vector<TNode*> endPointNodes;
+			getNodeEndPoints(leftNode, endPointNodes);
+			for(int b = 0; b < endPointNodes.size(); b++){
+				PKB::getPKB()->getCfg()->insert(endPointNodes[b]->getStmtLine(), leftNode->getStmtLine() ,
+								PKB::getPKB()->getProcTable()->getProcIndex(leftNode->getParentByTType(PROCEDUREN)->getValue()));
 			}
-			else{
-				PKB::getPKB()->getCfg()->insert(lastNode->getStmtLine(), leftNode->getStmtLine() ,
-							PKB::getPKB()->getProcTable()->getProcIndex(leftNode->getParentByTType(PROCEDUREN)->getValue()));
-			}
-
 			
 		}
 	
@@ -309,13 +297,6 @@ void DesignExtractor::extractInterprocedureModifiesUses(){
 }
 
 
-bool DesignExtractor::isPrimaryNode(TNode* node){
-	TType type = node->getTType();
-
-	return ((type == ASSIGNN || type == WHILEN || type == CALLN || type == IFN) && node->getStmtLine() != -1);
-
-}
-
 //next and nextstar is extracted in this function
 void DesignExtractor::extractNext(){
 	vector<GNode*> gNodes = PKB::getPKB()->getCfg()->getAllGNodes();
@@ -325,13 +306,44 @@ void DesignExtractor::extractNext(){
 		for(int q = 0; q< nodes.size(); q++){
 			PKB::getPKB()->getNext()->setNext(gNodes[i]->getLineNumber(), nodes[q]->getLineNumber());
 		}
-		
+
 		vector<GNode*> allNodes;
-		gNodes[i]->getAllPossibleForwardNodes(gNodes[i]->getLineNumber(), allNodes);
+		gNodes[i]->getAllPossibleForwardNodes(gNodes[i]->getLineNumber(), false, allNodes);
 		for(int q = 0; q< allNodes.size(); q++){
 			PKB::getPKB()->getNext()->setNextStar(gNodes[i]->getLineNumber(), allNodes[q]->getLineNumber());
 		}
 	}
 
 
+}
+
+
+bool DesignExtractor::isPrimaryNode(TNode* node){
+	TType type = node->getTType();
+	return ((type == ASSIGNN || type == WHILEN || type == CALLN || type == IFN) && node->getStmtLine() != -1);
+}
+
+//get node possible end points for each branch, multiple results for 'if' container
+void DesignExtractor::getNodeEndPoints(TNode* node, vector<TNode*> &result){
+	vector<TNode*> children = node->getChildren();
+	if(children.size() == 0){ 
+		result.push_back(node); 
+	}
+	else{
+		TNode* lastNode = children.at(children.size()-1);
+		if(!isPrimaryNode(lastNode)){
+			getNodeEndPoints(lastNode, result);
+			return;
+		}
+		
+		if(lastNode->getTType() != IFN){
+			result.push_back(lastNode);
+		}
+		else{
+			TNode* ifBranchLastNode = lastNode->getChildren()[1];
+			TNode* elseBranchLastNode =lastNode->getChildren()[2];
+			getNodeEndPoints(ifBranchLastNode, result);
+			getNodeEndPoints(elseBranchLastNode, result);
+		}
+	}
 }

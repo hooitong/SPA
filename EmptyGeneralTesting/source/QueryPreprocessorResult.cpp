@@ -24,6 +24,9 @@ QNode* QueryPreprocessorResult::getResultTree(string result_string) {
 			result_root->addChild(result_node);
 			current_position = next_comma_position + 1;
 		}
+	} else if (result_string == "BOOLEAN") {
+		QNode* result_node = new QNode(BOOLEAN, "");
+		result_root->addChild(result_node);
 	} else {
 		QNode* result_node = getResultNode(result_string);
 		result_root->addChild(result_node);
