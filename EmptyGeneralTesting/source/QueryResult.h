@@ -36,5 +36,6 @@ class QueryResult {
     QueryResult filter(vector<string> synonyms);
     void append(QueryResult result2);
     bool operator==(QueryResult result2);
+    set<int> getPossibleValues(string synonym);
     vector<R_TUPLE> getResult();
 };
