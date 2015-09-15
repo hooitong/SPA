@@ -1,0 +1,40 @@
+1 - BasicCallTest
+procedure p, q;
+Select BOOLEAN such that Calls(p,q) with p.procName = "calvinCall" and q.procName = "winnieWhile"
+true
+5000
+2 - BasicCallStarTest
+procedure p, q; 
+Select BOOLEAN such that Calls*(p,q) with p.procName = "calvinCall" and q.procName = "issacIf"
+true
+5000
+3 - BasicCallStarTest
+procedure p, q;
+Select BOOLEAN such that Calls*(p,q) with p.procName = "winnieWhile" and q.procName = "issacIf"
+true
+5000
+4. - BasicCallFalse
+procedure p, q;
+Select BOOLEAN such that Calls(p,q) with p.procName = "issacIf" and q.procName = "calvinCall"
+false
+5000
+5 - UnconstrainedTest
+procedure p, q;
+Select q such that Calls(p,_) with p.procName = "calvinCall"
+winnieWhile, issacIf, winnieIssac
+5000
+6 - UnconstrainedTest
+procedure p, q;
+Select p such that Calls(_,q) with q.procName = "calvinCalls"
+mandyModifies
+5000
+7 - TestShortFormLR
+procedure p;
+Select p such that Calls("mandyModifies",p)
+calvinCall
+5000
+8 - TestShortFormRL
+procedure q;
+Select q such that Calls(q,"calvinCall")
+mandyModifies
+5000

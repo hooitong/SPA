@@ -1,0 +1,63 @@
+procedure winnieIssac{
+	while i {				\\1
+		if z then {			\\2
+			i = y + 1; }		\\3
+		else {			
+			if z then {		\\4
+				i = y + 1; }	\\5
+			else {					
+				i = i * 1; }	\\6
+			}
+		while i {			\\7	
+			x = y; }		\\8
+		}
+}
+
+procedure winnieWhile {
+	while a {				\\1
+		b = a;				\\2
+		while b {			\\3
+			c = d;			\\4
+			while b{		\\5 
+				c = d;} 	\\6
+			d = cb + a + 1;		\\7
+			abc = cba + abc * dbg;} \\8
+		call issacIf;}			\\9	
+}
+
+procedure issacIf{
+	if i then{				\\1
+		if z then {			\\2
+			i = y + 1; }		\\3
+		else {			
+			if z then {		\\4
+				i = y + 1; }	\\5
+			else {			
+				i = i * 1; }	\\6
+			}
+		}
+	else{			
+		if z then{			\\7
+			y = i;}			\\8
+		else {			
+			i = y;}			\\9
+		}				
+	x = y;}					\\10
+
+procedure mandyModifies(){ 		
+	a = b + 2;			\\1
+	if x then {			\\2
+		b = b + 3;		\\3
+		call calvinCall;}	\\4
+	else{			
+		c  = 2 + 1;	}	\\5
+	while x {			\\6
+		d = d +2;	}	\\7
+
+}
+
+procedure calvinCall {
+	call winnieWhile;		\\1
+	call issacIf;			\\2
+	call winnieIssac;		\\3
+}
