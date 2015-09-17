@@ -97,4 +97,5 @@ void QueryPreprocessorDeclaration::fillNodeTypeTable(void) {
     string_type_to_node_type["prog_line"] = PROGLINESYNONYM;
     string_type_to_node_type["procedure"] = PROCEDURESYNONYM;
 	string_type_to_node_type["if"] = IFSYNONYM;
+	string_type_to_node_type["call"] = CALLSYNONYM;
 }

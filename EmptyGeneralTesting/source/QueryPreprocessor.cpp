@@ -45,7 +45,6 @@ QueryTree* QueryPreprocessor::parseQuery(string query) {
 
 		string result_string = trim(query.substr(select_index + 6, first_condition_index - (select_index + 6)));
 		string condition_string = trim(query.substr(first_condition_index, query.length() - first_condition_index));
-
 		resultListNode = result->getResultTree(result_string);
 		queryTree->addChild(root, resultListNode);
 

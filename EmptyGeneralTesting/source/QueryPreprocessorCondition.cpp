@@ -236,7 +236,7 @@ void QueryPreprocessorCondition::processWith(string with_string) {
             }
         }
 	}
-	
+	/*
 	cout << with_string<< endl;
 	cout << "flag1:" << flag1 <<endl;
 	cout << "flag2:" << flag2 <<endl;
@@ -260,7 +260,7 @@ void QueryPreprocessorCondition::processWith(string with_string) {
 	if(right_with_node == NULL){
 		cout << "right_with_node is NULL"<<endl;
 	}
-	
+	*/
 	
 	if(flag1 && flag2){
 		//cout << "flag1 = true && flag2 = true" << endl;
