@@ -89,6 +89,7 @@ void QueryPreprocessorDeclaration::declareSynonym(string synonym_type, string sy
 
 void QueryPreprocessorDeclaration::fillNodeTypeTable(void) {
 	string_type_to_node_type["stmt"] = STMTSYNONYM;
+	string_type_to_node_type["stmtLst"] = STMTLSTSYNONYM;
     string_type_to_node_type["assign"] = ASSIGNSYNONYM;
     string_type_to_node_type["while"] = WHILESYNONYM;
     string_type_to_node_type["variable"] = VARIABLESYNONYM;

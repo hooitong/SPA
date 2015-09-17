@@ -173,11 +173,14 @@ void QueryPreprocessorCondition::processWith(string with_string) {
                 intOrStrType = "integer";
                 flag1 = true;
 				left_with_node = new QNode(PROGLINESYNONYM, reference_left_hand);
-            }
+            }else{
+				is_valid = false;
+				return;
+			}
         }else{
             if(reference_left_hand[0] == '"' && reference_left_hand[reference_left_hand.size() - 1]=='"'){
 				//cout << "Variable"<< endl;
-				left_hand_prefix = reference_left_hand.substr(1, reference_left_hand.size() - 2); //strip ""
+				reference_left_hand = reference_left_hand.substr(1, reference_left_hand.size() - 2); //strip ""
                 intOrStrType = "string";
                 flag1 = true;
 				left_with_node = new QNode(VAR, reference_left_hand);
@@ -212,15 +215,18 @@ void QueryPreprocessorCondition::processWith(string with_string) {
             right_hand_type = declaration->getSynonymType(reference_right_hand);
 			//cout << "Prog_line1"<< endl;
             if(right_hand_type == "prog_line"){
-                right_hand_prefix = reference_right_hand;
+                //right_hand_prefix = reference_right_hand;
                 if(intOrStrType == "integer"){ 
 					flag2 = true;
 					right_with_node = new QNode(PROGLINESYNONYM, reference_right_hand);
 				}
-            }
+            }else{
+				is_valid = false;
+				return;
+			}
         }else{
             if(reference_right_hand[0]=='"' && reference_right_hand[reference_right_hand.size()-1]=='"'){
-				right_hand_prefix = reference_right_hand.substr(1,reference_right_hand.size()-2);
+				reference_right_hand = reference_right_hand.substr(1,reference_right_hand.size()-2);
 				//cout << "Variable1"<< endl;
                 //right_hand_type = "string";
 				if(intOrStrType == "string"){
@@ -230,7 +236,7 @@ void QueryPreprocessorCondition::processWith(string with_string) {
             }
         }
 	}
-	/*
+	
 	cout << with_string<< endl;
 	cout << "flag1:" << flag1 <<endl;
 	cout << "flag2:" << flag2 <<endl;
@@ -238,20 +244,23 @@ void QueryPreprocessorCondition::processWith(string with_string) {
 	
 	if(left_prefix_node == NULL){
 		cout << "left_prefix_node is NULL"<<endl;
-	}else if(left_postfix_node == NULL){
-		cout << "left_postfix_node is NULL"<<endl;
-	}else if(right_prefix_node == NULL){
-		cout << "right_prefix_node is NULL"<<endl;
-	}else if(right_postfix_node == NULL){
-		cout << "right_postfix_node is NULL"<<endl;
-	}else if(left_with_node == NULL){
-		cout << "left_with_node is NULL"<<endl;
-	}else if(right_with_node == NULL){
-		cout << "right_with_node is NULL"<<endl;
-	}else{
-		cout << "Nothing is NULL"<<endl;
 	}
-	*/
+	if(left_postfix_node == NULL){
+		cout << "left_postfix_node is NULL"<<endl;
+	}
+	if(right_prefix_node == NULL){
+		cout << "right_prefix_node is NULL"<<endl;
+	}
+	if(right_postfix_node == NULL){
+		cout << "right_postfix_node is NULL"<<endl;
+	}
+	if(left_with_node == NULL){
+		cout << "left_with_node is NULL"<<endl;
+	}
+	if(right_with_node == NULL){
+		cout << "right_with_node is NULL"<<endl;
+	}
+	
 	
 	if(flag1 && flag2){
 		//cout << "flag1 = true && flag2 = true" << endl;

@@ -28,6 +28,9 @@ class QueryPreprocessorTest : public CPPUNIT_NS::TestFixture {
   CPPUNIT_TEST(testSuchThatCondition8);
   CPPUNIT_TEST(testWithCondition);
   CPPUNIT_TEST(testWithCondition1);
+  CPPUNIT_TEST(testWithCondition2);
+  CPPUNIT_TEST(testWithCondition3);
+  CPPUNIT_TEST(testWithCondition4);
   CPPUNIT_TEST(testProgLine);
   CPPUNIT_TEST(testInvalidQuery);
   CPPUNIT_TEST(testPatternInvalid);
@@ -35,6 +38,9 @@ class QueryPreprocessorTest : public CPPUNIT_NS::TestFixture {
   CPPUNIT_TEST(testPatternInvalid3);
   CPPUNIT_TEST(testPatternInvalid4);
   CPPUNIT_TEST(testPatternInvalid5);
+  //CPPUNIT_TEST(testWithInvalid);
+  //CPPUNIT_TEST(testWithInvalid1);
+  //CPPUNIT_TEST(testWithInvalid2);
   CPPUNIT_TEST(testUses);
   CPPUNIT_TEST(testUsesInvalid);
   CPPUNIT_TEST(testInvalidNotDeclared);
@@ -73,12 +79,18 @@ public:
   void testSuchThatCondition8();
   void testWithCondition();
   void testWithCondition1();
+  void testWithCondition2();
+  void testWithCondition3();
+  void testWithCondition4();
   void testProgLine();
   void testPatternInvalid();
   void testPatternInvalid2();
   void testPatternInvalid3();
   void testPatternInvalid4();
   void testPatternInvalid5();
+  void testWithInvalid();
+  void testWithInvalid1();
+  void testWithInvalid2();
   void testUses();
   void testUsesInvalid();
   void testInvalidQuery();
