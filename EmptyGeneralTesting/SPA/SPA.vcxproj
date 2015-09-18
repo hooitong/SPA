@@ -44,6 +44,7 @@
     <ClInclude Include="..\source\QueryRelationTable.h" />
     <ClInclude Include="..\source\QueryResult.h" />
     <ClInclude Include="..\source\QueryTable.h" />
+    <ClInclude Include="..\source\QueryAttributeTable.h" />
     <ClInclude Include="..\source\QueryTree.h" />
     <ClInclude Include="..\source\RelationEvaluator.h" />
     <ClInclude Include="..\source\SPAFrontEnd.h" />
@@ -88,6 +89,7 @@
     <ClCompile Include="..\source\QueryRelationTable.cpp" />
     <ClCompile Include="..\source\QueryResult.cpp" />
     <ClCompile Include="..\source\QueryTable.cpp" />
+    <ClCompile Include="..\source\QueryAttributeTable.cpp" />
     <ClCompile Include="..\source\QueryTree.cpp" />
     <ClCompile Include="..\source\RelationEvaluator.cpp" />
     <ClCompile Include="..\source\SPAFrontEnd.cpp" />

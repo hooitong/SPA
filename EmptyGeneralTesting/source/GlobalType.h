@@ -44,6 +44,7 @@ enum QNodeType {
 	CALLSYNONYM,
     IFSYNONYM,
     PATTERN,
+	WITH,
     RELATION,
 	ATTRIBUTE,
 	INTERGER,
@@ -56,6 +57,12 @@ enum QNodeType {
     PROC,
     IF,
     ANY
+};
+
+enum RefType {
+	REF_NAME,
+	REF_INTEGER,
+	REF_NULL
 };
 
 // Used to represent the type of ParsingToken

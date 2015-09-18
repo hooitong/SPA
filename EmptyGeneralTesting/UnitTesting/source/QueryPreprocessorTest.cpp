@@ -544,15 +544,15 @@ void QueryPreprocessorTest::testWithCondition() {
 	QNode* expectedResult = expected->createNode(STMTSYNONYM,"s");
     expected->addChild(expectedResultList,expectedResult);
 	
-    QNode* expectedWith = expected->createNode(ATTRIBUTE,"s.stmt# = c.value");
-    QNode* expectedWithChild11 = expected->createNode(STMTSYNONYM,"s");
-	QNode* expectedWithChild12 = expected->createNode(CONST,"stmt#");
-	QNode* expectedWithChild13 = expected->createNode(CONSTSYNONYM,"c");
-    QNode* expectedWithChild14 = expected->createNode(CONST,"value");
-    expected->addChild(expectedWith,expectedWithChild11);
-    expected->addChild(expectedWith,expectedWithChild12);
-	expected->addChild(expectedWith,expectedWithChild13);
-    expected->addChild(expectedWith,expectedWithChild14);
+    QNode* expectedWith = expected->createNode(WITH,"");
+    QNode* expectedWithChild1 = expected->createNode(STMTSYNONYM,"s");
+	QNode* expectedWithChild11 = expected->createNode(ATTRIBUTE,"stmt#");
+	QNode* expectedWithChild2 = expected->createNode(CONSTSYNONYM,"c");
+    QNode* expectedWithChild21 = expected->createNode(ATTRIBUTE,"value");
+    expected->addChild(expectedWith,expectedWithChild1);
+    expected->addChild(expectedWith,expectedWithChild2);
+	expected->addChild(expectedWithChild1,expectedWithChild11);
+    expected->addChild(expectedWithChild2,expectedWithChild21);
 	expected->addChild(expectedConditionList,expectedWith);
 
 	CPPUNIT_ASSERT(achieved->isEqual(expected));
@@ -581,13 +581,13 @@ void QueryPreprocessorTest::testWithCondition1() {
     expected->addChild(expectedSuchThat1,expectedSuchThatChild11);
     expected->addChild(expectedSuchThat1,expectedSuchThatChild12);
 	
-    QNode* expectedWith = expected->createNode(ATTRIBUTE,"s.stmt# = 10");
-    QNode* expectedWithChild11 = expected->createNode(STMTSYNONYM,"s");
-	QNode* expectedWithChild12 = expected->createNode(CONST,"stmt#");
-	QNode* expectedWithChild13 = expected->createNode(INTERGER,"10");
-    expected->addChild(expectedWith,expectedWithChild11);
-    expected->addChild(expectedWith,expectedWithChild12);
-	expected->addChild(expectedWith,expectedWithChild13);
+    QNode* expectedWith = expected->createNode(WITH,"");
+    QNode* expectedWithChild1 = expected->createNode(STMTSYNONYM,"s");
+	QNode* expectedWithChild11 = expected->createNode(ATTRIBUTE,"stmt#");
+	QNode* expectedWithChild2 = expected->createNode(CONST,"10");
+    expected->addChild(expectedWith,expectedWithChild1);
+    expected->addChild(expectedWith,expectedWithChild2);
+	expected->addChild(expectedWithChild1,expectedWithChild11);
 
 	expected->addChild(expectedConditionList,expectedSuchThat1);
 	expected->addChild(expectedConditionList,expectedWith);
@@ -614,25 +614,25 @@ void QueryPreprocessorTest::testWithCondition2() {
     expected->addChild(expectedResultList,expectedResult);
 	expected->addChild(expectedResultList,expectedResult1);
 	
-    QNode* expectedWith = expected->createNode(ATTRIBUTE,"s.stmt# = 10");
+    QNode* expectedWith1 = expected->createNode(WITH,"");
     QNode* expectedWithChild11 = expected->createNode(STMTSYNONYM,"s");
-	QNode* expectedWithChild12 = expected->createNode(CONST,"stmt#");
-	QNode* expectedWithChild13 = expected->createNode(INTERGER,"10");
-    expected->addChild(expectedWith,expectedWithChild11);
-    expected->addChild(expectedWith,expectedWithChild12);
-	expected->addChild(expectedWith,expectedWithChild13);
+	QNode* expectedWithChild111 = expected->createNode(ATTRIBUTE,"stmt#");
+	QNode* expectedWithChild12 = expected->createNode(CONST,"10");
+    expected->addChild(expectedWith1,expectedWithChild11);
+    expected->addChild(expectedWith1,expectedWithChild12);
+	expected->addChild(expectedWithChild11,expectedWithChild111);
 	
-	QNode* expectedWith1 = expected->createNode(ATTRIBUTE,"p.procName = \"jelly\"");
+	QNode* expectedWith2 = expected->createNode(WITH,"");
     QNode* expectedWithChild21 = expected->createNode(PROCEDURESYNONYM,"p");
-	QNode* expectedWithChild22 = expected->createNode(VAR,"procName");
-	QNode* expectedWithChild23 = expected->createNode(VAR,"jelly");
-    expected->addChild(expectedWith1,expectedWithChild21);
-    expected->addChild(expectedWith1,expectedWithChild22);
-	expected->addChild(expectedWith1,expectedWithChild23);
+	QNode* expectedWithChild211 = expected->createNode(ATTRIBUTE,"procName");
+	QNode* expectedWithChild22 = expected->createNode(VAR,"jelly");
+    expected->addChild(expectedWith2,expectedWithChild21);
+    expected->addChild(expectedWith2,expectedWithChild22);
+	expected->addChild(expectedWithChild21,expectedWithChild211);
 
 
-	expected->addChild(expectedConditionList,expectedWith);
 	expected->addChild(expectedConditionList,expectedWith1);
+	expected->addChild(expectedConditionList,expectedWith2);
 
 	CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
@@ -654,21 +654,21 @@ void QueryPreprocessorTest::testWithCondition3() {
 	QNode* expectedResult = expected->createNode(STMTSYNONYM,"s");
     expected->addChild(expectedResultList,expectedResult);
 	
-	QNode* expectedWith = expected->createNode(ATTRIBUTE,"10 = 10");
-    QNode* expectedWithChild11 = expected->createNode(INTERGER,"10");
-	QNode* expectedWithChild12 = expected->createNode(INTERGER,"10");
-    expected->addChild(expectedWith,expectedWithChild11);
-    expected->addChild(expectedWith,expectedWithChild12);
+	QNode* expectedWith1 = expected->createNode(WITH,"");
+    QNode* expectedWithChild11 = expected->createNode(CONST,"10");
+	QNode* expectedWithChild12 = expected->createNode(CONST,"10");
+    expected->addChild(expectedWith1,expectedWithChild11);
+    expected->addChild(expectedWith1,expectedWithChild12);
 	
 	
-    QNode* expectedWith1 = expected->createNode(ATTRIBUTE,"pro = 10");
+    QNode* expectedWith2 = expected->createNode(WITH,"");
     QNode* expectedWithChild21 = expected->createNode(PROGLINESYNONYM,"pro");
-	QNode* expectedWithChild22 = expected->createNode(INTERGER,"10");
-    expected->addChild(expectedWith1,expectedWithChild21);
-    expected->addChild(expectedWith1,expectedWithChild22);
+	QNode* expectedWithChild22 = expected->createNode(CONST,"10");
+    expected->addChild(expectedWith2,expectedWithChild21);
+    expected->addChild(expectedWith2,expectedWithChild22);
 	
-	expected->addChild(expectedConditionList,expectedWith);
 	expected->addChild(expectedConditionList,expectedWith1);
+	expected->addChild(expectedConditionList,expectedWith2);
 
 	CPPUNIT_ASSERT(achieved->isEqual(expected));
 	
@@ -697,20 +697,37 @@ void QueryPreprocessorTest::testWithCondition4() {
 	expected->addChild(expectedResultList,expectedResult2);
 		
 	
-    QNode* expectedWith = expected->createNode(ATTRIBUTE,"c.procName = p.procName");
-    QNode* expectedWithChild11 = expected->createNode(CALLSYNONYM, "c");
-	QNode* expectedWithChild12 = expected->createNode(VAR,"procName");
-	QNode* expectedWithChild13 = expected->createNode(PROCEDURESYNONYM, "p");
-	QNode* expectedWithChild14 = expected->createNode(VAR,"procName");
-    expected->addChild(expectedWith,expectedWithChild11);
-    expected->addChild(expectedWith,expectedWithChild12);
-	expected->addChild(expectedWith,expectedWithChild13);
-	expected->addChild(expectedWith,expectedWithChild14);
+    QNode* expectedWith = expected->createNode(WITH,"");
+    QNode* expectedWithChild1 = expected->createNode(CALLSYNONYM, "c");
+	QNode* expectedWithChild11 = expected->createNode(ATTRIBUTE,"procName");
+	QNode* expectedWithChild2 = expected->createNode(PROCEDURESYNONYM, "p");
+	QNode* expectedWithChild21 = expected->createNode(ATTRIBUTE,"procName");
+    expected->addChild(expectedWith,expectedWithChild1);
+    expected->addChild(expectedWith,expectedWithChild2);
+	expected->addChild(expectedWithChild1,expectedWithChild11);
+	expected->addChild(expectedWithChild2,expectedWithChild21);
 
 	expected->addChild(expectedConditionList,expectedWith);
 	
-	CPPUNIT_ASSERT(achieved->isEqual(expected));
-	
+	CPPUNIT_ASSERT(achieved->isEqual(expected));	
+}
+
+void QueryPreprocessorTest::testWithConditionDifferentType() {
+
+	queryTest = new QueryPreprocessor();
+
+	QueryTree* achieved = queryTest->parseQuery("stmtLst s; constant c; procedure p; Select <c,p,s> with c.value = p.procName"  );
+	// c.value is INTEGER, p.procName is NAME. Therefore, it's invalid query.
+    CPPUNIT_ASSERT(achieved == NULL);
+}
+
+void QueryPreprocessorTest::testWithConditionWrongAttribute() {
+
+	queryTest = new QueryPreprocessor();
+
+	QueryTree* achieved = queryTest->parseQuery("stmtLst s; constant c; procedure p; Select <c,p,s> with c.stmt# = p.procName"  );
+	// c is constant thus doesn't have stmt# attribute
+    CPPUNIT_ASSERT(achieved == NULL);
 }
 
 void QueryPreprocessorTest::testProgLine() {

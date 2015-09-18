@@ -20,14 +20,11 @@ QueryPreprocessor::~QueryPreprocessor(void) {
 }
 
 QueryTree* QueryPreprocessor::parseQuery(string query) {
-	// cout << endl << "=====RUNNNING CASE -> " << query << endl;
+	//cout << endl << "=====RUNNNING CASE -> " << query << endl;
     try {
         queryTree = new QueryTree();
         QNode* root = queryTree->createNode(QUERY, "");
         queryTree->setAsRoot(root);
-		
-		//conditionListNode = queryTree->createNode(CONDITIONLIST, "");
-		//queryTree->addChild(root, conditionListNode);
 
         int select_index = query.find("Select");
 
@@ -52,17 +49,22 @@ QueryTree* QueryPreprocessor::parseQuery(string query) {
 		queryTree->addChild(root, conditionListNode);
 
 		if (!declaration->isValidDeclaration()) {
+			//cout << "declaration fails" << endl;
 			return NULL;
 		}
 		if (!result->isValidResult()) {
+			//cout << "result fails" << endl;
 			return NULL;
 		}
 		if (!condition->isValidCondition()) {
+			//cout << "condition fails" << endl;
 			return NULL;
 		}
 
         return queryTree;
     } catch (exception e) {
+		//cout << "exception happens" << endl;
+		//cout << e.what() << endl;
         return NULL;
     }
 }
@@ -200,6 +202,7 @@ int QueryPreprocessor::find(string long_string, string substring_to_find, int st
 			}
 		}
 	}
+	return string::npos;
 }
 
 int QueryPreprocessor::find(string long_string, string substring_to_find) {

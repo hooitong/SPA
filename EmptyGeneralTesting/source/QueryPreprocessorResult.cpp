@@ -35,12 +35,16 @@ QNode* QueryPreprocessorResult::getResultTree(string result_string) {
 }
 
 QNode* QueryPreprocessorResult::getResultNode(string synonym_name) {
-	// TODO (jonathanirvings) : Implement for synonym_name = <something>.<something>
-	if(declaration->isDeclaredSynonym(synonym_name) && QueryPreprocessor::isElem(synonym_name)) {
-		return declaration->getSynonymTypeNode(synonym_name);
-    }
-	isValid = false;
-	return NULL;
+	int dot_position = QueryPreprocessor::find(synonym_name, ".");
+	if (dot_position == string::npos) {
+		if(declaration->isDeclaredSynonym(synonym_name) && QueryPreprocessor::isElem(synonym_name)) {
+			return declaration->getSynonymTypeNode(synonym_name);
+		}
+		isValid = false;
+		return NULL;
+	} else {
+		// TODO (jonathanirvings) : Implement for synonym_name = <something>.<something>
+	}
 }
 
 bool QueryPreprocessorResult::isValidResult(void) {

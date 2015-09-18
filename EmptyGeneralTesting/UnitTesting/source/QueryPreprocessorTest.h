@@ -31,6 +31,8 @@ class QueryPreprocessorTest : public CPPUNIT_NS::TestFixture {
   CPPUNIT_TEST(testWithCondition2);
   CPPUNIT_TEST(testWithCondition3);
   CPPUNIT_TEST(testWithCondition4);
+  CPPUNIT_TEST(testWithConditionDifferentType);
+  CPPUNIT_TEST(testWithConditionWrongAttribute);
   CPPUNIT_TEST(testProgLine);
   CPPUNIT_TEST(testInvalidQuery);
   CPPUNIT_TEST(testPatternInvalid);
@@ -82,6 +84,8 @@ public:
   void testWithCondition2();
   void testWithCondition3();
   void testWithCondition4();
+  void testWithConditionDifferentType();
+  void testWithConditionWrongAttribute();
   void testProgLine();
   void testPatternInvalid();
   void testPatternInvalid2();
