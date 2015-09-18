@@ -839,6 +839,51 @@ void QueryPreprocessorTest::testWithInvalid() {
 	QueryTree* achieved = queryTest->parseQuery("variable b; stmt s; Select s with 10 = 10 and b = \"jello\"");
     CPPUNIT_ASSERT(achieved == NULL);
 }
+
+void QueryPreprocessorTest::testAttributeReturn() {
+  queryTest = new QueryPreprocessor();
+  QueryTree* achieved = queryTest->parseQuery("stmt s1, s2; Select s1.stmt#");
+  CPPUNIT_ASSERT(achieved != NULL);
+  QueryTree* expected = new QueryTree();
+  QNode* expectedRoot = expected->createNode(QUERY, "");
+  QNode* expectedResultList = expected->createNode(RESULTLIST, "");
+  QNode* expectedConditionList = expected->createNode(CONDITIONLIST, "");
+  expected->setAsRoot(expectedRoot);
+  expected->addChild(expectedRoot, expectedResultList);
+  expected->addChild(expectedRoot, expectedConditionList);
+  QNode* expectedResult1 = expected->createNode(STMTSYNONYM, "s1");
+  QNode* expectedResult11 = expected->createNode(ATTRIBUTE, "stmt#");
+  expected->addChild(expectedResult1, expectedResult11);
+  expected->addChild(expectedResultList, expectedResult1);
+  CPPUNIT_ASSERT(achieved->isEqual(expected));
+}
+
+void QueryPreprocessorTest::testAttributeMultipleReturn() {
+  queryTest = new QueryPreprocessor();
+  QueryTree* achieved = queryTest->parseQuery("stmt s1, s2; Select <s1,s2,s1.stmt#,s2.stmt#>");
+  CPPUNIT_ASSERT(achieved != NULL);
+  QueryTree* expected = new QueryTree();
+  QNode* expectedRoot = expected->createNode(QUERY, "");
+  QNode* expectedResultList = expected->createNode(RESULTLIST, "");
+  QNode* expectedConditionList = expected->createNode(CONDITIONLIST, "");
+  expected->setAsRoot(expectedRoot);
+  expected->addChild(expectedRoot, expectedResultList);
+  expected->addChild(expectedRoot, expectedConditionList);
+  QNode* expectedResult1 = expected->createNode(STMTSYNONYM, "s1");
+  QNode* expectedResult2 = expected->createNode(STMTSYNONYM, "s2");
+  QNode* expectedResult3 = expected->createNode(STMTSYNONYM, "s1");
+  QNode* expectedResult4 = expected->createNode(STMTSYNONYM, "s2");
+  QNode* expectedResult31 = expected->createNode(ATTRIBUTE, "stmt#");
+  QNode* expectedResult41 = expected->createNode(ATTRIBUTE, "stmt#");
+  expected->addChild(expectedResult3, expectedResult31);
+  expected->addChild(expectedResult4, expectedResult41);
+  expected->addChild(expectedResultList, expectedResult1);
+  expected->addChild(expectedResultList, expectedResult2);
+  expected->addChild(expectedResultList, expectedResult3);
+  expected->addChild(expectedResultList, expectedResult4);
+  CPPUNIT_ASSERT(achieved->isEqual(expected));
+}
+
 void QueryPreprocessorTest::testMultipleReturn() {
   queryTest = new QueryPreprocessor();
   QueryTree* achieved = queryTest->parseQuery("stmt s1, s2; Select <s1,s2>");

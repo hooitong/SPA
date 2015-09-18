@@ -47,6 +47,8 @@ class QueryPreprocessorTest : public CPPUNIT_NS::TestFixture {
   CPPUNIT_TEST(testUsesInvalid);
   CPPUNIT_TEST(testInvalidNotDeclared);
   CPPUNIT_TEST(testInvalidNotDeclared2);
+  CPPUNIT_TEST(testAttributeReturn);
+  CPPUNIT_TEST(testAttributeMultipleReturn);
   CPPUNIT_TEST(testMultipleReturn);
   CPPUNIT_TEST(testMultipleReturnAndSuchThat);
   CPPUNIT_TEST(testMultipleReturnAndMultipleSuchThat);
@@ -100,6 +102,8 @@ public:
   void testInvalidQuery();
   void testInvalidNotDeclared();
   void testInvalidNotDeclared2();
+  void testAttributeReturn();
+  void testAttributeMultipleReturn();
   void testMultipleReturn();
   void testMultipleReturnAndSuchThat();
   void testMultipleReturnAndMultipleSuchThat();

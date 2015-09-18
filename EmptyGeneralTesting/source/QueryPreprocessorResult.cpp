@@ -5,6 +5,7 @@ using namespace std;
 
 QueryPreprocessorResult::QueryPreprocessorResult(QueryPreprocessorDeclaration* declaration) {
 	this->declaration = declaration;
+	attribute_table = new QueryAttributeTable();
 	isValid = true;
 }
 
@@ -34,16 +35,29 @@ QNode* QueryPreprocessorResult::getResultTree(string result_string) {
 	return result_root;
 }
 
-QNode* QueryPreprocessorResult::getResultNode(string synonym_name) {
-	int dot_position = QueryPreprocessor::find(synonym_name, ".");
+QNode* QueryPreprocessorResult::getResultNode(string result_elem) {
+	int dot_position = QueryPreprocessor::find(result_elem, ".");
 	if (dot_position == string::npos) {
-		if(declaration->isDeclaredSynonym(synonym_name) && QueryPreprocessor::isElem(synonym_name)) {
-			return declaration->getSynonymTypeNode(synonym_name);
+		if(declaration->isDeclaredSynonym(result_elem) && QueryPreprocessor::isElem(result_elem)) {
+			return declaration->getSynonymTypeNode(result_elem);
 		}
 		isValid = false;
 		return NULL;
 	} else {
-		// TODO (jonathanirvings) : Implement for synonym_name = <something>.<something>
+		string synonym_name = QueryPreprocessor::trim(result_elem.substr(0, dot_position));
+		if (!declaration->isDeclaredSynonym(synonym_name) || !QueryPreprocessor::isElem(synonym_name)) {
+			isValid = false;
+			return NULL;
+		}
+		QNode* synonym_node = declaration->getSynonymTypeNode(synonym_name);
+		string attribute_name = QueryPreprocessor::trim(result_elem.substr(dot_position + 1, result_elem.length() - (dot_position + 1)));
+		if (attribute_table->isValidRule(synonym_node->getQType(), attribute_name)) {
+			QNode* attribute_node = new QNode(ATTRIBUTE, attribute_name);
+			synonym_node->addChild(attribute_node);
+			return synonym_node;
+		}
+		isValid = false;
+		return NULL;
 	}
 }
 
