@@ -16,15 +16,15 @@ QNode::QNode(QNodeType type, string name) {
 QNode::~QNode(void) {
 }
 
-QNodeType QNode::getQType() {
+QNodeType QNode::getQType() const {
     return this->type;
 }
 
-string QNode::getString() {
+string QNode::getString() const {
     return this->name;
 }
 
-vector<QNode*> QNode::getChildren(void) {
+vector<QNode*> QNode::getChildren(void) const {
     return this->childrenNodes;
 }
 
@@ -32,7 +32,7 @@ void QNode::addChild(QNode* node) {
     this->childrenNodes.push_back(node);
 }
 
-bool QNode::isEqualSubtree(QNode* node) {
+bool QNode::isEqualSubtree(QNode* node) const {
     /*std::cout << node->name << " " << this->name << "            ";
     std::cout << node->type << " " << this->type << "            ";
     std::cout << node->childrenNodes.size() << " " << this->childrenNodes.size() << endl;*/

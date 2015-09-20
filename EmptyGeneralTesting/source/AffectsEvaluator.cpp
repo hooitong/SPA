@@ -45,37 +45,45 @@ QueryResult AffectsEvaluator::evaluateAnyAny(QNode* node) {
   Modifies *modifies = pkb->getModifies();
   Uses *uses = pkb->getUses();
   vector<STMTLINE> leftLines = pkb->getAst()->getStmtLines(TType::STMTN);
-
+  return QueryResult(false);
 }
 
 QueryResult AffectsEvaluator::evaluateAnyConst(QNode* node) {
-
+    
+  return QueryResult(false);
 }
 
 QueryResult AffectsEvaluator::evaluateAnySyn(QNode* node) {
-
+    
+  return QueryResult(false);
 }
 
 QueryResult AffectsEvaluator::evaluateConstAny(QNode* node) {
+  return QueryResult(false);
 
 }
 
 QueryResult AffectsEvaluator::evaluateConstConst(QNode* node) {
+  return QueryResult(false);
 
 }
 
 QueryResult AffectsEvaluator::evaluateConstSyn(QNode* node) {
-
+    
+  return QueryResult(false);
 }
 
 QueryResult AffectsEvaluator::evaluateSynAny(QNode* node) {
+  return QueryResult(false);
 
 }
 
 QueryResult AffectsEvaluator::evaluateSynConst(QNode* node) {
+  return QueryResult(false);
 
 }
 
 QueryResult AffectsEvaluator::evaluateSynSyn(QNode* node) {
+  return QueryResult(false);
 
 }

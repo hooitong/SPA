@@ -1,140 +1,65 @@
 #include <FollowsEvaluator.h>
 
-QueryResult FollowsEvaluator::evaluate(QNode* node) {
-    QNode* leftChild = node->getChildren()[0];
-    QNode* rightChild = node->getChildren()[1];
-    if (leftChild->getQType() == ANY && 
-        rightChild->getQType() == ANY) {
-        return evaluateAnyAny(node);
-    } else if (leftChild->getQType() == ANY && 
-        isSynonym(rightChild->getQType())) {
-        return evaluateAnySyn(node);
-    } else if (leftChild->getQType() == ANY &&
-        rightChild->getQType() == CONST) {
-        return evaluateAnyConst(node);
-    } else if (isSynonym(leftChild->getQType()) &&
-        rightChild->getQType() == ANY) {
-        return evaluateSynAny(node);
-    } else if (isSynonym(leftChild->getQType()) &&
-        isSynonym(rightChild->getQType())) {
-        return evaluateSynSyn(node);
-    } else if (isSynonym(leftChild->getQType()) &&
-        rightChild->getQType() == CONST) {
-        return evaluateSynConst(node);
-    } else if (leftChild->getQType() == CONST &&
-        rightChild->getQType() == ANY) {
-        return evaluateConstAny(node);
-    } else if (leftChild->getQType() == CONST &&
-        isSynonym(rightChild->getQType())) {
-        return evaluateConstSyn(node);
-    } else if (leftChild->getQType() == CONST &&
-        rightChild->getQType() == CONST) {
-        return evaluateConstConst(node);
-    }
+FollowsEvaluator::FollowsEvaluator(PKB* pkb) : RelationEvaluator(pkb){}
+bool FollowsEvaluator::solveConstConst(const int left, const int right, const QueryResult& result) const
+{
+    return pkb->getFollows()->isFollows(left, right);
 }
 
-QueryResult FollowsEvaluator::evaluateAnyAny(QNode* node) {
-    Follows* follows = pkb->getFollows();
-    vector<STMTLINE> leftLines = pkb->getAst()->getStmtLines(TType::STMTN);
-    for (vector<STMTLINE>::size_type i = 0; i < leftLines.size(); i++) {
-        if (pkb->getFollows()->getFollowedBy(leftLines[i]) >= 0) {
-            return QueryResult(true);
-        }
-    }
-    return QueryResult(false);
-}
-
-QueryResult FollowsEvaluator::evaluateAnyConst(QNode* node) {
-    int rightConst = getInteger(node->getChildren()[1]);
-    Follows* follows = pkb->getFollows();
-    int leftLine = follows->getFollowsFrom(rightConst);
-    return QueryResult(leftLine >= 0);
-}
-
-QueryResult FollowsEvaluator::evaluateAnySyn(QNode* node) {
-    string synonymName = node->getChildren()[1]->getString();
-    TType type = synonymToTType(node->getChildren()[1]->getQType());
-    vector <STMTLINE> lines = pkb->getAst()->getStmtLines(type);
-    vector <STMTLINE> result;
-    for (vector<STMTLINE>::size_type i = 0; i < lines.size(); i++) {
-        int leftLine = pkb->getFollows()->getFollowsFrom(lines[i]);
-        if (leftLine >= 0) {
-            result.push_back(lines[i]);
-        }
-    }
-    return QueryResult(result, synonymName);
-}
-
-QueryResult FollowsEvaluator::evaluateConstAny(QNode* node) {
-    int leftConst = getInteger(node->getChildren()[1]);
-    Follows* follows = pkb->getFollows();
-    int rightLine = follows->getFollowedBy(leftConst);
-    return QueryResult(rightLine >= 0);
-}
-
-QueryResult FollowsEvaluator::evaluateConstConst(QNode* node) {
-    int leftConst = getInteger(node->getChildren()[0]);
-    int rightConst = getInteger(node->getChildren()[1]);
-    Follows* follows = pkb->getFollows();
-    return QueryResult(follows->isFollows(leftConst, rightConst));
-}
-
-QueryResult FollowsEvaluator::evaluateConstSyn(QNode* node) {
-    int leftConst = getInteger(node->getChildren()[0]);
-    TType type = synonymToTType(node->getChildren()[1]->getQType());
-    string rightSynonym = node->getChildren()[1]->getString();
-    Follows* follows = pkb->getFollows();
-    int result = follows->getFollowedBy(leftConst);
-    if (result >= 0) {
-        vector <int> resultVector(1, result);
-        resultVector = filter(resultVector, type);
-        return QueryResult(resultVector, rightSynonym);
+vector<int> FollowsEvaluator::solveConstSyn(const int left, const QueryResult& result) const
+{
+    int newResult = pkb->getFollows()->getFollowedBy(left);
+    if (newResult < 0) {
+        return vector<int>();
     } else {
-        return QueryResult(false);
+        return vector<int>(1, newResult);
     }
 }
 
-QueryResult FollowsEvaluator::evaluateSynAny(QNode* node) {
-    string leftSynonym = node->getChildren()[0]->getString();
-    TType leftType = synonymToTType(node->getChildren()[0]->getQType());
-    vector <STMTLINE> lines = pkb->getAst()->getStmtLines(leftType);
-    vector <STMTLINE> result;
-    for (vector<STMTLINE>::size_type i = 0; i < lines.size(); i++) {
-        int rightLine = pkb->getFollows()->getFollowedBy(lines[i]);
-        if (rightLine >= 0) {
-            result.push_back(lines[i]);
-        }
-    }
-    return QueryResult(result, leftSynonym);
-}
-
-QueryResult FollowsEvaluator::evaluateSynConst(QNode* node) {
-    string leftSynonym = node->getChildren()[0]->getString();
-    TType leftType = synonymToTType(node->getChildren()[0]->getQType());
-    int rightConst = getInteger(node->getChildren()[1]);
-    int leftLine = pkb->getFollows()->getFollowsFrom(rightConst);
-    if (leftLine >= 0) {
-        vector<int> resultVector(1, leftLine);
-        resultVector = filter(resultVector, leftType);
-        return QueryResult(resultVector, leftSynonym);
+vector<int> FollowsEvaluator::solveSynConst(const int right, const QueryResult& result) const
+{
+    int newResult = pkb->getFollows()->getFollowsFrom(right);
+    if (newResult < 0) {
+        return vector<int>();
     } else {
-        return QueryResult(false);
+        return vector<int>(1, newResult);
     }
 }
 
-QueryResult FollowsEvaluator::evaluateSynSyn(QNode* node) {
-    string leftSynonym = node->getChildren()[0]->getString();
-    TType leftType = synonymToTType(node->getChildren()[0]->getQType());
-    string rightSynonym = node->getChildren()[1]->getString();
-    TType rightType = synonymToTType(node->getChildren()[1]->getQType());
-    vector <STMTLINE> leftLines = pkb->getAst()->getStmtLines(leftType);
-    vector<pair<STMTLINE, STMTLINE> > resultVector;
-    for (vector<STMTLINE>::size_type i = 0; i < leftLines.size(); i++) {
-        STMTLINE rightLine = pkb->getFollows()->getFollowedBy(leftLines[i]);
-        if (rightLine >= 0 && (rightType == STMTN ||
-            pkb->getAst()->getTNode(rightLine)->getTType() == rightType)) {
-            resultVector.push_back(make_pair(leftLines[i], rightLine));
-        }
-    }
-    return QueryResult(resultVector, leftSynonym, rightSynonym);
+int FollowsEvaluator::getConstLeft(const QNode* const node) const {
+    istringstream iss(node->getChildren()[0]->getString());
+    int result;
+    iss >> result;
+    return result;
+}
+
+int FollowsEvaluator::getConstRight(const QNode* const node) const {
+    istringstream iss(node->getChildren()[1]->getString());
+    int result;
+    iss >> result;
+    return result;
+}
+
+bool FollowsEvaluator::checkLeft(const QNode* const node, const int tested) const {
+    return node->getChildren()[0]->getQType() == STMTSYNONYM ||
+        synonymToTType(node->getChildren()[0]->getQType()) ==
+        pkb->getAst()->getTNode(tested)->getTType();
+}
+
+bool FollowsEvaluator::checkRight(const QNode* const node, const int tested) const {
+    return node->getChildren()[1]->getQType() == STMTSYNONYM ||
+        synonymToTType(node->getChildren()[1]->getQType()) ==
+        pkb->getAst()->getTNode(tested)->getTType();
+}
+
+vector <int> FollowsEvaluator::getAllLeft(const QNode* const node, 
+    const QueryResult &result) const {
+    return pkb->getAst()->getStmtLines(
+        synonymToTType(node->getChildren()[0]->getQType()));
+}
+
+vector <int> FollowsEvaluator::getAllRight(const QNode* const node, 
+    const QueryResult &result) const {
+    return pkb->getAst()->getStmtLines(
+        synonymToTType(node->getChildren()[1]->getQType()));
 }
