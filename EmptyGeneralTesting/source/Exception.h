@@ -5,102 +5,102 @@
 #include "GlobalType.h"
 
 class InvalidNameException : public exception {
-  public:
-    InvalidNameException(STMTLINE line);
-    ~InvalidNameException();
+public:
+  InvalidNameException(STMTLINE line);
+  ~InvalidNameException();
 
-    string message();
+  string message();
 
-  private:
-    STMTLINE lineIndex;
+private:
+  STMTLINE lineIndex;
 };
 
 class InvalidProcedureException : public exception {
-  public:
-    InvalidProcedureException(STMTLINE line);
-    ~InvalidProcedureException();
+public:
+  InvalidProcedureException(STMTLINE line);
+  ~InvalidProcedureException();
 
-    string message();
+  string message();
 
-	private:
-	 STMTLINE lineIndex;
+private:
+  STMTLINE lineIndex;
 };
 
 class SyntaxErrorException : public exception {
-  public:
-    SyntaxErrorException(STMTLINE line);
-    ~SyntaxErrorException();
+public:
+  SyntaxErrorException(STMTLINE line);
+  ~SyntaxErrorException();
 
-    string message();
+  string message();
 
-  private:
-    STMTLINE lineIndex;
+private:
+  STMTLINE lineIndex;
 };
 
 class RecursiveCallException : public exception {
-  public:
-    RecursiveCallException(STMTLINE line);
-    ~RecursiveCallException();
+public:
+  RecursiveCallException(STMTLINE line);
+  ~RecursiveCallException();
 
-    string message();
+  string message();
 
-  private:
-    STMTLINE lineIndex;
+private:
+  STMTLINE lineIndex;
 };
 
 class InvalidQueryDeclarationException : public exception {
-  public:
-    InvalidQueryDeclarationException ();
-    ~InvalidQueryDeclarationException ();
+public:
+  InvalidQueryDeclarationException();
+  ~InvalidQueryDeclarationException();
 
-    string message();
+  string message();
 };
 
-class InvalidResultSyntaxException: public exception {
-  public:
-    InvalidResultSyntaxException();
-    ~InvalidResultSyntaxException();
+class InvalidResultSyntaxException : public exception {
+public:
+  InvalidResultSyntaxException();
+  ~InvalidResultSyntaxException();
 
-    string message();
+  string message();
 };
 
 class InvalidClauseSyntaxException : public exception {
-  public:
-    InvalidClauseSyntaxException();
-    ~InvalidClauseSyntaxException();
+public:
+  InvalidClauseSyntaxException();
+  ~InvalidClauseSyntaxException();
 
-    string message();
+  string message();
 };
 
 class InvalidSelectException : public exception {
 
-  public:
-    InvalidSelectException();
-    ~InvalidSelectException();
+public:
+  InvalidSelectException();
+  ~InvalidSelectException();
 
-    string message();
+  string message();
 };
 
 class InvalidCaseClauseException : public exception {
-  public:
-    InvalidCaseClauseException();
-    ~InvalidCaseClauseException();
+public:
+  InvalidCaseClauseException();
+  ~InvalidCaseClauseException();
 
-    string message();
+  string message();
 };
 
 class UndeclaredException : public exception {
-  public:
-    UndeclaredException();
-    ~UndeclaredException();
+public:
+  UndeclaredException();
+  ~UndeclaredException();
 
-    string message();
+  string message();
 };
 
 class UnmatchedSynonymException : public exception {
-  public:
-    UnmatchedSynonymException();
-    ~UnmatchedSynonymException();
+public:
+  UnmatchedSynonymException();
+  ~UnmatchedSynonymException();
 
-    string message();
+  string message();
 };

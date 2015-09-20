@@ -4,13 +4,13 @@
 #include "DesignExtractor.h"
 
 class SPAFrontEnd {
-  private:
-    static SPAFrontEnd* feObj;
-    DesignExtractor* deObj;
+private:
+  static SPAFrontEnd* feObj;
+  DesignExtractor* deObj;
 
-  public:
-    SPAFrontEnd();
-    ~SPAFrontEnd();
-    static SPAFrontEnd* getInstance();
-    void parseSource(const std::string fileName);
+public:
+  SPAFrontEnd();
+  ~SPAFrontEnd();
+  static SPAFrontEnd* getInstance();
+  void parseSource(const std::string fileName);
 };

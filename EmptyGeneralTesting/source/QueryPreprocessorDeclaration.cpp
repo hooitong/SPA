@@ -1,6 +1,7 @@
 #include "QueryPreprocessorDeclaration.h"
 #include "QueryPreprocessor.h"
 #include <string>
+#include <iostream>
 using namespace std;
 
 QueryPreprocessorDeclaration::QueryPreprocessorDeclaration(string declaration_string) {
@@ -88,6 +89,7 @@ void QueryPreprocessorDeclaration::declareSynonym(string synonym_type, string sy
 
 void QueryPreprocessorDeclaration::fillNodeTypeTable(void) {
 	string_type_to_node_type["stmt"] = STMTSYNONYM;
+	string_type_to_node_type["stmtLst"] = STMTLSTSYNONYM;
     string_type_to_node_type["assign"] = ASSIGNSYNONYM;
     string_type_to_node_type["while"] = WHILESYNONYM;
     string_type_to_node_type["variable"] = VARIABLESYNONYM;
@@ -95,4 +97,5 @@ void QueryPreprocessorDeclaration::fillNodeTypeTable(void) {
     string_type_to_node_type["prog_line"] = PROGLINESYNONYM;
     string_type_to_node_type["procedure"] = PROCEDURESYNONYM;
 	string_type_to_node_type["if"] = IFSYNONYM;
+	string_type_to_node_type["call"] = CALLSYNONYM;
 }

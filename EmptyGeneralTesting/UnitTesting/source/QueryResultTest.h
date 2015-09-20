@@ -11,17 +11,18 @@ class QueryResultTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testSecondEmptySynonym);
     CPPUNIT_TEST(testMultipleMerge);
     CPPUNIT_TEST(testFilter);
+    CPPUNIT_TEST(testPossibleResult);
     CPPUNIT_TEST_SUITE_END();
 
-  public:
+public:
     void setUp();
     void tearDown();
-
     void testEqual();
     void testEqualReorder();
     void testDifferent();
     void testFirstEmptySynonym();
     void testSecondEmptySynonym();
     void testMultipleMerge();
+    void testPossibleResult();
     void testFilter();
 };

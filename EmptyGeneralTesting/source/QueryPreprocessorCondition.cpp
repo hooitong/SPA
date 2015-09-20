@@ -1,5 +1,6 @@
 #include "QueryPreprocessorCondition.h"
 #include "QueryPreprocessor.h"
+#include "QueryTable.h"
 #include <string>
 #include <iostream>
 using namespace std;
@@ -7,6 +8,8 @@ using namespace std;
 QueryPreprocessorCondition::QueryPreprocessorCondition(QueryPreprocessorDeclaration* declaration) {
 	this->declaration = declaration;
 	relation_table = new QueryRelationTable();
+	attribute_table = new QueryAttributeTable();
+	query_table = new QueryTable();
 	is_valid = true;
 }
 
@@ -19,9 +22,9 @@ QNode* QueryPreprocessorCondition::getConditionTree(string condition_string) {
 	bool is_end_of_condition = false;
 
 	while (!is_end_of_condition) {
-		int next_such_that_position = condition_string.find("such that", current_position + 1);
-		int next_with_position = condition_string.find("with", current_position + 1);
-		int next_pattern_position = condition_string.find("pattern", current_position + 1);
+		int next_such_that_position = QueryPreprocessor::find(condition_string, "such that", current_position + 1);
+		int next_with_position = QueryPreprocessor::find(condition_string, "with", current_position + 1);
+		int next_pattern_position = QueryPreprocessor::find(condition_string, "pattern", current_position + 1);
 		int next_min_position = condition_string.length();
 		if (next_such_that_position != string::npos) {
 			next_min_position = min(next_min_position, next_such_that_position);
@@ -45,11 +48,11 @@ QNode* QueryPreprocessorCondition::getConditionTree(string condition_string) {
 // parsing a list of conditions separated by "and" into one condition and call the appropriate method for each condition type
 void QueryPreprocessorCondition::processConditions(string conditions_string) {
 	string condition_type;
-	if (conditions_string.find("such that") == 0) {
+	if (QueryPreprocessor::find(conditions_string, "such that") == 0) {
 		condition_type = "such that";
-	} else if (conditions_string.find("with") == 0) {
+	} else if (QueryPreprocessor::find(conditions_string, "with") == 0) {
 		condition_type = "with";
-	} else if (conditions_string.find("pattern") == 0) {
+	} else if (QueryPreprocessor::find(conditions_string, "pattern") == 0) {
 		condition_type = "pattern";
 	} else {
 		is_valid = false;
@@ -58,7 +61,7 @@ void QueryPreprocessorCondition::processConditions(string conditions_string) {
 	int current_position = condition_type.length();
 	bool is_end_of_such_that = false;
 	while (!is_end_of_such_that) {
-		int next_and_position = conditions_string.find("and", current_position);
+		int next_and_position = QueryPreprocessor::find(conditions_string, "and", current_position);
 		if (next_and_position == string::npos) {
 			is_end_of_such_that = true;
 			next_and_position = conditions_string.length();
@@ -112,7 +115,53 @@ void QueryPreprocessorCondition::processSuchThat(string relation_string) {
 }
 
 void QueryPreprocessorCondition::processWith(string with_string) {
-	// TODO (Sherlin) : Integrate the checking with the table, as well as create the tree
+	int equal_sign_position = QueryPreprocessor::find(with_string, "=");
+	if (equal_sign_position == string::npos) {
+		is_valid = false;
+		return;
+	}
+
+    string reference_left_hand = QueryPreprocessor::trim(with_string.substr(0, equal_sign_position)); 
+	string reference_right_hand = QueryPreprocessor::trim(with_string.substr(equal_sign_position + 1, with_string.length() - (equal_sign_position + 1)));
+	pair<QNode*, RefType> left_node = processWithReference(reference_left_hand);
+	pair<QNode*, RefType> right_node = processWithReference(reference_right_hand);
+	if (left_node.first == NULL || right_node.first == NULL || left_node.second != right_node.second) {
+		is_valid = false;
+		return;
+	}
+	QNode* with_node = new QNode(WITH, "");
+	condition_root->addChild(with_node);
+	with_node->addChild(left_node.first);
+	with_node->addChild(right_node.first);
+}
+
+
+pair<QNode*, RefType> QueryPreprocessorCondition::processWithReference(string reference_string) {
+	int dot_position = QueryPreprocessor::find(reference_string, ".");
+	if (dot_position == string::npos) {
+		QNode* reference_node = parseRef(reference_string);
+		if (reference_node == NULL) {
+			is_valid = false;
+			return make_pair((QNode*) NULL, REF_NULL);
+		}
+		return make_pair(reference_node, (RefType) attribute_table->getReferenceType(reference_node->getQType()));
+	} else {
+		string synonym_name = QueryPreprocessor::trim(reference_string.substr(0, dot_position));
+		string attribute_name = QueryPreprocessor::trim(reference_string.substr(dot_position + 1, reference_string.length() - (dot_position + 1)));
+		QNode* synonym_node = parseRef(synonym_name);
+		if (synonym_node == NULL) {
+			is_valid = false;
+			return make_pair((QNode*) NULL, REF_NULL);
+		}
+		if (attribute_table->isValidRule(synonym_node->getQType(), attribute_name)) {
+			QNode* attribute_node = new QNode(ATTRIBUTE, attribute_name);
+			synonym_node->addChild(attribute_node);
+			return make_pair(synonym_node, (RefType) attribute_table->getAttributeType(synonym_node->getQType(), attribute_name));
+		} else {
+			is_valid = false;
+			return make_pair((QNode*) NULL, REF_NULL);
+		}
+	}
 }
 
 void QueryPreprocessorCondition::processPattern(string pattern_string) {
@@ -216,11 +265,11 @@ string QueryPreprocessorCondition::removeExpressionQuote(string expression) {
 
 QNode* QueryPreprocessorCondition::parseRef(string argument) {
     if (argument == "_") {
-        return new QNode(ANY,"");
+        return new QNode(ANY, "");
     } else if (isdigit(argument.at(0))) {
-        return new QNode(CONST,argument);
+        return new QNode(CONST, argument);
     } else if (argument.at(0) == '"' && argument.at(argument.size() - 1) == '"') {
-		return new QNode(VAR,QueryPreprocessor::trim(argument.substr(1, argument.size()-2)));
+		return new QNode(VAR, QueryPreprocessor::trim(argument.substr(1, argument.size()-2)));
 	} else if (declaration->isDeclaredSynonym(argument)) {
 		return declaration->getSynonymTypeNode(argument);
 	}

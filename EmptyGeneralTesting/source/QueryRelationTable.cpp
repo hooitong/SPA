@@ -3,12 +3,12 @@
 
 QueryRelationTable::QueryRelationTable(void) {
 
-	QNodeType modifies_left[] = {PROGLINESYNONYM, STMTSYNONYM, IFSYNONYM, WHILESYNONYM, CALLSYNONYM, ASSIGNSYNONYM, PROCEDURESYNONYM, CONST, PROC};
+	QNodeType modifies_left[] = {PROGLINESYNONYM, STMTSYNONYM, IFSYNONYM, WHILESYNONYM, CALLSYNONYM, ASSIGNSYNONYM, PROCEDURESYNONYM, CONST, VAR, ANY};
 	QNodeType modifies_right[] = {VARIABLESYNONYM, VAR, ANY};
-	QNodeType uses_left[] = {PROGLINESYNONYM, STMTSYNONYM, IFSYNONYM, WHILESYNONYM, CALLSYNONYM, ASSIGNSYNONYM, PROCEDURESYNONYM, CONST, PROC};
+	QNodeType uses_left[] = {PROGLINESYNONYM, STMTSYNONYM, IFSYNONYM, WHILESYNONYM, CALLSYNONYM, ASSIGNSYNONYM, PROCEDURESYNONYM, CONST, VAR, ANY};
 	QNodeType uses_right[] = {VARIABLESYNONYM, VAR, ANY};
-	QNodeType calls_left[] = {PROCEDURESYNONYM, PROC};
-	QNodeType calls_right[] = {PROCEDURESYNONYM, PROC};
+	QNodeType calls_left[] = {PROCEDURESYNONYM, VAR, ANY};
+	QNodeType calls_right[] = {PROCEDURESYNONYM, VAR, ANY};
 	QNodeType parent_left[] = {PROGLINESYNONYM, STMTSYNONYM, IFSYNONYM, WHILESYNONYM, CONST};
 	QNodeType parent_right[] = {PROGLINESYNONYM, STMTSYNONYM, IFSYNONYM, WHILESYNONYM, CALLSYNONYM, ASSIGNSYNONYM, CONST};
 	QNodeType follows_left[] = {PROGLINESYNONYM, STMTSYNONYM, IFSYNONYM, WHILESYNONYM, CALLSYNONYM, ASSIGNSYNONYM, CONST};
@@ -18,10 +18,10 @@ QueryRelationTable::QueryRelationTable(void) {
 	QNodeType affects_left[] = {PROGLINESYNONYM, STMTSYNONYM, ASSIGNSYNONYM, CONST};
 	QNodeType affects_right[] = {PROGLINESYNONYM, STMTSYNONYM, ASSIGNSYNONYM, CONST};
 
-	addRule("Modifies", vector<QNodeType>(modifies_left, modifies_left + 9), vector<QNodeType>(modifies_right, modifies_right + 3));
-	addRule("Uses", vector<QNodeType>(uses_left, uses_left + 9), vector<QNodeType>(uses_right, uses_right + 3));
-	addRule("Calls", vector<QNodeType>(calls_left, calls_left + 2), vector<QNodeType>(calls_right, calls_right + 2));
-	addRule("Calls*", vector<QNodeType>(calls_left, calls_left + 2), vector<QNodeType>(calls_right, calls_right + 2));
+	addRule("Modifies", vector<QNodeType>(modifies_left, modifies_left + 10), vector<QNodeType>(modifies_right, modifies_right + 3));
+	addRule("Uses", vector<QNodeType>(uses_left, uses_left + 10), vector<QNodeType>(uses_right, uses_right + 3));
+	addRule("Calls", vector<QNodeType>(calls_left, calls_left + 3), vector<QNodeType>(calls_right, calls_right + 3));
+	addRule("Calls*", vector<QNodeType>(calls_left, calls_left + 3), vector<QNodeType>(calls_right, calls_right + 3));
 	addRule("Parent", vector<QNodeType>(parent_left, parent_left + 5), vector<QNodeType>(parent_right, parent_right + 7));
 	addRule("Parent*", vector<QNodeType>(parent_left, parent_left + 5), vector<QNodeType>(parent_right, parent_right + 7));
 	addRule("Follows", vector<QNodeType>(follows_left, follows_left + 7), vector<QNodeType>(follows_right, follows_right + 7));

@@ -5,19 +5,19 @@
 #include <algorithm>
 
 class GNode {
-private:	
-	PROGLINE lineNumber;
-	vector<GNode*> forwardNodes;
-	vector<GNode*> backNode;
+private:
+  PROGLINE lineNumber;
+  vector<GNode*> forwardNodes;
+  vector<GNode*> backNode;
 
 public:
-	GNode(PROGLINE lineNumber);
-	~GNode(void);
+  GNode(PROGLINE lineNumber);
+  ~GNode(void);
 
-	PROGLINE getLineNumber();
-	vector<GNode*> getForwardNodes();
-	void getAllPossibleForwardNodes(STMTLINE start, bool rec, vector<GNode*> &result);
-	vector<GNode*> getPrevNode();
-	void addForwardNode(GNode* forward);
-	void addPrevNode(GNode* prev);
+  PROGLINE getLineNumber();
+  vector<GNode*> getForwardNodes();
+  void getAllPossibleForwardNodes(STMTLINE start, bool rec, vector<GNode*> &result);
+  vector<GNode*> getPrevNode();
+  void addForwardNode(GNode* forward);
+  void addPrevNode(GNode* prev);
 };

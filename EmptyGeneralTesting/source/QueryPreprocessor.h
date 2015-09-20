@@ -17,7 +17,7 @@ class QueryPreprocessor {
     /*--------------------checking -------------------*/
     static bool isAttributeName(string attName);
     static bool isIdent(string ident);
-    bool checkInteger(string number);
+    static bool checkInteger(string number);
     static bool isAttReference(string attReference);
     static bool isElem(string elem);
     bool checkVarReference(string varReference);
@@ -31,6 +31,8 @@ class QueryPreprocessor {
     /*------------------------------------------------*/
 
     static string trim(string s);
+	static int find(string long_string, string substring_to_find, int start_search_index);
+	static int find(string long_string, string substring_to_find);
 
     bool checkAttribute(string attribute);
     bool checkPattern(string pattern);

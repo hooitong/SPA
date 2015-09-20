@@ -64,21 +64,3 @@ vector<VARNAME> VarTable::getAllVarName() {
     }
     return listOfVarName;
 }
-
-/*
-vector<STMTLINE> VarTable::getModifiedBy(VARINDEX varIndex){
-	if(varIndex < 0 || varIndex >= currentMapIndex) {
-		//return NULL;
-	} else {
-		return varIndexMap[varIndex].modified_by;
-	}
-}
-
-vector<STMTLINE> VarTable::getUsedBy (VARINDEX varIndex){
-	if(varIndex < 0 || varIndex >= currentMapIndex) {
-		//return NULL;
-	} else {
-		return varIndexMap[varIndex].used_by;
-	}
-}
-*/
