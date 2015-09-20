@@ -1,4 +1,6 @@
 #include "Uses.h"
+#include <vector>
+#include "../UnitTesting/source/CallsTest.h"
 
 /* Constructor & Destructor */
 Uses::Uses(void) {
@@ -25,7 +27,7 @@ bool Uses::isUsesForProc(PROCINDEX proc, VARINDEX varIndex) {
   return procToVar.containsChild(proc, varIndex);
 }
 
-vector<VARINDEX> Uses::getUsedByStmt(STMTLINE stmt) {
+std::vector<VARINDEX> Uses::getUsedByStmt(STMTLINE stmt) {
   return stmtToVar.toVector(stmt);
 }
 

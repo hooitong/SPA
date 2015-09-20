@@ -3,80 +3,80 @@
 PKB* PKB::pkbInstance;
 
 PKB* PKB::getPKB() {
-    if(pkbInstance == NULL) {
-        pkbInstance = new PKB;
-    }
-    return pkbInstance;
+  if (pkbInstance == NULL) {
+    pkbInstance = new PKB;
+  }
+  return pkbInstance;
 }
 
 void PKB::deletePKB() {
-    pkbInstance = NULL;
+  pkbInstance = NULL;
 }
 
 /* Constructor & Destructor */
 PKB::PKB(void) {
-    varTable = new VarTable;
-    ast = new AST;
-	cfg = new CFG;
-    follows = new Follows;
-    parent = new Parent;
-    modifies = new Modifies;
-    uses = new Uses;
-	calls = new Calls;
-	procTable = new ProcTable;
-	next = new Next;
+  varTable = new VarTable;
+  ast = new AST;
+  cfg = new CFG;
+  follows = new Follows;
+  parent = new Parent;
+  modifies = new Modifies;
+  uses = new Uses;
+  calls = new Calls;
+  procTable = new ProcTable;
+  next = new Next;
 }
 
 PKB::~PKB(void) {
-    /* Release all design abstraction back to the memory */
-    delete varTable;
-    delete ast;
-	delete cfg;
-    delete follows;
-    delete parent;
-    delete modifies;
-    delete uses;
-	delete calls;
-	delete procTable;
-	delete next;
+  /* Release all design abstraction back to the memory */
+  delete varTable;
+  delete ast;
+  delete cfg;
+  delete follows;
+  delete parent;
+  delete modifies;
+  delete uses;
+  delete calls;
+  delete procTable;
+  delete next;
 }
 
 VarTable* PKB::getVarTable() {
-    return varTable;
+  return varTable;
 }
 
 AST* PKB::getAst() {
-    return ast;
+  return ast;
 }
 
 Follows* PKB::getFollows() {
-    return follows;
+  return follows;
 }
 
 Parent* PKB::getParent() {
-    return parent;
+  return parent;
 }
 
 Modifies* PKB::getModifies() {
-    return modifies;
+  return modifies;
 }
 
 Uses* PKB::getUses() {
-    return uses;
+  return uses;
 }
 
-ProcTable* PKB::getProcTable(){
-	return procTable;
+ProcTable* PKB::getProcTable() {
+  return procTable;
 }
 
-Calls* PKB::getCalls(){
-	return calls;
+Calls* PKB::getCalls() {
+  return calls;
 }
 
-CFG* PKB::getCfg(){
-	return cfg;
+CFG* PKB::getCfg() {
+  return cfg;
 }
 
-Next* PKB::getNext(){
-	return next;
+Next* PKB::getNext() {
+  return next;
 }

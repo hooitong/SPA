@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\source\AffectsEvaluator.h" />
     <ClInclude Include="..\source\AST.h" />
     <ClInclude Include="..\source\BitTable.h" />
     <ClInclude Include="..\source\Calls.h" />
@@ -57,6 +58,7 @@
     <ClInclude Include="..\source\QueryPreprocessorDeclaration.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\source\AffectsEvaluator.cpp" />
     <ClCompile Include="..\source\AST.cpp" />
     <ClCompile Include="..\source\BitTable.cpp" />
     <ClCompile Include="..\source\Calls.cpp" />

@@ -12,15 +12,15 @@
 
 
 class Tokenizer {
-  public:
-    Tokenizer(string fileName);
-	Tokenizer();
-	vector<ParsingToken> start();
-	void tokenizeLine(string line, int lineIndex, vector<ParsingToken> &tokenList); 
+public:
+  Tokenizer(string fileName);
+  Tokenizer();
+  vector<ParsingToken> start();
+  void tokenizeLine(string line, int lineIndex, vector<ParsingToken> &tokenList);
 
-  private:
-	
-	 bool isCodeBody(string code);
-	 string appendWhiteSpace(string input);
+private:
+
+  bool isCodeBody(string code);
+  string appendWhiteSpace(string input);
 
 };
