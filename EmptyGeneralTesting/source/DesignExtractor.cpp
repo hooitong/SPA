@@ -85,6 +85,7 @@ void DesignExtractor::extractVariousRelationship(TNode* node){
 			//proctable
 			/////////////////////
 			PROCINDEX procIndex = PKB::getPKB()->getProcTable()->insertProc(leftNode->getValue());
+			PKB::getPKB()->getProcTable()->setTRoot(procIndex, leftNode);
 		}
 
 		if(leftNode->getTType() == CALLN){
@@ -92,11 +93,13 @@ void DesignExtractor::extractVariousRelationship(TNode* node){
 			//proctable
 			/////////////////////
 			PROCINDEX calledIndex = PKB::getPKB()->getProcTable()->insertProc(leftNode->getValue());
+			PKB::getPKB()->getProcTable()->setTRoot(calledIndex, leftNode);
 			TNode* parentNode = leftNode->getParentNode();
 			while(parentNode->getTType() != PROCEDUREN){
 				parentNode = parentNode->getParentNode();
 			}
 			PROCINDEX callerIndex = PKB::getPKB()->getProcTable()->insertProc(parentNode->getValue());
+			PKB::getPKB()->getProcTable()->setTRoot(callerIndex, parentNode);
 			//////////////////////
 			//calls
 			/////////////////////
@@ -122,7 +125,9 @@ void DesignExtractor::extractVariousRelationship(TNode* node){
 				while(parentNode->getTType() != EMPTYN){
 					if(isPrimaryNode(parentNode)){
 						PKB::getPKB()->getModifies()->setModifiesStmt(varIndex, parentNode->getStmtLine());
-						PROCINDEX procIndex = PKB::getPKB()->getProcTable()->insertProc(parentNode->getParentByTType(PROCEDUREN)->getValue());
+						TNode* procNode = parentNode->getParentByTType(PROCEDUREN);
+						PROCINDEX procIndex = PKB::getPKB()->getProcTable()->insertProc(procNode->getValue());
+						PKB::getPKB()->getProcTable()->setTRoot(procIndex, procNode);
 						PKB::getPKB()->getModifies()->setModifiesProc(procIndex, varIndex);
 					}
 					parentNode = parentNode->getParentNode();
@@ -158,7 +163,9 @@ void DesignExtractor::extractVariousRelationship(TNode* node){
 						////////////////////////
 						VARINDEX varIndex = PKB::getPKB()->getVarTable()->insertVar(usedVarNodes[b]->getValue());
 						PKB::getPKB()->getUses()->setUsesStmt(varIndex, parentNode->getStmtLine());
-						PROCINDEX procIndex = PKB::getPKB()->getProcTable()->insertProc(parentNode->getParentByTType(PROCEDUREN)->getValue());
+						TNode* procNode = parentNode->getParentByTType(PROCEDUREN);
+						PROCINDEX procIndex = PKB::getPKB()->getProcTable()->insertProc(procNode->getValue());
+						PKB::getPKB()->getProcTable()->setTRoot(procIndex, procNode);
 						PKB::getPKB()->getUses()->setUsesProc(procIndex, varIndex);
 					}
 				}
@@ -178,7 +185,9 @@ void DesignExtractor::extractVariousRelationship(TNode* node){
 			while(parentNode->getTType() != EMPTYN){
 				if(isPrimaryNode(parentNode)){
 					PKB::getPKB()->getUses()->setUsesStmt(varIndex, parentNode->getStmtLine());
-					PROCINDEX procIndex = PKB::getPKB()->getProcTable()->insertProc(parentNode->getParentByTType(PROCEDUREN)->getValue());
+					TNode* procNode = parentNode->getParentByTType(PROCEDUREN);
+					PROCINDEX procIndex = PKB::getPKB()->getProcTable()->insertProc(procNode->getValue());
+					PKB::getPKB()->getProcTable()->setTRoot(procIndex, procNode);
 					PKB::getPKB()->getUses()->setUsesProc(procIndex, varIndex);
 				}
 				parentNode = parentNode->getParentNode();
