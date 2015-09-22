@@ -165,6 +165,7 @@ pair<QNode*, RefType> QueryPreprocessorCondition::processWithReference(string re
 }
 
 void QueryPreprocessorCondition::processPattern(string pattern_string) {
+
 	int open_bracket_position = pattern_string.find("(");
 	if (open_bracket_position == string::npos) {
 		is_valid = false;
@@ -185,9 +186,56 @@ void QueryPreprocessorCondition::processPattern(string pattern_string) {
 	}
 
 	if (declaration->getSynonymType(pattern_synonym) == "if") {
-		// TODO : Support the pattern if the synonym is IF synonym
+		int second_comma_position = pattern_string.find(",", comma_position);
+		string pattern_middle_hand = QueryPreprocessor::trim(pattern_string.substr(comma_position + 1, second_comma_position - (comma_position + 1)));
+		int closed_bracket_position = pattern_string.length() - 1;
+		if (pattern_string.at(closed_bracket_position) != ')') {
+			is_valid = false;
+			return;
+		}
+		string pattern_right_hand = QueryPreprocessor::trim(pattern_string.substr(second_comma_position + 1, closed_bracket_position - (second_comma_position + 1)));
+		QNode* pattern_node = new QNode(PATTERNIF, "");
+		QNode* while_synonym_node = declaration->getSynonymTypeNode(pattern_synonym);
+		QNode* left_pattern_node = parseRef(pattern_left_hand);
+		QNode* middle_pattern_node = parseRef(pattern_middle_hand);
+		QNode* right_pattern_node = parseRef(pattern_right_hand);
+		if (left_pattern_node == NULL || middle_pattern_node == NULL || right_pattern_node == NULL) {
+			is_valid = false;
+			return;
+		}
+		if (left_pattern_node->getQType() != ANY || middle_pattern_node->getQType() != ANY || right_pattern_node->getQType() != ANY) {
+			is_valid = false;
+			return;
+		}
+		pattern_node->addChild(while_synonym_node);
+		pattern_node->addChild(left_pattern_node);
+		pattern_node->addChild(middle_pattern_node);
+		pattern_node->addChild(right_pattern_node);
+		condition_root->addChild(pattern_node);
+
 	} else if (declaration->getSynonymType(pattern_synonym) == "while") {
-		// TODO : Support the pattern if the synonym is ASSIGN synonym
+		int closed_bracket_position = pattern_string.length() - 1;
+		if (pattern_string.at(closed_bracket_position) != ')') {
+			is_valid = false;
+			return;
+		}
+		string pattern_right_hand = QueryPreprocessor::trim(pattern_string.substr(comma_position + 1, closed_bracket_position - (comma_position + 1)));
+		QNode* pattern_node = new QNode(PATTERNWHILE, "");
+		QNode* while_synonym_node = declaration->getSynonymTypeNode(pattern_synonym);
+		QNode* left_pattern_node = parseRef(pattern_left_hand);
+		QNode* right_pattern_node = parseRef(pattern_right_hand);
+		if (left_pattern_node == NULL || right_pattern_node == NULL) {
+			is_valid = false;
+			return;
+		}
+		if (left_pattern_node->getQType() != ANY || right_pattern_node->getQType() != ANY) {
+			is_valid = false;
+			return;
+		}
+		pattern_node->addChild(while_synonym_node);
+		pattern_node->addChild(left_pattern_node);
+		pattern_node->addChild(right_pattern_node);
+		condition_root->addChild(pattern_node);
 	} else if (declaration->getSynonymType(pattern_synonym) == "assign") {
 		int closed_bracket_position = pattern_string.length() - 1;
 		if (pattern_string.at(closed_bracket_position) != ')') {
@@ -201,7 +249,7 @@ void QueryPreprocessorCondition::processPattern(string pattern_string) {
 		}
 
 		string pattern_right_hand_remove_quote = removeExpressionQuote(pattern_right_hand);
-		QNode* pattern_node = new QNode(PATTERN, "");
+		QNode* pattern_node = new QNode(PATTERNASSIGN, "");
 		QNode* assign_synonym_node = declaration->getSynonymTypeNode(pattern_synonym);
 		QNode* left_pattern_node = parseRef(pattern_left_hand);
 		QNode* right_pattern_node = new QNode(EXPRESSION, pattern_right_hand_remove_quote);
@@ -221,6 +269,9 @@ void QueryPreprocessorCondition::processPattern(string pattern_string) {
 			is_valid = false;
 			return;
 		}
+	} else {
+		is_valid = false;
+		return;
 	}
 }
 

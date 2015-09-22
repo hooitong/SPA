@@ -129,7 +129,7 @@ void QueryPreprocessorTest::testPatternCondition() {
   expected->addChild(expectedRoot, expectedConditionList);
   QNode* expectedResult = expected->createNode(ASSIGNSYNONYM, "a");
   expected->addChild(expectedResultList, expectedResult);
-  QNode* expectedPatternNode = expected->createNode(PATTERN, "");
+  QNode* expectedPatternNode = expected->createNode(PATTERNASSIGN, "");
   QNode* expectedPatternChild1 = expected->createNode(ASSIGNSYNONYM, "a");
   QNode* expectedPatternChild2 = expected->createNode(ANY, "");
   QNode* expectedPatternChild3 = expected->createNode(EXPRESSION, "_");
@@ -154,7 +154,7 @@ void QueryPreprocessorTest::testPatternCondition1() {
   QNode* expectedResult = expected->createNode(ASSIGNSYNONYM, "a");
   expected->addChild(expectedResultList, expectedResult);
 
-  QNode* expectedPatternNode = expected->createNode(PATTERN, "");
+  QNode* expectedPatternNode = expected->createNode(PATTERNASSIGN, "");
   QNode* expectedPatternChild1 = expected->createNode(ASSIGNSYNONYM, "a");
   QNode* expectedPatternChild2 = expected->createNode(ANY, "");
   QNode* expectedPatternChild3 = expected->createNode(EXPRESSION, "_x_");
@@ -186,7 +186,7 @@ void QueryPreprocessorTest::testPatternCondition2() {
   expected->addChild(expectedRoot, expectedConditionList);
   QNode* expectedResult = expected->createNode(ASSIGNSYNONYM, "a");
   expected->addChild(expectedResultList, expectedResult);
-  QNode* expectedPatternNode = expected->createNode(PATTERN, "");
+  QNode* expectedPatternNode = expected->createNode(PATTERNASSIGN, "");
   QNode* expectedPatternChild1 = expected->createNode(ASSIGNSYNONYM, "a");
   QNode* expectedPatternChild2 = expected->createNode(ANY, "");
   QNode* expectedPatternChild3 = expected->createNode(EXPRESSION, "_x+y_");
@@ -210,7 +210,7 @@ void QueryPreprocessorTest::testPatternCondition3() {
   expected->addChild(expectedRoot, expectedConditionList);
   QNode* expectedResult = expected->createNode(ASSIGNSYNONYM, "a");
   expected->addChild(expectedResultList, expectedResult);
-  QNode* expectedPatternNode = expected->createNode(PATTERN, "");
+  QNode* expectedPatternNode = expected->createNode(PATTERNASSIGN, "");
   QNode* expectedPatternChild1 = expected->createNode(ASSIGNSYNONYM, "a");
   QNode* expectedPatternChild2 = expected->createNode(VAR, "b");
   QNode* expectedPatternChild3 = expected->createNode(EXPRESSION, "_x+y_");
@@ -234,7 +234,7 @@ void QueryPreprocessorTest::testPatternCondition4() {
   expected->addChild(expectedRoot, expectedConditionList);
   QNode* expectedResult = expected->createNode(ASSIGNSYNONYM, "a");
   expected->addChild(expectedResultList, expectedResult);
-  QNode* expectedPatternNode = expected->createNode(PATTERN, "");
+  QNode* expectedPatternNode = expected->createNode(PATTERNASSIGN, "");
   QNode* expectedPatternChild1 = expected->createNode(ASSIGNSYNONYM, "a");
   QNode* expectedPatternChild2 = expected->createNode(VARIABLESYNONYM, "b");
   QNode* expectedPatternChild3 = expected->createNode(EXPRESSION, "_x+y_");
@@ -258,7 +258,7 @@ void QueryPreprocessorTest::testPatternCondition5() {
   expected->addChild(expectedRoot, expectedConditionList);
   QNode* expectedResult = expected->createNode(ASSIGNSYNONYM, "a");
   expected->addChild(expectedResultList, expectedResult);
-  QNode* expectedPatternNode = expected->createNode(PATTERN, "");
+  QNode* expectedPatternNode = expected->createNode(PATTERNASSIGN, "");
   QNode* expectedPatternChild1 = expected->createNode(ASSIGNSYNONYM, "a");
   QNode* expectedPatternChild2 = expected->createNode(ANY, "");
   QNode* expectedPatternChild3 = expected->createNode(EXPRESSION, "_delta + 1 + width + Romeo_");
@@ -994,7 +994,7 @@ void QueryPreprocessorTest::testMultiplePatternAndMultipleSuchThat() {
   expected->addChild(expectedConditionList, expectedSuchThat1);
   expected->addChild(expectedConditionList, expectedSuchThat2);
 
-  QNode* expectedPatternNode = expected->createNode(PATTERN, "");
+  QNode* expectedPatternNode = expected->createNode(PATTERNASSIGN, "");
   QNode* expectedPatternChild1 = expected->createNode(ASSIGNSYNONYM, "a");
   QNode* expectedPatternChild2 = expected->createNode(VARIABLESYNONYM, "b");
   QNode* expectedPatternChild3 = expected->createNode(EXPRESSION, "_x+y_");
@@ -1038,7 +1038,7 @@ void QueryPreprocessorTest::testMultipleReturnAndPatternAndSuchThat() {
   expected->addChild(expectedConditionList, expectedSuchThat1);
   expected->addChild(expectedConditionList, expectedSuchThat2);
 
-  QNode* expectedPatternNode1 = expected->createNode(PATTERN, "");
+  QNode* expectedPatternNode1 = expected->createNode(PATTERNASSIGN, "");
   QNode* expectedPatternChild11 = expected->createNode(ASSIGNSYNONYM, "a");
   QNode* expectedPatternChild12 = expected->createNode(VAR, "b");
   QNode* expectedPatternChild13 = expected->createNode(EXPRESSION, "_x+y_");
@@ -1047,7 +1047,7 @@ void QueryPreprocessorTest::testMultipleReturnAndPatternAndSuchThat() {
   expected->addChild(expectedPatternNode1, expectedPatternChild13);
   expected->addChild(expectedConditionList, expectedPatternNode1);
 
-  QNode* expectedPatternNode2 = expected->createNode(PATTERN, "");
+  QNode* expectedPatternNode2 = expected->createNode(PATTERNASSIGN, "");
   QNode* expectedPatternChild21 = expected->createNode(ASSIGNSYNONYM, "a");
   QNode* expectedPatternChild22 = expected->createNode(ANY, "");
   QNode* expectedPatternChild23 = expected->createNode(EXPRESSION, "(x+y)*z");
