@@ -179,6 +179,15 @@ void QueryPreprocessorCondition::processPattern(string pattern_string) {
 	
 	string pattern_synonym = QueryPreprocessor::trim(pattern_string.substr(0, open_bracket_position));
 	string pattern_left_hand = QueryPreprocessor::trim(pattern_string.substr(open_bracket_position + 1, comma_position - (open_bracket_position + 1)));
+	QNode* left_pattern_node = parseRef(pattern_left_hand);
+	if (left_pattern_node == NULL) {
+		is_valid = false;
+		return;
+	}
+	if (left_pattern_node->getQType() != VARIABLESYNONYM && left_pattern_node->getQType() != VAR && left_pattern_node->getQType() != ANY) {
+		is_valid = false;
+		return;
+	}
 
 	if (!declaration->isDeclaredSynonym(pattern_synonym)) {
 		is_valid = false;
@@ -186,7 +195,7 @@ void QueryPreprocessorCondition::processPattern(string pattern_string) {
 	}
 
 	if (declaration->getSynonymType(pattern_synonym) == "if") {
-		int second_comma_position = pattern_string.find(",", comma_position);
+		int second_comma_position = pattern_string.find(",", comma_position + 1);
 		string pattern_middle_hand = QueryPreprocessor::trim(pattern_string.substr(comma_position + 1, second_comma_position - (comma_position + 1)));
 		int closed_bracket_position = pattern_string.length() - 1;
 		if (pattern_string.at(closed_bracket_position) != ')') {
@@ -196,14 +205,14 @@ void QueryPreprocessorCondition::processPattern(string pattern_string) {
 		string pattern_right_hand = QueryPreprocessor::trim(pattern_string.substr(second_comma_position + 1, closed_bracket_position - (second_comma_position + 1)));
 		QNode* pattern_node = new QNode(PATTERNIF, "");
 		QNode* while_synonym_node = declaration->getSynonymTypeNode(pattern_synonym);
-		QNode* left_pattern_node = parseRef(pattern_left_hand);
+		
 		QNode* middle_pattern_node = parseRef(pattern_middle_hand);
 		QNode* right_pattern_node = parseRef(pattern_right_hand);
-		if (left_pattern_node == NULL || middle_pattern_node == NULL || right_pattern_node == NULL) {
+		if (middle_pattern_node == NULL || right_pattern_node == NULL) {
 			is_valid = false;
 			return;
 		}
-		if (left_pattern_node->getQType() != ANY || middle_pattern_node->getQType() != ANY || right_pattern_node->getQType() != ANY) {
+		if (middle_pattern_node->getQType() != ANY || right_pattern_node->getQType() != ANY) {
 			is_valid = false;
 			return;
 		}
@@ -222,13 +231,12 @@ void QueryPreprocessorCondition::processPattern(string pattern_string) {
 		string pattern_right_hand = QueryPreprocessor::trim(pattern_string.substr(comma_position + 1, closed_bracket_position - (comma_position + 1)));
 		QNode* pattern_node = new QNode(PATTERNWHILE, "");
 		QNode* while_synonym_node = declaration->getSynonymTypeNode(pattern_synonym);
-		QNode* left_pattern_node = parseRef(pattern_left_hand);
 		QNode* right_pattern_node = parseRef(pattern_right_hand);
-		if (left_pattern_node == NULL || right_pattern_node == NULL) {
+		if (right_pattern_node == NULL) {
 			is_valid = false;
 			return;
 		}
-		if (left_pattern_node->getQType() != ANY || right_pattern_node->getQType() != ANY) {
+		if (right_pattern_node->getQType() != ANY) {
 			is_valid = false;
 			return;
 		}
@@ -251,24 +259,12 @@ void QueryPreprocessorCondition::processPattern(string pattern_string) {
 		string pattern_right_hand_remove_quote = removeExpressionQuote(pattern_right_hand);
 		QNode* pattern_node = new QNode(PATTERNASSIGN, "");
 		QNode* assign_synonym_node = declaration->getSynonymTypeNode(pattern_synonym);
-		QNode* left_pattern_node = parseRef(pattern_left_hand);
 		QNode* right_pattern_node = new QNode(EXPRESSION, pattern_right_hand_remove_quote);
 
-		if (left_pattern_node == NULL) {
-			is_valid = false;
-			return;
-		}
-
-		if (left_pattern_node->getQType() == VAR || left_pattern_node->getQType() == VARIABLESYNONYM
-		    || left_pattern_node->getQType() == ANY) {
-			pattern_node->addChild(assign_synonym_node);
-			pattern_node->addChild(left_pattern_node);
-			pattern_node->addChild(right_pattern_node);
-			condition_root->addChild(pattern_node);
-		} else {
-			is_valid = false;
-			return;
-		}
+		pattern_node->addChild(assign_synonym_node);
+		pattern_node->addChild(left_pattern_node);
+		pattern_node->addChild(right_pattern_node);
+		condition_root->addChild(pattern_node);
 	} else {
 		is_valid = false;
 		return;

@@ -17,6 +17,10 @@ class QueryPreprocessorTest : public CPPUNIT_NS::TestFixture {
   CPPUNIT_TEST(testPatternCondition3);
   CPPUNIT_TEST(testPatternCondition4);
   CPPUNIT_TEST(testPatternCondition5);
+  CPPUNIT_TEST(testPatternIfCondition);
+  CPPUNIT_TEST(testPatternWhileCondition);
+  CPPUNIT_TEST(testPatternWhileIfCondition);
+  CPPUNIT_TEST(testPatternWhileIfAssignCondition);
   CPPUNIT_TEST(testSuchThatCondition);
   CPPUNIT_TEST(testSuchThatCondition1);
   CPPUNIT_TEST(testSuchThatCondition2);
@@ -40,6 +44,7 @@ class QueryPreprocessorTest : public CPPUNIT_NS::TestFixture {
   CPPUNIT_TEST(testPatternInvalid3);
   CPPUNIT_TEST(testPatternInvalid4);
   CPPUNIT_TEST(testPatternInvalid5);
+  CPPUNIT_TEST(testPatternInvalid6);
   //CPPUNIT_TEST(testWithInvalid);
   //CPPUNIT_TEST(testWithInvalid1);
   //CPPUNIT_TEST(testWithInvalid2);
@@ -72,6 +77,10 @@ public:
   void testPatternCondition3();
   void testPatternCondition4();
   void testPatternCondition5();
+  void testPatternIfCondition();
+  void testPatternWhileCondition();
+  void testPatternWhileIfCondition();
+  void testPatternWhileIfAssignCondition();
   void testSuchThatCondition();
   void testSuchThatCondition1();
   void testSuchThatCondition2();
@@ -94,6 +103,7 @@ public:
   void testPatternInvalid3();
   void testPatternInvalid4();
   void testPatternInvalid5();
+  void testPatternInvalid6();
   void testWithInvalid();
   void testWithInvalid1();
   void testWithInvalid2();

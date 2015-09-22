@@ -269,6 +269,137 @@ void QueryPreprocessorTest::testPatternCondition5() {
   CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
 
+void QueryPreprocessorTest::testPatternIfCondition() {
+  queryTest = new QueryPreprocessor();
+  QueryTree* achieved = queryTest->parseQuery("assign a; if i; Select BOOLEAN pattern i ( _ , _,   _ )");
+  CPPUNIT_ASSERT(achieved != NULL);
+  QueryTree* expected = new QueryTree();
+  QNode* expectedRoot = expected->createNode(QUERY, "");
+  QNode* expectedResultList = expected->createNode(RESULTLIST, "");
+  QNode* expectedConditionList = expected->createNode(CONDITIONLIST, "");
+  expected->setAsRoot(expectedRoot);
+  expected->addChild(expectedRoot, expectedResultList);
+  expected->addChild(expectedRoot, expectedConditionList);
+  QNode* expectedResult = expected->createNode(BOOLEAN, "");
+  expected->addChild(expectedResultList, expectedResult);
+
+  QNode* expectedPatternNode = expected->createNode(PATTERNIF, "");
+  QNode* expectedPatternChild1 = expected->createNode(IFSYNONYM, "i");
+  QNode* expectedPatternChild2 = expected->createNode(ANY, "");
+  QNode* expectedPatternChild3 = expected->createNode(ANY, "");
+  QNode* expectedPatternChild4 = expected->createNode(ANY, "");
+  expected->addChild(expectedPatternNode, expectedPatternChild1);
+  expected->addChild(expectedPatternNode, expectedPatternChild2);
+  expected->addChild(expectedPatternNode, expectedPatternChild3);
+  expected->addChild(expectedPatternNode, expectedPatternChild4);
+  expected->addChild(expectedConditionList, expectedPatternNode);
+  CPPUNIT_ASSERT(achieved->isEqual(expected));
+}
+
+void QueryPreprocessorTest::testPatternWhileCondition() {
+  queryTest = new QueryPreprocessor();
+  QueryTree* achieved = queryTest->parseQuery("assign a; while w; Select BOOLEAN pattern w ( _,   _ )");
+  CPPUNIT_ASSERT(achieved != NULL);
+  QueryTree* expected = new QueryTree();
+  QNode* expectedRoot = expected->createNode(QUERY, "");
+  QNode* expectedResultList = expected->createNode(RESULTLIST, "");
+  QNode* expectedConditionList = expected->createNode(CONDITIONLIST, "");
+  expected->setAsRoot(expectedRoot);
+  expected->addChild(expectedRoot, expectedResultList);
+  expected->addChild(expectedRoot, expectedConditionList);
+  QNode* expectedResult = expected->createNode(BOOLEAN, "");
+  expected->addChild(expectedResultList, expectedResult);
+
+  QNode* expectedPatternNode = expected->createNode(PATTERNWHILE, "");
+  QNode* expectedPatternChild1 = expected->createNode(WHILESYNONYM, "w");
+  QNode* expectedPatternChild2 = expected->createNode(ANY, "");
+  QNode* expectedPatternChild3 = expected->createNode(ANY, "");
+  expected->addChild(expectedPatternNode, expectedPatternChild1);
+  expected->addChild(expectedPatternNode, expectedPatternChild2);
+  expected->addChild(expectedPatternNode, expectedPatternChild3);
+  expected->addChild(expectedConditionList, expectedPatternNode);
+  CPPUNIT_ASSERT(achieved->isEqual(expected));
+}
+
+void QueryPreprocessorTest::testPatternWhileIfCondition() {
+  queryTest = new QueryPreprocessor();
+  QueryTree* achieved = queryTest->parseQuery("assign a; while w; if i; Select BOOLEAN pattern w ( _,   _ ) and i ( _ , _,_ )" );
+  CPPUNIT_ASSERT(achieved != NULL);
+  QueryTree* expected = new QueryTree();
+  QNode* expectedRoot = expected->createNode(QUERY, "");
+  QNode* expectedResultList = expected->createNode(RESULTLIST, "");
+  QNode* expectedConditionList = expected->createNode(CONDITIONLIST, "");
+  expected->setAsRoot(expectedRoot);
+  expected->addChild(expectedRoot, expectedResultList);
+  expected->addChild(expectedRoot, expectedConditionList);
+  QNode* expectedResult = expected->createNode(BOOLEAN, "");
+  expected->addChild(expectedResultList, expectedResult);
+
+  QNode* expectedPatternNode1 = expected->createNode(PATTERNWHILE, "");
+  QNode* expectedPatternChild11 = expected->createNode(WHILESYNONYM, "w");
+  QNode* expectedPatternChild12 = expected->createNode(ANY, "");
+  QNode* expectedPatternChild13 = expected->createNode(ANY, "");
+  QNode* expectedPatternNode2 = expected->createNode(PATTERNIF, "");
+  QNode* expectedPatternChild21 = expected->createNode(IFSYNONYM, "i");
+  QNode* expectedPatternChild22 = expected->createNode(ANY, "");
+  QNode* expectedPatternChild23 = expected->createNode(ANY, "");
+  QNode* expectedPatternChild24 = expected->createNode(ANY, "");
+  expected->addChild(expectedPatternNode1, expectedPatternChild11);
+  expected->addChild(expectedPatternNode1, expectedPatternChild12);
+  expected->addChild(expectedPatternNode1, expectedPatternChild13);
+  expected->addChild(expectedPatternNode2, expectedPatternChild21);
+  expected->addChild(expectedPatternNode2, expectedPatternChild22);
+  expected->addChild(expectedPatternNode2, expectedPatternChild23);
+  expected->addChild(expectedPatternNode2, expectedPatternChild24);
+  expected->addChild(expectedConditionList, expectedPatternNode1);
+  expected->addChild(expectedConditionList, expectedPatternNode2);
+  CPPUNIT_ASSERT(achieved->isEqual(expected));
+}
+
+void QueryPreprocessorTest::testPatternWhileIfAssignCondition() {
+  queryTest = new QueryPreprocessor();
+  QueryTree* achieved = queryTest->parseQuery("assign a; while w; if i; variable v; Select BOOLEAN pattern w ( \"v\" ,   _ ) and i ( v , _,_ ) and a( _, _)" );
+  CPPUNIT_ASSERT(achieved != NULL);
+  QueryTree* expected = new QueryTree();
+  QNode* expectedRoot = expected->createNode(QUERY, "");
+  QNode* expectedResultList = expected->createNode(RESULTLIST, "");
+  QNode* expectedConditionList = expected->createNode(CONDITIONLIST, "");
+  expected->setAsRoot(expectedRoot);
+  expected->addChild(expectedRoot, expectedResultList);
+  expected->addChild(expectedRoot, expectedConditionList);
+  QNode* expectedResult = expected->createNode(BOOLEAN, "");
+  expected->addChild(expectedResultList, expectedResult);
+
+  QNode* expectedPatternNode1 = expected->createNode(PATTERNWHILE, "");
+  QNode* expectedPatternChild11 = expected->createNode(WHILESYNONYM, "w");
+  QNode* expectedPatternChild12 = expected->createNode(VAR, "v");
+  QNode* expectedPatternChild13 = expected->createNode(ANY, "");
+  QNode* expectedPatternNode2 = expected->createNode(PATTERNIF, "");
+  QNode* expectedPatternChild21 = expected->createNode(IFSYNONYM, "i");
+  QNode* expectedPatternChild22 = expected->createNode(VARIABLESYNONYM, "v");
+  QNode* expectedPatternChild23 = expected->createNode(ANY, "");
+  QNode* expectedPatternChild24 = expected->createNode(ANY, "");
+  QNode* expectedPatternNode3 = expected->createNode(PATTERNASSIGN, "");
+  QNode* expectedPatternChild31 = expected->createNode(ASSIGNSYNONYM, "a");
+  QNode* expectedPatternChild32 = expected->createNode(ANY, "");
+  QNode* expectedPatternChild33 = expected->createNode(EXPRESSION, "_");
+  expected->addChild(expectedPatternNode1, expectedPatternChild11);
+  expected->addChild(expectedPatternNode1, expectedPatternChild12);
+  expected->addChild(expectedPatternNode1, expectedPatternChild13);
+  expected->addChild(expectedPatternNode2, expectedPatternChild21);
+  expected->addChild(expectedPatternNode2, expectedPatternChild22);
+  expected->addChild(expectedPatternNode2, expectedPatternChild23);
+  expected->addChild(expectedPatternNode2, expectedPatternChild24);
+  expected->addChild(expectedPatternNode3, expectedPatternChild31);
+  expected->addChild(expectedPatternNode3, expectedPatternChild32);
+  expected->addChild(expectedPatternNode3, expectedPatternChild33);
+  expected->addChild(expectedConditionList, expectedPatternNode1);
+  expected->addChild(expectedConditionList, expectedPatternNode2);
+  expected->addChild(expectedConditionList, expectedPatternNode3);
+  CPPUNIT_ASSERT(achieved->isEqual(expected));
+}
+
+
 void QueryPreprocessorTest::testSuchThatCondition() {
   queryTest = new QueryPreprocessor();
   QueryTree* achieved = queryTest->parseQuery("prog_line n; assign  a; Select a such that Affects*(a,n) and Next*(13,n)");
@@ -819,6 +950,13 @@ void QueryPreprocessorTest::testPatternInvalid4() {
 void QueryPreprocessorTest::testPatternInvalid5() {
   queryTest = new QueryPreprocessor();
   QueryTree* achieved = queryTest->parseQuery("assign a;stmt s; Select a pattern a(_,\"delta\"_)");
+  CPPUNIT_ASSERT(achieved == NULL);
+}
+
+void QueryPreprocessorTest::testPatternInvalid6() {
+  queryTest = new QueryPreprocessor();
+  QueryTree* achieved = queryTest->parseQuery("assign a; while w; if i; Select BOOLEAN pattern w ( _,   _ ) and i ( _ , _ ) and a( _, _)" );
+  // pattern if must take three parameters
   CPPUNIT_ASSERT(achieved == NULL);
 }
 
