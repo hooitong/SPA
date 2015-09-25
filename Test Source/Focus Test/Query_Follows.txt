@@ -3,13 +3,13 @@ stmt s;
 Select s such that Follows(s,16);
 15
 5000
-none
 2 - Basic Follow Reverse
 stmt s;
 Select s such that Follows(15,s);
 16
+5000
 3 - Follow Jump Procedure
-stmts s;
+stmt s;
 Select s such that Follows(8,s);
 none
 5000
@@ -20,7 +20,7 @@ none
 5000
 5 - FollowStar 
 stmt s;
-Select s sucht that Follows*(35,s);
+Select s such that Follows*(35,s);
 36,37
 5000
 6 - FollowStarReverse
@@ -40,11 +40,11 @@ none
 5000
 9 - FollowStar Boolean
 stmt s;
-Select BOOLEAN such that Follows(35,36)
-true
+Select BOOLEAN such that Follows(35,36);
+TRUE
 5000
 10 - FollowStar Boolean
 stmt s;
-Select BOOLEAN such that Follow(37,38)
-false
+Select BOOLEAN such that Follow(37,38);
+FALSE
 5000
