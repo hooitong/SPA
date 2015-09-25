@@ -1,9 +1,11 @@
 1 - Basic Next Boolean false
-Select BOOLEAN such that Next(20,21)
+stmt s;
+Select BOOLEAN such that Next(20,21);
 false
 5000
 2 - Basic Next Boolean true
-Select BOOLEAN such that Next(18,19)
+stmt s;
+Select BOOLEAN such that Next(18,19);
 true
 5000
 3 - Basic Next 
@@ -20,10 +22,12 @@ Select s such that Next(s,16);
 stmt s;
 Select s such that Next(35,s);
 36,47
+5000
 6 - Next*
 stmt s;
-Select s sucht that Next(s,21);
+Select s such that Next(s,21);
 18,19
+5000
 
 
 
