@@ -7,30 +7,31 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
-    // Get the top level suite from the registry
-    CppUnit::TestSuite *suite = new CppUnit::TestSuite("All integration tests");
+  // Get the top level suite from the registry
+  CppUnit::TestSuite *suite = new CppUnit::TestSuite("All integration tests");
 
-    // Calls SPA Front-End to Parse Integration Test File
-    if(argc == 1) {
-        SPAFrontEnd::getInstance()->parseSource("integration.txt");
-    } else {
-        SPAFrontEnd::getInstance()->parseSource(argv[1]);
-    }
+  // Calls SPA Front-End to Parse Integration Test File
+  if (argc == 1) {
+    SPAFrontEnd::getInstance()->parseSource("integration.txt");
+  }
+  else {
+    SPAFrontEnd::getInstance()->parseSource(argv[1]);
+  }
 
-    suite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserFollowsTest").makeTest());
-    suite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserParentTest").makeTest());
-    suite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserModifiesTest").makeTest());
-    suite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserUsesTest").makeTest());
-    suite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserPatternTest").makeTest());
-	suite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserCallsTest").makeTest());
+  suite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserFollowsTest").makeTest());
+  suite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserParentTest").makeTest());
+  suite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserModifiesTest").makeTest());
+  suite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserUsesTest").makeTest());
+  suite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserPatternTest").makeTest());
+  suite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserCallsTest").makeTest());
 
-    CppUnit::TestFactoryRegistry::getRegistry().addTestToSuite(suite);
-    CppUnit::TextUi::TestRunner runner;
+  CppUnit::TestFactoryRegistry::getRegistry().addTestToSuite(suite);
+  CppUnit::TextUi::TestRunner runner;
 
-    runner.addTest(suite);
-    bool wasSucessful = runner.run();
+  runner.addTest(suite);
+  bool wasSucessful = runner.run();
 
-    getchar();
+  getchar();
 
-    return wasSucessful ? 0 : 1;
+  return wasSucessful?0:1;
 }

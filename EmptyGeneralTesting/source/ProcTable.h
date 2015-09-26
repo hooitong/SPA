@@ -32,4 +32,5 @@ public:
   int getSize();
   void setTRoot(PROCINDEX index, TNode * node);
   TNode* getTRoot(PROCINDEX index);
+  vector<TNode*> getAllTRoot();
 };

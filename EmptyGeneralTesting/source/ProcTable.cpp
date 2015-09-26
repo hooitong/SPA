@@ -74,3 +74,11 @@ void ProcTable::setTRoot(PROCINDEX index, TNode * node) {
 TNode* ProcTable::getTRoot(PROCINDEX index) {
   return procIndexMap[index]->astRoot;
 }
+
+vector<TNode*> ProcTable::getAllTRoot() {
+  vector<TNode*> listOfRoots;
+  for (int i = 0; i < currentMapIndex; i++) {
+    listOfRoots.push_back(procIndexMap[i]->astRoot);
+  }
+  return listOfRoots;
+}
