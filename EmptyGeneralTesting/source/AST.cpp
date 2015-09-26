@@ -86,7 +86,7 @@ bool AST::setStmtLine(TNode* node, STMTLINE stmtNumber) {
 
 bool AST::setRoot(TNode* root) {
   rootNode = root;
-  this->setRelationShip(root);
+  this->setRelationship(root);
   return true;
 }
 
@@ -180,8 +180,7 @@ bool AST::matchRightPattern(STMTLINE stmtRoot, std::string expression, bool stri
 
 }
 
-
-void AST::setRelationShip(TNode* node) {
+void AST::setRelationship(TNode* node) {
   for (int i = 0; i < node->getChildren().size(); i++) {
 
     TNode* child = node->getChildren()[i];
@@ -195,7 +194,7 @@ void AST::setRelationShip(TNode* node) {
       this->setSibling(child, rightChild);
     }
 
-    this->setRelationShip(child);
+    this->setRelationship(child);
   }
 
 }
