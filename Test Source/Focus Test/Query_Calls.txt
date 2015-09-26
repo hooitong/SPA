@@ -1,17 +1,17 @@
 1 - BasicCallTest
 procedure p, q;
 Select BOOLEAN such that Calls(p,q) with p.procName = "calvinCall" and q.procName = "winnieWhile"
-true
+TRUE
 5000
 2 - BasicCallStarTest
 procedure p, q; 
 Select BOOLEAN such that Calls*(p,q) with p.procName = "calvinCall" and q.procName = "issacIf"
-true
+TRUE
 5000
 3 - BasicCallStarTest
 procedure p, q;
 Select BOOLEAN such that Calls*(p,q) with p.procName = "winnieWhile" and q.procName = "issacIf"
-true
+TRUE
 5000
 4. - BasicCallFalse
 procedure p, q;
@@ -25,7 +25,7 @@ winnieWhile, issacIf, winnieIssac
 5000
 6 - UnconstrainedTest
 procedure p, q;
-Select p such that Calls(_,q) with q.procName = "calvinCalls"
+Select p such that Calls(_,q) with q.procName = "calvinCall"
 mandyModifies
 5000
 7 - TestShortFormLR

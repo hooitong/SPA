@@ -5,7 +5,7 @@
 #include <QNode.h>
 #include <RelationEvaluator.h>
 
-class AffectsEvaluator : RelationEvaluator {
+class AffectsEvaluator : public RelationEvaluator {
 public:
   QueryResult evaluate(QNode* node);
   AffectsEvaluator(PKB* pkb) : RelationEvaluator(pkb) {}

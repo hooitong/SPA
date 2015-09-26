@@ -26,198 +26,208 @@ void DesignExtractor::extract() {
 // parent, parentstar, follow, followstar, calls, modifies, cfg, vartable, proctable 
 // are being extracted using this function
 //
-void DesignExtractor::extractVariousRelationship(TNode* node) {
+void DesignExtractor::extractVariousRelationship(TNode* node){
 
-  ///////////////////////
-  //parent & parentstar
-  ///////////////////////
-  if (isPrimaryNode(node)) {
-    TNode* parentNode = node->getParentNode();
-    bool foundParent = false;
-    while (parentNode->getTType() != EMPTYN) {
+	///////////////////////
+	//parent & parentstar
+	///////////////////////
+	if(isPrimaryNode(node)){
+		TNode* parentNode = node->getParentNode();
+		bool foundParent = false;
+		while(parentNode->getTType() != EMPTYN){
 
-      if (isPrimaryNode(parentNode)) {
-        if (foundParent == false) {
-          PKB::getPKB()->getParent()->setParent(parentNode->getStmtLine(), node->getStmtLine());
-          PKB::getPKB()->getParent()->setParentStar(parentNode->getStmtLine(), node->getStmtLine());
-          foundParent = true;
-        }
-        else {			//already found parent, next found parent should be parentstar only		
-          PKB::getPKB()->getParent()->setParentStar(parentNode->getStmtLine(), node->getStmtLine());
-        }
-      }
+			if(isPrimaryNode(parentNode)){
+				if(foundParent == false){		
+					PKB::getPKB()->getParent()->setParent(parentNode->getStmtLine(), node->getStmtLine());
+					PKB::getPKB()->getParent()->setParentStar(parentNode->getStmtLine(), node->getStmtLine());
+					foundParent = true;
+				}
+				else{			//already found parent, next found parent should be parentstar only		
+					PKB::getPKB()->getParent()->setParentStar(parentNode->getStmtLine(), node->getStmtLine());
+				}
+			}
 
-      parentNode = parentNode->getParentNode();
+			parentNode = parentNode->getParentNode();
+		
+		}
+	}
+	
+//----------------------------------------------------
 
-    }
-  }
+	for(int i = 0; i < node->getChildren().size(); i++){
+		
+		TNode* leftNode = node->getChildren()[i];
+		TNode* rightNode = leftNode->getRightSibling();
+		if(isPrimaryNode(leftNode) && isPrimaryNode(rightNode)){
+			///////////////////////
+			//follow
+			////////////////////////
+			PKB::getPKB()->getFollows()->setFollows(leftNode->getStmtLine(), rightNode->getStmtLine());
+			///////////////////////
+			//cfg
+			////////////////////////
+			PKB::getPKB()->getCfg()->insert(leftNode->getStmtLine(), rightNode->getStmtLine(),
+					PKB::getPKB()->getProcTable()->getProcIndex(leftNode->getParentByTType(PROCEDUREN)->getValue()));
+		} 
+		
+		///////////////////////
+		//followstar
+		////////////////////////
+		while(isPrimaryNode(leftNode) && isPrimaryNode(rightNode)){
+			PKB::getPKB()->getFollows()->setFollowsStar(leftNode->getStmtLine(), rightNode->getStmtLine());
+			rightNode = rightNode->getRightSibling();
+		}
 
-  //----------------------------------------------------
+//----------------------------------------------------
 
-  for (int i = 0; i < node->getChildren().size(); i++) {
+		if(leftNode->getTType() == PROCEDUREN){
+			//////////////////////
+			//proctable
+			/////////////////////
+			PROCINDEX procIndex = PKB::getPKB()->getProcTable()->insertProc(leftNode->getValue());
+			PKB::getPKB()->getProcTable()->setTRoot(procIndex, leftNode);
+		}
 
-    TNode* leftNode = node->getChildren()[i];
-    TNode* rightNode = leftNode->getRightSibling();
-    if (isPrimaryNode(leftNode) && isPrimaryNode(rightNode)) {
-      ///////////////////////
-      //follow
-      ////////////////////////
-      PKB::getPKB()->getFollows()->setFollows(leftNode->getStmtLine(), rightNode->getStmtLine());
-      ///////////////////////
-      //cfg
-      ////////////////////////
-      PKB::getPKB()->getCfg()->insert(leftNode->getStmtLine(), rightNode->getStmtLine(),
-        PKB::getPKB()->getProcTable()->getProcIndex(leftNode->getParentByTType(PROCEDUREN)->getValue()));
-    }
+		if(leftNode->getTType() == CALLN){
+			//////////////////////
+			//proctable
+			/////////////////////
+			PROCINDEX calledIndex = PKB::getPKB()->getProcTable()->insertProc(leftNode->getValue());
+			PKB::getPKB()->getProcTable()->setTRoot(calledIndex, leftNode);
+			TNode* parentNode = leftNode->getParentNode();
+			while(parentNode->getTType() != PROCEDUREN){
+				parentNode = parentNode->getParentNode();
+			}
+			PROCINDEX callerIndex = PKB::getPKB()->getProcTable()->insertProc(parentNode->getValue());
+			PKB::getPKB()->getProcTable()->setTRoot(callerIndex, parentNode);
+			//////////////////////
+			//calls
+			/////////////////////
+			PKB::getPKB()->getCalls()->setCalls(callerIndex, calledIndex);
 
-    ///////////////////////
-    //followstar
-    ////////////////////////
-    while (isPrimaryNode(leftNode) && isPrimaryNode(rightNode)) {
-      PKB::getPKB()->getFollows()->setFollowsStar(leftNode->getStmtLine(), rightNode->getStmtLine());
-      rightNode = rightNode->getRightSibling();
-    }
-
-    //----------------------------------------------------
-
-    if (leftNode->getTType() == PROCEDUREN) {
-      //////////////////////
-      //proctable
-      /////////////////////
-      PROCINDEX procIndex = PKB::getPKB()->getProcTable()->insertProc(leftNode->getValue());
-    }
-
-    if (leftNode->getTType() == CALLN) {
-      //////////////////////
-      //proctable
-      /////////////////////
-      PROCINDEX calledIndex = PKB::getPKB()->getProcTable()->insertProc(leftNode->getValue());
-      TNode* parentNode = leftNode->getParentNode();
-      while (parentNode->getTType() != PROCEDUREN) {
-        parentNode = parentNode->getParentNode();
-      }
-      PROCINDEX callerIndex = PKB::getPKB()->getProcTable()->insertProc(parentNode->getValue());
-      //////////////////////
-      //calls
-      /////////////////////
-      PKB::getPKB()->getCalls()->setCalls(callerIndex, calledIndex);
-
-    }
-
-
-
-    //----------------------------------------------------
-
-    if (leftNode->getTType() == VARN) {
-      ///////////////////////
-      //vartable
-      ////////////////////////
-      VARINDEX varIndex = PKB::getPKB()->getVarTable()->insertVar(leftNode->getValue());
-
-      ///////////////////////
-      //modifies
-      ////////////////////////
-      TNode* parentNode = leftNode->getParentNode();
-      if (leftNode->getLeftSibling()->getTType() == EMPTYN && parentNode->getTType() == ASSIGNN) {
-        while (parentNode->getTType() != EMPTYN) {
-          if (isPrimaryNode(parentNode)) {
-            PKB::getPKB()->getModifies()->setModifiesStmt(varIndex, parentNode->getStmtLine());
-            PROCINDEX procIndex = PKB::getPKB()->getProcTable()->insertProc(parentNode->getParentByTType(PROCEDUREN)->getValue());
-            PKB::getPKB()->getModifies()->setModifiesProc(procIndex, varIndex);
-          }
-          parentNode = parentNode->getParentNode();
-        }
+		}
 
 
-      }
-    }
 
-    //----------------------------------------------------------------------
+//----------------------------------------------------
 
-    if (leftNode->getTType() == ASSIGNN) {
-      vector<TNode*> children;
-      vector<TNode*> usedVarNodes;
+		if(leftNode->getTType() == VARN){
+			///////////////////////
+			//vartable
+			////////////////////////
+			VARINDEX varIndex = PKB::getPKB()->getVarTable()->insertVar(leftNode->getValue());
+			
+			///////////////////////
+			//modifies
+			////////////////////////
+			TNode* parentNode = leftNode->getParentNode();
+			if(leftNode->getLeftSibling()->getTType() == EMPTYN && parentNode->getTType() == ASSIGNN){
+				while(parentNode->getTType() != EMPTYN){
+					if(isPrimaryNode(parentNode)){
+						PKB::getPKB()->getModifies()->setModifiesStmt(varIndex, parentNode->getStmtLine());
+						TNode* procNode = parentNode->getParentByTType(PROCEDUREN);
+						PROCINDEX procIndex = PKB::getPKB()->getProcTable()->insertProc(procNode->getValue());
+						PKB::getPKB()->getProcTable()->setTRoot(procIndex, procNode);
+						PKB::getPKB()->getModifies()->setModifiesProc(procIndex, varIndex);
+					}
+					parentNode = parentNode->getParentNode();
+				}
 
-      leftNode->getAllChildrenIncludeSub(children);
+				
+			}
+		}
 
-      for (int b = 0; b < children.size(); b++) {
-        if ((children[b]->getParentNode()->getTType() != ASSIGNN
-          || children[b]->getLeftSibling()->getTType() != EMPTYN)
-          && children[b]->getTType() == VARN) {
-          usedVarNodes.push_back(children[b]);
-        }
-      }
+//----------------------------------------------------------------------
 
-      TNode* parentNode = leftNode;
-      while (parentNode->getTType() != EMPTYN) {
-        if (isPrimaryNode(parentNode)) {
-          for (int b = 0; b < usedVarNodes.size(); b++) {
-            ///////////////////////
-            //vartable & uses
-            ////////////////////////
-            VARINDEX varIndex = PKB::getPKB()->getVarTable()->insertVar(usedVarNodes[b]->getValue());
-            PKB::getPKB()->getUses()->setUsesStmt(varIndex, parentNode->getStmtLine());
-            PROCINDEX procIndex = PKB::getPKB()->getProcTable()->insertProc(parentNode->getParentByTType(PROCEDUREN)->getValue());
-            PKB::getPKB()->getUses()->setUsesProc(procIndex, varIndex);
-          }
-        }
-        parentNode = parentNode->getParentNode();
-      }
-    }
+		if(leftNode->getTType() == ASSIGNN){
+			vector<TNode*> children;
+			vector<TNode*> usedVarNodes;
 
-    //----------------------------------------------------------------------
+			leftNode->getAllChildrenIncludeSub(children);
+			
+			for(int b = 0; b < children.size(); b++){
+				if((children[b]->getParentNode()->getTType() != ASSIGNN 
+					|| children[b]->getLeftSibling()->getTType() != EMPTYN)
+					&& children[b]->getTType() == VARN)
+				{
+					usedVarNodes.push_back(children[b]);
+				}
+			}
 
-    if (leftNode->getTType() == WHILEN || leftNode->getTType() == IFN) {
-      TNode* varNode = leftNode->getChildren()[0];
-      ///////////////////////
-      //vartable & uses
-      ////////////////////////
-      VARINDEX varIndex = PKB::getPKB()->getVarTable()->insertVar(varNode->getValue());
-      TNode* parentNode = leftNode;
-      while (parentNode->getTType() != EMPTYN) {
-        if (isPrimaryNode(parentNode)) {
-          PKB::getPKB()->getUses()->setUsesStmt(varIndex, parentNode->getStmtLine());
-          PROCINDEX procIndex = PKB::getPKB()->getProcTable()->insertProc(parentNode->getParentByTType(PROCEDUREN)->getValue());
-          PKB::getPKB()->getUses()->setUsesProc(procIndex, varIndex);
-        }
-        parentNode = parentNode->getParentNode();
-      }
-    }
-    //---------------------------------------------------------------------
+			TNode* parentNode = leftNode;
+			while(parentNode->getTType() != EMPTYN){
+				if(isPrimaryNode(parentNode)){
+					for(int b = 0; b < usedVarNodes.size(); b++){
+						///////////////////////
+						//vartable & uses
+						////////////////////////
+						VARINDEX varIndex = PKB::getPKB()->getVarTable()->insertVar(usedVarNodes[b]->getValue());
+						PKB::getPKB()->getUses()->setUsesStmt(varIndex, parentNode->getStmtLine());
+						TNode* procNode = parentNode->getParentByTType(PROCEDUREN);
+						PROCINDEX procIndex = PKB::getPKB()->getProcTable()->insertProc(procNode->getValue());
+						PKB::getPKB()->getProcTable()->setTRoot(procIndex, procNode);
+						PKB::getPKB()->getUses()->setUsesProc(procIndex, varIndex);
+					}
+				}
+				parentNode = parentNode->getParentNode();
+			}
+		}
 
-        ///////////////////////
-        //cfg
-        ////////////////////////
-    if (leftNode->getTType() == WHILEN || leftNode->getTType() == IFN) {
-      TNode* firstChildNode = leftNode->getChildren()[1]->getChildren()[0];
-      PKB::getPKB()->getCfg()->insert(leftNode->getStmtLine(), firstChildNode->getStmtLine(),
-        PKB::getPKB()->getProcTable()->getProcIndex(leftNode->getParentByTType(PROCEDUREN)->getValue()));
-    }
+//----------------------------------------------------------------------
 
-    if (leftNode->getTType() == IFN) {
-      TNode* secondChildNode = leftNode->getChildren()[2]->getChildren()[0];
-      PKB::getPKB()->getCfg()->insert(leftNode->getStmtLine(), secondChildNode->getStmtLine(),
-        PKB::getPKB()->getProcTable()->getProcIndex(leftNode->getParentByTType(PROCEDUREN)->getValue()));
-    }
+		if(leftNode->getTType() == WHILEN || leftNode->getTType() == IFN){
+			TNode* varNode = leftNode->getChildren()[0];
+			///////////////////////
+			//vartable & uses
+			////////////////////////
+			VARINDEX varIndex = PKB::getPKB()->getVarTable()->insertVar(varNode->getValue());
+			TNode* parentNode = leftNode;
+			while(parentNode->getTType() != EMPTYN){
+				if(isPrimaryNode(parentNode)){
+					PKB::getPKB()->getUses()->setUsesStmt(varIndex, parentNode->getStmtLine());
+					TNode* procNode = parentNode->getParentByTType(PROCEDUREN);
+					PROCINDEX procIndex = PKB::getPKB()->getProcTable()->insertProc(procNode->getValue());
+					PKB::getPKB()->getProcTable()->setTRoot(procIndex, procNode);
+					PKB::getPKB()->getUses()->setUsesProc(procIndex, varIndex);
+				}
+				parentNode = parentNode->getParentNode();
+			}
+		}
+//---------------------------------------------------------------------
 
-    //while looping of last node to first in cfg
-    if (leftNode->getTType() == WHILEN) {
+		///////////////////////
+		//cfg
+		////////////////////////
+		if(leftNode->getTType() == WHILEN || leftNode->getTType() == IFN){
+			TNode* firstChildNode = leftNode->getChildren()[1]->getChildren()[0];
+			PKB::getPKB()->getCfg()->insert(leftNode->getStmtLine(), firstChildNode->getStmtLine(), 
+							PKB::getPKB()->getProcTable()->getProcIndex(leftNode->getParentByTType(PROCEDUREN)->getValue()));
+		}
+		
+		if(leftNode->getTType() == IFN){
+			TNode* secondChildNode = leftNode->getChildren()[2]->getChildren()[0];
+			PKB::getPKB()->getCfg()->insert(leftNode->getStmtLine(), secondChildNode->getStmtLine(),
+							PKB::getPKB()->getProcTable()->getProcIndex(leftNode->getParentByTType(PROCEDUREN)->getValue()));
+		}
 
-      vector<TNode*> endPointNodes;
-      getNodeEndPoints(leftNode, endPointNodes);
-      for (int b = 0; b < endPointNodes.size(); b++) {
-        PKB::getPKB()->getCfg()->insert(endPointNodes[b]->getStmtLine(), leftNode->getStmtLine(),
-          PKB::getPKB()->getProcTable()->getProcIndex(leftNode->getParentByTType(PROCEDUREN)->getValue()));
-      }
+		//while looping of last node to first in cfg
+		if(leftNode->getTType() == WHILEN){
 
-    }
+			vector<TNode*> endPointNodes;
+			getNodeEndPoints(leftNode, endPointNodes);
+			for(int b = 0; b < endPointNodes.size(); b++){
+				PKB::getPKB()->getCfg()->insert(endPointNodes[b]->getStmtLine(), leftNode->getStmtLine() ,
+								PKB::getPKB()->getProcTable()->getProcIndex(leftNode->getParentByTType(PROCEDUREN)->getValue()));
+			}
+			
+		}
+	
+		
+//----------------------------------------------------------------------
 
+		extractVariousRelationship(leftNode);
 
-    //----------------------------------------------------------------------
-
-    extractVariousRelationship(leftNode);
-
-  }
+	}
 }
 
 //callstar in between different procedure is being extracted here

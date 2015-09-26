@@ -137,29 +137,17 @@ void QueryEvaluatorTest::setupTestData() {
   uObj->setUsesStmt(t, 12);
 
   AST* aObject = pkbObj->getAst();
-  aObject->addToStmtLineMap(ASSIGNN, 1);
   aObject->setStmtLine(aObject->createTNode(ASSIGNN, ""), 1);
-  aObject->addToStmtLineMap(ASSIGNN, 2);
   aObject->setStmtLine(aObject->createTNode(ASSIGNN, ""), 2);
-  aObject->addToStmtLineMap(ASSIGNN, 3);
   aObject->setStmtLine(aObject->createTNode(ASSIGNN, ""), 3);
-  aObject->addToStmtLineMap(ASSIGNN, 4);
   aObject->setStmtLine(aObject->createTNode(ASSIGNN, ""), 4);
-  aObject->addToStmtLineMap(WHILEN, 5);
   aObject->setStmtLine(aObject->createTNode(WHILEN, ""), 5);
-  aObject->addToStmtLineMap(ASSIGNN, 6);
   aObject->setStmtLine(aObject->createTNode(ASSIGNN, ""), 6);
-  aObject->addToStmtLineMap(WHILEN, 7);
   aObject->setStmtLine(aObject->createTNode(WHILEN, ""), 7);
-  aObject->addToStmtLineMap(ASSIGNN, 8);
   aObject->setStmtLine(aObject->createTNode(ASSIGNN, ""), 8);
-  aObject->addToStmtLineMap(ASSIGNN, 9);
   aObject->setStmtLine(aObject->createTNode(ASSIGNN, ""), 9);
-  aObject->addToStmtLineMap(ASSIGNN, 10);
   aObject->setStmtLine(aObject->createTNode(ASSIGNN, ""), 10);
-  aObject->addToStmtLineMap(ASSIGNN, 11);
   aObject->setStmtLine(aObject->createTNode(ASSIGNN, ""), 11);
-  aObject->addToStmtLineMap(ASSIGNN, 12);
   aObject->setStmtLine(aObject->createTNode(ASSIGNN, ""), 12);
 }
 
@@ -643,6 +631,18 @@ void QueryEvaluatorTest::testParentBoth() {
   expected.clear();
   expected.push_back("5");
   expected.push_back("7");
+  result = evaluator.evaluate(tree);
+  CPPUNIT_ASSERT(result == expected);
+
+  tree = createTree(ASSIGNSYNONYM, "a", "Parent", WHILESYNONYM, "w", ASSIGNSYNONYM, "a");
+
+  expected.clear();
+  expected.push_back("6");
+  expected.push_back("8");
+  expected.push_back("9");
+  expected.push_back("10");
+  expected.push_back("11");
+  expected.push_back("12");
   result = evaluator.evaluate(tree);
   CPPUNIT_ASSERT(result == expected);
   delete tree;

@@ -14,50 +14,50 @@ procedure winnieIssac{
 }
 
 procedure winnieWhile {
-	while a {				\\1
-		b = a;				\\2
-		while b {			\\3
-			c = d;			\\4
-			while b{		\\5 
-				c = d;} 	\\6
-			d = cb + a + 1;		\\7
-			abc = cba + abc * dbg;} \\8
-		call issacIf;}			\\9	
+	while a {				\\9
+		b = a;				\\10
+		while b {			\\11
+			c = d;			\\12
+			while b{		\\13
+				c = d;} 	\\14
+			d = cb + a + 1;		\\15
+			abc = cba + abc * dbg;} \\16
+		call issacIf;}			\\17	
 }
 
 procedure issacIf{
-	if i then{				\\1
-		if z then {			\\2
-			i = y + 1; }		\\3
+	if i then{				\\18
+		if z then {			\\19
+			i = y + 1; }		\\20
 		else {			
-			if z then {		\\4
-				i = y + 1; }	\\5
+			if z then {		\\21
+				i = y + 1; }	\\22
 			else {			
-				i = i * 1; }	\\6
+				i = i * 1; }	\\23
 			}
 		}
 	else{			
-		if z then{			\\7
-			y = i;}			\\8
+		if z then{			\\24
+			y = i;}			\\25
 		else {			
-			i = y;}			\\9
+			i = y;}			\\26
 		}				
-	x = y;}					\\10
+	x = y;}					\\27
 
 procedure mandyModifies(){ 		
-	a = b + 2;			\\1
-	if x then {			\\2
-		b = b + 3;		\\3
-		call calvinCall;}	\\4
+	a = b + 2;			\\28
+	if x then {			\\29
+		b = b + 3;		\\30
+		call calvinCall;}	\\31
 	else{			
-		c  = 2 + 1;	}	\\5
-	while x {			\\6
-		d = d +2;	}	\\7
+		c  = 2 + 1;	}	\\32
+	while x {			\\33
+		d = d +2;	}	\\34
 
 }
 
 procedure calvinCall {
-	call winnieWhile;		\\1
-	call issacIf;			\\2
-	call winnieIssac;		\\3
+	call winnieWhile;		\\35
+	call issacIf;			\\36
+	call winnieIssac;		\\37
 }

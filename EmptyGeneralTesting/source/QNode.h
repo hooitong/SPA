@@ -16,10 +16,10 @@ class QNode {
     QNode(QNodeType, string);
     ~QNode(void);
 
-    QNodeType getQType();
-    string getString();
-    vector<QNode*> getChildren();
+    QNodeType getQType() const;
+    string getString() const;
+    vector<QNode*> getChildren() const;
 
     void addChild(QNode* node);
-    bool isEqualSubtree(QNode *node);
+    bool isEqualSubtree(QNode *node) const;
 };

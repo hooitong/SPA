@@ -1,6 +1,5 @@
 #include "Uses.h"
 #include <vector>
-#include "../UnitTesting/source/CallsTest.h"
 
 /* Constructor & Destructor */
 Uses::Uses(void) {

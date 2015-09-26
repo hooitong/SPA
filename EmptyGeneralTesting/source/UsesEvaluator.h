@@ -5,22 +5,22 @@
 #include <QNode.h>
 #include <RelationEvaluator.h>
 
-class UsesEvaluator : RelationEvaluator
+class UsesEvaluator : public RelationEvaluator
 {
   public:
-    QueryResult evaluate(QNode* node);
-    UsesEvaluator(PKB* pkb): RelationEvaluator(pkb) {}
+    UsesEvaluator(PKB* pkb);
   private:
-    QueryResult evaluateSynSyn(QNode* node);
-    QueryResult evaluateSynConst(QNode* node);
-    QueryResult evaluateSynAny(QNode* node);
-    QueryResult evaluateConstSyn(QNode* node);
-    QueryResult evaluateConstConst(QNode* node);
-    QueryResult evaluateConstAny(QNode* node);
-    QueryResult evaluateProcsynSyn(QNode* node);
-    QueryResult evaluateProcsynConst(QNode* node);
-    QueryResult evaluateProcsynAny(QNode* node);
-    QueryResult evaluateProcSyn(QNode* node);
-    QueryResult evaluateProcConst(QNode* node);
-    QueryResult evaluateProcAny(QNode* node);
+    bool solveConstConst(const int left, const int right, const QueryResult& result) const;
+    vector<int> solveConstSyn(const int left, const QueryResult& result) const;
+    vector<int> solveSynConst(const int right, const QueryResult& result) const;
+    int getConstLeft(const QNode* const node) const;
+    int getConstRight(const QNode* const node) const;
+    vector<int> getAllLeft(const QNode* const node,
+        const QueryResult &result) const;
+    vector<int> getAllRight(const QNode* const node,
+        const QueryResult &result) const;
+    bool checkRight(const QNode* const node,
+        const int tested) const;
+    bool checkLeft(const QNode* const node,
+        const int tested) const;
 };
