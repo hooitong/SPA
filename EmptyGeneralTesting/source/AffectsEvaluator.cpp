@@ -1,6 +1,10 @@
 #include "AffectsEvaluator.h"
 #include <algorithm>
 
+/*
+  TODO: Code is currently unoptimized and untested. Does not use result to compute as well.
+*/
+
 AffectsEvaluator::AffectsEvaluator(PKB* pkb) : RelationEvaluator(pkb) {}
 
 bool AffectsEvaluator::solveConstConst(const int left, const int right, const QueryResult& result) const {
@@ -27,11 +31,35 @@ bool AffectsEvaluator::solveConstConst(const int left, const int right, const Qu
 }
 
 vector<int> AffectsEvaluator::solveConstSyn(const int left, const QueryResult& result) const {
+  /* Retrieve all statements reached by left */
+  vector<STMTLINE> possibleRight = pkb->getNext()->getNextStar(left);
 
+  /* TODO: Lazy implementation by computing one by one */
+  vector<STMTLINE> resultRight;
+  for (int i = 0; i < possibleRight.size(); i++) {
+    /* Only applies to assignment statements */
+    if (pkb->getAst()->getTNode(possibleRight[i])->getTType() == ASSIGNN) {
+      if (solveConstConst(left, possibleRight[i], result)) resultRight.push_back(possibleRight[i]);
+    }
+  }
+
+  return resultRight;
 }
 
 vector<int> AffectsEvaluator::solveSynConst(const int right, const QueryResult& result) const {
+  /* Retrieve all statements that can reach to right */
+  vector<STMTLINE> possibleLeft = pkb->getNext()->getBeforeStar(right);
 
+  /* TODO: Lazy implementation by computing one by one */
+  vector<STMTLINE> resultLeft;
+  for (int i = 0; i < possibleLeft.size(); i++) {
+    /* Only applies to assignment statements */
+    if (pkb->getAst()->getTNode(possibleLeft[i])->getTType() == ASSIGNN) {
+      if (solveConstConst(right, possibleLeft[i], result)) resultLeft.push_back(possibleLeft[i]);
+    }
+  }
+
+  return resultLeft;
 }
 
 int AffectsEvaluator::getConstLeft(const QNode* const node) const {
