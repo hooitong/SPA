@@ -1,31 +1,31 @@
 1 - Basic Next Boolean false
 stmt s;
-Select BOOLEAN such that Next(20,21);
-false
+Select BOOLEAN such that Next(20,21)
+FALSE
 5000
 2 - Basic Next Boolean true
 stmt s;
-Select BOOLEAN such that Next(18,19);
-true
+Select BOOLEAN such that Next(18,19)
+TRUE
 5000
 3 - Basic Next 
 stmt s;
-Select s such that Next(12,s);
+Select s such that Next(12,s)
 13
 5000
 4 - Basic Next Reverse
 stmt s;
-Select s such that Next(s,16);
+Select s such that Next(s,16)
 15
 5000
 5 - Next*
 stmt s;
-Select s such that Next(35,s);
+Select s such that Next*(35,s)
 36,47
 5000
 6 - Next*
 stmt s;
-Select s such that Next(s,21);
+Select s such that Next*(s,21)
 18,19
 5000
 
