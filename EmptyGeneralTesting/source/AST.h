@@ -15,7 +15,7 @@ private:
   std::pair <std::multimap<TType, STMTLINE>::iterator, std::multimap<TType, STMTLINE>::iterator> stmtRet;
   TNode* rootNode; // only support 1 procedure at the current iteration.
 
-  void setRelationShip(TNode* node);
+  void setRelationship(TNode* node);
 
 public:
   AST(void);

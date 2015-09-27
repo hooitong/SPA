@@ -21,6 +21,8 @@ void SPAFrontEnd::parseSource(const std::string fileName) {
   try {
     Parser::parse(fileName);
     Parser::buildAst();
+
+    // Call DesignExtractor static method to parse AST further into PKB.
     DesignExtractor::extract();
   }
   catch (SyntaxErrorException e) {
@@ -35,8 +37,4 @@ void SPAFrontEnd::parseSource(const std::string fileName) {
     cout << e.message();
     exit(EXIT_FAILURE);
   }
-
-
-  // Call DesignExtractor static method to parse AST further into PKB.
-  DesignExtractor::extract();
 }

@@ -247,9 +247,7 @@ void ParserUsesTest::testUsesStmt() {
 
   result = uTest->getUsedByStmt(37);
   CPPUNIT_ASSERT(matchSize(&result, 0));
-
 }
-
 
 void ParserUsesTest::testUsesProc() {
   vector<VARINDEX> result;
@@ -287,9 +285,7 @@ void ParserUsesTest::testUsesProc() {
   result = uTest->getUsedByProc(PKB::getPKB()->getProcTable()->getProcIndex("Init"));
   CPPUNIT_ASSERT(containVarIndex(&result, "a"));
   CPPUNIT_ASSERT(matchSize(&result, 1));
-
 }
-
 
 // Test whether the parser and PKB is able to capture all the Uses relationship by VarIndex
 void ParserUsesTest::testUsesVarIndex() {
@@ -339,7 +335,6 @@ void ParserUsesTest::testUsesVarIndex() {
   CPPUNIT_ASSERT(containStmtLine(&result, 27));
   CPPUNIT_ASSERT(containStmtLine(&result, 30));
   CPPUNIT_ASSERT(matchSize(&result, 10));
-
 
   result = uTest->getUsesForStmt(varTest->getVarIndex("l"));
   CPPUNIT_ASSERT(containStmtLine(&result, 4));
@@ -472,7 +467,6 @@ void ParserUsesTest::testUsesVarIndex() {
 
   result = uTest->getUsesForStmt(varTest->getVarIndex("Y1"));
   CPPUNIT_ASSERT(matchSize(&result, 0));
-
 }
 
 void ParserUsesTest::testUsesProcIndex() {
@@ -574,7 +568,6 @@ void ParserUsesTest::testUsesProcIndex() {
   result = uTest->getUsesForProc(varTest->getVarIndex("x1"));
   CPPUNIT_ASSERT(matchSize(&result, 0));
 }
-
 
 bool ParserUsesTest::containStmtLine(vector<STMTLINE> *list, STMTLINE s) {
   return find(list->begin(), list->end(), s) != list->end();

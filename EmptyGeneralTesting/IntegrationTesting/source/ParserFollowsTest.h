@@ -6,18 +6,18 @@
 #include "PKB.h"
 
 class ParserFollowsTest : public CPPUNIT_NS::TestFixture {
-    CPPUNIT_TEST_SUITE(ParserFollowsTest);
-    CPPUNIT_TEST(testFollows);
-    CPPUNIT_TEST(testFollowsStar);
-    CPPUNIT_TEST_SUITE_END();
+  CPPUNIT_TEST_SUITE(ParserFollowsTest);
+  CPPUNIT_TEST(testFollows);
+  CPPUNIT_TEST(testFollowsStar);
+  CPPUNIT_TEST_SUITE_END();
 
-  private:
-    Follows* fTest;
+private:
+  Follows* fTest;
 
-  public:
-    void setUp();
-    void tearDown();
+public:
+  void setUp();
+  void tearDown();
 
-    void testFollows();
-    void testFollowsStar();
+  void testFollows();
+  void testFollowsStar();
 };
