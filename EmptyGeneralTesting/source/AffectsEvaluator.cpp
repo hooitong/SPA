@@ -1,89 +1,83 @@
 #include "AffectsEvaluator.h"
+#include <algorithm>
 
-QueryResult AffectsEvaluator::evaluate(QNode* node) {
-  QNode* leftChild = node->getChildren()[0];
-  QNode* rightChild = node->getChildren()[1];
-  if (leftChild->getQType() == ANY &&
-    rightChild->getQType() == ANY) {
-    return evaluateAnyAny(node);
-  }
-  else if (leftChild->getQType() == ANY &&
-    isSynonym(rightChild->getQType())) {
-    return evaluateAnySyn(node);
-  }
-  else if (leftChild->getQType() == ANY &&
-    rightChild->getQType() == CONST) {
-    return evaluateAnyConst(node);
-  }
-  else if (isSynonym(leftChild->getQType()) &&
-    rightChild->getQType() == ANY) {
-    return evaluateSynAny(node);
-  }
-  else if (isSynonym(leftChild->getQType()) &&
-    isSynonym(rightChild->getQType())) {
-    return evaluateSynSyn(node);
-  }
-  else if (isSynonym(leftChild->getQType()) &&
-    rightChild->getQType() == CONST) {
-    return evaluateSynConst(node);
-  }
-  else if (leftChild->getQType() == CONST &&
-    rightChild->getQType() == ANY) {
-    return evaluateConstAny(node);
-  }
-  else if (leftChild->getQType() == CONST &&
-    isSynonym(rightChild->getQType())) {
-    return evaluateConstSyn(node);
-  }
-  else if (leftChild->getQType() == CONST &&
-    rightChild->getQType() == CONST) {
-    return evaluateConstConst(node);
-  }
+AffectsEvaluator::AffectsEvaluator(PKB* pkb) : RelationEvaluator(pkb) {}
+
+bool AffectsEvaluator::solveConstConst(const int left, const int right, const QueryResult& result) const {
+  AST *ast = pkb->getAst();
+
+  /* Left and Right are Statement Lines */
+  /* Check that both statement lines are assignment statements */
+  bool isTypeCorrect = ast->getTNode(left)->getTType() == ASSIGNN && ast->getTNode(right)->getTType() == ASSIGNN;
+
+  /* Check that both are modifying and using the same variable and save variable */
+  /* TODO: Will crash if the statement does not modifies or uses */
+  VARINDEX contextVar = pkb->getModifies()->getModifiedByStmt(left)[0];
+  bool isSameContext = pkb->getUses()->getUsedByStmt(right)[0];
+
+  /* Check that there is a control path from left to right */
+  bool isContainsPath = pkb->getNext()->isNextStar(left, right);
+
+  /* Heavy computation alert! Using Next table, check the statement lines whether other variable modifies it */
+  vector<STMTLINE> path;
+  bool isNotModifiedBetween = findPathToNode(left, right, contextVar, path);
+
+  /* If all boolean is true then return true else false */
+  return isTypeCorrect && isSameContext && isContainsPath && isNotModifiedBetween;
 }
 
-QueryResult AffectsEvaluator::evaluateAnyAny(QNode* node) {
-  Modifies *modifies = pkb->getModifies();
-  Uses *uses = pkb->getUses();
-  vector<STMTLINE> leftLines = pkb->getAst()->getStmtLines(TType::STMTN);
-  return QueryResult(false);
-}
-
-QueryResult AffectsEvaluator::evaluateAnyConst(QNode* node) {
-    
-  return QueryResult(false);
-}
-
-QueryResult AffectsEvaluator::evaluateAnySyn(QNode* node) {
-    
-  return QueryResult(false);
-}
-
-QueryResult AffectsEvaluator::evaluateConstAny(QNode* node) {
-  return QueryResult(false);
+vector<int> AffectsEvaluator::solveConstSyn(const int left, const QueryResult& result) const {
 
 }
 
-QueryResult AffectsEvaluator::evaluateConstConst(QNode* node) {
-  return QueryResult(false);
+vector<int> AffectsEvaluator::solveSynConst(const int right, const QueryResult& result) const {
 
 }
 
-QueryResult AffectsEvaluator::evaluateConstSyn(QNode* node) {
-    
-  return QueryResult(false);
-}
-
-QueryResult AffectsEvaluator::evaluateSynAny(QNode* node) {
-  return QueryResult(false);
+int AffectsEvaluator::getConstLeft(const QNode* const node) const {
 
 }
 
-QueryResult AffectsEvaluator::evaluateSynConst(QNode* node) {
-  return QueryResult(false);
+int AffectsEvaluator::getConstRight(const QNode* const node) const {
 
 }
 
-QueryResult AffectsEvaluator::evaluateSynSyn(QNode* node) {
-  return QueryResult(false);
+bool AffectsEvaluator::checkLeft(const QNode* const node, const int tested) const {
 
+}
+
+bool AffectsEvaluator::checkRight(const QNode* const node, const int tested) const {
+
+}
+
+vector<int> AffectsEvaluator::getAllLeft(const QNode* const node, const QueryResult& result) const {
+
+}
+
+vector<int> AffectsEvaluator::getAllRight(const QNode* const node, const QueryResult& result) const {
+
+}
+
+bool AffectsEvaluator::findPathToNode(STMTLINE current, STMTLINE end, VARINDEX contextVar, vector<STMTLINE> path) const {
+  /* Base Case */
+  if (current == end) return true;
+
+  /* Early terminate if this stmtline cannot reach end path */
+  if (!pkb->getNext()->isNextStar(current, end)) return false;
+
+  /* Check cyclic in path */
+  if (std::find(path.begin(), path.end(), current) != path.end()) return false;
+
+  /* Check current stmtline whether it modifies variable */
+  if (path.size() != 0 && current != end && pkb->getModifies()->isModifiesForStmt(current, contextVar)) return false;
+
+  /* Get all possible next path and navigate recursively */
+  vector<STMTLINE> allNext = pkb->getNext()->getNext(current);
+  bool pathsStatus = false;
+  path.push_back(current);
+  for (int i = 0; i < allNext.size(); i++) {
+    pathsStatus = pathsStatus | findPathToNode(allNext[i], end, contextVar, path);
+  }
+
+  return pathsStatus;
 }
