@@ -29,7 +29,7 @@ void QueryTreeTest::testSetAsRoot() {
 }
 
 void QueryTreeTest::testAddChild() {
-  QNode* patternNode = queryTree->createNode(PATTERN, "");
+  QNode* patternNode = queryTree->createNode(PATTERNASSIGN, "");
   QNode* assignNode = queryTree->createNode(ASSIGNSYNONYM, "a");
   QNode* varNode = queryTree->createNode(VARIABLESYNONYM, "x");
   QNode* expressionNode = queryTree->createNode(EXPRESSION, "x + y");

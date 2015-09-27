@@ -148,7 +148,7 @@ QueryResult QueryEvaluator::evaluate(QNode* node) {
         for (int i = 0; i < (int)children.size(); i++) {
             if (children[i]->getQType() == CONDITIONLIST ||
                     children[i]->getQType() == RELATION ||
-                    children[i]->getQType() == PATTERN)
+                    children[i]->getQType() == PATTERNASSIGN)
                 result = result.merge(evaluate(children[i]));
         }
 
@@ -157,7 +157,7 @@ QueryResult QueryEvaluator::evaluate(QNode* node) {
     } else if (node->getQType() == RELATION) {
         QueryResult result = solveRelation(node);
         return result;
-    } else if (node->getQType() == PATTERN) {
+    } else if (node->getQType() == PATTERNASSIGN) {
         return solvePattern(node);
     }
 }
@@ -229,7 +229,7 @@ QueryResult QueryEvaluator::solveCallsStar(QNode* node) {
 }
 
 QueryResult QueryEvaluator::solvePattern(QNode* node) {
-    assert(node->getQType() == PATTERN);
+    assert(node->getQType() == PATTERNASSIGN);
     QNode* assignNode = node->getChildren()[0];
     QNode* varNode = node->getChildren()[1];
     string expression = node->getChildren()[2]->getString();
@@ -237,7 +237,7 @@ QueryResult QueryEvaluator::solvePattern(QNode* node) {
         vector <string> vars = pkbInstance->getVarTable()->getAllVarName();
         vector <QueryResult> results;
         for (int i = 0; i < (int) vars.size(); i++) {
-            QNode* node = new QNode(PATTERN, "");
+            QNode* node = new QNode(PATTERNASSIGN, "");
             QNode* newAssignNode = new QNode(assignNode->getQType(), assignNode->getString());
             QNode* newVarNode = new QNode(CONST, vars[i]);
             QNode* newExpressionNode = new QNode(CONST, expression);
