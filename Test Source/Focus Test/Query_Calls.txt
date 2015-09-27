@@ -16,7 +16,7 @@ TRUE
 4. - BasicCallFalse
 procedure p, q;
 Select BOOLEAN such that Calls(p,q) with p.procName = "issacIf" and q.procName = "calvinCall"
-false
+FALSE
 5000
 5 - UnconstrainedTest
 procedure p, q;

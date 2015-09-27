@@ -63,27 +63,29 @@ vector<int> AffectsEvaluator::solveSynConst(const int right, const QueryResult& 
 }
 
 int AffectsEvaluator::getConstLeft(const QNode* const node) const {
-
+  return true;
 }
 
 int AffectsEvaluator::getConstRight(const QNode* const node) const {
-
+  return true;
 }
 
 bool AffectsEvaluator::checkLeft(const QNode* const node, const int tested) const {
-
+  return true;
 }
 
 bool AffectsEvaluator::checkRight(const QNode* const node, const int tested) const {
-
+  return true;
 }
 
 vector<int> AffectsEvaluator::getAllLeft(const QNode* const node, const QueryResult& result) const {
-
+  vector<int> temp;
+  return temp;
 }
 
 vector<int> AffectsEvaluator::getAllRight(const QNode* const node, const QueryResult& result) const {
-
+  vector<int> temp;
+  return temp;
 }
 
 bool AffectsEvaluator::findPathToNode(STMTLINE current, STMTLINE end, VARINDEX contextVar, vector<STMTLINE> path) const {
