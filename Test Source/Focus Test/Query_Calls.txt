@@ -21,12 +21,12 @@ FALSE
 5 - UnconstrainedTest
 procedure p, q;
 Select q such that Calls(p,_) with p.procName = "calvinCall"
-winnieWhile, issacIf, winnieIssac
+winnieWhile, issacIf, winnieIssac,calvinCall,mandyModifies
 5000
 6 - UnconstrainedTest
 procedure p, q;
 Select p such that Calls(_,q) with q.procName = "calvinCall"
-mandyModifies
+mandyModifies,calvinCall,issacIf,winnieIssac,winnieWhile
 5000
 7 - TestShortFormLR
 procedure p;
