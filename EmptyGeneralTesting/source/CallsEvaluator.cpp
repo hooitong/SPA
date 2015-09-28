@@ -34,10 +34,18 @@ bool CallsEvaluator::checkRight(const QNode* const node, const int tested) const
 
 vector <int> CallsEvaluator::getAllLeft(const QNode* const node, 
     const QueryResult &result) const {
+    set<int> possibleValues = result.getPossibleValues(node->getChildren()[0]->getString());
+    if (possibleValues.size() > 0) {
+        return vector<int>(possibleValues.begin(), possibleValues.end());
+    }
     return pkb->getProcTable()->getAllProcIndex();
 }
 
 vector <int> CallsEvaluator::getAllRight(const QNode* const node, 
     const QueryResult &result) const {
+    set<int> possibleValues = result.getPossibleValues(node->getChildren()[1]->getString());
+    if (possibleValues.size() > 0) {
+        return vector<int>(possibleValues.begin(), possibleValues.end());
+    }
     return pkb->getProcTable()->getAllProcIndex();
 }

@@ -40,11 +40,19 @@ bool UsesEvaluator::checkRight(const QNode* const node, const int tested) const 
 
 vector <int> UsesEvaluator::getAllLeft(const QNode* const node, 
     const QueryResult &result) const {
+    set<int> possibleValues = result.getPossibleValues(node->getChildren()[0]->getString());
+    if (possibleValues.size() > 0) {
+        return vector<int>(possibleValues.begin(), possibleValues.end());
+    }
     return pkb->getAst()->getStmtLines(
         synonymToTType(node->getChildren()[0]->getQType()));
 }
 
 vector <int> UsesEvaluator::getAllRight(const QNode* const node, 
     const QueryResult &result) const {
+    set<int> possibleValues = result.getPossibleValues(node->getChildren()[1]->getString());
+    if (possibleValues.size() > 0) {
+        return vector<int>(possibleValues.begin(), possibleValues.end());
+    }
     return pkb->getVarTable()->getAllVarIndex();
 }

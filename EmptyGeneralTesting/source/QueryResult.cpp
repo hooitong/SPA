@@ -295,9 +295,9 @@ QueryResult::createExtensionMap(CROSS_INDEX_LIST matchingIndex) {
     return extensionMap;
 }
 
-set<int> QueryResult::getPossibleValues(string synonym)
+set<int> QueryResult::getPossibleValues(string synonym) const
 {
-    map<string, set<int> >::iterator it = this->possibleValues.find(synonym);
+    map<string, set<int> >::const_iterator it = possibleValues.find(synonym);
     if (it == this->possibleValues.end()) {
         return set<int>(); 
     } else {

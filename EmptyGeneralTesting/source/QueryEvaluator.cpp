@@ -97,6 +97,8 @@ vector<QueryResult> QueryEvaluator::getResultFilters(QNode* node) {
             result = pkbInstance->getVarTable()->getAllVarIndex();
         } else if (children[i]->getQType() == PROGLINESYNONYM) {
             result = pkbInstance->getAst()->getStmtLines(STMTN);
+        } else if (children[i]->getQType() == CALLSYNONYM) {
+            result = pkbInstance->getAst()->getStmtLines(CALLN);
         }
         vector<string> synonyms;
         resultList.push_back(QueryResult(result, children[i]->getString()));

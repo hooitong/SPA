@@ -42,6 +42,8 @@ TType RelationEvaluator::synonymToTType(QNodeType type) const {
         return STMTN;
     } else if (type == PROGLINESYNONYM) {
 	    return STMTN;
+    } else if (type == CALLSYNONYM) {
+        return CALLN;
     }
 }
 
@@ -207,6 +209,9 @@ void RelationEvaluator::updateSynSyn(const QNode* const node,
 }
 
 void RelationEvaluator::updateResult(const QNode* const &node, QueryResult &result) {
+    if (result.getSolutionsSize() == 0) {
+        return;
+    }
     if (node->getChildren()[0]->getQType() == ANY && 
         node->getChildren()[1]->getQType() == ANY) {
         updateAnyAny(node, result);
