@@ -23,7 +23,7 @@ Select s such that Next(s,16)
 5 - Next*
 stmt s;
 Select s such that Next*(35,s)
-36,47
+36,37
 
 5000
 6 - Next*
