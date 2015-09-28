@@ -29,6 +29,8 @@
     <ClInclude Include="..\source\Modifies.h" />
     <ClInclude Include="..\source\ModifiesEvaluator.h" />
     <ClInclude Include="..\source\Next.h" />
+    <ClInclude Include="..\source\NextEvaluator.h" />
+    <ClInclude Include="..\source\NextStarEvaluator.h" />
     <ClInclude Include="..\source\Parent.h" />
     <ClInclude Include="..\source\ParentEvaluator.h" />
     <ClInclude Include="..\source\ParentStarEvaluator.h" />
@@ -76,6 +78,8 @@
     <ClCompile Include="..\source\Modifies.cpp" />
     <ClCompile Include="..\source\ModifiesEvaluator.cpp" />
     <ClCompile Include="..\source\Next.cpp" />
+    <ClCompile Include="..\source\NextEvaluator.cpp" />
+    <ClCompile Include="..\source\NextStarEvaluator.cpp" />
     <ClCompile Include="..\source\Parent.cpp" />
     <ClCompile Include="..\source\ParentEvaluator.cpp" />
     <ClCompile Include="..\source\ParentStarEvaluator.cpp" />

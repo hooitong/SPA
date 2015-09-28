@@ -8,6 +8,8 @@
 #include "CallsStarEvaluator.h"
 #include "UsesEvaluator.h"
 #include "WithEvaluator.h"
+#include "NextEvaluator.h"
+#include "NextStarEvaluator.h"
 
 QueryEvaluator::QueryEvaluator(PKB* pkb) {
     pkbInstance = pkb;
@@ -184,6 +186,12 @@ QueryResult QueryEvaluator::solveRelation(QNode* node) {
         return solveCalls(node);
     } else if (node->getString() == "Calls*") {
         return solveCallsStar(node);
+    } else if (node->getString() == "Next") {
+        return solveNext(node);
+    } else if (node->getString() == "Next*") {
+        return solveNextStar(node);
+    } else {
+        return QueryResult(false);
     }
 }
 
@@ -229,6 +237,16 @@ QueryResult QueryEvaluator::solveCalls(QNode* node) {
 
 QueryResult QueryEvaluator::solveCallsStar(QNode* node) {
     CallsStarEvaluator eval(pkbInstance);
+    return eval.evaluate(node);
+}
+
+QueryResult QueryEvaluator::solveNext(QNode* node) {
+    NextEvaluator eval(pkbInstance);
+    return eval.evaluate(node);
+}
+
+QueryResult QueryEvaluator::solveNextStar(QNode* node) {
+    NextStarEvaluator eval(pkbInstance);
     return eval.evaluate(node);
 }
 
