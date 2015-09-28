@@ -44,7 +44,7 @@ procedure issacIf{
 		}				
 	x = y;}					\\27
 
-procedure mandyModifies(){ 		
+procedure mandyModifies{ 		
 	a = b + 2;			\\28
 	if x then {			\\29
 		b = b + 3;		\\30
