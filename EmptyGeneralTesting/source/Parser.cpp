@@ -25,7 +25,7 @@ void Parser::parse(string filename) {
 TNode* Parser::buildAst() {
   maxIndex = 0;
   TNode* root = Parser::buildNodeProcess(G_PROGRAM, 0).first;
-  if (root->getTType() == EMPTYN) {
+  if (root->getTType() == EMPTYN || maxIndex!=programTokenList.size()) {
     throw SyntaxErrorException(programTokenList.at(maxIndex).getLineNumber());
   }
   PKB::getPKB()->getAst()->setRoot(root);
