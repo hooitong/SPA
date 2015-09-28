@@ -55,7 +55,6 @@ void CallsEvaluatorTest::testSynSyn() {
   expected.push_back(make_pair(nameToIndex["D"], nameToIndex["E"]));
 
   QueryResult expectedResult(expected, "p1", "p2");
-
   CPPUNIT_ASSERT(result == expectedResult);
 }
 

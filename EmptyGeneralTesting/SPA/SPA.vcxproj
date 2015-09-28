@@ -56,6 +56,7 @@
     <ClInclude Include="..\source\VarTable.h" />
     <ClInclude Include="..\source\FollowsEvaluator.h" />
     <ClInclude Include="..\source\QueryPreprocessorDeclaration.h" />
+    <ClInclude Include="..\source\WithEvaluator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\AffectsEvaluator.cpp" />
@@ -102,6 +103,7 @@
     <ClCompile Include="..\source\VarTable.cpp" />
     <ClCompile Include="..\source\FollowsEvaluator.cpp" />
     <ClCompile Include="..\source\QueryPreprocessorDeclaration.cpp" />
+    <ClCompile Include="..\source\WithEvaluator.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DC21A1EA-D2C6-4D14-A2B4-E025B64BDE81}</ProjectGuid>

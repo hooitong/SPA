@@ -90,6 +90,7 @@
     <ClCompile Include="source\UnitTest.cpp" />
     <ClCompile Include="source\UsesTest.cpp" />
     <ClCompile Include="source\VarTableTest.cpp" />
+    <ClCompile Include="source\WithEvaluatorTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NextTest.h" />
@@ -113,6 +114,7 @@
     <ClInclude Include="source\TokenizerTest.h" />
     <ClInclude Include="source\UsesTest.h" />
     <ClInclude Include="source\VarTableTest.h" />
+    <ClInclude Include="source\WithEvaluatorTest.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

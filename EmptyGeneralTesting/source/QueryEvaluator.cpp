@@ -7,6 +7,7 @@
 #include "CallsEvaluator.h"
 #include "CallsStarEvaluator.h"
 #include "UsesEvaluator.h"
+#include "WithEvaluator.h"
 
 QueryEvaluator::QueryEvaluator(PKB* pkb) {
     pkbInstance = pkb;
@@ -148,7 +149,8 @@ QueryResult QueryEvaluator::evaluate(QNode* node) {
         for (int i = 0; i < (int)children.size(); i++) {
             if (children[i]->getQType() == CONDITIONLIST ||
                     children[i]->getQType() == RELATION ||
-                    children[i]->getQType() == PATTERNASSIGN)
+                    children[i]->getQType() == PATTERNASSIGN ||
+                    children[i]->getQType() == WITH)
                 result = result.merge(evaluate(children[i]));
         }
 
@@ -159,6 +161,8 @@ QueryResult QueryEvaluator::evaluate(QNode* node) {
         return result;
     } else if (node->getQType() == PATTERNASSIGN) {
         return solvePattern(node);
+    } else if (node->getQType() == WITH) {
+        return solveWith(node);
     }
 }
 
@@ -325,4 +329,9 @@ bool QueryEvaluator::isSynonym(QNodeType type) {
            type == PROGLINESYNONYM ||
            type == IFSYNONYM ||
            type == STMTSYNONYM;
+}
+
+QueryResult QueryEvaluator::solveWith(QNode* node) {
+    WithEvaluator eval(pkbInstance);
+    return eval.evaluate(node);
 }

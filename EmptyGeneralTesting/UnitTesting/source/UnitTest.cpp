@@ -23,6 +23,9 @@ int main(int argc, char* argv[]) {
   unitSuite->addTest(CppUnit::TestFactoryRegistry::getRegistry("UsesTest").makeTest());
   unitSuite->addTest(CppUnit::TestFactoryRegistry::getRegistry("VarTableTest").makeTest());
   unitSuite->addTest(CppUnit::TestFactoryRegistry::getRegistry("CFGTest").makeTest());
+  unitSuite->addTest(CppUnit::TestFactoryRegistry::getRegistry("CallsEvaluatorTest").makeTest());
+  unitSuite->addTest(CppUnit::TestFactoryRegistry::getRegistry("CallsStarEvaluatorTest").makeTest());
+  unitSuite->addTest(CppUnit::TestFactoryRegistry::getRegistry("WithEvaluatorTest").makeTest());
 
   CppUnit::TestFactoryRegistry::getRegistry().addTestToSuite(unitSuite);
   CppUnit::TextUi::TestRunner runner;
