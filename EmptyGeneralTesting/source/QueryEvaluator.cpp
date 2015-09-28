@@ -99,6 +99,8 @@ vector<QueryResult> QueryEvaluator::getResultFilters(QNode* node) {
             result = pkbInstance->getAst()->getStmtLines(STMTN);
         } else if (children[i]->getQType() == CALLSYNONYM) {
             result = pkbInstance->getAst()->getStmtLines(CALLN);
+        } else if (children[i]->getQType() == IFSYNONYM) {
+            result = pkbInstance->getAst()->getStmtLines(IFN);
         }
         vector<string> synonyms;
         resultList.push_back(QueryResult(result, children[i]->getString()));

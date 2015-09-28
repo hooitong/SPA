@@ -44,6 +44,8 @@ TType RelationEvaluator::synonymToTType(QNodeType type) const {
 	    return STMTN;
     } else if (type == CALLSYNONYM) {
         return CALLN;
+    } else if (type == IFSYNONYM) {
+        return IFN;
     }
 }
 
