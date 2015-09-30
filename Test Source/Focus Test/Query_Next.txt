@@ -1,37 +1,33 @@
-1 - Basic Next Boolean false
-
+1 - BasicNext Boolean false
 stmt s;
 Select BOOLEAN such that Next(20,21)
 FALSE
-5000
-2 - Basic Next Boolean true
-
+10000
+2 - BasicNext Boolean true
 stmt s;
 Select BOOLEAN such that Next(18,19)
 TRUE
-5000
-3 - Basic Next 
+10000
+3 - BasicNext 
 stmt s;
 Select s such that Next(12,s)
 13
-5000
-4 - Basic Next Reverse
+10000
+4 - BasicNext Reverse
 stmt s;
 Select s such that Next(s,16)
 15
-5000
-5 - Next*
+10000
+5 - NextStar Test
 stmt s;
 Select s such that Next*(35,s)
 36,37
-
-5000
-6 - Next*
+10000
+6 - NextTest
 stmt s;
 Select s such that Next*(s,21)
 18,19
-
-5000
+10000
 
 
 
