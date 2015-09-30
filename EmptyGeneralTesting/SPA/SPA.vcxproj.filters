@@ -159,6 +159,12 @@
     <ClCompile Include="..\source\NextStarEvaluator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\ModifiesProcEvaluator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\UsesProcEvaluator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\QueryEvaluator.h">
@@ -306,6 +312,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\source\NextStarEvaluator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ModifiesProcEvaluator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\UsesProcEvaluator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

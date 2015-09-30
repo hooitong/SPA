@@ -10,6 +10,8 @@
 #include "WithEvaluator.h"
 #include "NextEvaluator.h"
 #include "NextStarEvaluator.h"
+#include "UsesProcEvaluator.h"
+#include "ModifiesProcEvaluator.h"
 
 QueryEvaluator::QueryEvaluator(PKB* pkb) {
     pkbInstance = pkb;
@@ -183,9 +185,19 @@ QueryResult QueryEvaluator::solveRelation(QNode* node) {
     } else if (node->getString() == "Parent*") {
         return solveParentStar(node);
     } else if (node->getString() == "Modifies") {
-        return solveModifies(node);
+        if (node->getChildren()[0]->getQType() == VAR ||
+            node->getChildren()[0]->getQType() == PROCEDURESYNONYM) {
+            return solveModifiesProc(node);
+        } else {
+            return solveModifies(node);
+        }
     } else if (node->getString() == "Uses") {
-        return solveUses(node);
+        if (node->getChildren()[0]->getQType() == VAR ||
+            node->getChildren()[0]->getQType() == PROCEDURESYNONYM) {
+            return solveUsesProc(node);
+        } else {
+            return solveUses(node);
+        }
     } else if (node->getString() == "Calls") {
         return solveCalls(node);
     } else if (node->getString() == "Calls*") {
@@ -251,6 +263,16 @@ QueryResult QueryEvaluator::solveNext(QNode* node) {
 
 QueryResult QueryEvaluator::solveNextStar(QNode* node) {
     NextStarEvaluator eval(pkbInstance);
+    return eval.evaluate(node);
+}
+
+QueryResult QueryEvaluator::solveModifiesProc(QNode* node) {
+    ModifiesProcEvaluator eval(pkbInstance);
+    return eval.evaluate(node);
+}
+
+QueryResult QueryEvaluator::solveUsesProc(QNode* node) {
+    UsesProcEvaluator eval(pkbInstance);
     return eval.evaluate(node);
 }
 

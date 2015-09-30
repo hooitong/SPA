@@ -30,7 +30,9 @@ class QueryEvaluator {
     QueryResult solveParent(QNode* node);
     QueryResult solveParentStar(QNode* node);
     QueryResult solveModifies(QNode* node);
+    QueryResult solveModifiesProc(QNode* node);
     QueryResult solveUses(QNode* node);
+    QueryResult solveUsesProc(QNode* node);
     QueryResult solvePattern(QNode* node);
     QueryResult solveCalls(QNode* node);
     QueryResult solveCallsStar(QNode* node);

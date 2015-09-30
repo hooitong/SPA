@@ -28,6 +28,7 @@
     <ClInclude Include="..\source\GrammarToken.h" />
     <ClInclude Include="..\source\Modifies.h" />
     <ClInclude Include="..\source\ModifiesEvaluator.h" />
+    <ClInclude Include="..\source\ModifiesProcEvaluator.h" />
     <ClInclude Include="..\source\Next.h" />
     <ClInclude Include="..\source\NextEvaluator.h" />
     <ClInclude Include="..\source\NextStarEvaluator.h" />
@@ -55,6 +56,7 @@
     <ClInclude Include="..\source\Tokenizer.h" />
     <ClInclude Include="..\source\Uses.h" />
     <ClInclude Include="..\source\UsesEvaluator.h" />
+    <ClInclude Include="..\source\UsesProcEvaluator.h" />
     <ClInclude Include="..\source\VarTable.h" />
     <ClInclude Include="..\source\FollowsEvaluator.h" />
     <ClInclude Include="..\source\QueryPreprocessorDeclaration.h" />
@@ -77,6 +79,7 @@
     <ClCompile Include="..\source\GrammarToken.cpp" />
     <ClCompile Include="..\source\Modifies.cpp" />
     <ClCompile Include="..\source\ModifiesEvaluator.cpp" />
+    <ClCompile Include="..\source\ModifiesProcEvaluator.cpp" />
     <ClCompile Include="..\source\Next.cpp" />
     <ClCompile Include="..\source\NextEvaluator.cpp" />
     <ClCompile Include="..\source\NextStarEvaluator.cpp" />
@@ -104,6 +107,7 @@
     <ClCompile Include="..\source\Tokenizer.cpp" />
     <ClCompile Include="..\source\Uses.cpp" />
     <ClCompile Include="..\source\UsesEvaluator.cpp" />
+    <ClCompile Include="..\source\UsesProcEvaluator.cpp" />
     <ClCompile Include="..\source\VarTable.cpp" />
     <ClCompile Include="..\source\FollowsEvaluator.cpp" />
     <ClCompile Include="..\source\QueryPreprocessorDeclaration.cpp" />
