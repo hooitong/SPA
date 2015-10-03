@@ -32,6 +32,22 @@ void QueryPreprocessorTest::testNoCondition() {
   CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
 
+void QueryPreprocessorTest::testNoCondition1() {
+  queryTest = new QueryPreprocessor();
+  QueryTree* achieved = queryTest->parseQuery("if f; Select f");
+  CPPUNIT_ASSERT(achieved != NULL);
+  QueryTree* expected = new QueryTree();
+  QNode* expectedRoot = expected->createNode(QUERY, "");
+  QNode* expectedResultList = expected->createNode(RESULTLIST, "");
+  QNode* expectedConditionList = expected->createNode(CONDITIONLIST, "");
+  expected->setAsRoot(expectedRoot);
+  expected->addChild(expectedRoot, expectedResultList);
+  expected->addChild(expectedRoot, expectedConditionList);
+  QNode* expectedResult = expected->createNode(IFSYNONYM, "f");
+  expected->addChild(expectedResultList, expectedResult);
+  CPPUNIT_ASSERT(achieved->isEqual(expected));
+}
+
 void QueryPreprocessorTest::testNoConditionMoreComplex() {
   queryTest = new QueryPreprocessor();
   QueryTree* achieved = queryTest->parseQuery("stmt s1, s2; while w; assign a1, a2, a3; Select a2");

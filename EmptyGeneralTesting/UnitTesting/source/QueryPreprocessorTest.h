@@ -7,6 +7,7 @@
 class QueryPreprocessorTest : public CPPUNIT_NS::TestFixture {
   CPPUNIT_TEST_SUITE(QueryPreprocessorTest);
   CPPUNIT_TEST(testNoCondition);
+  CPPUNIT_TEST(testNoCondition1);
   CPPUNIT_TEST(testNoConditionMoreComplex);
   CPPUNIT_TEST(testOneCondition);
   CPPUNIT_TEST(testOneConditionTwoSynonyms);
@@ -67,6 +68,7 @@ public:
   void setUp();
   void tearDown();
   void testNoCondition();
+  void testNoCondition1();
   void testNoConditionMoreComplex();
   void testOneCondition();
   void testOneConditionTwoSynonyms();
