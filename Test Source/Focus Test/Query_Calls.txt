@@ -38,3 +38,25 @@ procedure q;
 Select q such that Calls(q,"calvinCall")
 mandyModifies
 5000
+9 - Test Unconstrained 2
+stmt s;
+Select BOOLEAN such that Calls("issacIf",_)
+FALSE
+5000
+10 - Test Unconstrained 2
+stmt s;
+Select BOOLEAN such that Calls(_,"mandyModifies")
+FALSE
+5000
+11 - Give all Assign
+assign a;
+Select a such that Calls(_,_)
+10,12,14,15,16,20,22,23,25,26,27,28,3,30,32,34,5,6,8
+5000
+12 - Compulsory True
+assign a;
+Select BOOLEAN such that Calls(_,_)
+TRUE
+5000
+
+
