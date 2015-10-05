@@ -1,0 +1,870 @@
+1 - SelectAll::
+constant c; 
+Select c such that Modifies(1, "a")
+1, 10, 8, 7, 6, 5, 3, 9, 64, 76, 12, 120, 0, 4, 876
+5000
+2 - SelectAll::
+prog_line n; 
+Select n such that Modifies(1, "a")
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70, 71,72
+5000
+3 - SelectAll::
+stmt s;
+Select s such that Modifies(1, "a")
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72
+5000
+4 - SelectAll::
+assign a1;
+Select a1 such that Modifies(1, "a")
+1,2,5,6,10,13,14,15,17,19,20,21,22,23,24,30,32,33,34,35,37,38,39,41,42,43,44,47,50,52,54,56,58,59,61,62,63,65,67,69,70, 72
+5000
+5 - SelectAll::
+while w1;
+Select w1 such that Modifies(1, "a")
+26,29,31,46,48,49,51,53,57,60,64
+5000
+6 - SelectAll::
+variable v; 
+Select v such that Modifies(1, "a")
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+7 - SelectAll::
+if f; 
+Select f such that Modifies(1, "a")
+3 ,9, 11 ,12 ,16, 18 ,25, 27, 28, 36, 40, 55, 68
+5000
+19 - SelectAll::
+call c; 
+Select c such that Modifies(1, "a")
+4,7,8, 45,66,71
+5000
+20 - SelectAll::
+procedure p; 
+Select p such that Modifies(1, "a")
+First, Second, Third, Forth, Fifth, Sixth
+5000
+21 - SelectAll::
+stmt s;
+Select s such that Modifies(1, "b")
+none
+5000
+8 - ModifiesAssignment::
+variable v; 
+Select v such that Modifies(1, v)
+a
+5000
+9 - ModifiesAssignment::
+variable v; 
+Select v such that Modifies(5, v)
+b
+5000
+10 - ModifiesAssignment::
+variable v; 
+Select v such that Modifies(6, v)
+e
+5000
+11 - ModifiesAssignment::
+variable v; 
+Select v such that Modifies(10, v)
+d
+5000
+12 - ModifiesAssignment::
+variable v; 
+Select v such that Modifies(17, v)
+z
+5000
+13 - ModifiesAssignment::
+variable v; 
+Select v such that Modifies(19, v)
+d
+5000
+14 - ModifiesAssignment::
+variable v; 
+Select v such that Modifies(24, v)
+w
+5000
+15 - ModifiesAssignment::
+variable v; 
+Select v such that Modifies(32, v)
+k
+5000
+16 - ModifiesAssignment::
+variable v; 
+Select v such that Modifies(41, v)
+h
+5000
+17 - ModifiesAssignment::
+variable v; 
+Select v such that Modifies(58, v)
+d
+5000
+18 - ModifiesAssignment::
+variable v; 
+Select v such that Modifies(70, v)
+a
+5000
+22 - ModifiesAssignment::
+variable v; 
+Select v such that Modifies(70, _)
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u,t
+5000
+23 - ModifiesAssignment::
+stmt s; 
+Select s such that Modifies(70, _)
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70, 71, 72
+5000
+24 - ModifiesAssignment::
+variable v; 
+Select v such that Modifies(_, _)
+none
+5000
+24 - ModifiesAssignment::
+variable v; 
+Select v such that Modifies("a", _)
+none
+5000
+24 - ModifiesAssignment::
+variable v; 
+Select v such that Modifies(v, _)
+none
+5000
+25 - ModifiesAssignment::
+variable v; 
+Select v such that Modifies(_, v)
+none
+5000
+25 - ModifiesAssignment::
+variable v; 
+Select v such that Modifies("a", v)
+none
+5000
+25 - ModifiesAssignment::
+variable v, v1; 
+Select v such that Modifies(v1, v)
+none
+5000
+26 - ModifiesAssignment::
+variable v; 
+Select v such that Modifies("k", "a")
+none
+5000
+26 - ModifiesAssignment::
+variable v; 
+Select v such that Modifies(v, "a")
+none
+5000
+26 - ModifiesAssignment::
+variable v; 
+Select v such that Modifies(_, "a")
+none
+5000
+27 - ModifiesIf::
+variable v; 
+Select v such that Modifies(3, v)
+d,k,q,a,u,f,r,h,y,i,z,b,e, t
+5000
+28 - ModifiesIf::
+variable v; 
+Select v such that Modifies(9, v)
+d,q,w,k,z,l,p
+5000
+29 - ModifiesIf::
+variable v; 
+Select v such that Modifies(3, v)
+d,k,q,a,u,f,r,h,y,i,z,b,e, t
+5000
+30 - ModifiesIf::
+variable v; 
+Select v such that Modifies(11, v)
+q,w,k,z,d,l,p
+5000
+31 - ModifiesIf::
+variable v; 
+Select v such that Modifies(12, v)
+q,w
+5000
+32 - ModifiesIf::
+variable v; 
+Select v such that Modifies(16, v)
+z,d,l
+5000
+33 - ModifiesIf::
+variable v; 
+Select v such that Modifies(27, v)
+d,k,q,a,f,r,h,y, u
+5000
+33 - ModifiesIf::
+variable v; 
+Select v such that Modifies(28, v)
+d,k,q,a
+5000
+33 - ModifiesIf::
+variable v; 
+Select v such that Modifies(36, v)
+a,f,r,h,y
+5000
+33 - ModifiesIf::
+variable v; 
+Select v such that Modifies(40, v)
+h,y
+5000
+33 - ModifiesIf::
+variable v; 
+Select v such that Modifies(68, v)
+a,t
+5000
+27 - ModifiesIf::
+variable v; 
+Select v such that Modifies(3, _)
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+28 - ModifiesIf::
+variable v; 
+Select v such that Modifies(9, _)
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+29 - ModifiesIf::
+variable v; 
+Select v such that Modifies(3,_)
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+30 - ModifiesIf::
+variable v; 
+Select v such that Modifies(11, _)
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+31 - ModifiesIf::
+variable v; 
+Select v such that Modifies(12, _)
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+32 - ModifiesIf::
+variable v; 
+Select v such that Modifies(16, _)
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+33 - ModifiesIf::
+variable v; 
+Select v such that Modifies(27,_)
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+33 - ModifiesIf::
+variable v; 
+Select v such that Modifies(28, _)
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+33 - ModifiesIf::
+variable v; 
+Select v such that Modifies(36, _ )
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+33 - ModifiesIf::
+variable v; 
+Select v such that Modifies(40, _)
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+33 - ModifiesIf::
+variable v; 
+Select v such that Modifies(68, _)
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+34 - ModifiesIf::
+variable v; 
+Select v such that Modifies(68, "a")
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+34 - ModifiesIf::
+variable v; 
+Select v such that Modifies(68, "z")
+none
+5000
+34 - ModifiesIf::
+variable v; 
+Select v such that Modifies(3, "t")
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+34 - ModifiesIf::
+variable v; 
+Select v such that Modifies(9, "a")
+none
+5000
+34 - ModifiesIf::
+variable v; 
+Select v such that Modifies(3,"t")
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+34 - ModifiesIf::
+variable v; 
+Select v such that Modifies(11, "z")
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+34 - ModifiesIf::
+variable v; 
+Select v such that Modifies(11, "w")
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+35 - ModifiesWhile::
+variable v; 
+Select v such that Modifies(26, v)
+d,k,q,a,u,f,r,h,y
+5000
+35 - ModifiesWhile::
+variable v; 
+Select v such that Modifies(29, v)
+d,k
+5000
+35 - ModifiesWhile::
+variable v; 
+Select v such that Modifies(31, v)
+k
+5000
+35 - ModifiesWhile::
+variable v; 
+Select v such that Modifies(48, v)
+q,w
+5000
+35 - ModifiesWhile::
+variable v; 
+Select v such that Modifies(51, v)
+w
+5000
+35 - ModifiesWhile::
+variable v; 
+Select v such that Modifies(57, v)
+d,l
+5000
+35 - ModifiesWhile::
+variable v; 
+Select v such that Modifies(60, v)
+d
+5000
+36 - ModifiesWhile::
+variable v; 
+Select v such that Modifies(26, _)
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+36 - ModifiesWhile::
+variable v; 
+Select v such that Modifies(29,_)
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+36 - ModifiesWhile::
+variable v; 
+Select v such that Modifies(31, _)
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+36 - ModifiesWhile::
+variable v; 
+Select v such that Modifies(48,_)
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+36 - ModifiesWhile::
+variable v; 
+Select v such that Modifies(51, _)
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+36 - ModifiesWhile::
+variable v; 
+Select v such that Modifies(57, _)
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+36 - ModifiesWhile::
+variable v; 
+Select v such that Modifies(60, _ )
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+37 - ModifiesWhile::
+variable v; 
+Select v such that Modifies(26, "h")
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+37 - ModifiesWhile::
+variable v; 
+Select v such that Modifies(26, "u")
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+37 - ModifiesWhile::
+variable v; 
+Select v such that Modifies(26, "b")
+none
+5000
+37 - ModifiesWhile::
+variable v; 
+Select v such that Modifies(29,"d")
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u,t
+5000
+37 - ModifiesWhile::
+variable v; 
+Select v such that Modifies(29,"a")
+none
+5000
+37 - ModifiesWhile::
+variable v; 
+Select v such that Modifies(31, "k")
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u,t
+5000
+37 - ModifiesWhile::
+variable v; 
+Select v such that Modifies(31, "z")
+none
+5000
+37 - ModifiesWhile::
+variable v; 
+Select v such that Modifies(48, "q")
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u,t
+5000
+37 - ModifiesWhile::
+variable v; 
+Select v such that Modifies(48,"a")
+none
+5000
+37 - ModifiesWhile::
+variable v; 
+Select v such that Modifies(60, "d")
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u,t
+5000
+37 - ModifiesWhile::
+variable v; 
+Select v such that Modifies(60, "t")
+none
+5000
+38 - ModifiesCalls::
+variable v; 
+Select v such that Modifies("First", v)
+d,k,q,a,u,f,r,h,y,i,z,b,e, t
+5000
+38 - ModifiesCalls::
+variable v; 
+Select v such that Modifies("Second", v)
+d,k,q,a,u,f,r,h,y,i,z,b,e,w,l,p, t
+5000
+38 - ModifiesCalls::
+variable v; 
+Select v such that Modifies("Third", v)
+d,k,q,a,u,f,r,h,y,i,z,t
+5000
+38 - ModifiesCalls::
+variable v; 
+Select v such that Modifies("Forth", v)
+d,k,q,a,u,f,r,h,y,i,z,w,l,p,t
+5000
+38 - ModifiesCalls::
+variable v; 
+Select v such that Modifies("Fifth", v)
+z,a, t
+5000
+38 - ModifiesCalls::
+variable v; 
+Select v such that Modifies("Sixth", v)
+t
+5000
+38 - ModifiesCalls::
+variable v; 
+Select v such that Modifies("First", _)
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+38 - ModifiesCalls::
+variable v; 
+Select v such that Modifies("Second", _)
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+38 - ModifiesCalls::
+variable v; 
+Select v such that Modifies("Third", _)
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+38 - ModifiesCalls::
+variable v; 
+Select v such that Modifies("Forth", _)
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+38 - ModifiesCalls::
+variable v; 
+Select v such that Modifies("Fifth", _)
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+38 - ModifiesCalls::
+variable v; 
+Select v such that Modifies("Sixth", _)
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+38 - ModifiesCalls::
+variable v; 
+Select v such that Modifies("First", "e")
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+38 - ModifiesCalls::
+variable v; 
+Select v such that Modifies("Second", "p")
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+38 - ModifiesCalls::
+variable v; 
+Select v such that Modifies("Third", "d")
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+38 - ModifiesCalls::
+variable v; 
+Select v such that Modifies("Forth", "i")
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+38 - ModifiesCalls::
+variable v; 
+Select v such that Modifies("Fifth", "z")
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+38 - ModifiesCalls::
+variable v; 
+Select v such that Modifies("Sixth", "t")
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+38 - ModifiesCalls::
+variable v; 
+Select v such that Modifies("First", "w")
+none
+5000
+38 - ModifiesCalls::
+variable v; 
+Select v such that Modifies("Second", "c")
+none
+5000
+38 - ModifiesCalls::
+variable v; 
+Select v such that Modifies("Third", "x")
+none
+5000
+38 - ModifiesCalls::
+variable v; 
+Select v such that Modifies("Forth", "e")
+none
+5000
+38 - ModifiesCalls::
+variable v; 
+Select v such that Modifies("Fifth", "b")
+none
+5000
+38 - ModifiesCalls::
+variable v; 
+Select v such that Modifies("Sixth", "z")
+none
+5000
+39 - ModifiesWithValueInfront::
+procedure p1;
+Select p1 such that Modifies(p1, "c")
+none
+5000
+39 - ModifiesWithValueInfront::
+procedure p1;
+Select p1 such that Modifies(p1, "z")
+First, Second, Third, Forth, Fifth
+5000
+39 - ModifiesWithValueInfront::
+procedure p1;
+Select p1 such that Modifies(p1, "t")
+First, Second, Third,Fifth, Sixth,Forth
+5000
+39 - ModifiesWithValueInfront::
+procedure p1;
+Select p1 such that Modifies(p1, "a")
+First, Second, Third, Forth, Fifth
+5000
+39 - ModifiesWithValueInfront::
+procedure p1;
+Select p1 such that Modifies(p1, _)
+First, Second, Third, Forth, Fifth, Sixth
+5000
+39 - ModifiesWithValueInfront::
+variable v; procedure p1;
+Select p1 such that Modifies(p1, v)
+First, Second, Third, Forth, Fifth, Sixth
+5000
+40 - ModifiesWithValueInfront::
+assign a1;
+Select a1 such that Modifies(a1, "c")
+none
+5000
+40 - ModifiesWithValueInfront::
+assign a1;
+Select a1 such that Modifies(a1, "z")
+17,56,67,
+5000
+40 - ModifiesWithValueInfront::
+assign a1;
+Select a1 such that Modifies(a1, "t")
+72
+5000
+40 - ModifiesWithValueInfront::
+assign a1;
+Select a1 such that Modifies(a1, "a")
+1,2,37,69,70,34
+5000
+40 - ModifiesWithValueInfront::
+assign a1;
+Select a1 such that Modifies(a1, _)
+1,2,5,6,10,13,14,15,17,19,20,21,22,23,24,30,32,33,34,35,37,38,39,41,42,43,44,47,50,52,54,56,58,59,61,62,63,65,67,69,70,72
+5000
+40 - ModifiesWithValueInfront::
+variable v; assign a1;
+Select a1 such that Modifies(a1, v)
+1,2,5,6,10,13,14,15,17,19,20,21,22,23,24,30,32,33,34,35,37,38,39,41,42,43,44,47,50,52,54,56,58,59,61,62,63,65,67,69,70,72
+5000
+41 - ModifiesWithValueInfront::
+stmt a1;
+Select a1 such that Modifies(a1, "c")
+none
+5000
+41 - ModifiesWithValueInfront::
+stmt a1;
+Select a1 such that Modifies(a1, "b")
+5,3,8
+5000
+41 - ModifiesWithValueInfront::
+stmt a1;
+Select a1 such that Modifies(a1, "k")
+15, 11,9,32,31,29,28,27,26,25,54,53,46,4,3,66,8
+5000
+41 - ModifiesWithValueInfront::
+stmt a1;
+Select a1 such that Modifies(a1, "l")
+20,18,16,11,9,59,57,55,53,46
+5000
+41 - ModifiesWithValueInfront::
+stmt a1;
+Select a1 such that Modifies(a1, _)
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70, 71,72
+5000
+41 - ModifiesWithValueInfront::
+variable v; stmt a1;
+Select a1 such that Modifies(a1, v)
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70, 71,72
+5000
+42 - ModifiesWithValueInfront::
+prog_line a1;
+Select a1 such that Modifies(a1, "c")
+none
+5000
+42 - ModifiesWithValueInfront::
+prog_line a1;
+Select a1 such that Modifies(a1, "b")
+5,3,8
+5000
+42 - ModifiesWithValueInfront::
+prog_line a1;
+Select a1 such that Modifies(a1, "k")
+15, 11,9,32,31,29,28,27,26,25,54,53,46,4,3,66,8
+5000
+42 - ModifiesWithValueInfront::
+prog_line a1;
+Select a1 such that Modifies(a1, "l")
+20,18,16,11,9,59,57,55,53,46
+5000
+42 - ModifiesWithValueInfront::
+prog_line a1;
+Select a1 such that Modifies(a1, _)
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70, 71,72
+5000
+42 - ModifiesWithValueInfront::
+variable v; prog_line a1;
+Select a1 such that Modifies(a1, v)
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70, 71,72
+5000
+431 - ModifiesWithValueInfront::
+call a1;
+Select a1 such that Modifies(a1, "p")
+none
+5000
+432 - ModifiesWithValueInfront::
+call a1;
+Select a1 such that Modifies(a1, "a")
+4,66,8,45,7
+5000
+433 - ModifiesWithValueInfront::
+call a1; variable v;
+Select a1 such that Modifies(a1, v)
+4,66,8,45,7,71
+5000
+434 - ModifiesWithValueInfront::
+call a1; variable v;
+Select a1 such that Modifies(a1, _)
+4,66,8,45,7,71
+5000
+435 - ModifiesWithValueInfront::
+call a1; variable v;
+Select v such that Modifies(a1, v)
+d,k,q,a,u,f,r,h,y,i,z,b,e, t
+5000
+436 - ModifiesWithValueInfront::
+call a1; variable v;
+Select a1 such that Modifies(a1, _)
+4,66,8,45,7,71
+5000
+437 - ModifiesWithValueInfront::
+call a1; variable v;
+Select v such that Modifies(a1, _)
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+438 - ModifiesWithValueInfront::
+call a1;
+Select a1 such that Modifies(a1, "t")
+4,66,8,45,7,71
+5000
+439 - ModifiesWithValueInfront::
+call a1;
+Select a1 such that Modifies(a1, "c")
+none
+5000
+4310 - ModifiesWithValueInfront::
+call a1;
+Select a1 such that Modifies(a1, "k")
+4,66,8
+5000
+4311 - ModifiesWithValueInfront::
+call a1;
+Select a1 such that Modifies(a1, "w")
+none
+5000
+44 - ModifiesWithValueInfront::
+if a1;
+Select a1 such that Modifies(a1, "p")
+9, 11
+5000
+44 - ModifiesWithValueInfront::
+if a1;
+Select a1 such that Modifies(a1, "a")
+3,  25, 27,28,36,68
+5000
+44 - ModifiesWithValueInfront::
+if a1;
+Select a1 such that Modifies(a1, "t")
+3,68
+5000
+44 - ModifiesWithValueInfront::
+if a1;
+Select a1 such that Modifies(a1, "c")
+none
+5000
+44 - ModifiesWithValueInfront::
+if a1;
+Select a1 such that Modifies(a1, "k")
+3, 11, 25, 27,28,9
+5000
+44 - ModifiesWithValueInfront::
+if a1;
+Select a1 such that Modifies(a1, "w")
+9, 12,11
+5000
+44 - ModifiesWithValueInfront::
+if a1; variable v;
+Select a1 such that Modifies(a1, v)
+3, 9, 11, 12, 16, 18, 25, 27,28,36,40,68,55
+5000
+44 - ModifiesWithValueInfront::
+if a1; variable v;
+Select a1 such that Modifies(a1, _)
+3, 9, 11, 12, 16, 18, 25, 27,28,36,40,68,55
+5000
+44 - ModifiesWithValueInfront::
+if a1; variable v;
+Select v such that Modifies(a1, v)
+b,e,d,q,w,k,z,l,p,a,u,f,r,h,y,i,t
+5000
+44 - ModifiesWithValueInfront::
+if a1; variable v;
+Select v such that Modifies(a1, _)
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+45 - ModifiesWithValueInfront::
+while a1;
+Select a1 such that Modifies(a1, "q")
+26,46,48,49,53
+5000
+45 - ModifiesWithValueInfront::
+while a1;
+Select a1 such that Modifies(a1, "k")
+26,29,31,46,53
+5000
+45 - ModifiesWithValueInfront::
+while a1;
+Select a1 such that Modifies(a1, "t")
+none
+5000
+45 - ModifiesWithValueInfront::
+while a1;
+Select a1 such that Modifies(a1, "c")
+none
+5000
+45 - ModifiesWithValueInfront::
+while a1;
+Select a1 such that Modifies(a1, "x")
+none
+5000
+45 - ModifiesWithValueInfront::
+while a1;
+Select a1 such that Modifies(a1, "y")
+26
+5000
+45 - ModifiesWithValueInfront::
+while a1; variable v;
+Select a1 such that Modifies(a1, v)
+26,29,31,46,48,49,51,53,57,60,64
+5000
+45 - ModifiesWithValueInfront::
+while a1; variable v;
+Select v such that Modifies(a1, v)
+k,q,a,u,f,r,h,y,d,w,z,l,p
+5000
+45 - ModifiesWithValueInfront::
+while a1; variable v;
+Select a1 such that Modifies(a1, _)
+26,29,31,46,48,49,51,53,57,60,64
+5000
+45 - ModifiesWithValueInfront::
+while a1; variable v;
+Select v such that Modifies(a1, _)
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+46 - ModifiesWithValueInfront::
+while w; if f; assign a; procedure p; variable v;
+Select p such that Modifies(a, v)  such that Modifies(p, v) such that Modifies(f, v) 
+First, Second, Third, Forth, Fifth, Sixth
+5000
+46 - ModifiesWithValueInfront::
+while w; if f; assign a; procedure p; variable v; 
+Select p such that Modifies(a, v) such that Modifies(p, v) such that Modifies(w, v)
+First, Second, Third, Forth, Fifth
+5000
+46 - ModifiesWithValueInfront::
+while w; if f; assign a; procedure p; variable v; 
+Select v such that Modifies(a, v) such that Modifies(f, v) such that Modifies(w, v) such that Modifies(p, v)
+a,d,f,h,k,l,p,q,w,y,r,u,z
+5000
+46 - ModifiesWithValueInfront::
+while w; if f; assign a; procedure p; variable v; 
+Select f such that Modifies(a, v) such that Modifies(f, v) such that Modifies(w, v) such that Modifies(p, v)
+3, 9, 11, 12, 16, 18, 25, 27,28,36,40,68,55
+5000
+46 - ModifiesWithValueInfront::
+while w; if f; assign a; procedure p; variable v; 
+Select w such that Modifies(a, v) such that Modifies(f, v) such that Modifies(w, v) such that Modifies(p, v)
+26,29,31,46,48,49,51,53,57,60,64
+5000
+46 - ModifiesWithValueInfront::
+while w; if f; assign a; procedure p; variable v; 
+Select p such that Modifies(a, v) such that Modifies(p, v) such that Modifies(55, v)
+First, Second, Third, Forth, Fifth
+5000
+46 - ModifiesWithValueInfront::
+while w; if f; assign a; procedure p; variable v; 
+Select v such that Modifies(a, v) such that Modifies(55, v) such that Modifies(w, v) such that Modifies(p, v)
+z,d,l
+5000
+46 - ModifiesWithValueInfront::
+while w; if f; assign a; procedure p; variable v; 
+Select f such that Modifies(a, v) such that Modifies(f, v) such that Modifies(55, v) such that Modifies(w, v) such that Modifies(p, v)
+3, 9, 11, 16, 18, 25, 27,28,55
+5000
+46 - ModifiesWithValueInfront::
+while w; if f; assign a; procedure p; variable v; 
+Select w such that Modifies(a, v) such that Modifies(55, v) such that Modifies(w, v) such that Modifies(p, v)
+26,29,46,53,57,60
+5000

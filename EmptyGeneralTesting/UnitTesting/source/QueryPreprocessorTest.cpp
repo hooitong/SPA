@@ -86,6 +86,27 @@ void QueryPreprocessorTest::testOneCondition() {
   CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
 
+void QueryPreprocessorTest::testOneCondition1() {
+  queryTest = new QueryPreprocessor();
+  QueryTree* achieved = queryTest->parseQuery("if f; prog_line pn; Select pn such that Follows*(f,pn)");
+  QueryTree* expected = new QueryTree();
+  QNode* expectedRoot = expected->createNode(QUERY, "");
+  QNode* expectedResultList = expected->createNode(RESULTLIST, "");
+  QNode* expectedConditionList = expected->createNode(CONDITIONLIST, "");
+  expected->setAsRoot(expectedRoot);
+  expected->addChild(expectedRoot, expectedResultList);
+  expected->addChild(expectedRoot, expectedConditionList);
+  QNode* expectedResult = expected->createNode(PROGLINESYNONYM, "pn");
+  expected->addChild(expectedResultList, expectedResult);
+  QNode* expectedSuchThat = expected->createNode(RELATION, "Follows*");
+  QNode* expectedSuchThatChild1 = expected->createNode(IFSYNONYM, "f");
+  QNode* expectedSuchThatChild2 = expected->createNode(PROGLINESYNONYM, "pn");
+  expected->addChild(expectedSuchThat, expectedSuchThatChild1);
+  expected->addChild(expectedSuchThat, expectedSuchThatChild2);
+  expected->addChild(expectedConditionList, expectedSuchThat);
+  CPPUNIT_ASSERT(achieved->isEqual(expected));
+}
+
 void QueryPreprocessorTest::testOneConditionTwoSynonyms() {
   queryTest = new QueryPreprocessor();
   QueryTree* achieved = queryTest->parseQuery("while w; stmt s; Select w such that Follows(s,1)");
