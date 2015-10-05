@@ -305,7 +305,7 @@ void DesignExtractor::extractInterprocedureModifiesUses() {
 }
 
 
-//next and nextstar is extracted in this function
+//next is extracted in this function
 void DesignExtractor::extractNext() {
   vector<GNode*> gNodes = PKB::getPKB()->getCfg()->getAllGNodes();
   for (int i = 0; i < gNodes.size(); i++) {
@@ -315,11 +315,11 @@ void DesignExtractor::extractNext() {
       PKB::getPKB()->getNext()->setNext(gNodes[i]->getLineNumber(), nodes[q]->getLineNumber());
     }
 
-    vector<GNode*> allNodes;
-    gNodes[i]->getAllPossibleForwardNodes(gNodes[i]->getLineNumber(), false, allNodes);
-    for (int q = 0; q < allNodes.size(); q++) {
-      PKB::getPKB()->getNext()->setNextStar(gNodes[i]->getLineNumber(), allNodes[q]->getLineNumber());
-    }
+    //vector<GNode*> allNodes;
+    //gNodes[i]->getAllPossibleForwardNodes(gNodes[i]->getLineNumber(), false, allNodes);
+    //for (int q = 0; q < allNodes.size(); q++) {
+    //  PKB::getPKB()->getNext()->setNextStar(gNodes[i]->getLineNumber(), allNodes[q]->getLineNumber());
+    //}
   }
 
 

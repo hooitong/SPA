@@ -7,7 +7,6 @@
 class NextTest : public CPPUNIT_NS::TestFixture {
   CPPUNIT_TEST_SUITE(NextTest);
   CPPUNIT_TEST(testSetNext);
-  CPPUNIT_TEST(testSetNextStar);
   CPPUNIT_TEST(testIsNext);
   CPPUNIT_TEST(testIsNextStar);
   CPPUNIT_TEST(testGetBefore);
@@ -24,7 +23,6 @@ public:
   void tearDown();
 
   void testSetNext();
-  void testSetNextStar();
   void testIsNext();
   void testIsNextStar();
   void testGetBefore();

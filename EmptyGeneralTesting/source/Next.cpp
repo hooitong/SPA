@@ -1,13 +1,9 @@
 ﻿#include "Next.h"
+#include <algorithm>
 
 void Next::setNext(PROGLINE before, PROGLINE next) {
   beforeToNext.putRelation(before, next);
   nextToBefore.putRelation(next, before);
-}
-
-void Next::setNextStar(PROGLINE before, PROGLINE next) {
-  beforeToAfter.putRelation(before, next);
-  afterToBefore.putRelation(next, before);
 }
 
 bool Next::isNext(PROGLINE before, PROGLINE next) {
@@ -15,7 +11,26 @@ bool Next::isNext(PROGLINE before, PROGLINE next) {
 }
 
 bool Next::isNextStar(PROGLINE before, PROGLINE next) {
-  return beforeToAfter.containsChild(before, next);
+  vector<PROGLINE> vec;
+  return isNextStarRecursive(vec, before, next);
+}
+
+bool Next::isNextStarRecursive(vector<PROGLINE> &processed, PROGLINE before, PROGLINE next){
+	vector<PROGLINE> nextVec = getNext(before);
+	for(int i =0; i<nextVec.size(); i ++){
+		if(nextVec[i] == next){
+			return true;
+		}
+		else if(find(processed.begin(), processed.end(), nextVec[i]) != processed.end()){
+			continue;
+		}
+		else{
+			processed.push_back(nextVec[i]); //to make sure it won't get processed again, 
+											 //that end up infinite looping
+			if(isNextStarRecursive(processed, nextVec[i], next)) return true;
+		}
+	}
+	return false;
 }
 
 vector<PROGLINE> Next::getBefore(PROGLINE current) {
@@ -23,7 +38,22 @@ vector<PROGLINE> Next::getBefore(PROGLINE current) {
 }
 
 vector<PROGLINE> Next::getBeforeStar(PROGLINE current) {
-  return afterToBefore.toVector(current);
+   vector<PROGLINE> vec;
+   getBeforeStarRecursive(vec, current);
+   return vec;
+}
+
+void Next::getBeforeStarRecursive(vector<PROGLINE> &result, PROGLINE current){
+	vector<PROGLINE> beforeVec = getBefore(current);
+	for(int i = 0; i < beforeVec.size(); i++){
+		if(find(result.begin(), result.end(), beforeVec[i]) != result.end()){
+			return;
+		}
+		else{
+			result.push_back(beforeVec[i]);
+			getBeforeStarRecursive(result, beforeVec[i]);
+		}
+	}
 }
 
 vector<PROGLINE> Next::getNext(PROGLINE current) {
@@ -31,5 +61,20 @@ vector<PROGLINE> Next::getNext(PROGLINE current) {
 }
 
 vector<PROGLINE> Next::getNextStar(PROGLINE current) {
-  return beforeToAfter.toVector(current);
+   vector<PROGLINE> vec;
+   getNextStarRecursive(vec, current);
+   return vec;
+}
+
+void Next::getNextStarRecursive(vector<PROGLINE> &result, PROGLINE current){
+	vector<PROGLINE> nextVec = getNext(current);
+	for(int i = 0; i < nextVec.size(); i++){
+		if(find(result.begin(), result.end(), nextVec[i]) != result.end()){
+			return;
+		}
+		else{
+			result.push_back(nextVec[i]);
+			getNextStarRecursive(result, nextVec[i]);
+		}
+	}
 }

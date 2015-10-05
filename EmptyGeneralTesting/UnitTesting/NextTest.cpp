@@ -20,21 +20,6 @@ void NextTest::testSetNext() {
 }
 
 
-// Test whether setNextStar function works as intended
-void NextTest::testSetNextStar() {
-  (*next).setNextStar(1, 2);
-  (*next).setNextStar(1, 3);
-  (*next).setNextStar(1, 4);
-  (*next).setNextStar(1, 5);
-  (*next).setNextStar(2, 3);
-  (*next).setNextStar(2, 4);
-  (*next).setNextStar(2, 5);
-  (*next).setNextStar(3, 4);
-  (*next).setNextStar(3, 5);
-
-}
-
-
 // Test whether isNext function works as intended
 void NextTest::testIsNext() {
   testSetNext();
@@ -58,7 +43,6 @@ void NextTest::testIsNext() {
 // Test whether isNextStar function works as intended
 void NextTest::testIsNextStar() {
   testSetNext();
-  testSetNextStar();
 
   /* Valid input and true is returned */
   CPPUNIT_ASSERT((*next).isNextStar(1, 2));
@@ -70,13 +54,13 @@ void NextTest::testIsNextStar() {
   CPPUNIT_ASSERT((*next).isNextStar(2, 5));
   CPPUNIT_ASSERT((*next).isNextStar(3, 4));
   CPPUNIT_ASSERT((*next).isNextStar(3, 5));
+  CPPUNIT_ASSERT((*next).isNextStar(5, 5));
 
   /* Invalid input and false is returned */
   CPPUNIT_ASSERT(!(*next).isNextStar(4, 1));
   CPPUNIT_ASSERT(!(*next).isNextStar(5, 1));
   CPPUNIT_ASSERT(!(*next).isNextStar(3, 2));
   CPPUNIT_ASSERT(!(*next).isNextStar(4, 2));
-  CPPUNIT_ASSERT(!(*next).isNextStar(5, 5));
   CPPUNIT_ASSERT(!(*next).isNextStar(1, 1));
   CPPUNIT_ASSERT(!(*next).isNextStar(2, 2));
 }
@@ -84,7 +68,6 @@ void NextTest::testIsNextStar() {
 // Test whether getBefore function works as intended
 void NextTest::testGetBefore() {
   testSetNext();
-  testSetNextStar();
 
   vector<PROGLINE> v = (*next).getBefore(2);
   CPPUNIT_ASSERT(v[0] == 1);
@@ -98,21 +81,20 @@ void NextTest::testGetBefore() {
 // Test whether getBeforeStar function works as intended
 void NextTest::testGetBeforeStar() {
   testSetNext();
-  testSetNextStar();
 
 
   vector<PROGLINE> v = (*next).getBeforeStar(4);
-  CPPUNIT_ASSERT(v[0] == 1);
+  CPPUNIT_ASSERT(v[0] == 3);
   CPPUNIT_ASSERT(v[1] == 2);
-  CPPUNIT_ASSERT(v[2] == 3);
-  CPPUNIT_ASSERT(v.size() == 3);
+  CPPUNIT_ASSERT(v[2] == 1);
+  CPPUNIT_ASSERT(v[3] == 5);
+  CPPUNIT_ASSERT(v.size() == 4);
 }
 
 
 // Test whether getNext function works as intended
 void NextTest::testGetNext() {
   testSetNext();
-  testSetNextStar();
 
   vector<PROGLINE> v = (*next).getNext(2);
   CPPUNIT_ASSERT(v[0] == 3);
@@ -123,7 +105,6 @@ void NextTest::testGetNext() {
 // Test whether getNextStar function works as intended
 void NextTest::testGetNextStar() {
   testSetNext();
-  testSetNextStar();
 
   vector<PROGLINE> v = (*next).getNextStar(1);
   CPPUNIT_ASSERT(v[0] == 2);
