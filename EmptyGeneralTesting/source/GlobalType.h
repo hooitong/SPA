@@ -4,7 +4,7 @@
 
 using namespace std;
 typedef string PROCNAME, VARNAME;
-typedef int PROCINDEX, PROGLINE, STMTLINE, VARINDEX, CONSTINDEX;
+typedef int PROCINDEX, PROGLINE, STMTLINE, VARINDEX, CONSTVALUE;
 
 //Used to represent the type of the TNode
 enum TType {
