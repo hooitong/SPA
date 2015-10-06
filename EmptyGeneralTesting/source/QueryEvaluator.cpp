@@ -12,6 +12,7 @@
 #include "NextStarEvaluator.h"
 #include "UsesProcEvaluator.h"
 #include "ModifiesProcEvaluator.h"
+#include "AffectsEvaluator.h"
 
 QueryEvaluator::QueryEvaluator(PKB* pkb) {
     pkbInstance = pkb;
@@ -206,6 +207,8 @@ QueryResult QueryEvaluator::solveRelation(QNode* node) {
         return solveNext(node);
     } else if (node->getString() == "Next*") {
         return solveNextStar(node);
+    } else if (node->getString() == "Affects") {
+      return solveAffects(node);
     } else {
         return QueryResult(false);
     }
@@ -275,6 +278,12 @@ QueryResult QueryEvaluator::solveUsesProc(QNode* node) {
     UsesProcEvaluator eval(pkbInstance);
     return eval.evaluate(node);
 }
+
+QueryResult QueryEvaluator::solveAffects(QNode* node) {
+  AffectsEvaluator eval(pkbInstance);
+  return eval.evaluate(node);
+}
+
 
 QueryResult QueryEvaluator::solvePattern(QNode* node) {
     assert(node->getQType() == PATTERNASSIGN);
@@ -360,8 +369,8 @@ TType QueryEvaluator::synonymToTType(QNodeType type) {
     } else if (type == STMTSYNONYM) {
         return STMTN;
     } else if (type == PROGLINESYNONYM) {
-		return STMTN;
-	}
+		  return STMTN;
+	  }
 }
 
 bool QueryEvaluator::isSynonym(QNodeType type) {

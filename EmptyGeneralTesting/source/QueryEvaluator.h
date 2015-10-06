@@ -39,6 +39,7 @@ class QueryEvaluator {
     QueryResult solveWith(QNode* node);
     QueryResult solveNext(QNode* node);
     QueryResult solveNextStar(QNode* node);
+    QueryResult solveAffects(QNode* node);
     bool isSynonym(QNodeType type);
     vector<QueryResult> getResultFilters(QNode* node);
     vector<string> getResultSynonyms(QNode* node);

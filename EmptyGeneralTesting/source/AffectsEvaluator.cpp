@@ -5,53 +5,51 @@
   TODO: Code is currently unoptimized and untested. Does not use result to compute as well.
 */
 
-AffectsEvaluator::AffectsEvaluator(PKB* pkb) : RelationEvaluator(pkb) {}
+AffectsEvaluator::AffectsEvaluator(PKB* p) { pkb = p; }
 
-QueryResult AffectsEvaluator::evaluate(QNode* node, const QueryResult& result) {
+QueryResult AffectsEvaluator::evaluate(QNode* node) {
   QNode* leftChild = node->getChildren()[0];
   QNode* rightChild = node->getChildren()[1];
 
   if (leftChild->getQType() == ANY &&
     rightChild->getQType() == ANY) {
-    return QueryResult(solveAnyAny(result));
+    return QueryResult(solveAnyAny());
   }
   else if (leftChild->getQType() == ANY &&
     isSynonym(rightChild->getQType())) {
-    return QueryResult(solveAnySyn(result), rightChild->getString());
+    return QueryResult(solveAnySyn(), rightChild->getString());
   }
   else if (leftChild->getQType() == ANY &&
     rightChild->getQType() == CONST) {
-    return QueryResult(solveAnyConst(getInteger(leftChild), result));
+    return QueryResult(solveAnyConst(getInteger(leftChild)));
   }
   else if (isSynonym(leftChild->getQType()) &&
     rightChild->getQType() == ANY) {
-    return QueryResult(solveSynAny(result), leftChild->getString());
+    return QueryResult(solveSynAny(), leftChild->getString());
   }
   else if (isSynonym(leftChild->getQType()) &&
     isSynonym(rightChild->getQType())) {
-    return QueryResult(solveSynSyn(result), leftChild->getString(), rightChild->getString());
+    return QueryResult(solveSynSyn(), leftChild->getString(), rightChild->getString());
   }
   else if (isSynonym(leftChild->getQType()) &&
     rightChild->getQType() == CONST) {
-    return QueryResult(solveSynConst(getInteger(rightChild), result), leftChild->getString());
+    return QueryResult(solveSynConst(getInteger(rightChild)), leftChild->getString());
   }
   else if (leftChild->getQType() == CONST &&
     rightChild->getQType() == ANY) {
-    return QueryResult(solveConstAny(getInteger(leftChild), result));
+    return QueryResult(solveConstAny(getInteger(leftChild)));
   }
   else if (leftChild->getQType() == CONST &&
     isSynonym(rightChild->getQType())) {
-    return QueryResult(solveConstSyn(getInteger(leftChild), result), rightChild->getString());
+    return QueryResult(solveConstSyn(getInteger(leftChild)), rightChild->getString());
   }
   else if (leftChild->getQType() == CONST &&
     rightChild->getQType() == CONST) {
-    return QueryResult(solveConstConst(getInteger(leftChild), getInteger(rightChild), result));
+    return QueryResult(solveConstConst(getInteger(leftChild), getInteger(rightChild)));
   }
 }
 
-
-bool AffectsEvaluator::solveConstConst(const int left, const int right, const QueryResult& result) {
-  PKB *pkb = PKB::getPKB();
+bool AffectsEvaluator::solveConstConst(const int left, const int right) {
   AST *ast = pkb->getAst();
 
   /* Left and Right are Statement Lines */
@@ -74,9 +72,7 @@ bool AffectsEvaluator::solveConstConst(const int left, const int right, const Qu
   return isTypeCorrect && isSameContext && isContainsPath && isNotModifiedBetween;
 }
 
-vector<int> AffectsEvaluator::solveConstSyn(const int left, const QueryResult& result) {
-  PKB *pkb = PKB::getPKB();
-
+vector<int> AffectsEvaluator::solveConstSyn(const int left) {
   /* Retrieve all statements reached by left */
   vector<STMTLINE> possibleRight = pkb->getNext()->getNextStar(left);
 
@@ -85,16 +81,14 @@ vector<int> AffectsEvaluator::solveConstSyn(const int left, const QueryResult& r
   for (int i = 0; i < possibleRight.size(); i++) {
     /* Only applies to assignment statements */
     if (pkb->getAst()->getTNode(possibleRight[i])->getTType() == ASSIGNN) {
-      if (solveConstConst(left, possibleRight[i], result)) resultRight.push_back(possibleRight[i]);
+      if (solveConstConst(left, possibleRight[i])) resultRight.push_back(possibleRight[i]);
     }
   }
 
   return resultRight;
 }
 
-vector<int> AffectsEvaluator::solveSynConst(const int right, const QueryResult& result) {
-  PKB *pkb = PKB::getPKB();
-
+vector<int> AffectsEvaluator::solveSynConst(const int right) {
   /* Retrieve all statements that can reach to right */
   vector<STMTLINE> possibleLeft = pkb->getNext()->getBeforeStar(right);
 
@@ -103,16 +97,14 @@ vector<int> AffectsEvaluator::solveSynConst(const int right, const QueryResult& 
   for (int i = 0; i < possibleLeft.size(); i++) {
     /* Only applies to assignment statements */
     if (pkb->getAst()->getTNode(possibleLeft[i])->getTType() == ASSIGNN) {
-      if (solveConstConst(right, possibleLeft[i], result)) resultLeft.push_back(possibleLeft[i]);
+      if (solveConstConst(right, possibleLeft[i])) resultLeft.push_back(possibleLeft[i]);
     }
   }
 
   return resultLeft;
 }
 
-vector<std::pair<int, int>> AffectsEvaluator::solveSynSyn(const QueryResult& result) {
-  PKB *pkb = PKB::getPKB();
-
+vector<std::pair<int, int>> AffectsEvaluator::solveSynSyn() {
   /* Retrieve all assignment statement numbers in the program */
   vector<int> allAssign = pkb->getAst()->getStmtLines(ASSIGNN);
 
@@ -121,7 +113,7 @@ vector<std::pair<int, int>> AffectsEvaluator::solveSynSyn(const QueryResult& res
   for (int i = 0; i < allAssign.size(); i++) {
     for (int j = 0; j < allAssign.size(); j++) {
       if (i == j) continue;
-      if (solveConstConst(allAssign[i], allAssign[j], result))
+      if (solveConstConst(allAssign[i], allAssign[j]))
         tupleResults.push_back(make_pair(i, j));
     }
   }
@@ -129,9 +121,7 @@ vector<std::pair<int, int>> AffectsEvaluator::solveSynSyn(const QueryResult& res
   return tupleResults;
 }
 
-vector<int> AffectsEvaluator::solveAnySyn(const QueryResult& result) {
-  PKB *pkb = PKB::getPKB();
-
+vector<int> AffectsEvaluator::solveAnySyn() {
   /* Retrieve all assignment statement numbers in the program */
   vector<int> allAssign = pkb->getAst()->getStmtLines(ASSIGNN);
 
@@ -140,7 +130,7 @@ vector<int> AffectsEvaluator::solveAnySyn(const QueryResult& result) {
   for (int i = 0; i < allAssign.size(); i++) {
     for (int j = 0; j < allAssign.size(); j++) {
       if (i == j) continue;
-      if (solveConstConst(allAssign[i], allAssign[j], result))
+      if (solveConstConst(allAssign[i], allAssign[j]))
         rightResults.push_back(j);
     }
   }
@@ -148,9 +138,7 @@ vector<int> AffectsEvaluator::solveAnySyn(const QueryResult& result) {
   return rightResults;
 }
 
-vector<int> AffectsEvaluator::solveSynAny(const QueryResult& result) {
-  PKB *pkb = PKB::getPKB();
-
+vector<int> AffectsEvaluator::solveSynAny() {
   /* Retrieve all assignment statement numbers in the program */
   vector<int> allAssign = pkb->getAst()->getStmtLines(ASSIGNN);
 
@@ -159,7 +147,7 @@ vector<int> AffectsEvaluator::solveSynAny(const QueryResult& result) {
   for (int i = 0; i < allAssign.size(); i++) {
     for (int j = 0; j < allAssign.size(); j++) {
       if (i == j) continue;
-      if (solveConstConst(allAssign[i], allAssign[j], result))
+      if (solveConstConst(allAssign[i], allAssign[j]))
         leftResult.push_back(i);
     }
   }
@@ -167,38 +155,32 @@ vector<int> AffectsEvaluator::solveSynAny(const QueryResult& result) {
   return leftResult;
 }
 
-bool AffectsEvaluator::solveAnyConst(const int right, const QueryResult& result) {
-  PKB *pkb = PKB::getPKB();
-
+bool AffectsEvaluator::solveAnyConst(const int right) {
   /* Retrieve all assignment statement numbers in the program */
   vector<int> allAssign = pkb->getAst()->getStmtLines(ASSIGNN);
 
   /* Terrible O(N^2) performance loops - Lazy Implementation */
   for (int i = 0; i < allAssign.size(); i++) {
-    return solveConstConst(allAssign[i], right, result);
+    return solveConstConst(allAssign[i], right);
   }
 
   return false;
 }
 
-bool AffectsEvaluator::solveConstAny(const int left, const QueryResult& result) {
-  PKB *pkb = PKB::getPKB();
-
+bool AffectsEvaluator::solveConstAny(const int left) {
   /* Retrieve all assignment statement numbers in the program */
   vector<int> allAssign = pkb->getAst()->getStmtLines(ASSIGNN);
 
   /* Terrible O(N^2) performance loops - Lazy Implementation */
   vector<int>  leftResult;
   for (int i = 0; i < allAssign.size(); i++) {
-    return solveConstConst(left, allAssign[i], result);
+    return solveConstConst(left, allAssign[i]);
   }
 
   return false;
 }
 
-bool AffectsEvaluator::solveAnyAny(const QueryResult& result) {
-  PKB *pkb = PKB::getPKB();
-
+bool AffectsEvaluator::solveAnyAny() {
   /* Retrieve all assignment statement numbers in the program */
   vector<int> allAssign = pkb->getAst()->getStmtLines(ASSIGNN);
 
@@ -207,7 +189,7 @@ bool AffectsEvaluator::solveAnyAny(const QueryResult& result) {
   for (int i = 0; i < allAssign.size(); i++) {
     for (int j = 0; j < allAssign.size(); j++) {
       if (i == j) continue;
-      if (solveConstConst(allAssign[i], allAssign[j], result))
+      if (solveConstConst(allAssign[i], allAssign[j]))
         return true;
     }
   }
@@ -216,8 +198,6 @@ bool AffectsEvaluator::solveAnyAny(const QueryResult& result) {
 }
 
 bool AffectsEvaluator::findPathToNode(STMTLINE current, STMTLINE end, VARINDEX contextVar, vector<STMTLINE> path) {
-  PKB *pkb = PKB::getPKB();
-
   /* Base Case */
   if (current == end) return true;
 
@@ -239,4 +219,56 @@ bool AffectsEvaluator::findPathToNode(STMTLINE current, STMTLINE end, VARINDEX c
   }
 
   return pathsStatus;
+}
+
+int AffectsEvaluator::getInteger(QNode* node) {
+  std::istringstream iss(node->getString());
+  int result;
+  iss >> result;
+  return result;
+}
+
+bool AffectsEvaluator::isSynonym(QNodeType type) {
+  return type == WHILESYNONYM ||
+    type == ASSIGNSYNONYM ||
+    type == VARIABLESYNONYM ||
+    type == PROCEDURESYNONYM ||
+    type == CONSTSYNONYM ||
+    type == PROGLINESYNONYM ||
+    type == IFSYNONYM ||
+    type == STMTSYNONYM;
+}
+
+bool AffectsEvaluator::isConst(QNodeType type) {
+  return type == CONST ||
+    type == VAR;
+}
+
+
+
+TType AffectsEvaluator::synonymToTType(QNodeType type) {
+  if (type == WHILESYNONYM) {
+    return WHILEN;
+  }
+  else if (type == ASSIGNSYNONYM) {
+    return ASSIGNN;
+  }
+  else if (type == VARIABLESYNONYM) {
+    return VARN;
+  }
+  else if (type == PROCEDURESYNONYM) {
+    return PROCEDUREN;
+  }
+  else if (type == STMTSYNONYM) {
+    return STMTN;
+  }
+  else if (type == PROGLINESYNONYM) {
+    return STMTN;
+  }
+  else if (type == CALLSYNONYM) {
+    return CALLN;
+  }
+  else if (type == IFSYNONYM) {
+    return IFN;
+  }
 }
