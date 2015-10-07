@@ -5,9 +5,10 @@
 class WithEvaluator {
  private:
   PKB* pkb;
-  bool isConst(QNode* node);
+  bool isConst(QNode* node) const;
  public:
   WithEvaluator(PKB* pkb);
-  QueryResult evaluate(QNode* node);
-  vector<pair<int, string> > getAllOfType(QNode* node);
+  QueryResult evaluate(QNode* node) const;
+  vector<pair<int, string> > getAllOfType(QNode* node) const;
+  TType synonymToTType(QNodeType type) const;
 };
