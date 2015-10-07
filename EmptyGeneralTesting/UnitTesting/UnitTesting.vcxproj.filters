@@ -78,10 +78,13 @@
     <ClCompile Include="source\CallsStarEvaluatorTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NextTest.cpp">
+    <ClCompile Include="source\WithEvaluatorTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\WithEvaluatorTest.cpp">
+    <ClCompile Include="source\AffectsEvaluatorTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\NextTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -146,10 +149,13 @@
     <ClInclude Include="source\CallsStarEvaluatorTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NextTest.h">
+    <ClInclude Include="source\WithEvaluatorTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\WithEvaluatorTest.h">
+    <ClInclude Include="source\AffectsEvaluatorTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\NextTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

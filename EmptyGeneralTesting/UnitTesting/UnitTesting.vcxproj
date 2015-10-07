@@ -68,7 +68,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="NextTest.cpp" />
+    <ClCompile Include="source\AffectsEvaluatorTest.cpp" />
     <ClCompile Include="source\ASTTest.cpp" />
     <ClCompile Include="source\CallsEvaluatorTest.cpp" />
     <ClCompile Include="source\CallsStarEvaluatorTest.cpp" />
@@ -78,6 +78,7 @@
     <ClCompile Include="source\FollowsTest.cpp" />
     <ClCompile Include="source\GrammarTest.cpp" />
     <ClCompile Include="source\ModifiesTest.cpp" />
+    <ClCompile Include="source\NextTest.cpp" />
     <ClCompile Include="source\ParentTest.cpp" />
     <ClCompile Include="source\ParserTest.cpp" />
     <ClCompile Include="source\ProcTableTest.cpp" />
@@ -93,7 +94,7 @@
     <ClCompile Include="source\WithEvaluatorTest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="NextTest.h" />
+    <ClInclude Include="source\AffectsEvaluatorTest.h" />
     <ClInclude Include="source\ASTTest.h" />
     <ClInclude Include="source\CallsEvaluatorTest.h" />
     <ClInclude Include="source\CallsStarEvaluatorTest.h" />
@@ -103,6 +104,7 @@
     <ClInclude Include="source\FollowsTest.h" />
     <ClInclude Include="source\GrammarTest.h" />
     <ClInclude Include="source\ModifiesTest.h" />
+    <ClInclude Include="source\NextTest.h" />
     <ClInclude Include="source\ParentTest.h" />
     <ClInclude Include="source\ParserTest.h" />
     <ClInclude Include="source\ProcTableTest.h" />
