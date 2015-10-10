@@ -70,6 +70,7 @@
     <ClCompile Include="..\source\ParserEntityTest.cpp" />
     <ClCompile Include="source\IntegrationTest.cpp" />
     <ClCompile Include="source\ParserCallsTest.cpp" />
+    <ClCompile Include="source\ParserConstTableTest.cpp" />
     <ClCompile Include="source\ParserFollowsTest.cpp" />
     <ClCompile Include="source\ParserModifiesTest.cpp" />
     <ClCompile Include="source\ParserNextTest.cpp" />
@@ -80,6 +81,7 @@
   <ItemGroup>
     <ClInclude Include="..\source\ParserEntityTest.h" />
     <ClInclude Include="source\ParserCallsTest.h" />
+    <ClInclude Include="source\ParserConstTableTest.h" />
     <ClInclude Include="source\ParserFollowsTest.h" />
     <ClInclude Include="source\ParserModifiesTest.h" />
     <ClInclude Include="source\ParserNextTest.h" />

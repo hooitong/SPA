@@ -42,6 +42,9 @@
     <ClCompile Include="..\source\ParserEntityTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\ParserConstTableTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\ParserModifiesTest.h">
@@ -66,6 +69,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\source\ParserEntityTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ParserConstTableTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
