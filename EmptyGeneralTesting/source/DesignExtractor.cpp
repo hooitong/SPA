@@ -66,8 +66,11 @@ void DesignExtractor::extractVariousRelationship(TNode* node) {
       ///////////////////////
       //cfg
       ////////////////////////
-      PKB::getPKB()->getCfg()->insert(leftNode->getStmtLine(), rightNode->getStmtLine(),
-        PKB::getPKB()->getProcTable()->getProcIndex(leftNode->getParentByTType(PROCEDUREN)->getValue()));
+	  if(leftNode->getTType()!=IFN){
+		PKB::getPKB()->getCfg()->insert(leftNode->getStmtLine(), rightNode->getStmtLine(),
+			PKB::getPKB()->getProcTable()->getProcIndex(leftNode->getParentByTType(PROCEDUREN)->getValue()));
+	  }
+      
     }
 
     ///////////////////////
@@ -203,9 +206,9 @@ void DesignExtractor::extractVariousRelationship(TNode* node) {
     }
     //---------------------------------------------------------------------
 
-        ///////////////////////
-        //cfg
-        ////////////////////////
+    ///////////////////////
+    //cfg
+    ////////////////////////
     if (leftNode->getTType() == WHILEN || leftNode->getTType() == IFN) {
       TNode* firstChildNode = leftNode->getChildren()[1]->getChildren()[0];
       PKB::getPKB()->getCfg()->insert(leftNode->getStmtLine(), firstChildNode->getStmtLine(),
@@ -216,6 +219,17 @@ void DesignExtractor::extractVariousRelationship(TNode* node) {
       TNode* secondChildNode = leftNode->getChildren()[2]->getChildren()[0];
       PKB::getPKB()->getCfg()->insert(leftNode->getStmtLine(), secondChildNode->getStmtLine(),
         PKB::getPKB()->getProcTable()->getProcIndex(leftNode->getParentByTType(PROCEDUREN)->getValue()));
+
+	  rightNode = leftNode->getRightSibling();
+	  if(isPrimaryNode(rightNode)){
+		TNode* firstChildLastNode = leftNode->getChildren()[1]->getChildren().back();
+		TNode* secondChildLastNode = leftNode->getChildren()[2]->getChildren().back();
+		PKB::getPKB()->getCfg()->insert(firstChildLastNode->getStmtLine(), rightNode->getStmtLine(),
+			PKB::getPKB()->getProcTable()->getProcIndex(leftNode->getParentByTType(PROCEDUREN)->getValue()));
+		PKB::getPKB()->getCfg()->insert(secondChildLastNode->getStmtLine(), rightNode->getStmtLine(),
+			PKB::getPKB()->getProcTable()->getProcIndex(leftNode->getParentByTType(PROCEDUREN)->getValue()));
+	  }
+
     }
 
     //while looping of last node to first in cfg

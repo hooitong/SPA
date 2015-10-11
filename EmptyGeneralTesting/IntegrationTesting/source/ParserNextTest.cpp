@@ -72,6 +72,7 @@ void ParserNextTest::testNext() {
 
 // Test whether the parser and PKB is able to capture all the Next* relationship
 void ParserNextTest::testNextStar() {
+
   CPPUNIT_ASSERT(nTest->isNextStar(1, 2));
   CPPUNIT_ASSERT(nTest->isNextStar(2, 3));
   CPPUNIT_ASSERT(nTest->isNextStar(3, 4));
@@ -99,6 +100,7 @@ void ParserNextTest::testNextStar() {
   CPPUNIT_ASSERT(nTest->isNextStar(17, 20));
   CPPUNIT_ASSERT(nTest->isNextStar(16, 9));
   CPPUNIT_ASSERT(nTest->isNextStar(20, 9));
+  CPPUNIT_ASSERT(nTest->isNextStar(21, 9));
   CPPUNIT_ASSERT(nTest->isNextStar(23, 24));
   CPPUNIT_ASSERT(nTest->isNextStar(23, 25));
   CPPUNIT_ASSERT(nTest->isNextStar(25, 26));
