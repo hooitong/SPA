@@ -25,6 +25,7 @@ PKB::PKB(void) {
   calls = new Calls;
   procTable = new ProcTable;
   next = new Next;
+  constTable = new ConstTable;
 }
 
 PKB::~PKB(void) {
@@ -39,6 +40,7 @@ PKB::~PKB(void) {
   delete calls;
   delete procTable;
   delete next;
+  delete constTable;
 }
 
 VarTable* PKB::getVarTable() {
@@ -79,4 +81,14 @@ CFG* PKB::getCfg() {
 
 Next* PKB::getNext() {
   return next;
+}
+
+ConstTable* PKB::getConstTable(){
+  return constTable;
+}
+
+vector<TNode*> PKB::getAllStmtLstNodes(){
+	vector<TNode*> results;
+	this->getPKB()->getAst()->getRoot()->getAllChildrenIncludeSubByTType(results, STMTLSTN);
+	return results;
 }

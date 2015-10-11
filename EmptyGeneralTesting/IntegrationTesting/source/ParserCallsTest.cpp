@@ -46,4 +46,5 @@ void ParserCallsTest::testCallsStar() {
   CPPUNIT_ASSERT(!cTest->isCallStar(Second, ABC));
   CPPUNIT_ASSERT(!cTest->isCallStar(Init, ABC));
   CPPUNIT_ASSERT(!cTest->isCallStar(Init, Second));
+
 }

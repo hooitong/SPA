@@ -108,3 +108,20 @@ void TNodeTest::testGetStmtLine() {
   STMTLINE s = (*node).getStmtLine();
   CPPUNIT_ASSERT(s == 1);
 }
+
+void TNodeTest::testGetFirstStmtLine() {
+  
+  TNode* stmtLstNode = new TNode();
+  node->setTType(STMTLSTN);
+  TNode* nodeAssign1 = new TNode();
+  nodeAssign1->setTType(ASSIGNN);
+  nodeAssign1->setStmtLine(1);
+  TNode* nodeAssign2 = new TNode();
+  nodeAssign2->setTType(ASSIGNN);
+  nodeAssign2->setStmtLine(2);
+  stmtLstNode->addChild(nodeAssign1);
+  stmtLstNode->addChild(nodeAssign2);
+
+  STMTLINE s = stmtLstNode->getFirstStmtLine();
+  CPPUNIT_ASSERT(s == 1);
+}

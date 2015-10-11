@@ -175,6 +175,18 @@ vector<TNode*> TNode::getAllParentNodes() {
   return result;
 }
 
+STMTLINE TNode::getFirstStmtLine(){
+  vector<TNode*> children;
+  children = this->getChildren();
+  
+  for(int i = 0; i< children.size(); i++){
+	  if(children[i]->getStmtLine()!= -1){
+		  return children[i]->getStmtLine();
+	  }
+  }
+
+  return -1;
+}
 
 
 void TNode::print(int lvl) {

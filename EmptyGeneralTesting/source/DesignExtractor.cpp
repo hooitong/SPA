@@ -108,6 +108,15 @@ void DesignExtractor::extractVariousRelationship(TNode* node) {
     }
 
 
+	//----------------------------------------------------
+
+    if (leftNode->getTType() == CONSTN) {
+      ///////////////////////
+      //constTable
+      ////////////////////////
+		PKB::getPKB()->getConstTable()->insertConst(atoi(leftNode->getValue().c_str()));
+    }
+
 
     //----------------------------------------------------
 

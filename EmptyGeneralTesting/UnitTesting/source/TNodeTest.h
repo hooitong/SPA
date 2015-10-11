@@ -17,6 +17,7 @@ class TNodeTest : public CPPUNIT_NS::TestFixture {
   CPPUNIT_TEST(testGetChildren);
   CPPUNIT_TEST(testSetStmtLine);
   CPPUNIT_TEST(testGetStmtLine);
+  CPPUNIT_TEST(testGetFirstStmtLine);
   CPPUNIT_TEST_SUITE_END();
 
 private:
@@ -39,4 +40,5 @@ public:
   void testGetChildren();
   void testSetStmtLine();
   void testGetStmtLine();
+  void testGetFirstStmtLine();
 };

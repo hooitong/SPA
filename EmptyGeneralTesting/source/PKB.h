@@ -10,6 +10,7 @@
 #include "Calls.h"
 #include "CFG.h"
 #include "Next.h"
+#include "ConstTable.h"
 
 class PKB {
 private:
@@ -25,11 +26,13 @@ private:
   ProcTable* procTable;
   Calls* calls;
   Next* next;
+  ConstTable* constTable;
 
 public:
   /* Static method to retrieve singleton instance */
   static PKB* getPKB();
   static void deletePKB();
+  vector<TNode*> getAllStmtLstNodes();
 
   /* Accessors methods to Design Abstractions in PKB */
   PKB();
@@ -44,4 +47,5 @@ public:
   Calls* getCalls();
   CFG* getCfg();
   Next* getNext();
+  ConstTable* getConstTable();
 };

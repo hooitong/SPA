@@ -17,7 +17,8 @@ int main(int argc, char* argv[]) {
   else {
     SPAFrontEnd::getInstance()->parseSource(argv[1]);
   }
-
+  
+  suite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserConstTableTest").makeTest());
   suite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserFollowsTest").makeTest());
   suite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserParentTest").makeTest());
   suite->addTest(CppUnit::TestFactoryRegistry::getRegistry("ParserModifiesTest").makeTest());

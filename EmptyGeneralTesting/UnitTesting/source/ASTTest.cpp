@@ -275,4 +275,5 @@ void ASTTest::testMatchRightPatternConst() {
 
   CPPUNIT_ASSERT((*ast).matchRightPattern(2, "x + 1", true));
   CPPUNIT_ASSERT((*ast).matchRightPattern(2, "x+1", true));
+
 }
