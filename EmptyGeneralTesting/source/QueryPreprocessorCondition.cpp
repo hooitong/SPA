@@ -1,6 +1,7 @@
 #include "QueryPreprocessorCondition.h"
 #include "QueryPreprocessor.h"
 #include "QueryTable.h"
+#include "QueryPreprocessorConditionReordering.h"
 #include <string>
 #include <iostream>
 using namespace std;
@@ -42,6 +43,11 @@ QNode* QueryPreprocessorCondition::getConditionTree(string condition_string) {
     processConditions(conditions_string);
     current_position = next_min_position;
   }
+
+  QueryPreprocessorConditionReordering* reorder = new QueryPreprocessorConditionReordering();
+
+  reorder->sortConditions(condition_root);
+
   return condition_root;
 }
 

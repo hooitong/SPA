@@ -45,6 +45,7 @@
     <ClInclude Include="..\source\QueryEvaluator.h" />
     <ClInclude Include="..\source\QueryPreprocessor.h" />
     <ClInclude Include="..\source\QueryPreprocessorCondition.h" />
+    <ClInclude Include="..\source\QueryPreprocessorConditionReordering.h" />
     <ClInclude Include="..\source\QueryPreprocessorResult.h" />
     <ClInclude Include="..\source\QueryRelationTable.h" />
     <ClInclude Include="..\source\QueryResult.h" />
@@ -97,6 +98,7 @@
     <ClCompile Include="..\source\QueryEvaluator.cpp" />
     <ClCompile Include="..\source\QueryPreprocessor.cpp" />
     <ClCompile Include="..\source\QueryPreprocessorCondition.cpp" />
+    <ClCompile Include="..\source\QueryPreprocessorConditionReordering.cpp" />
     <ClCompile Include="..\source\QueryPreprocessorResult.cpp" />
     <ClCompile Include="..\source\QueryRelationTable.cpp" />
     <ClCompile Include="..\source\QueryResult.cpp" />
