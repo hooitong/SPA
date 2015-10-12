@@ -11,6 +11,7 @@
 #include "CFG.h"
 #include "Next.h"
 #include "ConstTable.h"
+#include "CFGBip.h"
 
 class PKB {
 private:
@@ -27,6 +28,7 @@ private:
   Calls* calls;
   Next* next;
   ConstTable* constTable;
+  CFGBip* cfgBip;
 
 public:
   /* Static method to retrieve singleton instance */
@@ -48,4 +50,5 @@ public:
   CFG* getCfg();
   Next* getNext();
   ConstTable* getConstTable();
+  CFGBip* getCfgBip();
 };

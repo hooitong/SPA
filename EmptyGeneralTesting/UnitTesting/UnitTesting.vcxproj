@@ -76,6 +76,7 @@
     <ClCompile Include="source\CFGTest.cpp" />
     <ClCompile Include="source\DesignExtractorTest.cpp" />
     <ClCompile Include="source\FollowsTest.cpp" />
+    <ClCompile Include="source\GNodeTest.cpp" />
     <ClCompile Include="source\GrammarTest.cpp" />
     <ClCompile Include="source\ModifiesTest.cpp" />
     <ClCompile Include="source\NextTest.cpp" />
@@ -102,6 +103,7 @@
     <ClInclude Include="source\CFGTest.h" />
     <ClInclude Include="source\DesignExtractorTest.h" />
     <ClInclude Include="source\FollowsTest.h" />
+    <ClInclude Include="source\GNodeTest.h" />
     <ClInclude Include="source\GrammarTest.h" />
     <ClInclude Include="source\ModifiesTest.h" />
     <ClInclude Include="source\NextTest.h" />

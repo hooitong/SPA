@@ -26,6 +26,7 @@ PKB::PKB(void) {
   procTable = new ProcTable;
   next = new Next;
   constTable = new ConstTable;
+  cfgBip = new CFGBip;
 }
 
 PKB::~PKB(void) {
@@ -41,6 +42,7 @@ PKB::~PKB(void) {
   delete procTable;
   delete next;
   delete constTable;
+  delete cfgBip;
 }
 
 VarTable* PKB::getVarTable() {
@@ -77,6 +79,10 @@ Calls* PKB::getCalls() {
 
 CFG* PKB::getCfg() {
   return cfg;
+}
+
+CFGBip* PKB::getCfgBip() {
+  return cfgBip;
 }
 
 Next* PKB::getNext() {

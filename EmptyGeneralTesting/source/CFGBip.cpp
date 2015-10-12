@@ -1,26 +1,13 @@
-﻿#include "CFG.h"
+﻿#include "CFGBip.h"
 
 
-/* CFG Class Implementation */
-void CFG::setProcToRoot(PROCINDEX proc, GNode* root) {
-  procToRoot[proc] = root;
-}
-
-void CFG::setLineToNode(PROGLINE lineNumber, GNode* node) {
+/* CFGBip Class Implementation */
+void CFGBip::setLineToNode(PROGLINE lineNumber, GNode* node) {
   lineToNode[lineNumber] = node;
 }
 
-vector<GNode*> CFG::getAllRootNodes() {
-  vector<GNode*> allCFG;
-  std::map<PROCINDEX, GNode*>::iterator it;
-  for (it = procToRoot.begin(); it != procToRoot.end(); ++it) {
-    allCFG.push_back(it->second);
-  }
-  return allCFG;
-}
 
-
-void CFG::insert(STMTLINE from, STMTLINE to, PROCINDEX procIndex) {
+void CFGBip::insert(STMTLINE from, STMTLINE to, PROCINDEX procIndex) {
   GNode* nodeFrom;
   GNode* nodeTo;
 
@@ -28,6 +15,8 @@ void CFG::insert(STMTLINE from, STMTLINE to, PROCINDEX procIndex) {
     //not found
     nodeFrom = new GNode(from, procIndex);
     setLineToNode(from, nodeFrom);
+	procIndexToNodes[procIndex].push_back(nodeFrom);
+
   }
   else {
     nodeFrom = getGNode(from);
@@ -37,30 +26,38 @@ void CFG::insert(STMTLINE from, STMTLINE to, PROCINDEX procIndex) {
     //not found
     nodeTo = new GNode(to, procIndex);
     setLineToNode(to, nodeTo);
+	procIndexToNodes[procIndex].push_back(nodeTo);
+
   }
   else {
     nodeTo = getGNode(to);
   }
 
-  if (procToRoot.find(procIndex) == procToRoot.end()) {
-    //not found
-    setProcToRoot(procIndex, nodeFrom);
-  }
-
   nodeFrom->addForwardNode(nodeTo);
   nodeTo->addPrevNode(nodeFrom);
-
 }
 
-GNode* CFG::getGNode(PROGLINE line) {
+GNode* CFGBip::getGNode(PROGLINE line) {
   return lineToNode[line];
 }
 
-vector<GNode*> CFG::getAllGNodes() {
+vector<GNode*> CFGBip::getAllGNodes() {
   vector<GNode*> allGNodes;
   std::map<STMTLINE, GNode*>::iterator it;
   for (it = lineToNode.begin(); it != lineToNode.end(); ++it) {
     allGNodes.push_back(it->second);
   }
   return allGNodes;
+}
+
+void CFGBip::setRootNode(GNode* root){
+	this->rootNode = root;
+}
+
+GNode* CFGBip::getRootNode(){
+	return this->rootNode;
+}
+
+vector<GNode*> CFGBip::getAllGNodesByProcIndex(PROCINDEX procIndex){
+	return procIndexToNodes[procIndex];
 }

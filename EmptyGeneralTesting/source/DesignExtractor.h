@@ -14,8 +14,10 @@ class DesignExtractor {
 	static void recursiveInterprocedureCallStar(PROCINDEX currentProc, PROCINDEX originalProc, bool first, vector<PROCINDEX> &result);
 	static void extractInterprocedureModifiesUses();
 	static void extractNext();
+	static void constructCFGBip();
 
 	static void getNodeEndPoints(TNode* node, vector<TNode*> &result);
+	static void insertCFPAndCFGBip(STMTLINE from, STMTLINE to, PROCINDEX procIndex);
 	static bool isPrimaryNode(TNode* node);
 
 

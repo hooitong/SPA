@@ -188,6 +188,17 @@ STMTLINE TNode::getFirstStmtLine(){
   return -1;
 }
 
+void TNode::getAllLastChildNode(vector<TNode*> &result){
+	vector<TNode*> children = this->getChildren();
+	if(children.back()->getTType() == IFN){
+		children.back()->getChildren()[1]->getAllLastChildNode(result);
+		children.back()->getChildren()[2]->getAllLastChildNode(result);
+	}
+	else{
+		result.push_back(children.back());
+	}
+}
+
 
 void TNode::print(int lvl) {
 
