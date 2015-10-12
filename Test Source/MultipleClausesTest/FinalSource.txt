@@ -1,0 +1,87 @@
+procedure alpha{
+	if a then {								//
+		while b {							//
+			f = c - g - h; }				//
+	}else {
+		a = d * e - f;}						//
+	if e then {								//
+		i = a - d - c;						//
+	} else {								//
+		j = a - d;							//
+		k = j + a * c; }					//
+	i = j + f; }							//
+
+procedure beta{ 
+	if d then {								//
+		j = d - 3 + f + m;						//
+		i = 6 + c - e;							//
+	} else { 
+		f = a + f - d; }					//
+	if e then {								//
+		a = c + h + d * e + f - k;				//
+		c = 5 - 2;							//
+		while a {							//
+			h = a - k - 3;					//
+			c = c + h;						//
+			if g then {						//
+				i = a * 3 + c + h;			//
+				c = e - h * 5;				//
+			}else { 
+				if c then {					//
+					if d then {				//
+						h = c - 2;			//
+						d = h - 6;			//
+						call alpha;			//
+					}else {			
+						a = c + h - d; }	//
+				} else {
+					e = d - e;				//
+					while e {				//
+						h = c;				//
+						f = f + 7;			//
+						h = g - f - e; }}}	//
+			h = (d + 3) * 5 * c * a; }  	//
+	} else {
+		h = f - 4;							//
+		while f {							//
+			c = h + 2;						//
+			call alpha; }}}					//
+
+procedure charlie{
+	call alpha;								//
+	if a then {								//
+		while d {							//
+			d = d - 2;						//
+			f = d + a + b; }				//
+		a = a - d;							//
+	} else {
+		c = a - b + c;						//
+		call beta;							//
+		h = c + 4 * a; } 
+	i = c + h * a;							//
+	k = d - h + g * 8;}						//
+
+procedure delta { 
+	h = a + d + e;							//
+	if h then {								//
+		if d then {							//
+			if f then {						//
+				f = f + 5;					//
+				l = 2 + l;					//
+			} else {
+				h = h - 6; }				//
+		} else {
+			h = f + 7; }					//
+	} else {
+		while h {							//
+			h = d + f;						//
+			if h then {						//
+				f = f - d;					//
+			} else {
+				k = a - d - c; }}}			//
+	k = f + h * 3;}							//
+
+procedure echo{
+	call alpha;								//
+	call beta;								//
+	call charlie;}							//
