@@ -20,6 +20,7 @@
     <ClInclude Include="..\source\CFG.h" />
     <ClInclude Include="..\source\CFGBip.h" />
     <ClInclude Include="..\source\ConstTable.h" />
+    <ClInclude Include="..\source\Contains.h" />
     <ClInclude Include="..\source\DesignExtractor.h" />
     <ClInclude Include="..\source\Exception.h" />
     <ClInclude Include="..\source\Follows.h" />
@@ -76,6 +77,7 @@
     <ClCompile Include="..\source\CFG.cpp" />
     <ClCompile Include="..\source\CFGBip.cpp" />
     <ClCompile Include="..\source\ConstTable.cpp" />
+    <ClCompile Include="..\source\Contains.cpp" />
     <ClCompile Include="..\source\DesignExtractor.cpp" />
     <ClCompile Include="..\source\Exception.cpp" />
     <ClCompile Include="..\source\Follows.cpp" />

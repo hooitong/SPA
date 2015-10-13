@@ -13,6 +13,7 @@
 #include "ConstTable.h"
 #include "CFGBip.h"
 #include "Sibling.h"
+#include "Contains.h"
 
 class PKB {
 private:
@@ -32,6 +33,7 @@ private:
   ConstTable* constTable;
   CFGBip* cfgBip;
   Sibling* sibling;
+  Contains* contains;
 
 public:
   /* Static method to retrieve singleton instance */
@@ -56,4 +58,5 @@ public:
   ConstTable* getConstTable();
   CFGBip* getCfgBip();
   Sibling* getSibling();
+  Contains* getContains();
 };

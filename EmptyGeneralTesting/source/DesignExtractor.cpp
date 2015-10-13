@@ -41,11 +41,14 @@ void DesignExtractor::extractVariousRelationship(TNode* node) {
       if (isPrimaryNode(parentNode)) {
         if (foundParent == false) {
           PKB::getPKB()->getParent()->setParent(parentNode->getStmtLine(), node->getStmtLine());
+		  PKB::getPKB()->getContains()->setContains(parentNode->getStmtLine(), node->getStmtLine());
           PKB::getPKB()->getParent()->setParentStar(parentNode->getStmtLine(), node->getStmtLine());
+		  PKB::getPKB()->getContains()->setContainsStar(parentNode->getStmtLine(), node->getStmtLine());
           foundParent = true;
         }
         else {			//already found parent, next found parent should be parentstar only		
           PKB::getPKB()->getParent()->setParentStar(parentNode->getStmtLine(), node->getStmtLine());
+		  PKB::getPKB()->getContains()->setContainsStar(parentNode->getStmtLine(), node->getStmtLine());
         }
       }
 
@@ -350,6 +353,7 @@ void DesignExtractor::extractNext() {
 //construct CFGBip
 void DesignExtractor::constructCFGBip(){
 	vector<GNode*> rootNodes = PKB::getPKB()->getCfg()->getAllRootNodes();
+	if(rootNodes.size() == 0) return;
 	CFGBip* cfgBip = PKB::getPKB()->getCfgBip();
 	cfgBip->setRootNode(cfgBip->getGNode(rootNodes[0]->getLineNumber()));
 	
