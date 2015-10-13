@@ -195,7 +195,13 @@ void TNode::getAllLastChildNode(vector<TNode*> &result){
 		children.back()->getChildren()[2]->getAllLastChildNode(result);
 	}
 	else{
-		result.push_back(children.back());
+		if(children.back()->getStmtLine() == -1){
+			children.back()->getAllLastChildNode(result);
+		}
+		else{
+			result.push_back(children.back());
+		}
+		
 	}
 }
 

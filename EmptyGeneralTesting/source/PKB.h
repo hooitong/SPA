@@ -27,6 +27,7 @@ private:
   ProcTable* procTable;
   Calls* calls;
   Next* next;
+  Next* nextBip;
   ConstTable* constTable;
   CFGBip* cfgBip;
 
@@ -49,6 +50,7 @@ public:
   Calls* getCalls();
   CFG* getCfg();
   Next* getNext();
+  Next* getNextBip();
   ConstTable* getConstTable();
   CFGBip* getCfgBip();
 };

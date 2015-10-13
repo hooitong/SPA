@@ -20,6 +20,7 @@ void DesignExtractor::extract() {
   extractInterprocedureModifiesUses();
   extractNext();
   constructCFGBip();
+  extractNextBip();
 }
 
 
@@ -381,20 +382,58 @@ void DesignExtractor::constructCFGBip(){
 	PKB::getPKB()->getAst()->getRoot()->getAllChildrenIncludeSubByTType(procs, PROCEDUREN);
 
 	for(int i = 0; i <callNodes.size(); i++){
-		GNode* bipNode3 = cfgBip->getGNode(callNodes[i]->getStmtLine());
-		GNode* forwardNode = bipNode3->getForwardNodes()[0];		//after CALLN can only be one forward node
-		bipNode3->clearForwardNode();
 		PROCINDEX procIndex = PKB::getPKB()->getProcTable()->getProcIndex(callNodes[i]->getValue());
 		for(int q = 0; q< procs.size(); q++){
 			if(PKB::getPKB()->getProcTable()->getProcIndex(procs[q]->getValue()) == procIndex){
-				GNode* callingProcFirstNode = cfgBip->getGNode(procs[q]->getChildren()[0]->getFirstStmtLine());
-				bipNode3->addForwardNode(callingProcFirstNode);
+				vector<TNode*> procEndNodes;
+				procs[q]->getAllLastChildNode(procEndNodes);
+				vector<STMTLINE> procEndNodeLineNumbers;
+				for(int z = 0; z<procEndNodes.size(); z++){
+					procEndNodeLineNumbers.push_back(procEndNodes[z]->getStmtLine());
+				}
+				PKB::getPKB()->getCfgBip()->insertBip(callNodes[i]->getStmtLine(), 
+								procs[q]->getChildren()[0]->getFirstStmtLine(), procEndNodeLineNumbers);
 			}
 		}
-		bipNode3->setBranchBackNode(forwardNode);
 	}
 
 }
+
+//nextBip is extracted in this function
+void DesignExtractor::extractNextBip() {
+  vector<GNode*> gNodes = PKB::getPKB()->getCfgBip()->getAllGNodes();
+  for (int i = 0; i < gNodes.size(); i++) {
+    vector<GNode*> nodes = gNodes[i]->getForwardNodes();
+    for (int q = 0; q < nodes.size(); q++) {
+		vector<STMTLINE> result;
+		nextBipSkipDummyGetAllToLinesRec(nodes[q], result);
+		for(int z = 0; z < result.size(); z++){
+			PKB::getPKB()->getNextBip()->setNext(gNodes[i]->getLineNumber(), result[z]);
+		}
+    }
+  }
+}
+
+//recursive function to get all forward nodes by skipping intermediate dummay nodes
+void DesignExtractor::nextBipSkipDummyGetAllToLinesRec(GNode* node, vector<STMTLINE> &result){
+	if(node->getLineNumber() != -1){
+		result.push_back(node->getLineNumber());
+	}
+	else{
+		vector<GNode*> forwardNodes = node->getForwardNodes();
+		for(int i = 0; i<forwardNodes.size(); i++){
+			if (find(result.begin(), result.end(), forwardNodes[i]->getLineNumber()) == result.end()) {
+				if(forwardNodes[i]->getLineNumber() != -1){
+					result.push_back(forwardNodes[i]->getLineNumber());
+				}
+				else{
+					nextBipSkipDummyGetAllToLinesRec(forwardNodes[i], result);
+				}
+			}
+		}
+	}
+}
+
 
 bool DesignExtractor::isPrimaryNode(TNode* node) {
   TType type = node->getTType();

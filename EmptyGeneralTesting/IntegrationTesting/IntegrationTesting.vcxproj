@@ -73,6 +73,7 @@
     <ClCompile Include="source\ParserConstTableTest.cpp" />
     <ClCompile Include="source\ParserFollowsTest.cpp" />
     <ClCompile Include="source\ParserModifiesTest.cpp" />
+    <ClCompile Include="source\ParserNextBipTest.cpp" />
     <ClCompile Include="source\ParserNextTest.cpp" />
     <ClCompile Include="source\ParserParentTest.cpp" />
     <ClCompile Include="source\ParserPatternTest.cpp" />
@@ -84,6 +85,7 @@
     <ClInclude Include="source\ParserConstTableTest.h" />
     <ClInclude Include="source\ParserFollowsTest.h" />
     <ClInclude Include="source\ParserModifiesTest.h" />
+    <ClInclude Include="source\ParserNextBipTest.h" />
     <ClInclude Include="source\ParserNextTest.h" />
     <ClInclude Include="source\ParserParentTest.h" />
     <ClInclude Include="source\ParserPatternTest.h" />
