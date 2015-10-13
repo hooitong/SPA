@@ -1,5 +1,7 @@
 #include "AffectsEvaluator.h"
 #include <algorithm>
+#include <iostream>
+
 /*
   TODO: Code is currently unoptimized and untested. Does not use result to compute as well.
 */
@@ -20,7 +22,7 @@ QueryResult AffectsEvaluator::evaluate(QNode* node) {
   }
   else if (leftChild->getQType() == ANY &&
     rightChild->getQType() == CONST) {
-    return QueryResult(solveAnyConst(getInteger(leftChild)));
+    return QueryResult(solveAnyConst(getInteger(rightChild)));
   }
   else if (isSynonym(leftChild->getQType()) &&
     rightChild->getQType() == ANY) {
@@ -75,15 +77,15 @@ vector<int> AffectsEvaluator::solveConstSyn(const int left) {
   vector<STMTLINE> possibleRight = pkb->getNext()->getNextStar(left);
 
   /* TODO: Lazy implementation by computing one by one */
-  vector<STMTLINE> resultRight;
+  vector<STMTLINE> rightResults;
   for (int i = 0; i < possibleRight.size(); i++) {
     /* Only applies to assignment statements */
     if (pkb->getAst()->getTNode(possibleRight[i])->getTType() == ASSIGNN) {
-      if (solveConstConst(left, possibleRight[i])) resultRight.push_back(possibleRight[i]);
+      if (solveConstConst(left, possibleRight[i])) rightResults.push_back(possibleRight[i]);
     }
   }
 
-  return resultRight;
+  return *(removeDuplicate(&rightResults));
 }
 
 vector<int> AffectsEvaluator::solveSynConst(const int right) {
@@ -91,15 +93,15 @@ vector<int> AffectsEvaluator::solveSynConst(const int right) {
   vector<STMTLINE> possibleLeft = pkb->getNext()->getBeforeStar(right);
 
   /* TODO: Lazy implementation by computing one by one */
-  vector<STMTLINE> resultLeft;
+  vector<STMTLINE> leftResults;
   for (int i = 0; i < possibleLeft.size(); i++) {
     /* Only applies to assignment statements */
     if (pkb->getAst()->getTNode(possibleLeft[i])->getTType() == ASSIGNN) {
-      if (solveConstConst(right, possibleLeft[i])) resultLeft.push_back(possibleLeft[i]);
+      if (solveConstConst(right, possibleLeft[i])) leftResults.push_back(possibleLeft[i]);
     }
   }
 
-  return resultLeft;
+  return *(removeDuplicate(&leftResults));
 }
 
 vector<std::pair<int, int>> AffectsEvaluator::solveSynSyn() {
@@ -112,7 +114,7 @@ vector<std::pair<int, int>> AffectsEvaluator::solveSynSyn() {
     for (int j = 0; j < allAssign.size(); j++) {
       if (i == j) continue;
       if (solveConstConst(allAssign[i], allAssign[j]))
-        tupleResults.push_back(make_pair(i, j));
+        tupleResults.push_back(make_pair(allAssign[i], allAssign[j]));
     }
   }
 
@@ -129,11 +131,11 @@ vector<int> AffectsEvaluator::solveAnySyn() {
     for (int j = 0; j < allAssign.size(); j++) {
       if (i == j) continue;
       if (solveConstConst(allAssign[i], allAssign[j]))
-        rightResults.push_back(j);
+        rightResults.push_back(allAssign[j]);
     }
   }
 
-  return rightResults;
+  return *(removeDuplicate(&rightResults));
 }
 
 vector<int> AffectsEvaluator::solveSynAny() {
@@ -141,22 +143,22 @@ vector<int> AffectsEvaluator::solveSynAny() {
   vector<int> allAssign = pkb->getAst()->getStmtLines(ASSIGNN);
 
   /* Terrible O(N^3) performance loops - Lazy Implementation */
-  vector<int>  leftResult;
+  vector<int> leftResults;
   for (int i = 0; i < allAssign.size(); i++) {
     for (int j = 0; j < allAssign.size(); j++) {
       if (i == j) continue;
       if (solveConstConst(allAssign[i], allAssign[j]))
-        leftResult.push_back(i);
+        leftResults.push_back(allAssign[i]);
     }
   }
 
-  return leftResult;
+  return *(removeDuplicate(&leftResults));
 }
 
 bool AffectsEvaluator::solveAnyConst(const int right) {
   /* Retrieve all assignment statement numbers in the program */
   vector<int> allAssign = pkb->getAst()->getStmtLines(ASSIGNN);
-
+ 
   /* Terrible O(N^2) performance loops - Lazy Implementation */
   for (int i = 0; i < allAssign.size(); i++) {
     if (solveConstConst(allAssign[i], right)) return true;
@@ -269,4 +271,11 @@ TType AffectsEvaluator::synonymToTType(QNodeType type) {
   else if (type == IFSYNONYM) {
     return IFN;
   }
+}
+
+vector<int>* AffectsEvaluator::removeDuplicate(vector<int>* v) {
+  /* Remove duplicates using sets */
+  set<int> s(v->begin(), v->end());
+  v->assign(s.begin(), s.end());
+  return v;
 }

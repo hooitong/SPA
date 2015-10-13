@@ -28,7 +28,20 @@ void AffectsEvaluatorTest::testSynAny() {
 }
 
 void AffectsEvaluatorTest::testConstAny() {
+  AffectsEvaluator eval(PKB::getPKB());
+  Parser::parse("affects_sample.txt");
+  TNode* root = Parser::buildAst();
+  DesignExtractor::extract();
 
+  QNode* node = createNode("Affects", CONST, "30", ANY, "");
+  QueryResult result = eval.evaluate(node);
+  QueryResult expected(false);
+  CPPUNIT_ASSERT(result == expected);
+
+  QNode* node_two = createNode("Affects", CONST, "1", ANY, "");
+  QueryResult result_two = eval.evaluate(node_two);
+  QueryResult expected_two(true);
+  CPPUNIT_ASSERT(result_two == expected_two);
 }
 
 void AffectsEvaluatorTest::testConstConst() {
@@ -37,23 +50,23 @@ void AffectsEvaluatorTest::testConstConst() {
   TNode* root = Parser::buildAst();
   DesignExtractor::extract();
 
-  QNode* node = createNode("Calls", CONST, "2", CONST, "6");
+  QNode* node = createNode("Affects", CONST, "2", CONST, "6");
   QueryResult result = eval.evaluate(node);
   QueryResult expected(true);
   CPPUNIT_ASSERT(result == expected);
 
-  QNode* node_two = createNode("Calls", CONST, "15", CONST, "19");
+  QNode* node_two = createNode("Affects", CONST, "15", CONST, "19");
   QueryResult result_two = eval.evaluate(node_two);
   QueryResult expected_two(true);
   CPPUNIT_ASSERT(result_two == expected_two);
 
-  QNode* node_three = createNode("Calls", CONST, "50", CONST, "59");
+  QNode* node_three = createNode("Affects", CONST, "50", CONST, "59");
   QueryResult result_three = eval.evaluate(node_three);
   QueryResult expected_three(true);
   CPPUNIT_ASSERT(result_three == expected_three);
 
   /* Failed case as line 2 is modifying as well */
-  QNode* node_four = createNode("Calls", CONST, "1", CONST, "6");
+  QNode* node_four = createNode("Affects", CONST, "1", CONST, "6");
   QueryResult result_four = eval.evaluate(node_four);
   QueryResult expected_four(false);
   CPPUNIT_ASSERT(result_four == expected_four);
@@ -64,15 +77,52 @@ void AffectsEvaluatorTest::testConstSyn() {
 }
 
 void AffectsEvaluatorTest::testAnySyn() {
+  AffectsEvaluator eval(PKB::getPKB());
+  Parser::parse("affects_sample.txt");
+  TNode* root = Parser::buildAst();
+  DesignExtractor::extract();
 
+  QNode* node = createNode("Affects", ANY, "", ASSIGNSYNONYM, "A");
+  QueryResult result = eval.evaluate(node);
+  vector<STMTLINE> expected;
+  expected.push_back(2);
+  expected.push_back(6);
+  expected.push_back(19);
+  expected.push_back(30);
+  expected.push_back(58);
+  expected.push_back(59);
+  expected.push_back(63);
+  QueryResult expectedResult(expected, "A");
+  CPPUNIT_ASSERT(result == expectedResult);
 }
 
 void AffectsEvaluatorTest::testAnyConst() {
+  AffectsEvaluator eval(PKB::getPKB());
+  Parser::parse("affects_sample.txt");
+  TNode* root = Parser::buildAst();
+  DesignExtractor::extract();
 
+  QNode* node = createNode("Affects", ANY, "", CONST, "1");
+  QueryResult result = eval.evaluate(node);
+  QueryResult expected(false);
+  CPPUNIT_ASSERT(result == expected);
+
+  QNode* node_two = createNode("Affects", ANY, "", CONST, "2");
+  QueryResult result_two = eval.evaluate(node_two);
+  QueryResult expected_two(true);
+  CPPUNIT_ASSERT(result_two == expected_two);
 }
 
 void AffectsEvaluatorTest::testAnyAny() {
+  AffectsEvaluator eval(PKB::getPKB());
+  Parser::parse("affects_sample.txt");
+  TNode* root = Parser::buildAst();
+  DesignExtractor::extract();
 
+  QNode* node = createNode("Affects", ANY, "", ANY, "");
+  QueryResult result = eval.evaluate(node);
+  QueryResult expected(true);
+  CPPUNIT_ASSERT(result == expected);
 }
 
 QNode* AffectsEvaluatorTest::createNode(string relationString, QNodeType type1, string s1, QNodeType type2, string s2) {
