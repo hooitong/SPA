@@ -1,6 +1,8 @@
 ﻿#include <cppunit/config/SourcePrefix.h>
 
 #include "AffectsEvaluatorTest.h"
+#include <DesignExtractor.h>
+#include <Parser.h>
 
 void AffectsEvaluatorTest::setUp() {
 
@@ -29,7 +31,14 @@ void AffectsEvaluatorTest::testConstAny() {
 }
 
 void AffectsEvaluatorTest::testConstConst() {
-
+  AffectsEvaluator eval(PKB::getPKB());
+  Parser::parse("affects_sample.txt");
+  TNode* root = Parser::buildAst();
+  DesignExtractor::extract();
+  QNode* node = createNode("Calls", CONST, "2", CONST, "6");
+  QueryResult result = eval.evaluate(node);
+  QueryResult expected = new QueryResult(true);
+  CPPUNIT_ASSERT(result == expected);
 }
 
 void AffectsEvaluatorTest::testConstSyn() {

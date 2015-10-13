@@ -1,7 +1,5 @@
 #include "AffectsEvaluator.h"
 #include <algorithm>
-#include <iostream>
-
 /*
   TODO: Code is currently unoptimized and untested. Does not use result to compute as well.
 */
@@ -55,23 +53,21 @@ bool AffectsEvaluator::solveConstConst(const int left, const int right) {
 
   /* Left and Right are Statement Lines */
   /* Check that both statement lines are assignment statements */
-  bool isTypeCorrect = ast->getTNode(left)->getTType() == ASSIGNN && ast->getTNode(right)->getTType() == ASSIGNN;
+  if (ast->getTNode(left)->getTType() != ASSIGNN || ast->getTNode(right)->getTType() != ASSIGNN) return false;
 
   /* Check that both are modifying and using the same variable and save variable */
-  /* TODO: Will crash if the statement does not modifies or uses */ 
+  /* TODO: Will crash if the statement does not modifies or uses */
   VARINDEX contextVar = pkb->getModifies()->getModifiedByStmt(left)[0];
   vector<VARINDEX> usedVars = pkb->getUses()->getUsedByStmt(right);
-  bool isSameContext = std::find(usedVars.begin(), usedVars.end(), contextVar) != usedVars.end();
+  if (std::find(usedVars.begin(), usedVars.end(), contextVar) == usedVars.end()) return false;
 
   /* Check that there is a control path from left to right */
-  bool isContainsPath = pkb->getNext()->isNextStar(left, right);
+  if (!pkb->getNext()->isNextStar(left, right)) return false;
 
   /* Heavy computation alert! Using Next table, check the statement lines whether other variable modifies it */
   vector<STMTLINE> path;
-  bool isNotModifiedBetween = findPathToNode(left, right, contextVar, path);
-
-  /* If all boolean is true then return true else false */
-  return isTypeCorrect && isSameContext && isContainsPath && isNotModifiedBetween;
+  return findPathToNode(left, right, contextVar, path);
+  
 }
 
 vector<int> AffectsEvaluator::solveConstSyn(const int left) {
@@ -163,7 +159,7 @@ bool AffectsEvaluator::solveAnyConst(const int right) {
 
   /* Terrible O(N^2) performance loops - Lazy Implementation */
   for (int i = 0; i < allAssign.size(); i++) {
-    return solveConstConst(allAssign[i], right);
+    if (solveConstConst(allAssign[i], right)) return true;
   }
 
   return false;
@@ -176,7 +172,7 @@ bool AffectsEvaluator::solveConstAny(const int left) {
   /* Terrible O(N^2) performance loops - Lazy Implementation */
   vector<int>  leftResult;
   for (int i = 0; i < allAssign.size(); i++) {
-    return solveConstConst(left, allAssign[i]);
+    if (solveConstConst(left, allAssign[i])) return true;
   }
 
   return false;
@@ -210,7 +206,7 @@ bool AffectsEvaluator::findPathToNode(STMTLINE current, STMTLINE end, VARINDEX c
   if (std::find(path.begin(), path.end(), current) != path.end()) return false;
 
   /* Check current stmtline whether it modifies variable */
-  if (path.size() != 0 && current != end && pkb->getAst()->getTNode(current)->getTType() == ASSIGNN && 
+  if (path.size() != 0 && current != end && pkb->getAst()->getTNode(current)->getTType() == ASSIGNN &&
     pkb->getModifies()->isModifiesForStmt(current, contextVar)) return false;
 
   /* Get all possible next path and navigate recursively */
@@ -219,7 +215,7 @@ bool AffectsEvaluator::findPathToNode(STMTLINE current, STMTLINE end, VARINDEX c
   path.push_back(current);
 
   for (int i = 0; i < allNext.size(); i++) {
-    pathsStatus = pathsStatus || findPathToNode(allNext[i], end, contextVar, path);
+    pathsStatus = pathsStatus | findPathToNode(allNext[i], end, contextVar, path);
   }
 
   return pathsStatus;
@@ -247,8 +243,6 @@ bool AffectsEvaluator::isConst(QNodeType type) {
   return type == CONST ||
     type == VAR;
 }
-
-
 
 TType AffectsEvaluator::synonymToTType(QNodeType type) {
   if (type == WHILESYNONYM) {
