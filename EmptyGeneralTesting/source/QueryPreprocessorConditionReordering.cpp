@@ -4,6 +4,8 @@
 QueryPreprocessorConditionReordering::QueryPreprocessorConditionReordering() {
   score_functions.push_back(alwaysReturnsFour);
   score_weights.push_back(1);
+  score_functions.push_back(relationTypeScore);
+  score_weights.push_back(100);
 }
 
 void QueryPreprocessorConditionReordering::sortConditions(QNode* condition_list_node) {
@@ -83,6 +85,20 @@ int QueryPreprocessorConditionReordering::computeScore(QNode* condition_node) {
     total_score += score_functions[i](condition_node) * score_weights[i];
   }
   return total_score;
+}
+
+// Ordering based on relation type. Affects* comes last, lead by Affect, lead by Next*, lead by the rest
+int QueryPreprocessorConditionReordering::relationTypeScore(QNode* condition_node) {
+  if (condition_node->getString() == "Affect*") {
+    return 4;
+  }
+  if (condition_node->getString() == "Affect") {
+    return 3;
+  }
+  if (condition_node->getString() == "Next*") {
+    return 2;
+  }
+  return 1;
 }
 
 int QueryPreprocessorConditionReordering::alwaysReturnsFour(QNode* condition_node) {

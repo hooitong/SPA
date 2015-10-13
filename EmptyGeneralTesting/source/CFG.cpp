@@ -26,7 +26,7 @@ void CFG::insert(STMTLINE from, STMTLINE to, PROCINDEX procIndex) {
 
   if (lineToNode.find(from) == lineToNode.end()) {
     //not found
-    nodeFrom = new GNode(from);
+    nodeFrom = new GNode(from, procIndex);
     setLineToNode(from, nodeFrom);
   }
   else {
@@ -35,7 +35,7 @@ void CFG::insert(STMTLINE from, STMTLINE to, PROCINDEX procIndex) {
 
   if (lineToNode.find(to) == lineToNode.end()) {
     //not found
-    nodeTo = new GNode(to);
+    nodeTo = new GNode(to, procIndex);
     setLineToNode(to, nodeTo);
   }
   else {

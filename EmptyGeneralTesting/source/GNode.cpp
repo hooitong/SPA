@@ -1,11 +1,16 @@
 ﻿#include "GNode.h"
 
-GNode::GNode(PROGLINE lineNumber) {
+GNode::GNode(PROGLINE lineNumber, PROCINDEX procIndex) {
   this->lineNumber = lineNumber;
+  this->procIndex = procIndex;
 }
 
 PROGLINE GNode::getLineNumber() {
   return lineNumber;
+}
+
+PROCINDEX GNode::getProcIndex(){
+  return procIndex;
 }
 
 vector<GNode*> GNode::getForwardNodes() {
@@ -36,5 +41,17 @@ void GNode::getAllPossibleForwardNodes(STMTLINE start, bool rec, vector<GNode*> 
       }
     }
   }
+}
 
+
+
+void GNode::clearForwardNode(){
+	forwardNodes.clear();
+}
+
+void GNode::setBranchBackNode(GNode* node){
+	this->branchBackNode = node;
+}
+GNode* GNode::getBranchBackNode(){
+	return this->branchBackNode;
 }

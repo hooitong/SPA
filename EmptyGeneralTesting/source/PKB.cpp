@@ -26,6 +26,10 @@ PKB::PKB(void) {
   procTable = new ProcTable;
   next = new Next;
   constTable = new ConstTable;
+  cfgBip = new CFGBip;
+  nextBip = new Next;
+  sibling = new Sibling;
+  contains = new Contains;
 }
 
 PKB::~PKB(void) {
@@ -41,6 +45,10 @@ PKB::~PKB(void) {
   delete procTable;
   delete next;
   delete constTable;
+  delete cfgBip;
+  delete nextBip;
+  delete sibling;
+  delete contains;
 }
 
 VarTable* PKB::getVarTable() {
@@ -79,12 +87,28 @@ CFG* PKB::getCfg() {
   return cfg;
 }
 
+CFGBip* PKB::getCfgBip() {
+  return cfgBip;
+}
+
 Next* PKB::getNext() {
   return next;
 }
 
+Next* PKB::getNextBip() {
+  return nextBip;
+}
+
 ConstTable* PKB::getConstTable(){
   return constTable;
+}
+
+Sibling* PKB::getSibling(){
+  return sibling;
+}
+
+Contains* PKB::getContains(){
+  return contains;
 }
 
 vector<TNode*> PKB::getAllStmtLstNodes(){

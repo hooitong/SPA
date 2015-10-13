@@ -36,6 +36,7 @@ public:
   TNode* getParentByTType(TType type);
   void getAllChildrenIncludeSub(vector<TNode*> &children);
   void getAllChildrenIncludeSubByTType(vector<TNode*> &children, TType type);
+  void getAllLastChildNode(vector<TNode*> &result);
   STMTLINE getFirstStmtLine();
 
   bool setStmtLine(STMTLINE stmtNo);
