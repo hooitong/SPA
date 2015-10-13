@@ -9,6 +9,7 @@ void AffectsEvaluatorTest::setUp() {
 }
 
 void AffectsEvaluatorTest::tearDown() {
+  PKB::deletePKB();
 
 }
 
@@ -35,10 +36,27 @@ void AffectsEvaluatorTest::testConstConst() {
   Parser::parse("affects_sample.txt");
   TNode* root = Parser::buildAst();
   DesignExtractor::extract();
+
   QNode* node = createNode("Calls", CONST, "2", CONST, "6");
   QueryResult result = eval.evaluate(node);
-  QueryResult expected = new QueryResult(true);
+  QueryResult expected(true);
   CPPUNIT_ASSERT(result == expected);
+
+  QNode* node_two = createNode("Calls", CONST, "15", CONST, "19");
+  QueryResult result_two = eval.evaluate(node_two);
+  QueryResult expected_two(true);
+  CPPUNIT_ASSERT(result_two == expected_two);
+
+  QNode* node_three = createNode("Calls", CONST, "50", CONST, "59");
+  QueryResult result_three = eval.evaluate(node_three);
+  QueryResult expected_three(true);
+  CPPUNIT_ASSERT(result_three == expected_three);
+
+  /* Failed case as line 2 is modifying as well */
+  QNode* node_four = createNode("Calls", CONST, "1", CONST, "6");
+  QueryResult result_four = eval.evaluate(node_four);
+  QueryResult expected_four(false);
+  CPPUNIT_ASSERT(result_four == expected_four);
 }
 
 void AffectsEvaluatorTest::testConstSyn() {
