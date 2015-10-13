@@ -1,5 +1,6 @@
 #include "AffectsEvaluator.h"
 #include <algorithm>
+#include <iostream>
 
 /*
   TODO: Code is currently unoptimized and untested. Does not use result to compute as well.
@@ -57,9 +58,10 @@ bool AffectsEvaluator::solveConstConst(const int left, const int right) {
   bool isTypeCorrect = ast->getTNode(left)->getTType() == ASSIGNN && ast->getTNode(right)->getTType() == ASSIGNN;
 
   /* Check that both are modifying and using the same variable and save variable */
-  /* TODO: Will crash if the statement does not modifies or uses */
+  /* TODO: Will crash if the statement does not modifies or uses */ 
   VARINDEX contextVar = pkb->getModifies()->getModifiedByStmt(left)[0];
-  bool isSameContext = pkb->getUses()->getUsedByStmt(right)[0];
+  vector<VARINDEX> usedVars = pkb->getUses()->getUsedByStmt(right);
+  bool isSameContext = std::find(usedVars.begin(), usedVars.end(), contextVar) != usedVars.end();
 
   /* Check that there is a control path from left to right */
   bool isContainsPath = pkb->getNext()->isNextStar(left, right);
@@ -208,14 +210,16 @@ bool AffectsEvaluator::findPathToNode(STMTLINE current, STMTLINE end, VARINDEX c
   if (std::find(path.begin(), path.end(), current) != path.end()) return false;
 
   /* Check current stmtline whether it modifies variable */
-  if (path.size() != 0 && current != end && pkb->getModifies()->isModifiesForStmt(current, contextVar)) return false;
+  if (path.size() != 0 && current != end && pkb->getAst()->getTNode(current)->getTType() == ASSIGNN && 
+    pkb->getModifies()->isModifiesForStmt(current, contextVar)) return false;
 
   /* Get all possible next path and navigate recursively */
   vector<STMTLINE> allNext = pkb->getNext()->getNext(current);
   bool pathsStatus = false;
   path.push_back(current);
+
   for (int i = 0; i < allNext.size(); i++) {
-    pathsStatus = pathsStatus | findPathToNode(allNext[i], end, contextVar, path);
+    pathsStatus = pathsStatus || findPathToNode(allNext[i], end, contextVar, path);
   }
 
   return pathsStatus;
