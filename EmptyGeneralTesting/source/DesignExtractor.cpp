@@ -72,7 +72,13 @@ void DesignExtractor::extractVariousRelationship(TNode* node) {
 		  insertCFPAndCFGBip(leftNode->getStmtLine(), rightNode->getStmtLine(),
 							PKB::getPKB()->getProcTable()->getProcIndex(leftNode->getParentByTType(PROCEDUREN)->getValue()));
 	  }
-      
+
+	  ///////////////////////
+	  //Sibling
+	  ///////////////////////
+	  PKB::getPKB()->getSibling()->setSibling(leftNode->getStmtLine(), rightNode->getStmtLine());
+
+
     }
 
     ///////////////////////

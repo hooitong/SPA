@@ -77,6 +77,7 @@
     <ClCompile Include="source\ParserNextTest.cpp" />
     <ClCompile Include="source\ParserParentTest.cpp" />
     <ClCompile Include="source\ParserPatternTest.cpp" />
+    <ClCompile Include="source\ParserSiblingTest.cpp" />
     <ClCompile Include="source\ParserUsesTest.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +90,7 @@
     <ClInclude Include="source\ParserNextTest.h" />
     <ClInclude Include="source\ParserParentTest.h" />
     <ClInclude Include="source\ParserPatternTest.h" />
+    <ClInclude Include="source\ParserSiblingTest.h" />
     <ClInclude Include="source\ParserUsesTest.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
