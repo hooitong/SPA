@@ -60,13 +60,15 @@ void ParserSiblingTest::testSibling() {
 void ParserSiblingTest::testGetSiblings() {
 
 	vector<STMTLINE> siblings = sTest->getSiblings(2);
+	CPPUNIT_ASSERT(siblings.size() == 2);
 	CPPUNIT_ASSERT(siblings[0] == 3);
 	CPPUNIT_ASSERT(siblings[1] == 1);
-	CPPUNIT_ASSERT(siblings.size() == 2);
+	
 
 	siblings = sTest->getSiblings(11);
-	CPPUNIT_ASSERT(siblings[0] == 10);
 	CPPUNIT_ASSERT(siblings.size() == 1);
+	CPPUNIT_ASSERT(siblings[0] == 10);
+	
 
 	siblings = sTest->getSiblings(37);
 	CPPUNIT_ASSERT(siblings.size() == 0);

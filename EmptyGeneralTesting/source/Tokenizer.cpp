@@ -74,6 +74,8 @@ bool Tokenizer::isCodeBody(string code) {
   code = Tokenizer::appendWhiteSpace(code);
   bool foundAlpha = false;	//has alphanumeric in string
   ParserUtils::replaceAll(code, " ", "");
+  ParserUtils::replaceAll(code, "{", "");
+  ParserUtils::replaceAll(code, "}", "");
 
   for (std::string::iterator it = code.begin(); it != code.end(); ++it) {
     if (isalpha(*it)) {
