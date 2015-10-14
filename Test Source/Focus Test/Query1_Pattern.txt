@@ -1,0 +1,375 @@
+1 - SelectAll::
+constant c;  assign a;
+Select c pattern a("w", "w*6")
+1, 10, 8, 7, 6, 5, 3, 9, 64, 76, 12, 120, 0, 4, 876
+5000
+2 - SelectAll::
+prog_line n;  assign a;
+Select n pattern a("w", "w*6")
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70, 71,72
+5000
+3 - SelectAll::
+stmt s; assign a;
+Select s pattern a("w", "w*6")
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72
+5000
+4 - SelectAll::
+assign a1; assign a;
+Select a1 pattern a("w", "w*6")
+1,2,5,6,10,13,14,15,17,19,20,21,22,23,24,30,32,33,34,35,37,38,39,41,42,43,44,47,50,52,54,56,58,59,61,62,63,65,67,69,70, 72
+5000
+5 - SelectAll::
+while w1; assign a;
+Select w1 pattern a(_, _)
+26,29,31,46,48,49,51,53,57,60,64
+5000
+6 - SelectAll::
+variable v;  assign a;
+Select v pattern a("w", "w*6")
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+7 - SelectAll::
+if f;  assign a;
+Select f pattern a("w", "w*6")
+3 ,9, 11 ,12 ,16, 18 ,25, 27, 28, 36, 40, 55, 68
+5000
+8 - SelectAll::
+call c;  assign a;
+Select c pattern a("w", "w*6")
+4,7,8, 45,66,71
+5000
+9 - SelectAll::
+procedure p;  assign a;
+Select p pattern a("w", "w*6")
+First, Second, Third, Forth, Fifth, Sixth
+5000
+10 - SelectAll::
+assign a;
+Select a pattern a("w", "w*6")
+14, 52
+5000
+11 - PatternA::
+assign a;
+Select a pattern a("w", _)
+14, 24,65,52
+5000
+11 - PatternA::
+assign a;
+Select a pattern a("x", _)
+none
+5000
+11 - PatternA::
+assign a;
+Select a pattern a("a", _)
+1,2,34,37,69,70
+5000
+11 - PatternA::
+assign a;
+Select a pattern a("t", _)
+72
+5000
+12 - PatternW::
+while w;
+Select w pattern w("w", _)
+51
+5000
+12 - PatternW::
+while w;
+Select w pattern w("i", _)
+64,29
+5000
+12 - PatternW::
+while w;
+Select w pattern w("k", _)
+60,49
+5000
+12 - PatternW::
+while w;
+Select w pattern w("l", _)
+48,31
+5000
+13 - PatternIf::
+if f;
+Select f pattern f("w", _, _)
+27
+5000
+13 - PatternIf::
+if f;
+Select f pattern f("i", _, _)
+36
+5000
+13 - PatternIf::
+if f;
+Select f pattern f("k", _, _)
+12
+5000
+13 - PatternIf::
+if f;
+Select f pattern f("l", _, _)
+11
+5000
+13 - PatternIfWA::
+if f; variable v, assign a, while w;
+Select v pattern f(v, _, _) pattern a(v, _) pattern w(v, _)
+none
+5000
+13 - PatternIfWA::
+if f; variable v, assign a, while w;
+Select f pattern f(v, _, _) pattern a(v, _) pattern w(v, _)
+none
+5000
+13 - PatternIfWA::
+if f; variable v, assign a, while w;
+Select w pattern f(v, _, _) pattern a(v, _) pattern w(v, _)
+none
+5000
+13 - PatternIfWA::
+if f; variable v, assign a, while w;
+Select a pattern f(v, _, _) pattern a(v, _) pattern w(v, _)
+none
+5000
+13 - PatternIfWA::
+if f; variable v; assign a; while w;
+Select v pattern w(v, _) pattern f(v, _, _)
+f,i,j,w,k,l
+5000
+14 - PatternA::
+assign a; variable v;
+Select a pattern a(v, _)
+1,2,5,6,10,13,14,15,17,19,20,21,22,23,24,30,32,33,34,35,37,38,39,41,42,43,44,47,50,52,54,56,58,59,61,62,63,65,67,69,70,72
+5000
+14 - PatternA::
+assign a; variable v;
+Select v pattern a(v, _)
+d,k,q,a,u,f,r,h,y,i,z,b,e,w,l,p, t
+5000
+14 - PatternA::
+assign a;
+Select a pattern a(_, _)
+1,2,5,6,10,13,14,15,17,19,20,21,22,23,24,30,32,33,34,35,37,38,39,41,42,43,44,47,50,52,54,56,58,59,61,62,63,65,67,69,70,72
+5000
+15 - PatternIf::
+if f; variable v;
+Select f pattern f(v, _, _)
+3, 9, 11, 12, 16, 18, 25, 27,28,36,40,68,55
+5000
+15 - PatternIf::
+if f; variable v;
+Select v pattern f(v, _, _)
+c,f,l,k,g,j,b,w,o,i,h,x
+5000
+15 - PatternIf::
+if f;
+Select f pattern f(_, _, _)
+3, 9, 11, 12, 16, 18, 25, 27,28,36,40,68,55
+5000
+16 - PatternW::
+while a; variable v;
+Select a pattern a(v, _)
+26,29,31,46,48,49,51,53,57,60,64
+5000
+16 - PatternW::
+while a; variable v;
+Select v pattern a(v, _)
+q,i,l,f,k,w,p,j
+5000
+16 - PatternW::
+while a;
+Select a pattern a(_, _)
+26,29,31,46,48,49,51,53,57,60,64
+5000
+16 - PatternA::
+assign a;
+Select a pattern a(_, "a+6")
+65,24
+5000
+16 - PatternA::
+assign a;
+Select a pattern a(_, _"a+6"_)
+65,24
+5000
+16 - PatternA::
+assign a;
+Select a pattern a(_, "10")
+5
+5000
+16 - PatternA::
+assign a;
+Select a pattern a(_, _"10"_)
+5
+5000
+16 - PatternA::
+assign a;
+Select a pattern a(_, "1")
+none
+5000
+16 - PatternA::
+assign a;
+Select a pattern a(_, _"1"_)
+1,13,15,33,41,42,50,54,32
+5000
+16 - PatternA::
+assign a;
+Select a pattern a(_, "64+1")
+32
+5000
+16 - PatternA::
+assign a;
+Select a pattern a(_, _"64+1"_)
+32
+5000
+16 - PatternA::
+assign a; variable v;
+Select a pattern a(v, "a+6")
+65,24
+5000
+16 - PatternA::
+assign a; variable v;
+Select a pattern a(v, _"a+6"_)
+65,24
+5000
+16 - PatternA::
+assign a; variable v;
+Select a pattern a(v, "10")
+5
+5000
+16 - PatternA::
+assign a; variable v;
+Select a pattern a(v, _"10"_)
+5
+5000
+16 - PatternA::
+assign a; variable v;
+Select a pattern a(v, "1")
+none
+5000
+16 - PatternA::
+assign a; variable v;
+Select a pattern a(v, _"1"_)
+1,13,15,33,41,42,50,54,32
+5000
+16 - PatternA::
+assign a; variable v;
+Select a pattern a(v, "64+1")
+32
+5000
+16 - PatternA::
+assign a; variable v;
+Select a pattern a(v, _"64+1"_)
+32
+5000
+16 - PatternA::
+assign a; variable v;
+Select a pattern a(v, "0*x-1+6")
+42
+5000
+16 - PatternA::
+assign a; variable v;
+Select a pattern a(v, _"0*x-1+6"_)
+42
+5000
+16 - PatternA::
+assign a; variable v;
+Select a pattern a(v, "o*8")
+none
+5000
+16 - PatternA::
+assign a; variable v;
+Select a pattern a(v, _"o*8"_)
+41
+5000
+16 - PatternA::
+assign a; variable v;
+Select a pattern a(v, "o-1")
+50,13
+5000
+16 - PatternA::
+assign a; variable v;
+Select a pattern a(v, _"o-1"_)
+50,13
+5000
+16 - PatternA::
+assign a; variable v;
+Select a pattern a(v, "5+8*1")
+none
+5000
+16 - PatternA::
+assign a; variable v;
+Select a pattern a(v, _"5+8*1"_)
+54,15
+5000
+16 - PatternA::
+assign a; variable v;
+Select a pattern a(v, "c-o")
+61,21
+5000
+16 - PatternA::
+assign a; variable v;
+Select a pattern a(v, _"c-o"_)
+61,21
+5000
+16 - PatternA::
+assign a; variable v;
+Select v pattern a(v, "64+1")
+k
+5000
+16 - PatternA::
+assign a; variable v;
+Select v pattern a(v, _"64+1"_)
+k
+5000
+16 - PatternA::
+assign a; variable v;
+Select v pattern a(v, "0*x-1+6")
+y
+5000
+16 - PatternA::
+assign a; variable v;
+Select v pattern a(v, _"0*x-1+6"_)
+y
+5000
+16 - PatternA::
+assign a; variable v;
+Select v pattern a(v, "o*8")
+none
+5000
+16 - PatternA::
+assign a; variable v;
+Select v pattern a(v, _"o*8"_)
+h
+5000
+16 - PatternA::
+assign a; variable v;
+Select v pattern a(v, "o-1")
+q
+5000
+16 - PatternA::
+assign a; variable v;
+Select v pattern a(v, _"o-1"_)
+q
+5000
+16 - PatternA::
+assign a; variable v;
+Select v pattern a(v, "5+8*1")
+none
+5000
+16 - PatternA::
+assign a; variable v;
+Select v pattern a(v, _"5+8*1"_)
+k
+5000
+16 - PatternA::
+assign a; variable v;
+Select v pattern a(v, "c-o")
+d
+5000
+16 - PatternA::
+assign a; variable v;
+Select v pattern a(v, _"c-o"_)
+d
+5000
+16 - PatternA::
+assign a; variable v;
+Select v such that Modifies(9,v) pattern a(v, _"e*p"_)
+l
+5000

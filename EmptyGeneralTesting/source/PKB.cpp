@@ -27,6 +27,9 @@ PKB::PKB(void) {
   next = new Next;
   constTable = new ConstTable;
   cfgBip = new CFGBip;
+  nextBip = new Next;
+  sibling = new Sibling;
+  contains = new Contains;
 }
 
 PKB::~PKB(void) {
@@ -43,6 +46,9 @@ PKB::~PKB(void) {
   delete next;
   delete constTable;
   delete cfgBip;
+  delete nextBip;
+  delete sibling;
+  delete contains;
 }
 
 VarTable* PKB::getVarTable() {
@@ -89,8 +95,20 @@ Next* PKB::getNext() {
   return next;
 }
 
+Next* PKB::getNextBip() {
+  return nextBip;
+}
+
 ConstTable* PKB::getConstTable(){
   return constTable;
+}
+
+Sibling* PKB::getSibling(){
+  return sibling;
+}
+
+Contains* PKB::getContains(){
+  return contains;
 }
 
 vector<TNode*> PKB::getAllStmtLstNodes(){

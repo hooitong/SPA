@@ -17,6 +17,7 @@ public:
   vector<GNode*> getAllGNodesByProcIndex(PROCINDEX procIndex);
   GNode* getGNode(PROGLINE line);
   void insert(STMTLINE from, STMTLINE to, PROCINDEX procIndex);
+  void insertBip(STMTLINE from, STMTLINE to, vector<STMTLINE> toProcEndNodeLineNumbers);
   void setRootNode(GNode* root);
   GNode* getRootNode();
 };

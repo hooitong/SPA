@@ -6,7 +6,7 @@ void CFGBip::setLineToNode(PROGLINE lineNumber, GNode* node) {
   lineToNode[lineNumber] = node;
 }
 
-
+//from and to must be within same procedure
 void CFGBip::insert(STMTLINE from, STMTLINE to, PROCINDEX procIndex) {
   GNode* nodeFrom;
   GNode* nodeTo;
@@ -36,6 +36,36 @@ void CFGBip::insert(STMTLINE from, STMTLINE to, PROCINDEX procIndex) {
   nodeFrom->addForwardNode(nodeTo);
   nodeTo->addPrevNode(nodeFrom);
 }
+
+void CFGBip::insertBip(STMTLINE from, STMTLINE to, vector<STMTLINE> toProcEndNodeLineNumbers) {
+  GNode* nodeFrom;
+  GNode* nodeTo;
+
+  if (lineToNode.find(from) == lineToNode.end()) {
+    return;
+  }
+  else {
+    nodeFrom = getGNode(from);
+  }
+
+  if (lineToNode.find(to) == lineToNode.end()) {
+    return;
+  }
+  else {
+    nodeTo = getGNode(to);
+  }
+
+	GNode* forwardNode = nodeFrom->getForwardNodes()[0];		//after CALLN can only be one forward node
+	nodeFrom->clearForwardNode();
+	nodeFrom->addForwardNode(nodeTo);
+	nodeFrom->setBranchBackNode(forwardNode);
+
+	for(int i = 0; i<toProcEndNodeLineNumbers.size(); i++){
+		GNode* endNode = this->getGNode(toProcEndNodeLineNumbers[i]);
+		endNode->addForwardNode(forwardNode);
+	}
+}
+
 
 GNode* CFGBip::getGNode(PROGLINE line) {
   return lineToNode[line];

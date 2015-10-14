@@ -21,7 +21,7 @@ QueryResult AffectsEvaluator::evaluate(QNode* node) {
   }
   else if (leftChild->getQType() == ANY &&
     rightChild->getQType() == CONST) {
-    return QueryResult(solveAnyConst(getInteger(leftChild)));
+    return QueryResult(solveAnyConst(getInteger(rightChild)));
   }
   else if (isSynonym(leftChild->getQType()) &&
     rightChild->getQType() == ANY) {
@@ -54,22 +54,20 @@ bool AffectsEvaluator::solveConstConst(const int left, const int right) {
 
   /* Left and Right are Statement Lines */
   /* Check that both statement lines are assignment statements */
-  bool isTypeCorrect = ast->getTNode(left)->getTType() == ASSIGNN && ast->getTNode(right)->getTType() == ASSIGNN;
+  if (ast->getTNode(left)->getTType() != ASSIGNN || ast->getTNode(right)->getTType() != ASSIGNN) return false;
 
   /* Check that both are modifying and using the same variable and save variable */
   /* TODO: Will crash if the statement does not modifies or uses */
   VARINDEX contextVar = pkb->getModifies()->getModifiedByStmt(left)[0];
-  bool isSameContext = pkb->getUses()->getUsedByStmt(right)[0];
+  vector<VARINDEX> usedVars = pkb->getUses()->getUsedByStmt(right);
+  if (std::find(usedVars.begin(), usedVars.end(), contextVar) == usedVars.end()) return false;
 
   /* Check that there is a control path from left to right */
-  bool isContainsPath = pkb->getNext()->isNextStar(left, right);
+  if (!pkb->getNext()->isNextStar(left, right)) return false;
 
   /* Heavy computation alert! Using Next table, check the statement lines whether other variable modifies it */
   vector<STMTLINE> path;
-  bool isNotModifiedBetween = findPathToNode(left, right, contextVar, path);
-
-  /* If all boolean is true then return true else false */
-  return isTypeCorrect && isSameContext && isContainsPath && isNotModifiedBetween;
+  return findPathToNode(left, right, contextVar, path);
 }
 
 vector<int> AffectsEvaluator::solveConstSyn(const int left) {
@@ -77,15 +75,15 @@ vector<int> AffectsEvaluator::solveConstSyn(const int left) {
   vector<STMTLINE> possibleRight = pkb->getNext()->getNextStar(left);
 
   /* TODO: Lazy implementation by computing one by one */
-  vector<STMTLINE> resultRight;
+  vector<STMTLINE> rightResults;
   for (int i = 0; i < possibleRight.size(); i++) {
     /* Only applies to assignment statements */
     if (pkb->getAst()->getTNode(possibleRight[i])->getTType() == ASSIGNN) {
-      if (solveConstConst(left, possibleRight[i])) resultRight.push_back(possibleRight[i]);
+      if (solveConstConst(left, possibleRight[i])) rightResults.push_back(possibleRight[i]);
     }
   }
 
-  return resultRight;
+  return *(removeDuplicate(&rightResults));
 }
 
 vector<int> AffectsEvaluator::solveSynConst(const int right) {
@@ -93,15 +91,15 @@ vector<int> AffectsEvaluator::solveSynConst(const int right) {
   vector<STMTLINE> possibleLeft = pkb->getNext()->getBeforeStar(right);
 
   /* TODO: Lazy implementation by computing one by one */
-  vector<STMTLINE> resultLeft;
+  vector<STMTLINE> leftResults;
   for (int i = 0; i < possibleLeft.size(); i++) {
     /* Only applies to assignment statements */
     if (pkb->getAst()->getTNode(possibleLeft[i])->getTType() == ASSIGNN) {
-      if (solveConstConst(right, possibleLeft[i])) resultLeft.push_back(possibleLeft[i]);
+      if (solveConstConst(possibleLeft[i], right)) leftResults.push_back(possibleLeft[i]);
     }
   }
 
-  return resultLeft;
+  return *(removeDuplicate(&leftResults));
 }
 
 vector<std::pair<int, int>> AffectsEvaluator::solveSynSyn() {
@@ -114,7 +112,7 @@ vector<std::pair<int, int>> AffectsEvaluator::solveSynSyn() {
     for (int j = 0; j < allAssign.size(); j++) {
       if (i == j) continue;
       if (solveConstConst(allAssign[i], allAssign[j]))
-        tupleResults.push_back(make_pair(i, j));
+        tupleResults.push_back(make_pair(allAssign[i], allAssign[j]));
     }
   }
 
@@ -131,11 +129,11 @@ vector<int> AffectsEvaluator::solveAnySyn() {
     for (int j = 0; j < allAssign.size(); j++) {
       if (i == j) continue;
       if (solveConstConst(allAssign[i], allAssign[j]))
-        rightResults.push_back(j);
+        rightResults.push_back(allAssign[j]);
     }
   }
 
-  return rightResults;
+  return *(removeDuplicate(&rightResults));
 }
 
 vector<int> AffectsEvaluator::solveSynAny() {
@@ -143,16 +141,16 @@ vector<int> AffectsEvaluator::solveSynAny() {
   vector<int> allAssign = pkb->getAst()->getStmtLines(ASSIGNN);
 
   /* Terrible O(N^3) performance loops - Lazy Implementation */
-  vector<int>  leftResult;
+  vector<int> leftResults;
   for (int i = 0; i < allAssign.size(); i++) {
     for (int j = 0; j < allAssign.size(); j++) {
       if (i == j) continue;
       if (solveConstConst(allAssign[i], allAssign[j]))
-        leftResult.push_back(i);
+        leftResults.push_back(allAssign[i]);
     }
   }
 
-  return leftResult;
+  return *(removeDuplicate(&leftResults));
 }
 
 bool AffectsEvaluator::solveAnyConst(const int right) {
@@ -161,7 +159,7 @@ bool AffectsEvaluator::solveAnyConst(const int right) {
 
   /* Terrible O(N^2) performance loops - Lazy Implementation */
   for (int i = 0; i < allAssign.size(); i++) {
-    return solveConstConst(allAssign[i], right);
+    if (solveConstConst(allAssign[i], right)) return true;
   }
 
   return false;
@@ -174,7 +172,7 @@ bool AffectsEvaluator::solveConstAny(const int left) {
   /* Terrible O(N^2) performance loops - Lazy Implementation */
   vector<int>  leftResult;
   for (int i = 0; i < allAssign.size(); i++) {
-    return solveConstConst(left, allAssign[i]);
+    if (solveConstConst(left, allAssign[i])) return true;
   }
 
   return false;
@@ -208,12 +206,14 @@ bool AffectsEvaluator::findPathToNode(STMTLINE current, STMTLINE end, VARINDEX c
   if (std::find(path.begin(), path.end(), current) != path.end()) return false;
 
   /* Check current stmtline whether it modifies variable */
-  if (path.size() != 0 && current != end && pkb->getModifies()->isModifiesForStmt(current, contextVar)) return false;
+  if (path.size() != 0 && current != end && pkb->getAst()->getTNode(current)->getTType() == ASSIGNN &&
+    pkb->getModifies()->isModifiesForStmt(current, contextVar)) return false;
 
   /* Get all possible next path and navigate recursively */
   vector<STMTLINE> allNext = pkb->getNext()->getNext(current);
   bool pathsStatus = false;
   path.push_back(current);
+
   for (int i = 0; i < allNext.size(); i++) {
     pathsStatus = pathsStatus | findPathToNode(allNext[i], end, contextVar, path);
   }
@@ -244,8 +244,6 @@ bool AffectsEvaluator::isConst(QNodeType type) {
     type == VAR;
 }
 
-
-
 TType AffectsEvaluator::synonymToTType(QNodeType type) {
   if (type == WHILESYNONYM) {
     return WHILEN;
@@ -271,4 +269,11 @@ TType AffectsEvaluator::synonymToTType(QNodeType type) {
   else if (type == IFSYNONYM) {
     return IFN;
   }
+}
+
+vector<int>* AffectsEvaluator::removeDuplicate(vector<int>* v) {
+  /* Remove duplicates using sets */
+  set<int> s(v->begin(), v->end());
+  v->assign(s.begin(), s.end());
+  return v;
 }

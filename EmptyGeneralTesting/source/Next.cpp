@@ -47,7 +47,7 @@ void Next::getBeforeStarRecursive(vector<PROGLINE> &result, PROGLINE current){
 	vector<PROGLINE> beforeVec = getBefore(current);
 	for(int i = 0; i < beforeVec.size(); i++){
 		if(find(result.begin(), result.end(), beforeVec[i]) != result.end()){
-			return;
+			continue;
 		}
 		else{
 			result.push_back(beforeVec[i]);
@@ -70,7 +70,7 @@ void Next::getNextStarRecursive(vector<PROGLINE> &result, PROGLINE current){
 	vector<PROGLINE> nextVec = getNext(current);
 	for(int i = 0; i < nextVec.size(); i++){
 		if(find(result.begin(), result.end(), nextVec[i]) != result.end()){
-			return;
+			continue;
 		}
 		else{
 			result.push_back(nextVec[i]);

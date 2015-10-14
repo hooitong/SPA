@@ -29,4 +29,5 @@ private:
   bool isSynonym(QNodeType type);
   bool isConst(QNodeType type);
   TType synonymToTType(QNodeType type);
+  vector<int>* removeDuplicate(vector<int> *v);
 };
