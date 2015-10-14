@@ -6,58 +6,58 @@ procedure alpha{
 		a = d * e - f;}							//4
 	if e then {								//5
 		i = a - d - c;							//6
-	} else {								//7
-		j = a - d;							//8
-		k = j + a * c; }						//9
-	i = j + f; }								//10
+	} else {								
+		j = a - d;							//7
+		k = j + a * c; }						//8
+	i = j + f; }								//9
 
 procedure beta{ 
-	if d then {								//11
-		j = d - 3 + f + m;						//12
-		i = 6 + c - e;							//13
+	if d then {								//10
+		j = d - 3 + f + m;						//11
+		i = 6 + c - e;							//12
 	} else { 
-		f = a + f - d; }						//14
-	if e then {								//15
-		a = c + h + d * e + f - k;					//16
-		c = 5 - 2;							//17
-		while a {							//18
-			h = a - k - 3;						//19
-			c = c + h;						//20
-			if g then {						//21
-				i = a * 3 + c + h;				//22
-				c = e - h * 5;					//23
-			}else { 
-				if c then {					//24
-					if d then {				//25
-						h = c - 2;			//26
-						d = h - 6;			//27
-						call alpha;			//28
+		f = a + f - d; }						//13
+	if e then {								//14
+		a = c + h + d * e + f - k;					//15
+		c = 5 - 2;							//16
+		while a {							//17
+			h = a - k - 3;						//18
+			c = c + h;						//19
+			if g then {						//20
+				i = a * 3 + c + h;				//21
+				c = e - h * 5;					//22
+			}else {
+				if c then {					//23
+					if d then {				//24
+						h = c - 2;			//25
+						d = h - 6;			//26
+						call alpha;			//27
 					}else {			
-						a = c + h - d; }		//29
+						a = c + h - d; }		//28
 				} else {
-					e = d - e;				//30
-					while e {				//31
-						h = c;				//32
-						f = f + 7;			//33
-						h = g - f - e; }}}		//34
-			h = (d + 3) * 5 * c * a; }  				//35
+					e = d - e;				//29
+					while e {				//30
+						h = c;				//31
+						f = f + 7;			//32
+						h = g - f - e; }}}		//33
+			h = (d + 3) * 5 * c * a; }  				//34
 	} else {
-		h = f - 4;							//36
-		while f {							//37
-			c = h + 2;						//38
-			call alpha; }}}						//39
+		h = f - 4;							//35
+		while f {							//36
+			c = h + 2;						//37
+			call alpha; }}}						//38
 
 procedure charlie{
-	call alpha;								//40
-	if a then {								//41
-		while d {							//42
-			d = d - 2;						//43
-			f = d + a + b; }					//44
-		a = a - d;							//45
+	call alpha;								//39
+	if a then {								//40
+		while d {							//41
+			d = d - 2;						//42
+			f = d + a + b; }					//43
+		a = a - d;							//44
 	} else {
-		c = a - b + c;							//46
-		call beta;							//47
-		h = c + 4 * a; } 
+		c = a - b + c;							//45
+		call beta;							//46
+		h = c + 4 * a; } 						//47
 	i = c + h * a;								//48
 	k = d - h + g * 8;}							//49
 
