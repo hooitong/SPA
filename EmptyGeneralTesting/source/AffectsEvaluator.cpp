@@ -1,6 +1,5 @@
 #include "AffectsEvaluator.h"
 #include <algorithm>
-#include <iostream>
 
 /*
   TODO: Code is currently unoptimized and untested. Does not use result to compute as well.
@@ -69,7 +68,6 @@ bool AffectsEvaluator::solveConstConst(const int left, const int right) {
   /* Heavy computation alert! Using Next table, check the statement lines whether other variable modifies it */
   vector<STMTLINE> path;
   return findPathToNode(left, right, contextVar, path);
-  
 }
 
 vector<int> AffectsEvaluator::solveConstSyn(const int left) {
@@ -97,7 +95,7 @@ vector<int> AffectsEvaluator::solveSynConst(const int right) {
   for (int i = 0; i < possibleLeft.size(); i++) {
     /* Only applies to assignment statements */
     if (pkb->getAst()->getTNode(possibleLeft[i])->getTType() == ASSIGNN) {
-      if (solveConstConst(right, possibleLeft[i])) leftResults.push_back(possibleLeft[i]);
+      if (solveConstConst(possibleLeft[i], right)) leftResults.push_back(possibleLeft[i]);
     }
   }
 
@@ -158,7 +156,7 @@ vector<int> AffectsEvaluator::solveSynAny() {
 bool AffectsEvaluator::solveAnyConst(const int right) {
   /* Retrieve all assignment statement numbers in the program */
   vector<int> allAssign = pkb->getAst()->getStmtLines(ASSIGNN);
- 
+
   /* Terrible O(N^2) performance loops - Lazy Implementation */
   for (int i = 0; i < allAssign.size(); i++) {
     if (solveConstConst(allAssign[i], right)) return true;
