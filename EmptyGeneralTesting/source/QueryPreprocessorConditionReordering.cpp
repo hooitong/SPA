@@ -1,10 +1,13 @@
 #include "QueryPreprocessorConditionReordering.h"
+#include "GlobalType.h"
 #include <algorithm>
 
 QueryPreprocessorConditionReordering::QueryPreprocessorConditionReordering() {
   score_functions.push_back(alwaysReturnsFour);
   score_weights.push_back(1);
   score_functions.push_back(relationTypeScore);
+  score_weights.push_back(10);
+  score_functions.push_back(numberOfSynonyms);
   score_weights.push_back(100);
 }
 
@@ -21,6 +24,36 @@ void QueryPreprocessorConditionReordering::sortConditions(QNode* condition_list_
   }
   groupCommonSynonym(updated_condition_list_node);
   condition_list_node = updated_condition_list_node;
+}
+
+bool QueryPreprocessorConditionReordering::isSynonym(QNode* condition_child_node) {
+  QNodeType synonym_types[] = {STMTSYNONYM,
+                               STMTLSTSYNONYM,
+                               ASSIGNSYNONYM,
+                               WHILESYNONYM,
+                               VARIABLESYNONYM,
+                               CONSTSYNONYM,
+                               PROGLINESYNONYM,
+                               PROCEDURESYNONYM,
+                               CALLSYNONYM,
+                               IFSYNONYM};
+  for (int i = 0; i < 10; ++i) {
+    if (condition_child_node->getQType() == synonym_types[i]) {
+      return true;
+    }
+  }
+  return false;
+}
+
+vector<QNode*> QueryPreprocessorConditionReordering::getSynonymChildren(QNode* condition_node) {
+  vector<QNode*> condition_child_nodes = condition_node->getChildren();
+  vector<QNode*> synonym_child_nodes;
+  for (int i = 0; i < (int)condition_child_nodes.size(); ++i) {
+    if (isSynonym(condition_child_nodes[i])) {
+      synonym_child_nodes.push_back(condition_child_nodes[i]);
+    }
+  }
+  return synonym_child_nodes;
 }
 
 void QueryPreprocessorConditionReordering::groupCommonSynonym(QNode* condition_list_node) {
@@ -66,8 +99,8 @@ void QueryPreprocessorConditionReordering::groupCommonSynonym(QNode* condition_l
 }
 
 bool QueryPreprocessorConditionReordering::isShareCommonSynonym(QNode* condition_node_one, QNode* condition_node_two) {
-  vector<QNode*> synonym_node_one = condition_node_one->getChildren();
-  vector<QNode*> synonym_node_two = condition_node_two->getChildren();
+  vector<QNode*> synonym_node_one = getSynonymChildren(condition_node_one);
+  vector<QNode*> synonym_node_two = getSynonymChildren(condition_node_two);
   for (int i = 0; i < (int)synonym_node_one.size(); ++i) {
     for (int j = 0; j < (int)synonym_node_two.size(); ++j) {
       if (synonym_node_one[i]->isEqualSubtree(synonym_node_two[j])) {
@@ -103,4 +136,8 @@ int QueryPreprocessorConditionReordering::relationTypeScore(QNode* condition_nod
 
 int QueryPreprocessorConditionReordering::alwaysReturnsFour(QNode* condition_node) {
   return 4;
+}
+
+int QueryPreprocessorConditionReordering::numberOfSynonyms(QNode* condition_node) {
+  return getSynonymChildren(condition_node).size();
 }
