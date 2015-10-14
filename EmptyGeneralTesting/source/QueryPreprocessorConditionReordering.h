@@ -13,6 +13,7 @@ private:
   static int alwaysReturnsFour(QNode* condition_node);
   static int numberOfSynonyms(QNode* condition_node);
   static int relationTypeScore(QNode* condition_node);
+  static int isWithCondition(QNode* condition_node);
   int computeScore(QNode* condition_node);
   static bool isSynonym(QNode* condition_child_node);
   static vector<QNode*> getSynonymChildren(QNode* condition_node);
