@@ -9,7 +9,6 @@ QueryAttributeTable::QueryAttributeTable(void) {
 	addRule(STMTSYNONYM, "stmt#", REF_INTEGER);
 
 	addRule(PROGLINESYNONYM, REF_INTEGER);
-	addRule(CONSTSYNONYM, REF_INTEGER);
 	addRule(CONST, REF_INTEGER);
 }
 
