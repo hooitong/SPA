@@ -232,13 +232,31 @@ void DesignExtractor::extractVariousRelationship(TNode* node) {
         PKB::getPKB()->getProcTable()->getProcIndex(leftNode->getParentByTType(PROCEDUREN)->getValue()));
 
 	  rightNode = leftNode->getRightSibling();
+	  
+	  if(!isPrimaryNode(rightNode)){
+		  TNode* parent = leftNode->getParentNode();
+		  rightNode = parent->getRightSibling();
+		  while(rightNode->getStmtLine() == -1){
+			
+			parent = parent->getParentNode();
+			if(parent->getTType() == EMPTYN) break;
+			rightNode = parent->getRightSibling();
+			
+		  }
+	  }
+	  
+	  
 	  if(isPrimaryNode(rightNode)){
 		TNode* firstChildLastNode = leftNode->getChildren()[1]->getChildren().back();
 		TNode* secondChildLastNode = leftNode->getChildren()[2]->getChildren().back();
-		insertCFPAndCFGBip(firstChildLastNode->getStmtLine(), rightNode->getStmtLine(),
-			PKB::getPKB()->getProcTable()->getProcIndex(leftNode->getParentByTType(PROCEDUREN)->getValue()));
-		insertCFPAndCFGBip(secondChildLastNode->getStmtLine(), rightNode->getStmtLine(),
-			PKB::getPKB()->getProcTable()->getProcIndex(leftNode->getParentByTType(PROCEDUREN)->getValue()));
+		if(firstChildLastNode->getTType() != IFN){
+			insertCFPAndCFGBip(firstChildLastNode->getStmtLine(), rightNode->getStmtLine(),
+				PKB::getPKB()->getProcTable()->getProcIndex(leftNode->getParentByTType(PROCEDUREN)->getValue()));
+		}
+		if(secondChildLastNode->getTType() != IFN){
+			insertCFPAndCFGBip(secondChildLastNode->getStmtLine(), rightNode->getStmtLine(),
+				PKB::getPKB()->getProcTable()->getProcIndex(leftNode->getParentByTType(PROCEDUREN)->getValue()));
+		}
 	  }
 
     }
