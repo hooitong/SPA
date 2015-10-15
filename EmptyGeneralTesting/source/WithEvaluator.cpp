@@ -54,6 +54,15 @@ vector<pair<int, string> > WithEvaluator::getAllOfType(QNode* node) const {
             it != procedureIndexes.end(); it++) {
             result.push_back(make_pair(*it, pkb->getProcTable()->getProcName(*it)));
         }
+    } else if (node->getQType() == CONSTSYNONYM) {
+        vector <int> constIndexes = pkb->getConstTable()->getAllConstValue();
+        for (vector<int>::iterator it = constIndexes.begin();
+            it != constIndexes.end();
+            it++) {
+            ostringstream oss;
+            oss << *it;
+            result.push_back(make_pair(*it, oss.str()));
+        }
     } else if (node->getQType() == VARIABLESYNONYM) {
         vector <int> varIndexes = pkb->getVarTable()->getAllVarIndex();
         for (vector<int>::iterator it = varIndexes.begin();
@@ -97,6 +106,8 @@ TType WithEvaluator::synonymToTType(QNodeType type) const {
         return CALLN;
     } else if (type == IFSYNONYM) {
         return IFN;
+    } else if (type == CONSTSYNONYM) {
+        return CONSTN;
     }
 }
 

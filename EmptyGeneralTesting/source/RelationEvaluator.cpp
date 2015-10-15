@@ -19,7 +19,8 @@ bool RelationEvaluator::isSynonym(QNodeType type) const {
            type == CONSTSYNONYM ||
            type == PROGLINESYNONYM ||
            type == IFSYNONYM ||
-           type == STMTSYNONYM;
+           type == STMTSYNONYM ||
+           type == CALLSYNONYM;
 }
 
 bool RelationEvaluator::isConst(QNodeType type) const {

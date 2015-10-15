@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\AffectsEvaluator.h" />
+    <ClInclude Include="..\source\AffectsStarEvaluator.h" />
     <ClInclude Include="..\source\AST.h" />
     <ClInclude Include="..\source\BitTable.h" />
     <ClInclude Include="..\source\Calls.h" />
@@ -69,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\AffectsEvaluator.cpp" />
+    <ClCompile Include="..\source\AffectsStarEvaluator.cpp" />
     <ClCompile Include="..\source\AST.cpp" />
     <ClCompile Include="..\source\BitTable.cpp" />
     <ClCompile Include="..\source\Calls.cpp" />

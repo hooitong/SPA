@@ -13,6 +13,7 @@
 #include "UsesProcEvaluator.h"
 #include "ModifiesProcEvaluator.h"
 #include "AffectsEvaluator.h"
+#include "AffectsStarEvaluator.h"
 
 QueryEvaluator::QueryEvaluator(PKB* pkb) {
     pkbInstance = pkb;
@@ -104,6 +105,8 @@ vector<QueryResult> QueryEvaluator::getResultFilters(QNode* node) {
             result = pkbInstance->getAst()->getStmtLines(CALLN);
         } else if (children[i]->getQType() == IFSYNONYM) {
             result = pkbInstance->getAst()->getStmtLines(IFN);
+        } else if (children[i]->getQType() == CONSTSYNONYM) {
+            result = pkbInstance->getConstTable()->getAllConstValue();
         }
         vector<string> synonyms;
         resultList.push_back(QueryResult(result, children[i]->getString()));
@@ -208,7 +211,9 @@ QueryResult QueryEvaluator::solveRelation(QNode* node) {
     } else if (node->getString() == "Next*") {
         return solveNextStar(node);
     } else if (node->getString() == "Affects") {
-      return solveAffects(node);
+        return solveAffects(node);
+    } else if (node->getString() == "Affects*") {
+        return solveAffectsStar(node);
     } else {
         return QueryResult(false);
     }
@@ -284,6 +289,10 @@ QueryResult QueryEvaluator::solveAffects(QNode* node) {
   return eval.evaluate(node);
 }
 
+QueryResult QueryEvaluator::solveAffectsStar(QNode* node) {
+  AffectsStarEvaluator eval(pkbInstance);
+  return eval.evaluate(node);
+}
 
 QueryResult QueryEvaluator::solvePattern(QNode* node) {
     assert(node->getQType() == PATTERNASSIGN);
@@ -369,8 +378,10 @@ TType QueryEvaluator::synonymToTType(QNodeType type) {
     } else if (type == STMTSYNONYM) {
         return STMTN;
     } else if (type == PROGLINESYNONYM) {
-		  return STMTN;
-	  }
+		return STMTN;
+	} else if (type == CONSTSYNONYM) {
+        return CONSTN;
+    }
 }
 
 bool QueryEvaluator::isSynonym(QNodeType type) {
