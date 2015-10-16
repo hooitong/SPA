@@ -79,7 +79,7 @@ vector<int> AffectsEvaluator::solveConstSyn(const int left) {
   /* Filter the reachable statements to valid assignment statements */
   set<STMTLINE> validCandidates, returnedCandidates;
   for (int i = 0; i < possibleRight.size(); i++) {
-    if (isValidAssign(possibleRight[i], contextVar, true)) {
+    if (isValidAssign(possibleRight[i], contextVar, false)) {
       validCandidates.insert(possibleRight[i]);
       returnedCandidates.insert(possibleRight[i]);
     }
@@ -109,7 +109,7 @@ vector<int> AffectsEvaluator::solveSynConst(const int right) {
   /* Filter the reachable statements to valid assignment statements */
   set<STMTLINE> validCandidates, returnedCandidates;
   for (int i = 0; i < possibleLeft.size(); i++) {
-    if (isValidAssign(possibleLeft[i], contextVar, false)) {
+    if (isValidAssign(possibleLeft[i], contextVar, true)) {
       validCandidates.insert(possibleLeft[i]);
       returnedCandidates.insert(possibleLeft[i]);
     }

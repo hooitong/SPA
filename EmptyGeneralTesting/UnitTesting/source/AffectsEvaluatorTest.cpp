@@ -51,6 +51,7 @@ void AffectsEvaluatorTest::testSynConst() {
   expected.push_back(62);
   expected.push_back(63);;
   QueryResult expectedResult(expected, "A");
+  cout << result.getSolutionsSize() << endl;
   CPPUNIT_ASSERT(result == expectedResult);
 }
 
@@ -100,19 +101,20 @@ void AffectsEvaluatorTest::testConstConst() {
   TNode* root = Parser::buildAst();
   DesignExtractor::extract();
 
-  QNode* node = createNode("Affects", CONST, "2", CONST, "6");
+  QNode* node = createNode("Affects", CONST, "15", CONST, "19");
   QueryResult result = eval.evaluate(node);
   QueryResult expected(true);
   CPPUNIT_ASSERT(result == expected);
 
-  QNode* node_two = createNode("Affects", CONST, "15", CONST, "19");
+  QNode* node_two = createNode("Affects", CONST, "50", CONST, "59");
   QueryResult result_two = eval.evaluate(node_two);
   QueryResult expected_two(true);
   CPPUNIT_ASSERT(result_two == expected_two);
 
-  QNode* node_three = createNode("Affects", CONST, "50", CONST, "59");
+  /* Failed case since line 4 is modifying */
+  QNode* node_three = createNode("Affects", CONST, "2", CONST, "6");
   QueryResult result_three = eval.evaluate(node_three);
-  QueryResult expected_three(true);
+  QueryResult expected_three(false);
   CPPUNIT_ASSERT(result_three == expected_three);
 
   /* Failed case as line 2 is modifying as well */
