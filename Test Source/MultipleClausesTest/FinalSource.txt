@@ -17,71 +17,180 @@ procedure beta{
 		i = 6 + c - e;							//12
 	} else { 
 		f = a + f - d; }						//13
-	if e then {								//14
-		a = c + h + d * e + f - k;					//15
-		c = 5 - 2;							//16
-		while a {							//17
-			h = a - k - 3;						//18
-			c = c + h;						//19
-			if g then {						//20
-				i = a * 3 + c + h;				//21
-				c = e - h * 5;					//22
+	while alone{								//14
+		animal = boy;							//15	
+		boy = cat + dog;						//16
+		cat = dog;							//17
+		dog = elephant;							//18
+		elephant = mouse + dog;						//19	
+		fish = ant;}							//20
+	if e then {								//21
+		a = c + h + d * e + f - k;					//22
+		c = 5 - 2;							//23
+		while a {							//24
+			h = a - k - 3;						//25
+			c = c + h;						//26
+			if g then {						//27
+				i = a * 3 + c + h;				//28
+				c = e - h * 5;					//29
 			}else {
-				if c then {					//23
-					if d then {				//24
-						h = c - 2;			//25
-						d = h - 6;			//26
-						call alpha;			//27
+				if c then {					//30
+					if d then {				//31
+						h = c - 2;			//32
+						d = h - 6;			//33
+						call alpha;			//34
 					}else {			
-						a = c + h - d; }		//28
+						a = c + h - d; }		//35
 				} else {
-					e = d - e;				//29
-					while e {				//30
-						h = c;				//31
-						f = f + 7;			//32
-						h = g - f - e; }}}		//33
-			h = (d + 3) * 5 * c * a; }  				//34
+					e = d - e;				//36
+					while e {				//37
+						h = h + 2;			//38
+						f = f + 7;			//39
+						h = g - f - e; }}}		//40
+			h = (d + 3) * 5 * c * a; }  				//41
 	} else {
-		h = f - 4;							//35
-		while f {							//36
-			c = h + 2;						//37
-			call alpha; }}}						//38
+		h = f - 4;							//42
+		while f {							//43
+			c = h + 2;						//44
+			call alpha; }}}						//45
 
 procedure charlie{
-	call alpha;								//39
-	if a then {								//40
-		while d {							//41
-			d = d - 2;						//42
-			f = d + a + b; }					//43
-		a = a - d;							//44
+	call alpha;								//46
+	if a then {								//47
+		while d {							//48
+			d = d - 2;						//49
+			f = d + a + b; }					//50
+		a = a - d;							//51
 	} else {
-		c = a - b + c;							//45
-		call beta;							//46
-		h = c + 4 * a; } 						//47
-	i = c + h * a;								//48
-	k = d - h + g * 8;}							//49
+		c = a - b + c;							//52
+		call beta;							//53
+		h = c + 4 * a; 							//54
+		call alpha;							//55
+		call beta;} 							//56
+	i = c + h * a;								//57
+	k = d - h + g * 8;							//58
+	dog = cat + mouse;}							//59
 
 procedure delta { 
-	h = a + d + e;								//50
-	if h then {								//51
-		if d then {							//52
-			if f then {						//53
-				f = f + 5;					//54
-				l = 2 + l;					//55
+	h = a + d + e;								//60
+	if h then {								//61
+		if d then {							//62
+			if f then {						//63
+				breakfast = muffin + coffee;			//64
+				f = f + 5;					//65
+				l = 2 + l;					//66
+				food = fish + chips;				//67
 			} else {
-				h = h - 6; }					//56
+				h = h - 6; }					//68
 		} else {
-			h = f + 7; }						//57
+			h = f + 7; }						//69
 	} else {
-		while h {							//58
-			h = d + f;						//59
-			if h then {						//60
-				f = f - d;					//61
+		while h {							//70
+			h = d + f;						//71
+			if h then {						//72
+				f = f - d;					//73
 			} else {
-				k = a - d - c; }}}				//62
-	k = f + h * 3;}								//63
+				k = a - d - c; }}}				//74
+	k = f + h * 3;}								//75
+
+procedure work{
+	while coding {								//76
+		hungry = hungry + 1;						//77
+		if hungry then {						//78
+			call order;						//79
+			hungry = hungry - 1;					//80
+			money = money - 50;					//81
+			take = take + 1;}					//82
+		else {			
+			code = code + 1;}					//83
+		if thirsty then {						//84
+			call pour;						//85
+			call drink;						//86
+		}else {		
+			code = code + 1;}					//87
+		completionStatus = completionStatus + 1;}			//88
+	call friends;								//89
+	call drink;								//90
+	happiness = happiness + 1;}						//91
+
+procedure friends{
+	if friend then {							//92
+		friend = friend + 1;						//93
+		while drinking {						//94
+			call pour;						//95
+			call drink;						//96
+			happiness = happiness - 1;				//97
+			if drunk then {						//98
+				call cab;					//99
+				if cabCount then {				//100
+					sleep = sleep + 1;			//101
+					tiredness = tiredness - 5;		//102
+				} else{			
+					walk = walk + 5;			//103
+				}	
+			} else {
+				chips = chips + 1;				//104
+				take = one + more;				//105
+				take = 1 + more;}}				//106
+		call pour;							//107	
+		call drink;							//108
+	} else {	
+		call pour;							//109
+		call drink;}}							//110
+
+procedure order{
+	while gotCustomer {							//111
+		cookedList = 0;							//112
+		pizza = pizza + 1;						//113
+		cookedList = cookedList + pizza;				//114
+		call pour;							//115
+		call drink;							//116
+		pizza = pizza + 1;						//117
+		buffaloWings = buffaloWings + 10;				//118
+		cookedList = cookedlist + buffaloWings;				//119
+		garlicBread = garlicBread + 2;					//120
+		cookedList = cookedList + garlicBread;				//121
+		if customerRun then{						//122
+			happiness = hapiness - 5;				//123
+			anger = anger + 5;					//124
+			customerBlacklist = 1;					//125
+		}else {
+			money = money + 50;}					//126
+		customerCount = customerCount - 1;}				//127
+	call pour;								//128
+	call drink;								//129
+}
+
+procedure drink{	
+	while empty {								//130
+		call pour;							//131
+		beer = beer + 5;						//132
+		empty = empty - 1;}						//133
+	happiness = happiness + 5;						//134
+	efficiency = efficiency + 5;}						//135
+
+procedure pour{
+	beer = beer + 1;							//136
+	empty = empty - 1;							//137
+	money = money - 1;							//138
+}
 
 procedure echo{
-	call alpha;								//64
-	call beta;								//65
-	call charlie;}								//66
+	call alpha;								//139
+	call beta;								//140
+	call charlie;								//141
+	call friends;								//142
+	call order;}								//143
+
+
+procedure cab{
+	if cabCount then{							//144
+		cabby = cabby + 1;						//145
+	}else{				
+		cabby = grabTaxi + 1;}}						//146
+
+procedure drawMoney {
+	pin = abc# + def##;							//147
+	abc = abc## + def#gh + def;						//148
+	money = money + 100;							//149		
+	balance = balance - 100;}						//150
