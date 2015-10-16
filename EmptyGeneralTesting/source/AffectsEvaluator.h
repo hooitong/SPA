@@ -23,11 +23,14 @@ private:
   vector<int> solveAnySyn();
   bool solveAnyAny();
 
-  bool findPathToNode(STMTLINE current, STMTLINE end, VARINDEX contextVar, vector<STMTLINE> path);
+  /* Helper recursive methods to confirm Affects relations */
+  bool findConstToConst(STMTLINE current, STMTLINE end, VARINDEX contextVar, vector<STMTLINE> path);
+  bool findSynonymFromConst(STMTLINE current, VARINDEX contextVar, set<STMTLINE> *candidates, vector<STMTLINE> path, bool takeAny);
+  bool findSynonymToConst(STMTLINE current, VARINDEX contextVar, set<STMTLINE> *candidates, vector<STMTLINE> path, bool takeAny);
 
   int getInteger(QNode* node);
   bool isSynonym(QNodeType type);
   bool isConst(QNodeType type);
-  TType synonymToTType(QNodeType type);
+  bool isValidAssign(STMTLINE current, VARINDEX contextVar, bool isLeft);
   vector<int>* removeDuplicate(vector<int> *v);
 };

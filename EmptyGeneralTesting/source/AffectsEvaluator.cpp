@@ -1,9 +1,6 @@
 #include "AffectsEvaluator.h"
 #include <algorithm>
-
-/*
-  TODO: Code is currently unoptimized and untested. Does not use result to compute as well.
-*/
+#include <iterator>
 
 AffectsEvaluator::AffectsEvaluator(PKB* p) { pkb = p; }
 
@@ -57,7 +54,6 @@ bool AffectsEvaluator::solveConstConst(const int left, const int right) {
   if (ast->getTNode(left)->getTType() != ASSIGNN || ast->getTNode(right)->getTType() != ASSIGNN) return false;
 
   /* Check that both are modifying and using the same variable and save variable */
-  /* TODO: Will crash if the statement does not modifies or uses */
   VARINDEX contextVar = pkb->getModifies()->getModifiedByStmt(left)[0];
   vector<VARINDEX> usedVars = pkb->getUses()->getUsedByStmt(right);
   if (std::find(usedVars.begin(), usedVars.end(), contextVar) == usedVars.end()) return false;
@@ -67,52 +63,78 @@ bool AffectsEvaluator::solveConstConst(const int left, const int right) {
 
   /* Heavy computation alert! Using Next table, check the statement lines whether other variable modifies it */
   vector<STMTLINE> path;
-  return findPathToNode(left, right, contextVar, path);
+  return findConstToConst(left, right, contextVar, path);
 }
 
 vector<int> AffectsEvaluator::solveConstSyn(const int left) {
+  /* Check if left is valid */
+  if (pkb->getAst()->getTNode(left)->getTType() != ASSIGNN) return vector<int>();
+
+  /* Retrieve context variable from left */
+  VARINDEX contextVar = pkb->getModifies()->getModifiedByStmt(left)[0];
+
   /* Retrieve all statements reached by left */
   vector<STMTLINE> possibleRight = pkb->getNext()->getNextStar(left);
 
-  /* TODO: Lazy implementation by computing one by one */
-  vector<STMTLINE> rightResults;
+  /* Filter the reachable statements to valid assignment statements */
+  set<STMTLINE> validCandidates, returnedCandidates;
   for (int i = 0; i < possibleRight.size(); i++) {
-    /* Only applies to assignment statements */
-    if (pkb->getAst()->getTNode(possibleRight[i])->getTType() == ASSIGNN) {
-      if (solveConstConst(left, possibleRight[i])) rightResults.push_back(possibleRight[i]);
+    if (isValidAssign(possibleRight[i], contextVar, true)) {
+      validCandidates.insert(possibleRight[i]);
+      returnedCandidates.insert(possibleRight[i]);
     }
   }
 
-  return *(removeDuplicate(&rightResults));
+  /* Execute path searching algorithm for Affects */
+  findSynonymFromConst(left, contextVar, &returnedCandidates, vector<STMTLINE>(), false);
+
+  /* Find the difference between the sets */
+  vector<STMTLINE> results;
+  std::set_difference(validCandidates.begin(), validCandidates.end(), returnedCandidates.begin(), returnedCandidates.end(),
+    std::inserter(results, results.end()));
+
+  return results;
 }
 
 vector<int> AffectsEvaluator::solveSynConst(const int right) {
+  /* Check if left is valid */
+  if (pkb->getAst()->getTNode(right)->getTType() != ASSIGNN) return vector<int>();
+
+  /* Retrieve context variable from right */
+  VARINDEX contextVar = pkb->getModifies()->getModifiedByStmt(right)[0];
+
   /* Retrieve all statements that can reach to right */
   vector<STMTLINE> possibleLeft = pkb->getNext()->getBeforeStar(right);
 
-  /* TODO: Lazy implementation by computing one by one */
-  vector<STMTLINE> leftResults;
+  /* Filter the reachable statements to valid assignment statements */
+  set<STMTLINE> validCandidates, returnedCandidates;
   for (int i = 0; i < possibleLeft.size(); i++) {
-    /* Only applies to assignment statements */
-    if (pkb->getAst()->getTNode(possibleLeft[i])->getTType() == ASSIGNN) {
-      if (solveConstConst(possibleLeft[i], right)) leftResults.push_back(possibleLeft[i]);
+    if (isValidAssign(possibleLeft[i], contextVar, false)) {
+      validCandidates.insert(possibleLeft[i]);
+      returnedCandidates.insert(possibleLeft[i]);
     }
   }
 
-  return *(removeDuplicate(&leftResults));
+  /* Execute path searching algorithm for Affects */
+  findSynonymToConst(right, contextVar, &returnedCandidates, vector<STMTLINE>(), false);
+
+  /* Find the difference between the sets */
+  vector<STMTLINE> results;
+  std::set_difference(validCandidates.begin(), validCandidates.end(), returnedCandidates.begin(), returnedCandidates.end(),
+    std::inserter(results, results.end()));
+
+  return results;
 }
 
 vector<std::pair<int, int>> AffectsEvaluator::solveSynSyn() {
   /* Retrieve all assignment statement numbers in the program */
   vector<int> allAssign = pkb->getAst()->getStmtLines(ASSIGNN);
 
-  /* Terrible O(N^3) performance loops - Lazy Implementation */
   vector<std::pair<int, int>>  tupleResults;
   for (int i = 0; i < allAssign.size(); i++) {
-    for (int j = 0; j < allAssign.size(); j++) {
-      if (i == j) continue;
-      if (solveConstConst(allAssign[i], allAssign[j]))
-        tupleResults.push_back(make_pair(allAssign[i], allAssign[j]));
+    vector<int> rightValues = solveConstSyn(allAssign[i]);
+    for (int j = 0; j < rightValues.size(); j++) {
+      tupleResults.push_back(make_pair(allAssign[i], rightValues[j]));
     }
   }
 
@@ -123,14 +145,10 @@ vector<int> AffectsEvaluator::solveAnySyn() {
   /* Retrieve all assignment statement numbers in the program */
   vector<int> allAssign = pkb->getAst()->getStmtLines(ASSIGNN);
 
-  /* Terrible O(N^3) performance loops - Lazy Implementation */
   vector<int>  rightResults;
   for (int i = 0; i < allAssign.size(); i++) {
-    for (int j = 0; j < allAssign.size(); j++) {
-      if (i == j) continue;
-      if (solveConstConst(allAssign[i], allAssign[j]))
-        rightResults.push_back(allAssign[j]);
-    }
+    vector<int> rightValues = solveConstSyn(allAssign[i]);
+    rightResults.insert(rightResults.end(), rightValues.begin(), rightValues.end());
   }
 
   return *(removeDuplicate(&rightResults));
@@ -140,62 +158,72 @@ vector<int> AffectsEvaluator::solveSynAny() {
   /* Retrieve all assignment statement numbers in the program */
   vector<int> allAssign = pkb->getAst()->getStmtLines(ASSIGNN);
 
-  /* Terrible O(N^3) performance loops - Lazy Implementation */
-  vector<int> leftResults;
+  vector<int>  leftResults;
   for (int i = 0; i < allAssign.size(); i++) {
-    for (int j = 0; j < allAssign.size(); j++) {
-      if (i == j) continue;
-      if (solveConstConst(allAssign[i], allAssign[j]))
-        leftResults.push_back(allAssign[i]);
-    }
+    vector<int> leftValues = solveSynConst(allAssign[i]);
+    leftResults.insert(leftResults.end(), leftValues.begin(), leftValues.end());
   }
 
   return *(removeDuplicate(&leftResults));
 }
 
 bool AffectsEvaluator::solveAnyConst(const int right) {
-  /* Retrieve all assignment statement numbers in the program */
-  vector<int> allAssign = pkb->getAst()->getStmtLines(ASSIGNN);
+  /* Check if right is valid */
+  if (pkb->getAst()->getTNode(right)->getTType() != ASSIGNN) return false;
 
-  /* Terrible O(N^2) performance loops - Lazy Implementation */
-  for (int i = 0; i < allAssign.size(); i++) {
-    if (solveConstConst(allAssign[i], right)) return true;
+  /* Retrieve context variable from right */
+  VARINDEX contextVar = pkb->getModifies()->getModifiedByStmt(right)[0];
+
+  /* Retrieve all statements that can reach to right */
+  vector<STMTLINE> possibleLeft = pkb->getNext()->getBeforeStar(right);
+
+  /* Filter the reachable statements to valid assignment statements */
+  set<STMTLINE> validCandidates, returnedCandidates;
+  for (int i = 0; i < possibleLeft.size(); i++) {
+    if (isValidAssign(possibleLeft[i], contextVar, false)) {
+      validCandidates.insert(possibleLeft[i]);
+      returnedCandidates.insert(possibleLeft[i]);
+    }
   }
 
-  return false;
+  /* Execute path searching algorithm for Affects */
+  return findSynonymToConst(right, contextVar, &returnedCandidates, vector<STMTLINE>(), true);
 }
 
 bool AffectsEvaluator::solveConstAny(const int left) {
-  /* Retrieve all assignment statement numbers in the program */
-  vector<int> allAssign = pkb->getAst()->getStmtLines(ASSIGNN);
+  /* Check if left is valid */
+  if (pkb->getAst()->getTNode(left)->getTType() != ASSIGNN) return false;
 
-  /* Terrible O(N^2) performance loops - Lazy Implementation */
-  vector<int>  leftResult;
-  for (int i = 0; i < allAssign.size(); i++) {
-    if (solveConstConst(left, allAssign[i])) return true;
+  /* Retrieve context variable from left */
+  VARINDEX contextVar = pkb->getModifies()->getModifiedByStmt(left)[0];
+
+  /* Retrieve all statements reached by left */
+  vector<STMTLINE> possibleRight = pkb->getNext()->getNextStar(left);
+
+  /* Filter the reachable statements to valid assignment statements */
+  set<STMTLINE> validCandidates, returnedCandidates;
+  for (int i = 0; i < possibleRight.size(); i++) {
+    if (isValidAssign(possibleRight[i], contextVar, true)) {
+      validCandidates.insert(possibleRight[i]);
+      returnedCandidates.insert(possibleRight[i]);
+    }
   }
 
-  return false;
+  /* Execute path searching algorithm for Affects */
+  return findSynonymFromConst(left, contextVar, &returnedCandidates, vector<STMTLINE>(), true);
 }
 
 bool AffectsEvaluator::solveAnyAny() {
   /* Retrieve all assignment statement numbers in the program */
   vector<int> allAssign = pkb->getAst()->getStmtLines(ASSIGNN);
 
-  /* Terrible O(N^3) performance loops - Lazy Implementation */
-  vector<int>  leftResult;
   for (int i = 0; i < allAssign.size(); i++) {
-    for (int j = 0; j < allAssign.size(); j++) {
-      if (i == j) continue;
-      if (solveConstConst(allAssign[i], allAssign[j]))
-        return true;
-    }
+    if (solveConstAny(allAssign[i])) return true;
   }
-
   return false;
 }
 
-bool AffectsEvaluator::findPathToNode(STMTLINE current, STMTLINE end, VARINDEX contextVar, vector<STMTLINE> path) {
+bool AffectsEvaluator::findConstToConst(STMTLINE current, STMTLINE end, VARINDEX contextVar, vector<STMTLINE> path) {
   /* Base Case */
   if (current == end) return true;
 
@@ -206,7 +234,8 @@ bool AffectsEvaluator::findPathToNode(STMTLINE current, STMTLINE end, VARINDEX c
   if (std::find(path.begin(), path.end(), current) != path.end()) return false;
 
   /* Check current stmtline whether it modifies variable */
-  if (path.size() != 0 && current != end && pkb->getAst()->getTNode(current)->getTType() == ASSIGNN &&
+  TType currentType = pkb->getAst()->getTNode(current)->getTType();
+  if (path.size() != 0 && current != end && (currentType == ASSIGNN || currentType == CALLN) &&
     pkb->getModifies()->isModifiesForStmt(current, contextVar)) return false;
 
   /* Get all possible next path and navigate recursively */
@@ -215,7 +244,73 @@ bool AffectsEvaluator::findPathToNode(STMTLINE current, STMTLINE end, VARINDEX c
   path.push_back(current);
 
   for (int i = 0; i < allNext.size(); i++) {
-    pathsStatus = pathsStatus | findPathToNode(allNext[i], end, contextVar, path);
+    pathsStatus = pathsStatus | findConstToConst(allNext[i], end, contextVar, path);
+  }
+
+  return pathsStatus;
+}
+
+bool AffectsEvaluator::findSynonymFromConst(STMTLINE current, VARINDEX contextVar, set<STMTLINE> *candidates, vector<STMTLINE> path, bool takeAny) {
+  /* If no more candidates, return to reduce computation */
+  if (candidates->size() == 0) return true;
+
+  /* Assertion: Assume that candidates are all valid ones (Assign Statements/Same Context) */
+  /* Remove current line from candidates if exist */
+  bool isCandidate = candidates->erase(current);
+  /* Short circuited statement to reduce computation */
+  if (isCandidate && takeAny) return true;
+
+  /* Check cyclic in path */
+  if (std::find(path.begin(), path.end(), current) != path.end()) return false;
+
+  /* Check if path can be progressed */
+  /* Check current stmtline whether it modifies variable */
+  TType currentType = pkb->getAst()->getTNode(current)->getTType();
+  if (path.size() != 0 && (currentType == ASSIGNN || currentType == CALLN)
+    && pkb->getModifies()->isModifiesForStmt(current, contextVar)) return false;
+
+  /* Get all possible next path and navigate recursively */
+  vector<STMTLINE> allNext = pkb->getNext()->getNext(current);
+  bool pathsStatus = false;
+  path.push_back(current);
+  for (int i = 0; i < allNext.size(); i++) {
+    if (findSynonymFromConst(allNext[i], contextVar, candidates, path, takeAny)) {
+      if (takeAny) return true;
+      pathsStatus = true;
+    }
+  }
+
+  return pathsStatus;
+}
+
+bool AffectsEvaluator::findSynonymToConst(STMTLINE current, VARINDEX contextVar, set<STMTLINE> *candidates, vector<STMTLINE> path, bool takeAny) {
+  /* If no more candidates, return to reduce computation */
+  if (candidates->size() == 0) return true;
+
+  /* Assertion: Assume that candidates are all valid ones (Assign Statements/Same Context) */
+  /* Remove current line from candidates if exist */
+  bool isCandidate = candidates->erase(current);
+  /* Short circuited statement to reduce computation */
+  if (isCandidate && takeAny) return true;
+
+  /* Check cyclic in path */
+  if (std::find(path.begin(), path.end(), current) != path.end()) return false;
+
+  /* Check if path can be progressed */
+  /* Check current stmtline whether it modifies variable */
+  TType currentType = pkb->getAst()->getTNode(current)->getTType();
+  if (path.size() != 0 && (currentType == ASSIGNN || currentType == CALLN)
+    && pkb->getModifies()->isModifiesForStmt(current, contextVar)) return false;
+
+  /* Get all possible before path and navigate recursively */
+  vector<STMTLINE> allBefore = pkb->getNext()->getBefore(current);
+  bool pathsStatus = false;
+  path.push_back(current);
+  for (int i = 0; i < allBefore.size(); i++) {
+    if (findSynonymToConst(allBefore[i], contextVar, candidates, path, takeAny)) {
+      if (takeAny) return true;
+      pathsStatus = true;
+    }
   }
 
   return pathsStatus;
@@ -244,31 +339,11 @@ bool AffectsEvaluator::isConst(QNodeType type) {
     type == VAR;
 }
 
-TType AffectsEvaluator::synonymToTType(QNodeType type) {
-  if (type == WHILESYNONYM) {
-    return WHILEN;
-  }
-  else if (type == ASSIGNSYNONYM) {
-    return ASSIGNN;
-  }
-  else if (type == VARIABLESYNONYM) {
-    return VARN;
-  }
-  else if (type == PROCEDURESYNONYM) {
-    return PROCEDUREN;
-  }
-  else if (type == STMTSYNONYM) {
-    return STMTN;
-  }
-  else if (type == PROGLINESYNONYM) {
-    return STMTN;
-  }
-  else if (type == CALLSYNONYM) {
-    return CALLN;
-  }
-  else if (type == IFSYNONYM) {
-    return IFN;
-  }
+bool AffectsEvaluator::isValidAssign(STMTLINE current, VARINDEX contextVar, bool isLeft) {
+  if (pkb->getAst()->getTNode(current)->getTType() != ASSIGNN) return false;
+  if (isLeft && pkb->getModifies()->isModifiesForStmt(current, contextVar)) return true;
+  else if (!isLeft && pkb->getUses()->isUsesForStmt(current, contextVar)) return true;
+  else return false;
 }
 
 vector<int>* AffectsEvaluator::removeDuplicate(vector<int>* v) {
