@@ -1,5 +1,0 @@
-1 - Basic Affects 
-assign a;
-Select BOOLEAN such that Affects(7,8)
-TRUE
-5000
