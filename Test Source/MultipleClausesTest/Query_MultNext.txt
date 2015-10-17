@@ -1,0 +1,40 @@
+1 - Next Call (next true, call true)
+assign a; 
+Select BOOLEAN such that Next(25, 26) and Call('beta','alpha')
+TRUE
+5000
+2 - Next Call (next true, call false)
+assign a; 
+Select BOOLEAN such that Next(25, 26) and Call('alpha', 'charlie')
+FALSE
+5000
+3 - Next Call (next false, call true)
+assign a; 
+Select BOOLEAN such that Next(9,10) and Call('alpha', 'charlie')
+FALSE
+5000
+4 - Next Call (next false, call false)
+assign a; 
+Select BOOLEAN such that Next(102,103) and Call('cab','echo')
+FALSE
+5000
+5 - Next* Call (next true, call false)
+assign a;
+Select BOOLEAN such that Next*(79,82) and Call('cab', 'echo')
+FALSE
+5000
+6 - Next* Call (next true, call true)
+assign a; 
+Select BOOLEAN such that Next*(95,97) and Call('echo','cab')
+FALSE
+5000
+7 - Next* Call (next false, call false)
+assign a;
+Select BOOLEAN such that Next*(127,128) and Call('pour', 'drink')
+FALSE
+5000
+8 - Next* Call (next false, call true)
+assign a;
+Select BOOLEAN such that Next*(125,126) and Call('drawMoney', 'cab')
+FALSE
+5000
