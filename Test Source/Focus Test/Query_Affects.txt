@@ -6,7 +6,7 @@ FALSE
 2 - Basic Affect*
 assign a; 
 Select BOOLEAN such that Affects*(3,1)
-TRUE
+FALSE
 5000
 3 - Jump Proc
 assign a; 
@@ -21,12 +21,12 @@ FALSE
 5 - Affects None
 assign a; 
 Select a such that Affects*(6, a)
-none
+6
 5000
 6 - Affects None
 assign a;
 Select a such that Affects(6,a)
-none
+6
 5000
 7 - Affects
 assign a;
