@@ -25,11 +25,11 @@ void AffectsEvaluatorTest::testSynSyn() {
   QueryResult result = eval.evaluate(node);
   vector<std::pair<STMTLINE, STMTLINE>> expected;
   expected.push_back(make_pair(1, 2));
-  expected.push_back(make_pair(2, 6));
   expected.push_back(make_pair(15, 19));
   expected.push_back(make_pair(34, 30));
   expected.push_back(make_pair(37, 30));
   expected.push_back(make_pair(50, 59));
+  expected.push_back(make_pair(52, 52));
   expected.push_back(make_pair(52, 63));
   expected.push_back(make_pair(54, 58));
   expected.push_back(make_pair(62, 59));
@@ -51,7 +51,6 @@ void AffectsEvaluatorTest::testSynConst() {
   expected.push_back(62);
   expected.push_back(63);;
   QueryResult expectedResult(expected, "A");
-  cout << result.getSolutionsSize() << endl;
   CPPUNIT_ASSERT(result == expectedResult);
 }
 
@@ -148,9 +147,9 @@ void AffectsEvaluatorTest::testAnySyn() {
   QueryResult result = eval.evaluate(node);
   vector<STMTLINE> expected;
   expected.push_back(2);
-  expected.push_back(6);
   expected.push_back(19);
   expected.push_back(30);
+  expected.push_back(52);
   expected.push_back(58);
   expected.push_back(59);
   expected.push_back(63);
