@@ -1,0 +1,42 @@
+1 - Affects Follows (affects true - additional clauses true)
+assign a;
+Select BOOLEAN such that Affects(7,8) and Follows (7,8)
+TRUE
+5000
+2 - Affects Follows (affects true - additional clauses false)
+assign a; 
+Select BOOLEAN such that Affects(7,8) and Follows (8,7)
+FALSE
+5000
+3 - Affects Follows (affects false - additional true)
+assign a; 
+Select BOOLEAN such that Affects(8,7) and Follows(7,8)
+FALSE
+5000
+4 - Affects Follows (affects false - additional false)
+assign a; 
+Select BOOLEAN such that Affects(8,7) and Follows(8,7)
+FALSE
+5000
+5 - Affects* Follows (affects* true - additional true)
+assign a; 
+Select BOOLEAN such that Affects*(40, 38) and Follows(49,50)
+TRUE
+5000
+6 - Affects* Follows (affects* true - additional false)
+assign a; 
+Select BOOLEAN such that Affects*(40, 38) and Follows(67,68)
+FALSE
+5000
+7 - Affects* Follows (affects* false - additional true)
+assign a; 
+Select BOOLEAN such that Affects*(33,32) and Follows(49,50)
+FALSE
+5000
+8 - Affects* Follows (affects* false - additional false)
+assign a; 
+Select BOOLEAN such that Affects*(33,32) and Follows(67,68)
+FALSE
+5000
+
+
