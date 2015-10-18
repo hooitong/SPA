@@ -1,40 +1,40 @@
 1 - Call Modifies (true , true)
 assign a; 
-Select BOOLEAN such that Calls('drink','beer') and Modifies(4,'a')
+Select BOOLEAN such that Calls("drink","pour") and Modifies(4,"a")
 TRUE
 5000
 2 - Call Modifies (true , false)
 assign a; 
-Select BOOLEAN such that Calls('drink','beer') and Modifies(12,'j')
-false
+Select BOOLEAN such that Calls("drink","beer") and Modifies(12,"j")
+FALSE
 5000
 3 - Call Modifies (false, true)
 assign a; 
-Select BOOLEAN such that Calls('alpha','beta') and Modifies(4,'a')
-TRUE
+Select BOOLEAN such that Calls("alpha","beta") and Modifies(4,"a")
+FALSE
 5000
 4 - Call Modifies (false , false)
 assign a; 
-Select BOOLEAN such that Calls('alpha','echo') and Modifies(23,'d')
-TRUE
+Select BOOLEAN such that Calls("alpha","echo") and Modifies(23,"d")
+FALSE
 5000
 5 - Call* Modifies (true , true)
 assign a; 
-Select BOOLEAN such that Calls*('echo','cab') and Modifies(4,'a')
+Select BOOLEAN such that Calls*("echo","cab") and Modifies(4,"a")
 TRUE
 5000
 6 - Call* Modifies (true , false)
 assign a; 
-Select BOOLEAN such that Calls*('work','cab') and Modifies(12,'j')
-false
+Select BOOLEAN such that Calls*("work","cab") and Modifies(12,"j")
+FALSE
 5000
 7 - Call* Modifies (false, true)
 assign a; 
-Select BOOLEAN such that Calls*('cab','beta') and Modifies(4,'a')
-TRUE
+Select BOOLEAN such that Calls*("cab","beta") and Modifies(4,"a")
+FALSE
 5000
 8 - Call* Modifies (false , false)
 assign a; 
-Select BOOLEAN such that Calls*('drink','echo') and Modifies(23,'d')
-TRUE
+Select BOOLEAN such that Calls*("drink","echo") and Modifies(23,"d")
+FALSE
 5000
