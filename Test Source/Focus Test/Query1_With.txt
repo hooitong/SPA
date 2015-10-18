@@ -1,0 +1,320 @@
+1 - with::selectstmtwithconstant
+stmt s; 
+Select s with s.stmt#=10
+10
+5000
+2 - with::selectstmtwithconstant
+assign a; 
+Select a with a.stmt#=10
+10
+5000
+3 - with::selectstmtwithconstant
+if f; 
+Select f with f.stmt#=12
+12
+5000
+4 - with::selectstmtwithconstant
+while w; 
+Select w with w.stmt#=31
+31
+5000
+5 - with::selectstmtwithconstant
+call c; 
+Select c with c.stmt#=7
+7
+5000
+6 - with::selectstmtwithconstant
+variable v;
+Select v with v.varName="x"
+x
+5000
+7 - with::selectstmtwithconstant
+procedure p; 
+Select p with p.procName="First"
+First
+5000
+8 - with::selectstmtwithconstant
+constant con; 
+Select con with con.value=10
+10
+5000
+9 - with::selectstmtwithconstant
+assign a; 
+Select a with a.stmt#=16
+none
+5000
+10 - with::selectstmtwithconstant
+if f; 
+Select f with f.stmt#=13
+none
+5000
+11 - with::selectstmtwithconstant
+while w; 
+Select w with w.stmt#=18
+none
+5000
+12 - with::selectstmtwithconstant
+call c; 
+Select c with c.stmt#=5
+none
+5000
+13 - with::selectstmtwithconstant
+variable v;
+Select v with v.varName="x1"
+none
+5000
+14 - with::selectstmtwithconstant
+procedure p; 
+Select p with p.procName="Bill"
+none
+5000
+15 - with::selectstmtwithconstant
+constant con; 
+Select con with con.value=13
+none
+5000
+16 - selectassignwithstmtconstant::
+stmt s; assign a;
+Select a with s.stmt#=10
+1,2,5,6,10,13,14,15,17,19,20,21,22,23,24,30,32,33,34,35,37,38,39,41,42,43,44,47,50,52,54,56,58,59,61,62,63,65,67,69,70,72
+5000
+17 - selectprocedurewithconstant::
+procedure p; 
+Select p with p.procName="Fifth"
+Fifth
+5000
+18 - selectcallwithconstant::
+call c; 
+Select c with c.procName="Fifth"
+7,45
+5000
+19 - selectvarwithconstant::
+variable v; while w;
+Select w with v.varName="a"
+26,29,31,46,48,49,51,53,57,60,64
+5000
+20 - selectvarwithconstant::
+variable v; while w;
+Select w with v.varName="a1"
+none
+5000
+21 - selectcallwithconstant::
+call c; 
+Select c with c.procName="Second"
+none
+5000
+22 - with::select prog_line with progline = progline
+prog_line n;
+Select n with n=n
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70, 71,72
+5000
+23 - with::select prog_line with n = n1
+prog_line n; prog_line n1;
+Select n with n=n1
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70, 71,72
+5000
+24 - BONUS::select prog_line with n=n1 and n1=10
+prog_line n; prog_line n1;
+Select n with n=n1 and n1=10
+10
+5000
+25 - with::select prog_line  with n=s.stmt# and s.stmt#=10
+prog_line n; stmt s;
+Select n with n=s.stmt# and s.stmt#=10
+10
+5000
+26 - with::select prog_line  with n=a.stmt# and a.stmt#=1
+prog_line n; assign a;
+Select n with n=a.stmt# and a.stmt#=1
+1
+5000
+27 - with::select prog_line  with n=c.stmt# and c.stmt#=66
+prog_line n; call c;
+Select n with n=c.stmt# and c.stmt#=66
+66
+5000
+28 - with::select prog_line  with n=con.value and con.value=876
+prog_line n; constant con;
+Select n with n=con.value and con.value=876
+none
+5000
+29 - with::select stmt with s.stmt#=n and n=12
+stmt s; prog_line n;
+Select s with s.stmt#=n and n=12
+12
+5000
+30 - with::select prog_line  with n=con.value and con.value=876
+prog_line n; constant con;
+Select n with n=con.value and con.value=12
+12
+5000
+31 - with::select prog_line  with n=con.value and con.value=876
+stmt s; constant con;
+Select s with s.stmt#=con.value
+1, 10, 8, 7, 6, 5, 3, 9, 64, 12, 4
+5000
+32 - with::selectstmtwithconstant
+stmt s; 
+Select BOOLEAN with s.stmt#=10
+TRUE
+5000
+33 - with::selectstmtwithconstant
+assign a; 
+Select BOOLEAN  with a.stmt#=10
+TRUE
+5000
+34 - with::selectstmtwithconstant
+if f; 
+Select BOOLEAN  with f.stmt#=12
+TRUE
+5000
+35 - with::selectstmtwithconstant
+while w; 
+Select BOOLEAN  with w.stmt#=31
+TRUE
+5000
+36 - with::selectstmtwithconstant
+call c; 
+Select BOOLEAN  with c.stmt#=7
+TRUE
+5000
+37 - with::selectstmtwithconstant
+variable v;
+Select BOOLEAN  with v.varName="x"
+TRUE
+5000
+38 - with::selectstmtwithconstant
+procedure p; 
+Select BOOLEAN  with p.procName="First"
+TRUE
+5000
+39 - with::selectstmtwithconstant
+constant con; 
+Select BOOLEAN  with con.value=10
+TRUE
+5000
+40 - with::selectstmtwithconstant
+assign a; 
+Select BOOLEAN  with a.stmt#=16
+FALSE
+5000
+41 - with::selectstmtwithconstant
+if f; 
+Select BOOLEAN  with f.stmt#=13
+FALSE
+5000
+42 - with::selectstmtwithconstant
+while w; 
+Select BOOLEAN  with w.stmt#=18
+FALSE
+5000
+43 - with::selectstmtwithconstant
+call c; 
+Select BOOLEAN with c.stmt#=5
+FALSE
+5000
+44 - with::selectstmtwithconstant
+variable v;
+Select BOOLEAN with v.varName="x1"
+FALSE
+5000
+45 - with::selectstmtwithconstant
+procedure p; 
+Select BOOLEAN with p.procName="Bill"
+FALSE
+5000
+46 - with::selectstmtwithconstant
+constant con; 
+Select BOOLEAN with con.value=13
+FALSE
+5000
+47 - with::select assign with a.stmt#=n and n=12
+assign a; prog_line n;
+Select a with a.stmt#=n and n=12
+none
+5000
+48 - with::select call with c.stmt#=n and n=12
+call c; prog_line n;
+Select c with c.stmt#=n and n=12
+none
+5000
+49 - with::select constant with con.value=n and n=12
+constant con; prog_line n;
+Select con with con.value=n and n=12
+12
+5000
+50 - with::select procedure with p.procName=v.varName
+procedure p; variable v;
+Select p with p.procName=v.varName
+none
+5000
+51 - with::select p with p.procName=c.procName and c.procName=fifth
+procedure p; call c;
+Select p with p.procName=c.procName and c.procName="Fifth"
+Fifth
+5000
+52 - with::select c with c.stmt#=con.value and con.value=12
+call c; constant con;
+Select c with c.stmt#=con.value and con.value=12
+none
+5000
+53 - with::query
+assign a; variable v;
+Select v such that Modifies(a, v) with a.stmt#=22
+q
+5000
+54 - with::query
+stmt s; variable v; constant con;
+Select v such that Modifies(s, v) with s.stmt#=con.value
+d,k,q,a,u,f,r,h,y,i,z,t,b,e,w,l,p
+5000
+55 - with::query
+stmt s; variable v; constant con;
+Select v such that Uses(s, v) with s.stmt#=con.value
+b,q,w,o,i,l,p,a,c,e,h,x,k,y,u,f,g,j
+5000
+56 - with::query
+procedure p; call c;
+Select c with c.procName=p.procName and p.procName="Third"
+4,66
+5000
+57 - Call::
+procedure c1, c2; 
+Select c1 such that Calls(c1,c2) with c2.procName="Fifth"
+First, Third
+5000
+58 - CallStar::
+procedure c1, c2; 
+Select c1 such that Calls*(c2,c1) with c2.procName="First"
+Third, Fifth, Sixth
+5000
+59 - CallStar::
+procedure c1, c2; variable v;
+Select v such that Calls*(c2,c1) with c2.procName="First" and c1.procName="Sixth"
+a,b,c,d,e,f,g,h,i,j,k,l,o,p,q,w,x,y,z,r,u, t
+5000
+60 - Follows::assign
+assign a; if f;
+Select a such that Follows(f,a) with f.stmt#=16
+22
+5000
+64 - NextStar::
+procedure p; stmt s;
+Select p with s.stmt#=16
+First, Second, Third, Forth, Fifth, Sixth
+5000
+61 - Followstar::assign
+assign a; if f;
+Select a such that Follows*(f,a) with f.stmt#=16
+22,23
+5000
+62 - Next::
+procedure p; stmt s;
+Select p such that Next(_,s) with s.stmt#=16
+First, Second, Third, Forth, Fifth, Sixth
+5000
+63 - NextStar::
+procedure p; stmt s;
+Select p such that Next*(_,s) with s.stmt#=16
+First, Second, Third, Forth, Fifth, Sixth
+5000
