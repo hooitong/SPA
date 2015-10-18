@@ -38,3 +38,49 @@ assign a;
 Select BOOLEAN such that Affects*(38,39) and Follows(67,68)
 FALSE
 5000
+9 - Affects Follows Parent (true, true , true)
+assign a;
+Select a such that Affects(7,a) and Follows(7,8) and Parent(94,95)
+8,9
+5000
+10 - Affects* Follows Parent (true, true, true)
+assign a;
+Select a such that Affects*(7,a) and Follows(7,8) and Parent(94,95)
+8,9
+5000
+11 - Affects* Follows Parent (true, false, true)
+assign a; 
+Select a such that Affects*(7,a) and Follows(8,7) and Parent(5,7)
+none
+5000
+12 - Affects* Follows Parent (true, true, false)
+assign a;
+Select a such that Affects*(7,a) and Follows(7,8) and Parent(1,7)
+none
+5000
+13 - Affects* Follows Parent Calls (true, true, true, true)
+assign a;
+Select a such that Affects*(22,a) and Follows(15,16) and Parent(21,22) and Calls("beta","alpha")
+25,26,28,32,33,35,41
+5000
+14 - Affects* Follows Parent Calls Next (t,t,t,t,t)
+assign a;
+Select a such that Affects*(22,a) and Follows(15,16) and Parent(21,22) and Calls("beta","alpha") and Next(15,16)
+25,26,28,32,33,35,41
+5000
+15 - Affects* Modifies (t,t) //procedure
+assign a; 
+Select a such that Affects*(22,a) and Modifies("beta","dog")
+25,26,28,32,33,35,41
+5000
+16 - Affects* Modifies (t,t) //container statement
+assign a; 
+Select a such that Affects*(22,a) and Modifies(14,"dog")
+25,26,28,32,33,35,41
+5000
+17 - Affects* Modifies (t,t) //call statement
+assign a;
+Select a such that Affects*(22,a) and Modifies(53,"dog")
+25,26,28,32,33,35,41
+5000
+
