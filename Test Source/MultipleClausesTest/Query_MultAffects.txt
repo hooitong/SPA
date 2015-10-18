@@ -30,13 +30,11 @@ FALSE
 5000
 7 - Affects* Follows (affects* false - additional true)
 assign a; 
-Select BOOLEAN such that Affects*(33,32) and Follows(49,50)
+Select BOOLEAN such that Affects*(38,39) and Follows(49,50)
 FALSE
 5000
 8 - Affects* Follows (affects* false - additional false)
 assign a; 
-Select BOOLEAN such that Affects*(33,32) and Follows(67,68)
+Select BOOLEAN such that Affects*(38,39) and Follows(67,68)
 FALSE
 5000
-
-
