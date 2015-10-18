@@ -1,4 +1,4 @@
 procedure TestProcedure {
-  y = x + (2 + i) * g;							
+  y = x + (2 + i#q) * g;							
 }
 

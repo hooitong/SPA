@@ -26,8 +26,8 @@ bool ParserUtils::isValidName(string aString) {
     else {
       for (int i = 1; i < aString.size(); i++) {
         if ((aString.at(i) >= '0' && aString.at(i) <= '9') || (aString.at(i) >= 'a' && aString.at(i) <= 'z')
-          || (aString.at(i) >= 'A' && aString.at(i) <= 'Z')) {
-          // if ith character is a digit or a letter, then continue
+			|| (aString.at(i) >= 'A' && aString.at(i) <= 'Z') || aString.at(i) == '#') {
+          // if ith character is a digit or a letter or hash, then continue
         }
         else {
           return false;
