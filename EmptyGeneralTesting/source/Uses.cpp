@@ -13,9 +13,9 @@ void Uses::setUsesStmt(VARINDEX varIndex, STMTLINE stmt) {
   stmtToVar.putRelation(stmt, varIndex);
 }
 
-void Uses::setUsesProc(PROCINDEX procIndex, STMTLINE stmt) {
-  procToVar.putRelation(procIndex, stmt);
-  varToProc.putRelation(stmt, procIndex);
+void Uses::setUsesProc(PROCINDEX procIndex, VARINDEX varIndex) {
+  procToVar.putRelation(procIndex, varIndex);
+  varToProc.putRelation(varIndex, procIndex);
 }
 
 bool Uses::isUsesForStmt(STMTLINE stmt, VARINDEX varIndex) {
@@ -30,7 +30,7 @@ std::vector<VARINDEX> Uses::getUsedByStmt(STMTLINE stmt) {
   return stmtToVar.toVector(stmt);
 }
 
-vector<PROCINDEX> Uses::getUsedByProc(PROCINDEX proc) {
+vector<VARINDEX> Uses::getUsedByProc(PROCINDEX proc) {
   return procToVar.toVector(proc);
 }
 
