@@ -12,7 +12,7 @@ class DesignExtractor {
   private:
     static void extractVariousRelationship(TNode* rootNode);
 	static void extractInterprocedureCallStar();
-	static void recursiveInterprocedureCallStar(PROCINDEX currentProc, PROCINDEX originalProc, bool first, vector<PROCINDEX> &result);
+	static void recursiveInterprocedureCallStar(PROCINDEX currentProc, bool first, vector<PROCINDEX> &result);
 	static void extractInterprocedureModifiesUses();
 	static void extractNext();
 	static void constructCFGBip();

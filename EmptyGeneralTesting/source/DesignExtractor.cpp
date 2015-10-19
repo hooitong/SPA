@@ -310,7 +310,7 @@ void DesignExtractor::extractInterprocedureCallStar() {
     vector<PROCINDEX> calledBy = PKB::getPKB()->getCalls()->getCalledBy(procIndexes[i]);
     vector<PROCINDEX> result;
     for (int q = 0; q < calledBy.size(); q++) {
-      recursiveInterprocedureCallStar(calledBy[q], calledBy[q], true, result);
+      recursiveInterprocedureCallStar(calledBy[q], true, result);
     }
     for (int q = 0; q < result.size(); q++) {
       PKB::getPKB()->getCalls()->setCallsStar(procIndexes[i], result[q]);
@@ -318,15 +318,15 @@ void DesignExtractor::extractInterprocedureCallStar() {
   }
 }
 
-void DesignExtractor::recursiveInterprocedureCallStar(PROCINDEX currentProc, PROCINDEX originalProc, bool first, vector<PROCINDEX> &result) {
-  if (find(result.begin(), result.end(), currentProc) != result.end() && !first) return;
+void DesignExtractor::recursiveInterprocedureCallStar(PROCINDEX currentProc, bool first, vector<PROCINDEX> &result) {
+  if (find(result.begin(), result.end(), currentProc) == result.end() && !first) return;
 
   result.push_back(currentProc);
 
   vector<PROCINDEX> calledBy = PKB::getPKB()->getCalls()->getCalledBy(currentProc);
   for (int q = 0; q < calledBy.size(); q++) {
     result.push_back(calledBy[q]);
-    recursiveInterprocedureCallStar(calledBy[q], originalProc, false, result);
+    recursiveInterprocedureCallStar(calledBy[q], false, result);
   }
 }
 
