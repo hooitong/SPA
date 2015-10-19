@@ -1,0 +1,15 @@
+1 - Modifies Modifies Modifies
+variable v; 
+Select v such that Modifies("beta",v) such that Modifies("delta",v) such that Modifies("alpha",v)
+k,f
+5000
+2 - Modifies
+variable v;while w;procedure p;
+Select v such that Modifies("charlie", v) and Uses(p,v) and Calls(p,"beta")
+a,boy,c,cat,d,dog,e,elephant,f,h,j,k
+5000
+3 - Modifies
+variable v; while w;stmt s;procedure p;
+Select s such that Modifies("order", v) and Uses(s,v) and Parent(w,s) and Modifies(p, v) and Calls(p,"pour")
+78,84,95,96,97,113,114,115,116,117,118,119,120,121,122,127,131,132,133
+5000
