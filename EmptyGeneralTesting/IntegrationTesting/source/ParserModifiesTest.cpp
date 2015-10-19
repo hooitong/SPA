@@ -17,7 +17,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION(ParserModifiesTest);
 void ParserModifiesTest::testModifiesStmt() {
   // for each stmt line in procedure ABC, check whether VarIndex returned is valid.
   vector<VARINDEX> result;
-
+	 
   result = mTest->getModifiedByStmt(1);
   CPPUNIT_ASSERT(containVarIndex(&result, "i"));
   CPPUNIT_ASSERT(matchSize(&result, 1));

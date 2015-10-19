@@ -234,18 +234,39 @@ void DesignExtractor::extractVariousRelationship(TNode* node) {
 	  rightNode = leftNode->getRightSibling();
 	  
 	  if(!isPrimaryNode(rightNode)){
+		  int distanceWhile, distanceOther;
+		  //check for while parent
 		  TNode* parent = leftNode->getParentNode();
-		  rightNode = parent->getRightSibling();
-		  while(rightNode->getStmtLine() == -1){
-			
-			parent = parent->getParentNode();
-			if(parent->getTType() == EMPTYN) break;
-			rightNode = parent->getRightSibling();
-			
+		  distanceWhile = 1;
+		  TNode* whileNode;
+		  while (parent->getStmtLine() == -1 || parent->getTType() != WHILEN){
+			  parent = parent->getParentNode();
+			  if(parent->getTType() == EMPTYN) break;
+			  distanceWhile++;
 		  }
+		  if(parent->getTType() == WHILEN){
+				whileNode = parent;
+		  }
+		  else{
+				distanceWhile = -1;
+		  }
+		  //else
+			parent = leftNode->getParentNode();
+			distanceOther = 1;
+			rightNode = parent->getRightSibling();
+			while(rightNode->getStmtLine() == -1){
+				parent = parent->getParentNode();
+				if(parent->getTType() == EMPTYN) break;
+				rightNode = parent->getRightSibling();
+				distanceOther++;
+			}
+
+			if(distanceWhile < distanceOther && distanceWhile!=-1){
+				rightNode = whileNode;
+			}
+
 	  }
-	  
-	  
+  
 	  if(isPrimaryNode(rightNode)){
 		TNode* firstChildLastNode = leftNode->getChildren()[1]->getChildren().back();
 		TNode* secondChildLastNode = leftNode->getChildren()[2]->getChildren().back();

@@ -15,6 +15,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION(ParserNextTest);
 // Test whether the parser and PKB is able to capture all the Next relationship
 void ParserNextTest::testNext() {
   // Correct Relationships
+
   CPPUNIT_ASSERT(nTest->isNext(1, 2));
   CPPUNIT_ASSERT(nTest->isNext(2, 3));
   CPPUNIT_ASSERT(nTest->isNext(3, 4));

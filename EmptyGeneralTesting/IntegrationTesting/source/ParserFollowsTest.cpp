@@ -15,6 +15,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION(ParserFollowsTest);
 // Test whether the parser and PKB is able to capture all the Follows relationship
 void ParserFollowsTest::testFollows() {
   // Correct Relationships
+
   CPPUNIT_ASSERT(fTest->isFollows(1, 2));
   CPPUNIT_ASSERT(fTest->isFollows(2, 3));
   CPPUNIT_ASSERT(fTest->isFollows(3, 4));
