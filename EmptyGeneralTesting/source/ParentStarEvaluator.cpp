@@ -44,6 +44,9 @@ bool ParentStarEvaluator::checkRight(const QNode* const node, const int tested) 
 
 vector <int> ParentStarEvaluator::getAllLeft(const QNode* const node, 
     const QueryResult &result) const {
+    if (node->getChildren()[0]->getQType()== ANY) {
+        return pkb->getAst()->getStmtLines(STMTN);
+    }
     set<int> possibleValues = result.getPossibleValues(node->getChildren()[0]->getString());
     if (possibleValues.size() > 0) {
         return vector<int>(possibleValues.begin(), possibleValues.end());
@@ -54,6 +57,9 @@ vector <int> ParentStarEvaluator::getAllLeft(const QNode* const node,
 
 vector <int> ParentStarEvaluator::getAllRight(const QNode* const node, 
     const QueryResult &result) const {
+    if (node->getChildren()[1]->getQType()== ANY) {
+        return pkb->getAst()->getStmtLines(STMTN);
+    }
     set<int> possibleValues = result.getPossibleValues(node->getChildren()[1]->getString());
     if (possibleValues.size() > 0) {
         return vector<int>(possibleValues.begin(), possibleValues.end());

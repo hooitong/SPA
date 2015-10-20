@@ -1,5 +1,6 @@
 #include <RelationEvaluator.h>
 #include <sstream>
+#include <iostream>
 
 RelationEvaluator::RelationEvaluator(PKB* pkb) {
     this->pkb = pkb;
