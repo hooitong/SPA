@@ -41,13 +41,13 @@ int FollowsEvaluator::getConstRight(const QNode* const node) const {
 }
 
 bool FollowsEvaluator::checkLeft(const QNode* const node, const int tested) const {
-    return node->getChildren()[0]->getQType() == STMTSYNONYM ||
+    return synonymToTType(node->getChildren()[0]->getQType()) == STMTN ||
         synonymToTType(node->getChildren()[0]->getQType()) ==
         pkb->getAst()->getTNode(tested)->getTType();
 }
 
 bool FollowsEvaluator::checkRight(const QNode* const node, const int tested) const {
-    return node->getChildren()[1]->getQType() == STMTSYNONYM ||
+    return synonymToTType(node->getChildren()[1]->getQType()) == STMTN ||
         synonymToTType(node->getChildren()[1]->getQType()) ==
         pkb->getAst()->getTNode(tested)->getTType();
 }

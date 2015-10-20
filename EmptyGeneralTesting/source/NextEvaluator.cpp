@@ -31,13 +31,13 @@ int NextEvaluator::getConstRight(const QNode* const node) const {
 }
 
 bool NextEvaluator::checkLeft(const QNode* const node, const int tested) const {
-    return node->getChildren()[0]->getQType() == STMTSYNONYM ||
+    return synonymToTType(node->getChildren()[0]->getQType()) == STMTN ||
         synonymToTType(node->getChildren()[0]->getQType()) ==
         pkb->getAst()->getTNode(tested)->getTType();
 }
 
 bool NextEvaluator::checkRight(const QNode* const node, const int tested) const {
-    return node->getChildren()[1]->getQType() == STMTSYNONYM ||
+    return synonymToTType(node->getChildren()[1]->getQType()) == STMTN ||
         synonymToTType(node->getChildren()[1]->getQType()) ==
         pkb->getAst()->getTNode(tested)->getTType();
 }
