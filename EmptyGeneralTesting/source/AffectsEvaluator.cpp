@@ -287,11 +287,18 @@ bool AffectsEvaluator::findSynonymToConst(STMTLINE current, set<VARINDEX> contex
   /* If no more candidates, return to reduce computation */
   if (candidates->size() == 0) return false;
 
-  /* Assertion: Assume that candidates are all valid ones (Assign Statements/Same Context) */
-  /* Remove current line from candidates if exist */
-  bool isCandidate = candidates->erase(current);
-  /* Short circuited statement to reduce computation */
-  if (isCandidate && takeAny) return true;
+  /* Assertion: Assume that candidates are all assign statements */
+  if (candidates->find(current) != candidates->end()) {
+    /* Check whether the candidate is still a valid one found in contextVar */
+    VARINDEX modifiedVar = pkb->getModifies()->getModifiedByStmt(current)[0];
+    if (contextVar.find(modifiedVar) != contextVar.end()) {
+      /* Remove current line from candidates if exist */
+      bool isCandidate = candidates->erase(current);
+      /* Short circuited statement to reduce computation */
+      if (isCandidate && takeAny) return true;
+    }
+  }
+
 
   /* Check cyclic in path */
   if (std::find(path.begin(), path.end(), current) != path.end()) return false;

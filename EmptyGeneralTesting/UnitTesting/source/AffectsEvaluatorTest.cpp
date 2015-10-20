@@ -64,7 +64,6 @@ void AffectsEvaluatorTest::testSynAny() {
   QueryResult result = eval.evaluate(node);
   vector<STMTLINE> expected;
   expected.push_back(1);
-  expected.push_back(2);
   expected.push_back(15);
   expected.push_back(34);
   expected.push_back(37);
