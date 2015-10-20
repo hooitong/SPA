@@ -3,5 +3,13 @@ procedure TestProcedure {
 }
 
 procedure AnotherProc {
-  call TestProcedure;							
+  call b;							
+}
+
+procedure b{
+  call c;							
+}
+
+procedure c{
+  call b;							
 }

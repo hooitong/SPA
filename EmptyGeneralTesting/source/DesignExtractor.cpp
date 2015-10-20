@@ -319,7 +319,7 @@ void DesignExtractor::extractInterprocedureCallStar() {
 }
 
 void DesignExtractor::recursiveInterprocedureCallStar(PROCINDEX currentProc, bool first, vector<PROCINDEX> &result) {
-  if (find(result.begin(), result.end(), currentProc) == result.end() && !first) return;
+  if (find(result.begin(), result.end(), currentProc) != result.end() && !first) return;
 
   result.push_back(currentProc);
 
