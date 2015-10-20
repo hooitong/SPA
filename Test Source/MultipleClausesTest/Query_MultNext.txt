@@ -38,3 +38,23 @@ assign a;
 Select BOOLEAN such that Next*(125,126) and Calls("drawMoney", "cab")
 FALSE
 5000
+9 - Next* 
+assign a,b,c;prog_line p; if i;while w; 
+Select a such that Next*(a,b) and Next(b,c) and Parent(i,c) and Uses(i, "a") and Parent(w,i) and Modifies(w, "d") and Modifies(a, "h")
+25,32,38,40,41
+5000
+10 - Next* 
+assign a;while w; 
+Select a such that Next(_,a) and Next(a, w) and Uses(w,"ant")
+12,13,20
+5000
+11 - Next*
+assign a,b; prog_line pn;while w;if i;
+Select a such that Next(a,b) and Next(_,a) and Follows(a,_) and Follows(_,a) such that Parent(w,a) and Parent*(i,a)
+39
+5000
+12 - Next*
+assign a,b; prog_line pn;while w;if i;
+Select a such that Next(a, b) and Follows(a,b) and Next*(b,a) and Follows*(a,b) and Parent(w,a) and Parent*(i,a)
+25,38,39,49
+5000
