@@ -325,7 +325,6 @@ void DesignExtractor::recursiveInterprocedureCallStar(PROCINDEX currentProc, boo
 
   vector<PROCINDEX> calledBy = PKB::getPKB()->getCalls()->getCalledBy(currentProc);
   for (int q = 0; q < calledBy.size(); q++) {
-    result.push_back(calledBy[q]);
     recursiveInterprocedureCallStar(calledBy[q], false, result);
   }
 }
