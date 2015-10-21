@@ -7,6 +7,10 @@ QueryAttributeTable::QueryAttributeTable(void) {
 	addRule(VARIABLESYNONYM, "varName", REF_NAME);
 	addRule(CONSTSYNONYM, "value", REF_INTEGER);
 	addRule(STMTSYNONYM, "stmt#", REF_INTEGER);
+  addRule(ASSIGNSYNONYM, "stmt#", REF_INTEGER);
+  addRule(WHILESYNONYM, "stmt#", REF_INTEGER);
+  addRule(IFSYNONYM, "stmt#", REF_INTEGER);
+  addRule(CALLSYNONYM, "stmt#", REF_INTEGER);
 
 	addRule(PROGLINESYNONYM, REF_INTEGER);
 	addRule(CONST, REF_INTEGER);

@@ -880,6 +880,35 @@ void QueryPreprocessorTest::testWithCondition4() {
   CPPUNIT_ASSERT(achieved->isEqual(expected));	
 }
 
+void QueryPreprocessorTest::testWithCondition5() {
+
+  queryTest = new QueryPreprocessor();
+  QueryTree* achieved = queryTest->parseQuery("assign a; Select a with a.stmt#=10");
+  CPPUNIT_ASSERT(achieved != NULL);
+  QueryTree* expected = new QueryTree();
+  QNode* expectedRoot = expected->createNode(QUERY,"");
+  QNode* expectedResultList = expected->createNode(RESULTLIST,"");
+  QNode* expectedConditionList = expected->createNode(CONDITIONLIST,"");
+  expected->setAsRoot(expectedRoot);
+  expected->addChild(expectedRoot,expectedResultList);
+  expected->addChild(expectedRoot,expectedConditionList);
+
+  QNode* expectedResult = expected->createNode(ASSIGNSYNONYM,"a");
+  expected->addChild(expectedResultList,expectedResult);
+  
+  QNode* expectedWith = expected->createNode(WITH,"");
+  QNode* expectedWithChild1 = expected->createNode(ASSIGNSYNONYM,"a");
+  QNode* expectedWithChild11 = expected->createNode(ATTRIBUTE,"stmt#");
+  QNode* expectedWithChild2 = expected->createNode(CONST,"10");
+  expected->addChild(expectedWith,expectedWithChild1);
+  expected->addChild(expectedWith,expectedWithChild2);
+  expected->addChild(expectedWithChild1,expectedWithChild11);
+
+  expected->addChild(expectedConditionList,expectedWith);
+
+  CPPUNIT_ASSERT(achieved->isEqual(expected));
+}
+
 void QueryPreprocessorTest::testWithConditionDifferentType() {
 
   queryTest = new QueryPreprocessor();
