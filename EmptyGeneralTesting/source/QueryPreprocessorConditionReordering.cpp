@@ -6,7 +6,7 @@ QueryPreprocessorConditionReordering::QueryPreprocessorConditionReordering() {
   score_functions.push_back(alwaysReturnsFour);
   score_weights.push_back(1);
   score_functions.push_back(isWithCondition);
-  score_weights.push_back(1);
+  score_weights.push_back(-1);
   score_functions.push_back(relationTypeScore);
   score_weights.push_back(10);
   score_functions.push_back(numberOfSynonyms);
