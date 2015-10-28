@@ -11,7 +11,6 @@
 #include "QueryTree.h"
 #include "QueryResult.h"
 
-
 class QueryEvaluator {
   public:
     QueryEvaluator(PKB* pkb);
@@ -41,6 +40,8 @@ class QueryEvaluator {
     QueryResult solveNextStar(QNode* node);
     QueryResult solveAffects(QNode* node);
     QueryResult solveAffectsStar(QNode* node);
+    QueryResult solvePatternIf(QNode* node);
+    QueryResult solvePatternWhile(QNode* node);
     bool isSynonym(QNodeType type);
     vector<QueryResult> getResultFilters(QNode* node);
     vector<string> getResultSynonyms(QNode* node);
