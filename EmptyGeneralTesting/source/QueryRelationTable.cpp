@@ -3,9 +3,9 @@
 
 QueryRelationTable::QueryRelationTable(void) {
 
-	QNodeType modifies_left[] = {PROGLINESYNONYM, STMTSYNONYM, IFSYNONYM, WHILESYNONYM, CALLSYNONYM, ASSIGNSYNONYM, PROCEDURESYNONYM, CONST, VAR, ANY};
+	QNodeType modifies_left[] = {PROGLINESYNONYM, STMTSYNONYM, IFSYNONYM, WHILESYNONYM, CALLSYNONYM, ASSIGNSYNONYM, PROCEDURESYNONYM, CONST, VAR};
 	QNodeType modifies_right[] = {VARIABLESYNONYM, VAR, ANY};
-	QNodeType uses_left[] = {PROGLINESYNONYM, STMTSYNONYM, IFSYNONYM, WHILESYNONYM, CALLSYNONYM, ASSIGNSYNONYM, PROCEDURESYNONYM, CONST, VAR, ANY};
+	QNodeType uses_left[] = {PROGLINESYNONYM, STMTSYNONYM, IFSYNONYM, WHILESYNONYM, CALLSYNONYM, ASSIGNSYNONYM, PROCEDURESYNONYM, CONST, VAR};
 	QNodeType uses_right[] = {VARIABLESYNONYM, VAR, ANY};
 	QNodeType calls_left[] = {PROCEDURESYNONYM, VAR, ANY};
 	QNodeType calls_right[] = {PROCEDURESYNONYM, VAR, ANY};
@@ -18,8 +18,8 @@ QueryRelationTable::QueryRelationTable(void) {
 	QNodeType affects_left[] = {PROGLINESYNONYM, STMTSYNONYM, ASSIGNSYNONYM, CONST, ANY};
 	QNodeType affects_right[] = {PROGLINESYNONYM, STMTSYNONYM, ASSIGNSYNONYM, CONST, ANY};
 
-	addRule("Modifies", vector<QNodeType>(modifies_left, modifies_left + 10), vector<QNodeType>(modifies_right, modifies_right + 3));
-	addRule("Uses", vector<QNodeType>(uses_left, uses_left + 10), vector<QNodeType>(uses_right, uses_right + 3));
+	addRule("Modifies", vector<QNodeType>(modifies_left, modifies_left + 9), vector<QNodeType>(modifies_right, modifies_right + 3));
+	addRule("Uses", vector<QNodeType>(uses_left, uses_left + 9), vector<QNodeType>(uses_right, uses_right + 3));
 	addRule("Calls", vector<QNodeType>(calls_left, calls_left + 3), vector<QNodeType>(calls_right, calls_right + 3));
 	addRule("Calls*", vector<QNodeType>(calls_left, calls_left + 3), vector<QNodeType>(calls_right, calls_right + 3));
 	addRule("Parent", vector<QNodeType>(parent_left, parent_left + 8), vector<QNodeType>(parent_right, parent_right + 8));
