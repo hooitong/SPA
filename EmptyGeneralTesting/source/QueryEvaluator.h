@@ -40,6 +40,7 @@ class QueryEvaluator {
     QueryResult solveNextStar(QNode* node);
     QueryResult solveAffects(QNode* node);
     QueryResult solveAffectsStar(QNode* node);
+    QueryResult solveAffectsBip(QNode* node);
     QueryResult solvePatternIf(QNode* node);
     QueryResult solvePatternWhile(QNode* node);
     bool isSynonym(QNodeType type);
