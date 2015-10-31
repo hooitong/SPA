@@ -369,13 +369,13 @@ bool AffectsBipEvaluator::findSynonymToConst(STMTLINE current, set<VARINDEX> con
 
   /* If current statement is a CALL statement then traverse with next line in stack to next procedure */
   if (currentType == CALLN) {
-    if (!isStartStatement) previousCalls.push(pkb->getNext()->getNext(current)[0]);
+    if (!isStartStatement) previousCalls.push(pkb->getNext()->getBefore(current)[0]);
     if (findSynonymToConst(allBefore[0], contextVar, candidates, path, takeAny, previousCalls)) {
       pathsStatus = true;
     }
   }
 
-  /* This denotes that it reaches end of the procedure, time to return to correct procedure stack */
+  /* This denotes that it reaches start of the procedure, time to return to correct procedure stack */
   else if (isStartStatement && !previousCalls.empty()) {
     STMTLINE returnIndex = previousCalls.top();
     previousCalls.pop();
