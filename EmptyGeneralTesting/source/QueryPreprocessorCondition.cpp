@@ -40,7 +40,6 @@ QNode* QueryPreprocessorCondition::getConditionTree(string condition_string) {
       is_end_of_condition = true;
     }
     string conditions_string = QueryPreprocessor::trim(condition_string.substr(current_position, next_min_position - current_position));
-	cout << conditions_string <<endl;
     processConditions(conditions_string);
     current_position = next_min_position;
   }
@@ -76,13 +75,10 @@ void QueryPreprocessorCondition::processConditions(string conditions_string) {
     string one_condition_string = QueryPreprocessor::trim(conditions_string.substr(current_position, next_and_position - current_position));
     if (condition_type == "such that") {
       processSuchThat(one_condition_string);
-	  cout << "Such that" <<is_valid;
     } else if (condition_type == "with") {
       processWith(one_condition_string);
-	  cout << "with" <<is_valid;
     } else if (condition_type == "pattern") {
       processPattern(one_condition_string);
-	  cout << "pattern" <<is_valid;
     }
     current_position = next_and_position + ((string)"and").length();
   }
