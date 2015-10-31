@@ -48,9 +48,6 @@ class QueryPreprocessorTest : public CPPUNIT_NS::TestFixture {
   CPPUNIT_TEST(testPatternInvalid4);
   CPPUNIT_TEST(testPatternInvalid5);
   CPPUNIT_TEST(testPatternInvalid6);
-  //CPPUNIT_TEST(testWithInvalid);
-  //CPPUNIT_TEST(testWithInvalid1);
-  //CPPUNIT_TEST(testWithInvalid2);
   CPPUNIT_TEST(testUses);
   CPPUNIT_TEST(testUsesInvalid);
   CPPUNIT_TEST(testInvalidNotDeclared);
@@ -62,6 +59,7 @@ class QueryPreprocessorTest : public CPPUNIT_NS::TestFixture {
   CPPUNIT_TEST(testMultipleReturnAndMultipleSuchThat);
   CPPUNIT_TEST(testMultiplePatternAndMultipleSuchThat);
   CPPUNIT_TEST(testMultipleReturnAndPatternAndSuchThat);
+  CPPUNIT_TEST(testOptimisation);
   CPPUNIT_TEST_SUITE_END();
 private:
   QueryPreprocessor* queryTest;
@@ -125,5 +123,6 @@ public:
   void testMultipleReturnAndMultipleSuchThat();
   void testMultiplePatternAndMultipleSuchThat();
   void testMultipleReturnAndPatternAndSuchThat();
+  void testOptimisation();
 };
 

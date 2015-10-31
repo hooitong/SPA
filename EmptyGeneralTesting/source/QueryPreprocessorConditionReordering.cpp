@@ -1,6 +1,7 @@
 #include "QueryPreprocessorConditionReordering.h"
 #include "GlobalType.h"
 #include <algorithm>
+#include <iostream>
 
 QueryPreprocessorConditionReordering::QueryPreprocessorConditionReordering() {
   score_functions.push_back(alwaysReturnsFour);
@@ -18,7 +19,9 @@ void QueryPreprocessorConditionReordering::sortConditions(QNode* condition_list_
   vector<pair<int, QNode*> > condition_nodes_and_scores;
   for (int i = 0; i < (int)condition_nodes.size(); ++i) {
     condition_nodes_and_scores.push_back(make_pair(computeScore(condition_nodes[i]), condition_nodes[i]));
+	cout << computeScore(condition_nodes[i]) << " ";
   }
+  cout << endl;
   std::sort(condition_nodes.begin(), condition_nodes.end());
   QNode* updated_condition_list_node = new QNode(CONDITIONLIST, "");
   for (int i = 0; i < (int)condition_nodes.size(); ++i) {
@@ -124,10 +127,10 @@ int QueryPreprocessorConditionReordering::computeScore(QNode* condition_node) {
 
 // Ordering based on relation type. Affects* comes last, lead by Affect, lead by Next*, lead by the rest
 int QueryPreprocessorConditionReordering::relationTypeScore(QNode* condition_node) {
-  if (condition_node->getString() == "Affect*") {
+  if (condition_node->getString() == "Affects*") {
     return 4;
   }
-  if (condition_node->getString() == "Affect") {
+  if (condition_node->getString() == "Affects") {
     return 3;
   }
   if (condition_node->getString() == "Next*") {

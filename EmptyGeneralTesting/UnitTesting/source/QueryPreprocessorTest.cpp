@@ -541,7 +541,7 @@ void QueryPreprocessorTest::testSuchThatCondition2() {
 
 void QueryPreprocessorTest::testSuchThatCondition3() {
   queryTest = new QueryPreprocessor();
-  QueryTree* achieved = queryTest->parseQuery("assign a; Select a such that Calls(_,_) and Modifies(_,_)");
+  QueryTree* achieved = queryTest->parseQuery("assign a; Select a such that Calls(_,_) and Modifies(a,_)");
   CPPUNIT_ASSERT(achieved != NULL);
   QueryTree* expected = new QueryTree();
   QNode* expectedRoot = expected->createNode(QUERY,"");
@@ -561,7 +561,7 @@ void QueryPreprocessorTest::testSuchThatCondition3() {
   expected->addChild(expectedSuchThat1,expectedSuchThatChild12);
 
   QNode* expectedSuchThat2 = expected->createNode(RELATION,"Modifies");
-  QNode* expectedSuchThatChild21 = expected->createNode(ANY,"");
+  QNode* expectedSuchThatChild21 = expected->createNode(ASSIGNSYNONYM,"a");
   QNode* expectedSuchThatChild22 = expected->createNode(ANY,"");
   expected->addChild(expectedSuchThat2,expectedSuchThatChild21);
   expected->addChild(expectedSuchThat2,expectedSuchThatChild22);
@@ -1260,4 +1260,115 @@ void QueryPreprocessorTest::testMultipleReturnAndPatternAndSuchThat() {
   expected->addChild(expectedPatternNode2, expectedPatternChild23);
   expected->addChild(expectedConditionList, expectedPatternNode2);
   CPPUNIT_ASSERT(achieved->isEqual(expected));
+}
+void QueryPreprocessorTest::testOptimisation() {
+  cout << "parsing query";
+  queryTest = new QueryPreprocessor();
+  QueryTree* achieved = queryTest->parseQuery("procedure p, p1; assign a, b; constant c; stmt s; Select < p, a > such that Calls(p,p1) and Next*(a,1) and Parent(4,6) and Affects(a,1) with s.stmt# = 10 pattern a(_,_\"x\"_) such that Affects*(8,a) pattern b(_,_\"b + 1 + c\"_) such that Calls*(p1,\"foo\") with s.stmt# = c.value");
+  //QueryTree* achieved = queryTest->parseQuery("procedure p, p1; assign a, b; constant c; stmt s; Select < p, a > such that Calls(p,p1) and Parent(4,6) with s.stmt# = 10 pattern a(_,_\"x\"_) such that Affects*(8,a) pattern b(_,_\"b + 1 + c\"_) such that Calls*(p1,\"foo\") with s.stmt# = c.value");
+  //QueryTree* achieved = queryTest->parseQuery("procedure p, p1; assign a, b; constant c; stmt s; Select < p, a > such that Calls(p,p1) and Next*(a,1) and Parent(4,6) with s.stmt# = 10 pattern a(_,_\"x\"_) such that Affects*(8,a) pattern b(_,_\"b + 1 + c\"_) such that Calls*(p1,\"foo\") with s.stmt# = c.value");
+  //QueryTree* achieved = queryTest->parseQuery("procedure p, p1; assign a, b; constant c; stmt s; Select < p, a > such that Calls(p,p1) and Next*(a,1)");
+  CPPUNIT_ASSERT(achieved != NULL);
+
+  QueryTree* expected = new QueryTree();
+  QNode* expectedRoot = expected->createNode(QUERY, "");
+  QNode* expectedResultList = expected->createNode(RESULTLIST, "");
+  QNode* expectedConditionList = expected->createNode(CONDITIONLIST, "");
+  expected->setAsRoot(expectedRoot);
+  expected->addChild(expectedRoot, expectedResultList);
+  expected->addChild(expectedRoot, expectedConditionList);
+
+  QNode* expectedResult1 = expected->createNode(PROCEDURESYNONYM, "p");
+  QNode* expectedResult2 = expected->createNode(ASSIGNSYNONYM, "a");
+  expected->addChild(expectedResultList, expectedResult1);
+  expected->addChild(expectedResultList, expectedResult2);
+
+
+
+  QNode* expectedSuchThat4 = expected->createNode(RELATION,"Next*");
+  QNode* expectedSuchThatChild41 = expected->createNode(ASSIGNSYNONYM,"a");
+  QNode* expectedSuchThatChild42 = expected->createNode(CONST,"1");
+  expected->addChild(expectedSuchThat4,expectedSuchThatChild41);
+  expected->addChild(expectedSuchThat4,expectedSuchThatChild42);
+  expected->addChild(expectedConditionList, expectedSuchThat4);
+
+  QNode* expectedSuchThat5 = expected->createNode(RELATION,"Calls");
+  QNode* expectedSuchThatChild51 = expected->createNode(PROCEDURESYNONYM,"p");
+  QNode* expectedSuchThatChild52 = expected->createNode(PROCEDURESYNONYM,"p1");
+  expected->addChild(expectedSuchThat5,expectedSuchThatChild51);
+  expected->addChild(expectedSuchThat5,expectedSuchThatChild52);
+  expected->addChild(expectedConditionList, expectedSuchThat5);
+
+  QNode* expectedSuchThat1 = expected->createNode(RELATION,"Parent");
+  QNode* expectedSuchThatChild11 = expected->createNode(CONST,"4");
+  QNode* expectedSuchThatChild12 = expected->createNode(CONST,"6");
+  expected->addChild(expectedSuchThat1,expectedSuchThatChild11);
+  expected->addChild(expectedSuchThat1,expectedSuchThatChild12);
+  expected->addChild(expectedConditionList, expectedSuchThat1);
+
+  QNode* expectedSuchThat2 = expected->createNode(RELATION,"Affects");
+  QNode* expectedSuchThatChild21 = expected->createNode(ASSIGNSYNONYM,"a");
+  QNode* expectedSuchThatChild22 = expected->createNode(CONST,"1");
+  expected->addChild(expectedSuchThat2,expectedSuchThatChild21);
+  expected->addChild(expectedSuchThat2,expectedSuchThatChild22);
+  expected->addChild(expectedConditionList, expectedSuchThat2);
+
+
+  QNode* expectedWith1 = expected->createNode(WITH,"");
+  QNode* expectedWithChild11 = expected->createNode(STMTSYNONYM,"s");
+  QNode* expectedWithChild111 = expected->createNode(ATTRIBUTE,"stmt#");
+  QNode* expectedWithChild12 = expected->createNode(CONST,"10");
+  expected->addChild(expectedWith1,expectedWithChild11);
+  expected->addChild(expectedWith1,expectedWithChild12);
+  expected->addChild(expectedWithChild11,expectedWithChild111);
+  expected->addChild(expectedConditionList, expectedWith1);
+
+  QNode* expectedPatternNode1 = expected->createNode(PATTERNASSIGN, "");
+  QNode* expectedPatternChild11 = expected->createNode(ASSIGNSYNONYM, "a");
+  QNode* expectedPatternChild12 = expected->createNode(ANY, "");
+  QNode* expectedPatternChild13 = expected->createNode(EXPRESSION, "_x_");
+  expected->addChild(expectedPatternNode1, expectedPatternChild11);
+  expected->addChild(expectedPatternNode1, expectedPatternChild12);
+  expected->addChild(expectedPatternNode1, expectedPatternChild13);
+  expected->addChild(expectedConditionList, expectedPatternNode1);
+
+  QNode* expectedSuchThat3 = expected->createNode(RELATION,"Affects*");
+  QNode* expectedSuchThatChild31 = expected->createNode(CONST,"8");
+  QNode* expectedSuchThatChild32 = expected->createNode(ASSIGNSYNONYM,"a");
+  expected->addChild(expectedSuchThat3,expectedSuchThatChild31);
+  expected->addChild(expectedSuchThat3,expectedSuchThatChild32);
+  expected->addChild(expectedConditionList, expectedSuchThat3);
+
+  QNode* expectedPatternNode2 = expected->createNode(PATTERNASSIGN, "");
+  QNode* expectedPatternChild21 = expected->createNode(ASSIGNSYNONYM, "b");
+  QNode* expectedPatternChild22 = expected->createNode(ANY, "");
+  QNode* expectedPatternChild23 = expected->createNode(EXPRESSION, "_b + 1 + c_");
+  expected->addChild(expectedPatternNode2, expectedPatternChild21);
+  expected->addChild(expectedPatternNode2, expectedPatternChild22);
+  expected->addChild(expectedPatternNode2, expectedPatternChild23);
+
+  expected->addChild(expectedConditionList, expectedPatternNode2);
+
+  
+  QNode* expectedSuchThat6 = expected->createNode(RELATION,"Calls*");
+  QNode* expectedSuchThatChild61 = expected->createNode(PROCEDURESYNONYM,"p1");
+  QNode* expectedSuchThatChild62 = expected->createNode(VAR,"foo");
+  expected->addChild(expectedSuchThat6,expectedSuchThatChild61);
+  expected->addChild(expectedSuchThat6,expectedSuchThatChild62);
+
+  expected->addChild(expectedConditionList, expectedSuchThat6);
+
+  QNode* expectedWith2 = expected->createNode(WITH,"");
+  QNode* expectedWithChild21 = expected->createNode(STMTSYNONYM,"s");
+  QNode* expectedWithChild211 = expected->createNode(ATTRIBUTE,"stmt#");
+  QNode* expectedWithChild22 = expected->createNode(CONSTSYNONYM,"c");
+  QNode* expectedWithChild221 = expected->createNode(ATTRIBUTE,"value");
+  expected->addChild(expectedWith2,expectedWithChild21);
+  expected->addChild(expectedWith2,expectedWithChild22);
+  expected->addChild(expectedWithChild21,expectedWithChild211);
+  expected->addChild(expectedWithChild22,expectedWithChild221);
+  expected->addChild(expectedConditionList, expectedWith2);
+
+  CPPUNIT_ASSERT(achieved->isEqual(expected));
+
 }
