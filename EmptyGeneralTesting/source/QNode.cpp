@@ -73,3 +73,15 @@ bool QNode::isEqualSubtree(QNode* node) const {
     }
     return true;
 }
+
+bool QNode::printTree() {
+    std::cout << this->name << " " << this->name << "            ";
+    std::cout << this->type << " " << this->type << "            ";
+    std::cout << this->childrenNodes.size() << endl;
+
+    for (int i = 0; i < (int)this->childrenNodes.size(); ++i) {
+			this->childrenNodes[i]->printTree();
+    }
+	 std::cout << endl;
+    return true;
+}

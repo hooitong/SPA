@@ -22,4 +22,5 @@ class QNode {
 
     void addChild(QNode* node);
     bool isEqualSubtree(QNode *node) const;
+	bool printTree();
 };

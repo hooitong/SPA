@@ -17,4 +17,5 @@ class QueryTree {
     vector<QNode*> getChildren(QNode* parent);
     QNode* getRoot(void);
     bool isEqual(QueryTree *anotherTree);
+	void printTree(void);
 };
