@@ -14,7 +14,7 @@ QueryPreprocessorConditionReordering::QueryPreprocessorConditionReordering() {
   score_weights.push_back(100);
 }
 
-void QueryPreprocessorConditionReordering::sortConditions(QNode* condition_list_node) {
+QNode* QueryPreprocessorConditionReordering::sortConditions(QNode* condition_list_node) {
   vector<QNode*> condition_nodes = condition_list_node->getChildren();
   vector<pair<int, QNode*> > condition_nodes_and_scores;
   for (int i = 0; i < (int)condition_nodes.size(); ++i) {
@@ -22,13 +22,14 @@ void QueryPreprocessorConditionReordering::sortConditions(QNode* condition_list_
 
   }
 
-  std::sort(condition_nodes.begin(), condition_nodes.end());
+  std::sort(condition_nodes_and_scores.begin(), condition_nodes_and_scores.end());
   QNode* updated_condition_list_node = new QNode(CONDITIONLIST, "");
   for (int i = 0; i < (int)condition_nodes.size(); ++i) {
     updated_condition_list_node->addChild(condition_nodes_and_scores[i].second);
   }
-  groupCommonSynonym(updated_condition_list_node);
-  condition_list_node = updated_condition_list_node;
+  condition_list_node = groupCommonSynonym(updated_condition_list_node);
+  //condition_list_node = updated_condition_list_node;
+  return condition_list_node;
 }
 
 bool QueryPreprocessorConditionReordering::isSynonym(QNode* condition_child_node) {
@@ -61,7 +62,7 @@ vector<QNode*> QueryPreprocessorConditionReordering::getSynonymChildren(QNode* c
   return synonym_child_nodes;
 }
 
-void QueryPreprocessorConditionReordering::groupCommonSynonym(QNode* condition_list_node) {
+QNode* QueryPreprocessorConditionReordering::groupCommonSynonym(QNode* condition_list_node) {
   vector<QNode*> condition_nodes = condition_list_node->getChildren();
   QNode* updated_condition_list_node = new QNode(CONDITIONLIST, "");
   vector<bool> used(condition_nodes.size());
@@ -100,7 +101,8 @@ void QueryPreprocessorConditionReordering::groupCommonSynonym(QNode* condition_l
       updated_condition_list_node->addChild(in_this_group[j]);
     }
   }
-  condition_list_node = updated_condition_list_node;
+  return updated_condition_list_node;
+
 }
 
 bool QueryPreprocessorConditionReordering::isShareCommonSynonym(QNode* condition_node_one, QNode* condition_node_two) {

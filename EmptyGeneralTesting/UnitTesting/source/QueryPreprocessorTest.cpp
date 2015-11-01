@@ -1265,7 +1265,6 @@ void QueryPreprocessorTest::testOptimisation() {
   queryTest = new QueryPreprocessor();
   QueryTree* achieved = queryTest->parseQuery("procedure p, p1; assign a, b; constant c; stmt s; Select < p, a > such that Calls(p,p1) and Next*(a,1) and Parent(4,6) and Affects(a,1) with s.stmt# = 10 pattern a(_,_\"x\"_) such that Affects*(8,a) pattern b(_,_\"b + 1 + c\"_) such that Calls*(p1,\"foo\") with s.stmt# = c.value");
   CPPUNIT_ASSERT(achieved != NULL);
-  //achieved->printTree();
   QueryTree* expected = new QueryTree();
   QNode* expectedRoot = expected->createNode(QUERY, "");
   QNode* expectedResultList = expected->createNode(RESULTLIST, "");

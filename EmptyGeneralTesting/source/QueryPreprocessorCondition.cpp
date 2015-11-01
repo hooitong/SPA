@@ -46,7 +46,7 @@ QNode* QueryPreprocessorCondition::getConditionTree(string condition_string) {
 
   QueryPreprocessorConditionReordering* reorder = new QueryPreprocessorConditionReordering();
 
-  reorder->sortConditions(condition_root);
+  condition_root = reorder->sortConditions(condition_root);
 
   return condition_root;
 }
