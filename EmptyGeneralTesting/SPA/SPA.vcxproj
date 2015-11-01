@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\source\AffectsBipEvaluator.h" />
     <ClInclude Include="..\source\AffectsEvaluator.h" />
     <ClInclude Include="..\source\AffectsStarEvaluator.h" />
     <ClInclude Include="..\source\AST.h" />
@@ -69,6 +70,7 @@
     <ClInclude Include="..\source\WithEvaluator.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\source\AffectsBipEvaluator.cpp" />
     <ClCompile Include="..\source\AffectsEvaluator.cpp" />
     <ClCompile Include="..\source\AffectsStarEvaluator.cpp" />
     <ClCompile Include="..\source\AST.cpp" />

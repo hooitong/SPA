@@ -14,6 +14,7 @@
 #include "ModifiesProcEvaluator.h"
 #include "AffectsEvaluator.h"
 #include "AffectsStarEvaluator.h"
+#include "AffectsBipEvaluator.h"
 
 QueryEvaluator::QueryEvaluator(PKB* pkb) {
     pkbInstance = pkb;
@@ -220,6 +221,8 @@ QueryResult QueryEvaluator::solveRelation(QNode* node) {
         return solveAffects(node);
     } else if (node->getString() == "Affects*") {
         return solveAffectsStar(node);
+    } else if (node->getString() == "AffectsBip") {
+      return solveAffectsBip(node);
     } else {
         return QueryResult(false);
     }
@@ -297,6 +300,11 @@ QueryResult QueryEvaluator::solveAffects(QNode* node) {
 
 QueryResult QueryEvaluator::solveAffectsStar(QNode* node) {
   AffectsStarEvaluator eval(pkbInstance);
+  return eval.evaluate(node);
+}
+
+QueryResult QueryEvaluator::solveAffectsBip(QNode* node) {
+  AffectsBipEvaluator eval(pkbInstance);
   return eval.evaluate(node);
 }
 
