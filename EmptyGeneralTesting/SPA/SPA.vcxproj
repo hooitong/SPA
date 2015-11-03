@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\AffectsBipEvaluator.h" />
+    <ClInclude Include="..\source\AffectsBipStarEvaluator.h" />
     <ClInclude Include="..\source\AffectsEvaluator.h" />
     <ClInclude Include="..\source\AffectsStarEvaluator.h" />
     <ClInclude Include="..\source\AST.h" />
@@ -35,6 +36,8 @@
     <ClInclude Include="..\source\ModifiesEvaluator.h" />
     <ClInclude Include="..\source\ModifiesProcEvaluator.h" />
     <ClInclude Include="..\source\Next.h" />
+    <ClInclude Include="..\source\NextBipEvaluator.h" />
+    <ClInclude Include="..\source\NextBipStarEvaluator.h" />
     <ClInclude Include="..\source\NextEvaluator.h" />
     <ClInclude Include="..\source\NextStarEvaluator.h" />
     <ClInclude Include="..\source\Parent.h" />
@@ -71,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\AffectsBipEvaluator.cpp" />
+    <ClCompile Include="..\source\AffectsBipStarEvaluator.cpp" />
     <ClCompile Include="..\source\AffectsEvaluator.cpp" />
     <ClCompile Include="..\source\AffectsStarEvaluator.cpp" />
     <ClCompile Include="..\source\AST.cpp" />
@@ -93,6 +97,8 @@
     <ClCompile Include="..\source\ModifiesEvaluator.cpp" />
     <ClCompile Include="..\source\ModifiesProcEvaluator.cpp" />
     <ClCompile Include="..\source\Next.cpp" />
+    <ClCompile Include="..\source\NextBipEvaluator.cpp" />
+    <ClCompile Include="..\source\NextBipStarEvaluator.cpp" />
     <ClCompile Include="..\source\NextEvaluator.cpp" />
     <ClCompile Include="..\source\NextStarEvaluator.cpp" />
     <ClCompile Include="..\source\Parent.cpp" />

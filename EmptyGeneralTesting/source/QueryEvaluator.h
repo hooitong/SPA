@@ -43,6 +43,9 @@ class QueryEvaluator {
     QueryResult solveAffectsBip(QNode* node);
     QueryResult solvePatternIf(QNode* node);
     QueryResult solvePatternWhile(QNode* node);
+    QueryResult solveAffectsBipStar(QNode* node);
+    QueryResult solveNextBip(QNode* node);
+    QueryResult solveNextBipStar(QNode* node);
     bool isSynonym(QNodeType type);
     vector<QueryResult> getResultFilters(QNode* node);
     vector<string> getResultSynonyms(QNode* node);

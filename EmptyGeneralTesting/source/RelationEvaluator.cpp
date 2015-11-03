@@ -247,6 +247,7 @@ void RelationEvaluator::updateResult(const QNode* const &node, QueryResult &resu
 }
 
 QueryResult RelationEvaluator::evaluate(QNode* node) {
+    cout << node->getQType() << endl;
     QueryResult result(true);
     updateResult(node, result);
     return result;

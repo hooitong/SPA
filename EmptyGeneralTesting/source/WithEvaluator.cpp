@@ -1,5 +1,6 @@
 #include "WithEvaluator.h"
 #include <cassert>
+#include <iostream>
 
 WithEvaluator::WithEvaluator(PKB* pkb) {
     this->pkb = pkb;

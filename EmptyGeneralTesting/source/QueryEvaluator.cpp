@@ -15,6 +15,9 @@
 #include "AffectsEvaluator.h"
 #include "AffectsStarEvaluator.h"
 #include "AffectsBipEvaluator.h"
+#include "AffectsBipStarEvaluator.h"
+#include "NextBipEvaluator.h"
+#include "NextBipStarEvaluator.h"
 
 QueryEvaluator::QueryEvaluator(PKB* pkb) {
     pkbInstance = pkb;
@@ -223,6 +226,12 @@ QueryResult QueryEvaluator::solveRelation(QNode* node) {
         return solveAffectsStar(node);
     } else if (node->getString() == "AffectsBip") {
       return solveAffectsBip(node);
+    } else if (node->getString() == "AffectsBip*") {
+      return solveAffectsBipStar(node);
+    } else if (node->getString() == "NextBip") {
+      return solveNextBip(node);
+    } else if (node->getString() == "NextBip*") {
+      return solveNextBipStar(node);
     } else {
         return QueryResult(false);
     }
@@ -305,6 +314,21 @@ QueryResult QueryEvaluator::solveAffectsStar(QNode* node) {
 
 QueryResult QueryEvaluator::solveAffectsBip(QNode* node) {
   AffectsBipEvaluator eval(pkbInstance);
+  return eval.evaluate(node);
+}
+
+QueryResult QueryEvaluator::solveAffectsBipStar(QNode* node) {
+  AffectsBipStarEvaluator eval(pkbInstance);
+  return eval.evaluate(node);
+}
+
+QueryResult QueryEvaluator::solveNextBip(QNode* node) {
+  NextBipEvaluator eval(pkbInstance);
+  return eval.evaluate(node);
+}
+
+QueryResult QueryEvaluator::solveNextBipStar(QNode* node) {
+  NextBipStarEvaluator eval(pkbInstance);
   return eval.evaluate(node);
 }
 
