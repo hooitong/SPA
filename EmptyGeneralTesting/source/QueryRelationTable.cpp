@@ -17,6 +17,8 @@ QueryRelationTable::QueryRelationTable(void) {
 	QNodeType next_right[] = {PROGLINESYNONYM, STMTSYNONYM, IFSYNONYM, WHILESYNONYM, CALLSYNONYM, ASSIGNSYNONYM, CONST, ANY};
 	QNodeType affects_left[] = {PROGLINESYNONYM, STMTSYNONYM, ASSIGNSYNONYM, CONST, ANY};
 	QNodeType affects_right[] = {PROGLINESYNONYM, STMTSYNONYM, ASSIGNSYNONYM, CONST, ANY};
+	QNodeType contains_left[] = {PROGLINESYNONYM, STMTSYNONYM, IFSYNONYM, WHILESYNONYM, CALLSYNONYM, ASSIGNSYNONYM, PROCEDURESYNONYM, ANY};
+	QNodeType contains_right[] = {PROGLINESYNONYM, STMTSYNONYM, IFSYNONYM, WHILESYNONYM, CALLSYNONYM, ASSIGNSYNONYM, PROCEDURESYNONYM, ANY};
 
 	addRule("Modifies", vector<QNodeType>(modifies_left, modifies_left + 9), vector<QNodeType>(modifies_right, modifies_right + 3));
 	addRule("Uses", vector<QNodeType>(uses_left, uses_left + 9), vector<QNodeType>(uses_right, uses_right + 3));
@@ -28,8 +30,14 @@ QueryRelationTable::QueryRelationTable(void) {
 	addRule("Follows*", vector<QNodeType>(follows_left, follows_left + 8), vector<QNodeType>(follows_right, follows_right + 8));
 	addRule("Next", vector<QNodeType>(next_left, next_left + 8), vector<QNodeType>(next_right, next_right + 8));
 	addRule("Next*", vector<QNodeType>(next_left, next_left + 8), vector<QNodeType>(next_right, next_right + 8));
+	addRule("NextBip", vector<QNodeType>(next_left, next_left + 8), vector<QNodeType>(next_right, next_right + 8));
+	addRule("NextBip*", vector<QNodeType>(next_left, next_left + 8), vector<QNodeType>(next_right, next_right + 8));
 	addRule("Affects", vector<QNodeType>(affects_left, affects_left + 5), vector<QNodeType>(affects_left, affects_left + 5));
 	addRule("Affects*", vector<QNodeType>(affects_left, affects_left + 5), vector<QNodeType>(affects_left, affects_left + 5));
+	addRule("AffectsBip", vector<QNodeType>(affects_left, affects_left + 5), vector<QNodeType>(affects_left, affects_left + 5));
+	addRule("AffectsBip*", vector<QNodeType>(affects_left, affects_left + 5), vector<QNodeType>(affects_left, affects_left + 5));
+	addRule("Contains", vector<QNodeType>(contains_left, contains_left + 5), vector<QNodeType>(contains_left, contains_left + 5));
+	addRule("Contains*", vector<QNodeType>(contains_left, contains_left + 5), vector<QNodeType>(contains_left, contains_left + 5));
 }
 
 void QueryRelationTable::addRule(string synonym_name, vector<QNodeType> available_types_left, vector<QNodeType> available_types_right) {
