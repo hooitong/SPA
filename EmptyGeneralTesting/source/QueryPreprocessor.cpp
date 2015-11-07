@@ -7,7 +7,7 @@
 #include "Exception.h"
 #include "QueryTree.h"
 
-static string designEntity[] = {"procedure","stmtLst", "stmt", "assign", "call", "while", "if", "variable", "constant", "prog_line"};
+static string designEntity[] = {"procedure","stmtLst", "stmt", "assign", "call", "while", "if", "variable", "constant", "prog_line", "plus", "minus", "times"};
 static QueryTree* tree;
 
 QueryPreprocessor::QueryPreprocessor(void) {

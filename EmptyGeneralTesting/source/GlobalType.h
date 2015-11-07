@@ -58,7 +58,10 @@ enum QNodeType {
   CONST,
   PROC,
   IF,
-  ANY
+  ANY,
+  QPLUS,
+  QMINUS,
+  QTIMES
 };
 
 enum RefType {
