@@ -27,3 +27,13 @@ vector<STMTLINE> Sibling::getSiblings(STMTLINE child) {
 
 	return result1;
 }
+
+bool Sibling::isSiblingNode(TNode* first, TNode* second){
+	TNode* parent = first->getParentNode();
+	for(int i = 0; i < parent->getChildren().size(); i ++){
+		if(parent->getChildren()[i] == second){
+			return true;
+		}	
+	}
+	return false;
+}

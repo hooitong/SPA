@@ -31,3 +31,14 @@ vector<STMTLINE> Contains::getContains(STMTLINE parent) {
 vector<STMTLINE> Contains::getContainsStar(STMTLINE parent) {
   return this->getChildOfStar(parent);
 }
+
+bool Contains::isContainsNode(TNode* parent, TNode* child){
+	vector<TNode*> result;
+	parent->getAllChildrenIncludeSubByTType(result, child->getTType());
+	for(int i =0; i < result.size(); i ++){
+		if(result[i]== child){
+			return true;
+		}
+	}
+	return false;
+}

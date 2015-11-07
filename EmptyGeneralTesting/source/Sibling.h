@@ -5,6 +5,7 @@
 
 #include "BitTable.h"
 #include "GlobalType.h"
+#include "TNode.h"
 
 class Sibling {
 private:
@@ -14,5 +15,6 @@ private:
 public:
   void setSibling(STMTLINE left, STMTLINE right);
   bool isSibling(STMTLINE first, STMTLINE second);
+  bool isSiblingNode(TNode* first, TNode* second);
   vector<STMTLINE> getSiblings(STMTLINE child);
 };
