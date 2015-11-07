@@ -209,3 +209,16 @@ TNode* AST::getProcTNodeByIndex(PROCINDEX index) {
   }
   return NULL;
 }
+
+
+vector<TNode*> AST::getAllVarTNode(string varName){
+	vector<TNode*> result;
+	this->getRoot()->getAllChildrenIncludeSubByTTypeAndValue(result, VARN, varName);
+	return result;
+}
+
+vector<TNode*> AST::getAllConstTNode(string constValue){
+	vector<TNode*> result;
+	this->getRoot()->getAllChildrenIncludeSubByTTypeAndValue(result, CONSTN, constValue);
+	return result;
+}

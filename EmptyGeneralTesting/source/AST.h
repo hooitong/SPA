@@ -39,4 +39,7 @@ public:
   bool isMatch(TNode* node, TType type);
   bool matchLeftPattern(STMTLINE stmtRoot, VARINDEX varToMatch);
   bool matchRightPattern(STMTLINE stmtRoot, std::string expression, bool strict);
+
+  vector<TNode*> getAllVarTNode(string varName);
+  vector<TNode*> getAllConstTNode(string constValue);
 };

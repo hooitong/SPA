@@ -74,6 +74,7 @@
     <ClCompile Include="source\CallsStarEvaluatorTest.cpp" />
     <ClCompile Include="source\CallsTest.cpp" />
     <ClCompile Include="source\CFGTest.cpp" />
+    <ClCompile Include="source\ContainsTest.cpp" />
     <ClCompile Include="source\DesignExtractorTest.cpp" />
     <ClCompile Include="source\FollowsTest.cpp" />
     <ClCompile Include="source\GrammarTest.cpp" />
@@ -86,6 +87,7 @@
     <ClCompile Include="source\QueryPreprocessorTest.cpp" />
     <ClCompile Include="source\QueryResultTest.cpp" />
     <ClCompile Include="source\QueryTreeTest.cpp" />
+    <ClCompile Include="source\SiblingTest.cpp" />
     <ClCompile Include="source\TNodeTest.cpp" />
     <ClCompile Include="source\TokenizerTest.cpp" />
     <ClCompile Include="source\UnitTest.cpp" />
@@ -100,6 +102,7 @@
     <ClInclude Include="source\CallsStarEvaluatorTest.h" />
     <ClInclude Include="source\CallsTest.h" />
     <ClInclude Include="source\CFGTest.h" />
+    <ClInclude Include="source\ContainsTest.h" />
     <ClInclude Include="source\DesignExtractorTest.h" />
     <ClInclude Include="source\FollowsTest.h" />
     <ClInclude Include="source\GrammarTest.h" />
@@ -112,6 +115,7 @@
     <ClInclude Include="source\QueryPreprocessorTest.h" />
     <ClInclude Include="source\QueryResultTest.h" />
     <ClInclude Include="source\QueryTreeTest.h" />
+    <ClInclude Include="source\SiblingTest.h" />
     <ClInclude Include="source\TNodeTest.h" />
     <ClInclude Include="source\TokenizerTest.h" />
     <ClInclude Include="source\UsesTest.h" />
