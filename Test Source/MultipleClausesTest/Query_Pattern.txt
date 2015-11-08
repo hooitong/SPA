@@ -1,0 +1,45 @@
+1 - Pattern - basic
+assign a;
+Select a pattern a("a",_)
+4,22,35,51
+5000
+2 - Pattern 2 - test within bracket
+assign a; 
+Select a pattern a(_, _"d+3"_)
+41
+5000
+3 - Pattern 3 - does not break parenthesis rule
+assign a; 
+Select a pattern a(_,_"3*5"_)
+none
+5000
+4 - Pattern 4 - does not break parenthesis rule
+assign a; 
+Select a pattern a(_"c*a"_)
+none
+5000
+5 - Pattern 5 - * priority come first
+assign a; 
+Select a pattern a("a",_"d*e"_)
+4,22
+5000
+6 - Pattern 6- * priority come first
+assign a;
+Select a pattern a("a",_"h+e"_)
+none
+5000
+7 - Pattern 7- exact match test
+assign a; 
+Select a pattern a(_,"e-h*5")
+29
+5000
+8 - Pattern - string concattest
+assign a; 
+Select a pattern a(_,_"abc"_)
+none
+5000
+9 - Pattern - string concattest should not be captured
+assign a; 
+Select a pattern a(_,_"abc##"_)
+148
+5000

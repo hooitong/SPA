@@ -1,0 +1,5 @@
+1 - Tuple
+assign a;procedure p,q;
+Select <p,a> such that Calls(p,q) with p.procName ="beta" pattern a("a",_)
+beta 22,beta 35,beta 4,beta 51
+5000

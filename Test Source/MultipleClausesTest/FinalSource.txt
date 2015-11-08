@@ -47,7 +47,7 @@ procedure beta{
 						h = h + 2;			//38
 						f = f + 7;			//39
 						h = g - f - e; }}}		//40
-			h = (d + 3) * 5 * c * a; }  				//41
+			h = ((d + 3) * 5 * c) * a; }  				//41
 	} else {
 		h = f - 4;							//42
 		while f {							//43
@@ -59,7 +59,7 @@ procedure charlie{
 	if a then {								//47
 		while d {							//48
 			d = d - 2;						//49
-			f = d + a + b; }					//50
+			f = d + (a + b); }					//50
 		a = a - d;							//51
 	} else {
 		c = a - b + c;							//52
@@ -90,7 +90,7 @@ procedure delta {
 			if h then {						//72
 				f = f - d;					//73
 			} else {
-				k = a - d - c; }}}				//74
+				k = (a - d) - c; }}}				//74
 	k = f + h * 3;}								//75
 
 procedure work{
