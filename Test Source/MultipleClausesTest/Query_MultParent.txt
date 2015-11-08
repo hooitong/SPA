@@ -1,0 +1,25 @@
+1 - Parent if Parent w;
+assign a; if i;while w;
+Select a such that Parent(i,a) such that Parent*(w,a)
+28,29,32,33,35,36,73,74,80,81,82,83,87,101,102,103,104,105,106,123,124,125,126
+5000
+2 - Parent w Parent i;
+assign a; if i;while w;
+Select a such that Parent(w,a) such that Parent*(i,a)
+3,25,26,38,39,40,41,44,49,50,71,97
+5000
+3 - Parent w Parent w
+assign a;while w1,w2;
+Select a such that Parent(w1,a) such that Parent*(w2,a)
+3,15,16,17,18,19,20,25,26,38,39,40,41,44,49,50,71,77,88,97,112,113,114,117,118,119,120,121,127,132,133
+5000
+4 - Parent if Parent if
+assign a;if i1, i2;
+Select a such that Parent(i1,a) such that Parent*(i2,a)
+4,6,7,11,12,13,22,23,28,29,32,33,35,36,42,51,52,54,64,65,66,67,68,69,73,74,8,80,81,82,83,87,93,101,102,103,104,105,106,123,124,125,126,145,146
+5000
+5 - Parent number
+assign a; 
+Select BOOLEAN such that Parent(31,a) and Parent*(30,a) and Parent*(27,a) and Parent*(24,a) and Parent*(21,a)
+TRUE
+5000

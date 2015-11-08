@@ -38,3 +38,13 @@ assign a;
 Select BOOLEAN such that Calls*("drink","echo") and Modifies(23,"d")
 FALSE
 5000
+9 - Call 
+procedure p,p1,p2,p3;
+Select p such that Calls(p, p1) and Calls(p1,p2) and Calls(p2,p3)
+echo, work
+5000
+10 - Call*
+procedure p,p1,p2,p3;
+Select <p,p1,p2,p3> such that Calls*(p,p1) and Calls*(p1,p2) and Calls*(p2,p3)
+echo charlie beta alpha,echo friends drink pour,echo order drink pour,work friends drink pour,work order drink pour
+5000
