@@ -85,7 +85,9 @@ bool Tokenizer::isCodeBody(string code) {
   }
 
 
-  if (!foundAlpha || foundAlpha && code.find("procedure") == 0 || foundAlpha && code.find("else") == 0) {
+  if (!foundAlpha 
+	  || foundAlpha && code.find("procedure") == 0 && code.find("=") == -1
+	  || foundAlpha && code.find("else") == 0 && code.find("=") == -1) {
     return false;
   }
   else {
