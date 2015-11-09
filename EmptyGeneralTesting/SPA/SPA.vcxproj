@@ -86,6 +86,7 @@
     <ClCompile Include="..\source\CFGBip.cpp" />
     <ClCompile Include="..\source\ConstTable.cpp" />
     <ClCompile Include="..\source\Contains.cpp" />
+    <ClCompile Include="..\source\ContainsEvaluator.cpp" />
     <ClCompile Include="..\source\DesignExtractor.cpp" />
     <ClCompile Include="..\source\Exception.cpp" />
     <ClCompile Include="..\source\Follows.cpp" />
