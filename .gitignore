@@ -30,3 +30,8 @@ Test Source/Focus Test/.DS_Store
 Test Source/MultipleClausesTest/.DS_Store
 Test Source/MultipleClausesTest/QueryMerged.txt
 Test Source/MultipleClausesTest/QueryMerged.xml
+*.psess
+EmptyGeneralTesting/IntegrationTesting151109(1).vsp
+*.vsp
+EmptyGeneralTesting/EmptyGeneralTesting.sln
+Test Source/Focus Test/QueryMerged1.txt
