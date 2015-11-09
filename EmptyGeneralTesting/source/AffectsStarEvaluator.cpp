@@ -23,10 +23,10 @@ bool AffectsStarEvaluator::affectsFromStmtToAny(STMTLINE stmt) {
                     return true;
                 }
             }
-            bool isAssignOrCall = pkb->getAst()->getTNode(*it)->getTType() == ASSIGNN &&
+            bool isAssignOrCall = pkb->getAst()->getTNode(*it)->getTType() == ASSIGNN ||
                 pkb->getAst()->getTNode(*it)->getTType() == CALLN;
 
-            if (!isAssignOrCall || pkb->getUses()->isUsesForStmt(*it, current.second)) {
+            if (!isAssignOrCall || !pkb->getModifies()->isModifiesForStmt(*it, current.second)) {
                 if (visited.find(make_pair(*it, current.second)) == visited.end()) {
                     visited.insert(make_pair(*it, current.second));
                     st.push(make_pair(*it, current.second));
@@ -60,10 +60,10 @@ bool AffectsStarEvaluator::affectsFromAnyToStmt(STMTLINE stmt) {
                     return true;
                 }
             }
-            bool isAssignOrCall = pkb->getAst()->getTNode(*it)->getTType() == ASSIGNN &&
+            bool isAssignOrCall = pkb->getAst()->getTNode(*it)->getTType() == ASSIGNN ||
                 pkb->getAst()->getTNode(*it)->getTType() == CALLN;
 
-            if (!isAssignOrCall || pkb->getModifies()->isModifiesForStmt(*it, current.second)) {
+            if (!isAssignOrCall || !pkb->getModifies()->isModifiesForStmt(*it, current.second)) {
                 if (visited.find(make_pair(*it, current.second)) == visited.end()) {
                     visited.insert(make_pair(*it, current.second));
                     st.push(make_pair(*it, current.second));
@@ -96,19 +96,16 @@ set<int> AffectsStarEvaluator::affectsFromStmtToSyn(STMTLINE stmt) {\
                     for (vector<int>::iterator it2 = possibleModifies.begin();
                         it2 != possibleModifies.end();
                         it2++) {
-                        if (*it2 != current.second && 
-                            visited.find(make_pair(*it, *it2)) == visited.end()) {
+                        if (visited.find(make_pair(*it, *it2)) == visited.end()) {
                             visited.insert(make_pair(*it, *it2));
                             st.push(make_pair(*it, *it2));
                         }
                     }
-                    continue;
                 }
             }
-            bool isAssignOrCall = pkb->getAst()->getTNode(*it)->getTType() == ASSIGNN &&
+            bool isAssignOrCall = pkb->getAst()->getTNode(*it)->getTType() == ASSIGNN ||
                 pkb->getAst()->getTNode(*it)->getTType() == CALLN;
-
-            if (!isAssignOrCall || pkb->getUses()->isUsesForStmt(*it, current.second)) {
+            if (!isAssignOrCall || !pkb->getModifies()->isModifiesForStmt(*it, current.second)) {
                 if (visited.find(make_pair(*it, current.second)) == visited.end()) {
                     visited.insert(make_pair(*it, current.second));
                     st.push(make_pair(*it, current.second));
@@ -145,18 +142,17 @@ set<int> AffectsStarEvaluator::affectsFromSynToStmt(STMTLINE stmt) {
                     for (vector<int>::iterator it2 = possibleUses.begin();
                         it2 != possibleUses.end();
                         it2++) {
-                        if (*it2 != current.second && 
-                            visited.find(make_pair(*it, *it2)) == visited.end()) {
+                        if (visited.find(make_pair(*it, *it2)) == visited.end()) {
                             visited.insert(make_pair(*it, *it2));
                             st.push(make_pair(*it, *it2));
                         }
                     }
                 }
             }
-            bool isAssignOrCall = pkb->getAst()->getTNode(*it)->getTType() == ASSIGNN &&
+            bool isAssignOrCall = pkb->getAst()->getTNode(*it)->getTType() == ASSIGNN ||
                 pkb->getAst()->getTNode(*it)->getTType() == CALLN;
 
-            if (!isAssignOrCall || pkb->getModifies()->isModifiesForStmt(*it, current.second)) {
+            if (!isAssignOrCall || !pkb->getModifies()->isModifiesForStmt(*it, current.second)) {
                 if (visited.find(make_pair(*it, current.second)) == visited.end()) {
                     visited.insert(make_pair(*it, current.second));
                     st.push(make_pair(*it, current.second));

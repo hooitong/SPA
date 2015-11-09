@@ -70,7 +70,9 @@ std::list<string> QueryEvaluator::evaluate(QueryTree* tree) {
         for (int i = 0; i < solutionsSize; i++) {
             ostringstream oss;
             for (int j = 0; j < (int) resultSynonym.size(); j++) {
-
+                if (j > 0) {
+                    oss << " ";
+                }
                 if (synonymMap[resultSynonym[j]] == VARN) {
                     oss << pkbInstance->getVarTable()->getVarName(result.getSolutionForSynonym(i, resultSynonym[j]));
                 } else if (synonymMap[resultSynonym[j]] == PROCEDUREN) {
