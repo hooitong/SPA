@@ -47,6 +47,7 @@ void NextTest::testIsNextStar() {
   /* Valid input and true is returned */
   CPPUNIT_ASSERT((*next).isNextStar(1, 2));
   CPPUNIT_ASSERT((*next).isNextStar(1, 3));
+  CPPUNIT_ASSERT((*next).isNextStar(1, 2));
   CPPUNIT_ASSERT((*next).isNextStar(1, 4));
   CPPUNIT_ASSERT((*next).isNextStar(1, 5));
   CPPUNIT_ASSERT((*next).isNextStar(2, 3));

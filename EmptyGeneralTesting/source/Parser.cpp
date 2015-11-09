@@ -346,8 +346,8 @@ vector<TNode*> Parser::prioritizeExpr(vector<ParsingToken> &tokens) {
   vector<TNode*> nodes;
 
   for (int i = 0; i < tokens.size(); i++) {
-    if (tokens[i].getString() == "(") base++;
-    else if (tokens[i].getString() == ")") base--;
+    if (tokens[i].getString() == "(") base+=2;
+    else if (tokens[i].getString() == ")") base-=2;
     else if (tokens[i].getString() == "*") {
       TNode* node = new TNode();
       node->setTType(TIMESN);

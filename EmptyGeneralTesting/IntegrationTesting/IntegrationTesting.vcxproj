@@ -48,6 +48,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>$(SolutionDir)lib\cppunit_debug.lib;$(SolutionDir)$(Configuration)\SPA.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
+      <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -79,6 +80,7 @@
     <ClCompile Include="source\ParserPatternTest.cpp" />
     <ClCompile Include="source\ParserSiblingTest.cpp" />
     <ClCompile Include="source\ParserUsesTest.cpp" />
+    <ClCompile Include="source\WholeSPATest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\ParserEntityTest.h" />
@@ -92,6 +94,7 @@
     <ClInclude Include="source\ParserPatternTest.h" />
     <ClInclude Include="source\ParserSiblingTest.h" />
     <ClInclude Include="source\ParserUsesTest.h" />
+    <ClInclude Include="source\WholeSPATest.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

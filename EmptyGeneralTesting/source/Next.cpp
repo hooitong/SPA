@@ -11,14 +11,27 @@ bool Next::isNext(PROGLINE before, PROGLINE next) {
 }
 
 bool Next::isNextStar(PROGLINE before, PROGLINE next) {
-  vector<PROGLINE> vec;
-  return isNextStarRecursive(vec, before, next);
+	vector<PROGLINE> vec;
+	bool result = isNextStarRecursive(vec, before, next);
+	if(!result) notNextStarCache.putRelation(before, next);
+	return result;
 }
 
 bool Next::isNextStarRecursive(vector<PROGLINE> &processed, PROGLINE before, PROGLINE next){
+
+	vector<PROGLINE> isNextStarCacheVec = isNextStarCache.toVector(before);
+	if(std::find(isNextStarCacheVec.begin(), isNextStarCacheVec.end(), next) != isNextStarCacheVec.end()){
+		return true;
+	}
+	vector<PROGLINE> notNextStarCacheVec = notNextStarCache.toVector(before);
+	if(std::find(notNextStarCacheVec.begin(), notNextStarCacheVec.end(), next) != notNextStarCacheVec.end()){
+		return false;
+	}
+
 	vector<PROGLINE> nextVec = getNext(before);
 	for(int i =0; i<nextVec.size(); i ++){
 		if(nextVec[i] == next){
+			isNextStarCache.putRelation(before, next);
 			return true;
 		}
 		else if(find(processed.begin(), processed.end(), nextVec[i]) != processed.end()){

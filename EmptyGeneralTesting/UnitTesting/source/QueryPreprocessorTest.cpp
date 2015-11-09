@@ -1366,3 +1366,61 @@ void QueryPreprocessorTest::testOptimisation() {
   CPPUNIT_ASSERT(achieved->isEqual(expected));
 
 }
+
+void QueryPreprocessorTest::testContains() {
+  queryTest = new QueryPreprocessor();
+  QueryTree* achieved = queryTest->parseQuery("while w; stmt s; Select w such that Contains(s,1)");
+  CPPUNIT_ASSERT(achieved != NULL);
+  QueryTree* expected = new QueryTree();
+  QNode* expectedRoot = expected->createNode(QUERY, "");
+  QNode* expectedResultList = expected->createNode(RESULTLIST, "");
+  QNode* expectedConditionList = expected->createNode(CONDITIONLIST, "");
+  expected->setAsRoot(expectedRoot);
+  expected->addChild(expectedRoot, expectedResultList);
+  expected->addChild(expectedRoot, expectedConditionList);
+  QNode* expectedResult = expected->createNode(WHILESYNONYM, "w");
+  expected->addChild(expectedResultList, expectedResult);
+  QNode* expectedSuchThat = expected->createNode(RELATION, "Contains");
+  QNode* expectedSuchThatChild1 = expected->createNode(STMTSYNONYM, "s");
+  QNode* expectedSuchThatChild2 = expected->createNode(CONST, "1");
+  expected->addChild(expectedSuchThat, expectedSuchThatChild1);
+  expected->addChild(expectedSuchThat, expectedSuchThatChild2);
+  expected->addChild(expectedConditionList, expectedSuchThat);
+  CPPUNIT_ASSERT(achieved->isEqual(expected));
+}
+
+void QueryPreprocessorTest::testSibling() {
+  queryTest = new QueryPreprocessor();
+  QueryTree* achieved = queryTest->parseQuery("while w; stmt s; Select w such that Sibling(w,s)");
+  CPPUNIT_ASSERT(achieved != NULL);
+  QueryTree* expected = new QueryTree();
+  QNode* expectedRoot = expected->createNode(QUERY, "");
+  QNode* expectedResultList = expected->createNode(RESULTLIST, "");
+  QNode* expectedConditionList = expected->createNode(CONDITIONLIST, "");
+  expected->setAsRoot(expectedRoot);
+  expected->addChild(expectedRoot, expectedResultList);
+  expected->addChild(expectedRoot, expectedConditionList);
+  QNode* expectedResult = expected->createNode(WHILESYNONYM, "w");
+  expected->addChild(expectedResultList, expectedResult);
+  QNode* expectedSuchThat = expected->createNode(RELATION, "Sibling");
+  QNode* expectedSuchThatChild1 = expected->createNode(WHILESYNONYM, "w");
+  QNode* expectedSuchThatChild2 = expected->createNode(STMTSYNONYM, "s");
+  expected->addChild(expectedSuchThat, expectedSuchThatChild1);
+  expected->addChild(expectedSuchThat, expectedSuchThatChild2);
+  expected->addChild(expectedConditionList, expectedSuchThat);
+  CPPUNIT_ASSERT(achieved->isEqual(expected));
+}
+
+void QueryPreprocessorTest::testContainsInvalid() {
+  queryTest = new QueryPreprocessor();
+  QueryTree* achieved = queryTest->parseQuery("stmt s; Select s such that Contains(_,s)");
+  CPPUNIT_ASSERT(achieved == NULL);
+}
+
+void QueryPreprocessorTest::testSiblingInvalid() {
+  queryTest = new QueryPreprocessor();
+  QueryTree* achieved = queryTest->parseQuery("stmt s; Select s such that Siblings(s,_)");
+  CPPUNIT_ASSERT(achieved == NULL);
+}
+
+

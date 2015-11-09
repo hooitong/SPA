@@ -261,7 +261,7 @@ void DesignExtractor::extractVariousRelationship(TNode* node) {
 				distanceOther++;
 			}
 
-			if(distanceWhile < distanceOther && distanceWhile!=-1){
+			if(distanceWhile <= distanceOther && distanceWhile!=-1){
 				rightNode = whileNode;
 			}
 

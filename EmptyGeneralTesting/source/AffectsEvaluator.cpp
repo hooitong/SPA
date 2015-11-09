@@ -225,7 +225,7 @@ bool AffectsEvaluator::solveAnyAny() {
 
 bool AffectsEvaluator::findConstToConst(STMTLINE current, STMTLINE end, VARINDEX contextVar, vector<STMTLINE> path) {
   /* Base Case */
-  if (current == end) return true;
+  if (current == end && !path.empty()) return true;
 
   /* Early terminate if this stmtline cannot reach end path */
   if (!pkb->getNext()->isNextStar(current, end)) return false;
@@ -256,7 +256,7 @@ bool AffectsEvaluator::findSynonymFromConst(STMTLINE current, VARINDEX contextVa
 
   /* Assertion: Assume that candidates are all valid ones (Assign Statements/Same Context) */
   /* Remove current line from candidates if exist */
-  bool isCandidate = candidates->erase(current);
+  bool isCandidate = !path.empty() && candidates->erase(current);
   /* Short circuited statement to reduce computation */
   if (isCandidate && takeAny) return true;
 
@@ -288,7 +288,7 @@ bool AffectsEvaluator::findSynonymToConst(STMTLINE current, set<VARINDEX> contex
   if (candidates->size() == 0) return false;
 
   /* Assertion: Assume that candidates are all assign statements */
-  if (candidates->find(current) != candidates->end()) {
+  if (candidates->find(current) != candidates->end() && !path.empty()) {
     /* Check whether the candidate is still a valid one found in contextVar */
     VARINDEX modifiedVar = pkb->getModifies()->getModifiedByStmt(current)[0];
     if (contextVar.find(modifiedVar) != contextVar.end()) {

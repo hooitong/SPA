@@ -19,3 +19,17 @@ ipch/
 [Rr]eleases/
 Test Source/Focus Test/QueryMerged.txt
 Test Source/Focus Test/QueryMerged.xml
+MainTesting/
+.DS_Store
+EmptyGeneralTesting/.DS_Store
+EmptyGeneralTesting/IntegrationTesting/.DS_Store
+Test Source/.DS_Store
+Test Source/CS3201 TestSources/analysis.xsl
+Test Source/CS3201 TestSources/out.xml
+Test Source/Focus Test/.DS_Store
+Test Source/MultipleClausesTest/.DS_Store
+Test Source/MultipleClausesTest/QueryMerged.txt
+Test Source/MultipleClausesTest/QueryMerged.xml
+*.psess
+EmptyGeneralTesting/IntegrationTesting151109(1).vsp
+*.vsp
