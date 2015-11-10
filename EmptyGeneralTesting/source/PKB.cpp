@@ -27,7 +27,7 @@ PKB::PKB(void) {
   next = new Next;
   constTable = new ConstTable;
   cfgBip = new CFGBip;
-  nextBip = new Next;
+  nextBip = new NextBip;
   sibling = new Sibling;
   contains = new Contains;
 }
@@ -95,7 +95,7 @@ Next* PKB::getNext() {
   return next;
 }
 
-Next* PKB::getNextBip() {
+NextBip* PKB::getNextBip() {
   return nextBip;
 }
 

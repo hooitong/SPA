@@ -10,6 +10,7 @@
 #include "Calls.h"
 #include "CFG.h"
 #include "Next.h"
+#include "NextBip.h"
 #include "ConstTable.h"
 #include "CFGBip.h"
 #include "Sibling.h"
@@ -29,7 +30,7 @@ private:
   ProcTable* procTable;
   Calls* calls;
   Next* next;
-  Next* nextBip;
+  NextBip* nextBip;
   ConstTable* constTable;
   CFGBip* cfgBip;
   Sibling* sibling;
@@ -54,7 +55,7 @@ public:
   Calls* getCalls();
   CFG* getCfg();
   Next* getNext();
-  Next* getNextBip();
+  NextBip* getNextBip();
   ConstTable* getConstTable();
   CFGBip* getCfgBip();
   Sibling* getSibling();

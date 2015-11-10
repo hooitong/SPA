@@ -58,7 +58,7 @@ QueryResult ContainsEvaluator::solveSynSyn(QNode* node) {
     vector <int> progIndex = pkb->getProcTable()->getAllProcIndex();
 
     for (vector<int>::iterator it = progIndex.begin(); it != progIndex.end(); it++) {
-        getAllTNodesFrom(pkb->getAst()->getProcTNodeByIndex(*it);
+        //getAllTNodesFrom(pkb->getAst()->getProcTNodeByIndex(*it));
     }
     vector <pair<int,int> > results;
     for (vector<TNode*>::iterator it = nodes.begin(); it != nodes.end(); it++) {

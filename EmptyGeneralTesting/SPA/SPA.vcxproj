@@ -36,6 +36,7 @@
     <ClInclude Include="..\source\ModifiesEvaluator.h" />
     <ClInclude Include="..\source\ModifiesProcEvaluator.h" />
     <ClInclude Include="..\source\Next.h" />
+    <ClInclude Include="..\source\NextBip.h" />
     <ClInclude Include="..\source\NextBipEvaluator.h" />
     <ClInclude Include="..\source\NextBipStarEvaluator.h" />
     <ClInclude Include="..\source\NextEvaluator.h" />
@@ -98,6 +99,7 @@
     <ClCompile Include="..\source\ModifiesEvaluator.cpp" />
     <ClCompile Include="..\source\ModifiesProcEvaluator.cpp" />
     <ClCompile Include="..\source\Next.cpp" />
+    <ClCompile Include="..\source\NextBip.cpp" />
     <ClCompile Include="..\source\NextBipEvaluator.cpp" />
     <ClCompile Include="..\source\NextBipStarEvaluator.cpp" />
     <ClCompile Include="..\source\NextEvaluator.cpp" />
