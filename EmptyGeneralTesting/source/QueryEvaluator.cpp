@@ -30,9 +30,7 @@ std::list<string> QueryEvaluator::evaluate(QueryTree* tree) {
         cout << "NULL" << endl;
         return std::list<string>();
     }
-    cout << "Starting evaluate" << endl;
     QueryResult result = evaluate(tree->getRoot());
-    cout << "Evaluate finished" << endl;
 
     vector <string> resultSynonym;
     map <string, TType> synonymMap;
@@ -175,8 +173,10 @@ QueryResult QueryEvaluator::evaluate(QNode* node) {
                     children[i]->getQType() == PATTERNASSIGN ||
                     children[i]->getQType() == PATTERNIF ||
                     children[i]->getQType() == PATTERNWHILE ||
-                    children[i]->getQType() == WITH)
-                result = result.merge(evaluate(children[i]));
+                    children[i]->getQType() == WITH) {
+                QueryResult tmp = evaluate(children[i]);
+                result = result.merge(tmp);
+            }
         }
 
 
@@ -318,7 +318,6 @@ QueryResult QueryEvaluator::solveAffects(QNode* node) {
 
 QueryResult QueryEvaluator::solveAffectsStar(QNode* node) {
   AffectsStarEvaluator eval(pkbInstance);
-  cout << "Evaluator created" << endl;
 
   return eval.evaluate(node);
 }

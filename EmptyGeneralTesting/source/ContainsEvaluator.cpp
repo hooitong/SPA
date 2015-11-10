@@ -1,5 +1,6 @@
 #include "ContainsEvaluator.h"
 #include <sstream>
+#include <iostream>
 
 ContainsEvaluator::ContainsEvaluator(PKB* pkb) {
     this->pkb = pkb;
@@ -99,6 +100,8 @@ TType ContainsEvaluator::toTType(QNodeType type) {
         return IFN;   
     } else if (type == CONSTSYNONYM) {
         return CONSTN;
+    } else if (type == VARIABLESYNONYM) {
+       return VARN;
     } else if (type == QPLUS) {
         return PLUSN;
     } else if (type == QTIMES) {
@@ -123,6 +126,8 @@ int ContainsEvaluator::toInt(TNode* node) {
         int result;
         iss >> result;
         return result;
+    } else if (node->getTType() == VARN) {
+        return pkb->getVarTable()->getVarIndex(node->getValue());
     } else {
         return (int) node;
     }
@@ -140,14 +145,15 @@ bool ContainsEvaluator::matchType(QNodeType qtype, TType ttype) {
 }
 
 QueryResult ContainsEvaluator::evaluate(QNode* node) {
-    if (node->getChildren()[0]->getQType() == CONST) {
-        if (node->getChildren()[1]->getQType() == CONST) {
+    cout << "TEST" << endl;
+    if (node->getChildren()[0]->getQType() == CONST || node->getChildren()[0]->getQType() == VAR) {
+        if (node->getChildren()[1]->getQType() == CONST || node->getChildren()[1]->getQType() == VAR) {
             return solveConstConst(node);
         } else {
             return solveConstSyn(node);
         }
     } else {
-        if (node->getChildren()[1]->getQType() == CONST) {
+        if (node->getChildren()[1]->getQType() == CONST || node->getChildren()[1]->getQType() == VAR) {
             return solveSynConst(node);
         } else {
             return solveSynSyn(node);
