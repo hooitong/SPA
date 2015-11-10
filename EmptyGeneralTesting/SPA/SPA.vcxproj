@@ -64,6 +64,7 @@
     <ClInclude Include="..\source\QueryTree.h" />
     <ClInclude Include="..\source\RelationEvaluator.h" />
     <ClInclude Include="..\source\Sibling.h" />
+    <ClInclude Include="..\source\SiblingEvaluator.h" />
     <ClInclude Include="..\source\SPAFrontEnd.h" />
     <ClInclude Include="..\source\TNode.h" />
     <ClInclude Include="..\source\Tokenizer.h" />
@@ -128,6 +129,7 @@
     <ClCompile Include="..\source\QueryTree.cpp" />
     <ClCompile Include="..\source\RelationEvaluator.cpp" />
     <ClCompile Include="..\source\Sibling.cpp" />
+    <ClCompile Include="..\source\SiblingEvaluator.cpp" />
     <ClCompile Include="..\source\SPAFrontEnd.cpp" />
     <ClCompile Include="..\source\TNode.cpp" />
     <ClCompile Include="..\source\Tokenizer.cpp" />

@@ -20,6 +20,7 @@
 #include "NextBipStarEvaluator.h"
 #include "ContainsEvaluator.h"
 #include "ContainsStarEvaluator.h"
+#include "SiblingEvaluator.h"
 #include <iostream>
 
 QueryEvaluator::QueryEvaluator(PKB* pkb) {
@@ -249,6 +250,8 @@ QueryResult QueryEvaluator::solveRelation(QNode* node) {
       return solveContains(node);
     } else if (node->getString() == "Contains*") {
       return solveContainsStar(node);
+    } else if (node->getString() == "Sibling") {
+      return solveSibling(node);
     } else {
         return QueryResult(false);
     }
@@ -326,7 +329,6 @@ QueryResult QueryEvaluator::solveAffects(QNode* node) {
 
 QueryResult QueryEvaluator::solveAffectsStar(QNode* node) {
   AffectsStarEvaluator eval(pkbInstance);
-
   return eval.evaluate(node);
 }
 
@@ -357,6 +359,11 @@ QueryResult QueryEvaluator::solveContains(QNode* node) {
 
 QueryResult QueryEvaluator::solveNextBipStar(QNode* node) {
   NextBipStarEvaluator eval(pkbInstance);
+  return eval.evaluate(node);
+}
+
+QueryResult QueryEvaluator::solveSibling(QNode* node) {
+  SiblingEvaluator eval(pkbInstance);
   return eval.evaluate(node);
 }
 
