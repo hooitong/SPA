@@ -78,7 +78,7 @@ void QueryPreprocessorCondition::processConditions(string conditions_string) {
     } else if (condition_type == "with") {
       processWith(one_condition_string);
     } else if (condition_type == "pattern") {
-      processPattern(one_condition_string);
+      processPattern(one_condition_string, true);
     }
     current_position = next_and_position + ((string)"and").length();
   }
@@ -170,7 +170,7 @@ pair<QNode*, RefType> QueryPreprocessorCondition::processWithReference(string re
   }
 }
 
-void QueryPreprocessorCondition::processPattern(string pattern_string) {
+void QueryPreprocessorCondition::processPattern(string pattern_string, bool allow_extension = true) {
   int open_bracket_position = pattern_string.find("(");
   if (open_bracket_position == string::npos) {
     is_valid = false;
@@ -201,6 +201,10 @@ void QueryPreprocessorCondition::processPattern(string pattern_string) {
 
   if (declaration->getSynonymType(pattern_synonym) == "if") {
     int second_comma_position = pattern_string.find(",", comma_position + 1);
+    if (second_comma_position == string::npos) {
+      is_valid = false;
+      return;
+    }
     string pattern_middle_hand = QueryPreprocessor::trim(pattern_string.substr(comma_position + 1, second_comma_position - (comma_position + 1)));
     int closed_bracket_position = pattern_string.length() - 1;
     if (pattern_string.at(closed_bracket_position) != ')') {
@@ -217,9 +221,17 @@ void QueryPreprocessorCondition::processPattern(string pattern_string) {
       is_valid = false;
       return;
     }
-    if (middle_pattern_node->getQType() != ANY || right_pattern_node->getQType() != ANY) {
-      is_valid = false;
-      return;
+    if (allow_extension) {
+      if (middle_pattern_node->getQType() == CONST || middle_pattern_node->getQType() == VAR
+        || right_pattern_node->getQType() == CONST || right_pattern_node->getQType() == VAR) {
+        is_valid = false;
+        return;
+      }
+    } else {
+      if (middle_pattern_node->getQType() != ANY || right_pattern_node->getQType() != ANY) {
+        is_valid = false;
+        return;
+      }
     }
     pattern_node->addChild(while_synonym_node);
     pattern_node->addChild(left_pattern_node);
@@ -241,9 +253,16 @@ void QueryPreprocessorCondition::processPattern(string pattern_string) {
       is_valid = false;
       return;
     }
-    if (right_pattern_node->getQType() != ANY) {
-      is_valid = false;
-      return;
+    if (allow_extension) {
+      if (right_pattern_node->getQType() == VAR || right_pattern_node->getQType() == CONST) {
+        is_valid = false;
+        return;
+      }
+    } else {
+      if (right_pattern_node->getQType() != ANY) {
+        is_valid = false;
+        return;
+      }
     }
     pattern_node->addChild(while_synonym_node);
     pattern_node->addChild(left_pattern_node);
