@@ -1,0 +1,55 @@
+1 - Assign
+assign a;
+Select a.stmt#
+3,4,11,13,15,150,16,17,18,19,20,22,23,25,26,28,29,32,33,35,36,38,39,40,41,42,44,49,50,51,52,54,57,58,59,6,60,64,65,66,67,68,69,7,71,73,74,75,77,8,80,81,82,83,87,88,9,91,93,97,101,102,103,104,105,106,112,113,114,117,118,119,12,120,121,123,124,125,126,127,132,133,134,135,136,137,138,145,146,147,148,149
+5000
+2- While
+while w;
+Select w.stmt#
+2,14,24,37,43,48,70,76,94,111,130
+5000
+3 - If
+if i;
+Select i.stmt#
+1,10,21,27,30,31,47,5,61,62,63,72,78,84,92,98,100,122,144
+5000
+4 - Call
+call c;
+Select c.stmt#
+34,45,46,53,55,56,79,85,86,89,90,95,96,99,107,108,109,110,115,116,128,129,131,139,140,141,142,143
+5000
+5 - Procedure with Attribute
+procedure p;
+Select p.procName
+alpha, beta, charlie, delta, work, friends, order, drink, pour, echo, cab, drawMoney
+5000
+6 - Procedure
+procedure p;
+Select p
+alpha, beta, charlie, delta, work, friends, order, drink, pour, echo, cab, drawMoney
+5000
+7 - Prog_Line
+prog_line p;
+Select p
+1,10,100,101,102,103,104,105,106,107,108,109,11,110,111,112,113,114,115,116,117,118,119,12,120,121,122,123,124,125,126,127,128,129,13,130,131,132,133,134,135,136,137,138,139,14,140,141,142,143,144,145,146,147,148,149,15,150,16,17,18,19,2,20,21,22,23,24,25,26,27,28,29,3,30,31,32,33,34,35,36,37,38,39,4,40,41,42,43,44,45,46,47,48,49,5,50,51,52,53,54,55,56,57,58,59,6,60,61,62,63,64,65,66,67,68,69,7,70,71,72,73,74,75,76,77,78,79,8,80,81,82,83,84,85,86,87,88,89,9,90,91,92,93,94,95,96,97,98,99
+5000
+8 - Constant
+constant p;
+Select p
+0,1,10,100,2,3,4,5,50,6,7,8
+5000
+9 - Variable
+variable p;
+Select p
+a,abc,abc#,abc##,alone,anger,animal,ant,b,balance,beer,boy,breakfast,buffaloWings,c,cabCount,cabby,cat,chips,code,coding,coffee,completionStatus,cookedList,cookedlist,customerBlacklist,customerCount,customerRun,d,def,def##,def#gh,dog,drinking,drunk,e,efficiency,elephant,empty,f,fish,food,friend,g,garlicBread,gotCustomer,grabTaxi,h,hapiness,happiness,hungry,i,j,k,l,m,money,more,mouse,muffin,one,pin,pizza,sleep,take,thirsty,tiredness,walk
+5000
+10 - StmtLst
+stmtLst p;
+Select p
+alpha, beta, charlie, delta, work, friends, order, drink, pour, echo, cab, drawMoney
+5000
+11 - Stmt
+stmt p;
+Select p
+1,10,100,101,102,103,104,105,106,107,108,109,11,110,111,112,113,114,115,116,117,118,119,12,120,121,122,123,124,125,126,127,128,129,13,130,131,132,133,134,135,136,137,138,139,14,140,141,142,143,144,145,146,147,148,149,15,150,16,17,18,19,2,20,21,22,23,24,25,26,27,28,29,3,30,31,32,33,34,35,36,37,38,39,4,40,41,42,43,44,45,46,47,48,49,5,50,51,52,53,54,55,56,57,58,59,6,60,61,62,63,64,65,66,67,68,69,7,70,71,72,73,74,75,76,77,78,79,8,80,81,82,83,84,85,86,87,88,89,9,90,91,92,93,94,95,96,97,98,99
+5000

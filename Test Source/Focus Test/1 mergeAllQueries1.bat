@@ -1,1 +1,0 @@
-type Query1_*.txt. > QueryMerged1.txt

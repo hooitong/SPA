@@ -103,7 +103,7 @@ assign a;prog_line p;
 Select a such that Affects*(26,a) and Modifies(a,"d") and Parent(p,a) and Calls(p,"alpha")
 none
 5000
-21 - Affects* Modifies Parent Calls 
+22 - Affects* Recursive Self
 assign a;prog_line p; 
 Select a such that Affects*(133,133)
 none
