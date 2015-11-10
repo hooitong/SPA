@@ -47,6 +47,7 @@ class QueryEvaluator {
     QueryResult solveNextBip(QNode* node);
     QueryResult solveNextBipStar(QNode* node);
     QueryResult solveContains(QNode* node);
+    QueryResult solveContainsStar(QNode* node);
     bool isSynonym(QNodeType type);
     vector<QueryResult> getResultFilters(QNode* node);
     vector<string> getResultSynonyms(QNode* node);

@@ -19,6 +19,7 @@
 #include "NextBipEvaluator.h"
 #include "NextBipStarEvaluator.h"
 #include "ContainsEvaluator.h"
+#include "ContainsStarEvaluator.h"
 #include <iostream>
 
 QueryEvaluator::QueryEvaluator(PKB* pkb) {
@@ -241,6 +242,8 @@ QueryResult QueryEvaluator::solveRelation(QNode* node) {
       return solveNextBipStar(node);
     } else if (node->getString() == "Contains") {
       return solveContains(node);
+    } else if (node->getString() == "Contains*") {
+      return solveContainsStar(node);
     } else {
         return QueryResult(false);
     }
@@ -324,6 +327,11 @@ QueryResult QueryEvaluator::solveAffectsStar(QNode* node) {
 
 QueryResult QueryEvaluator::solveAffectsBip(QNode* node) {
   AffectsBipEvaluator eval(pkbInstance);
+  return eval.evaluate(node);
+}
+
+QueryResult QueryEvaluator::solveContainsStar(QNode* node) {
+  ContainsStarEvaluator eval(pkbInstance);
   return eval.evaluate(node);
 }
 
