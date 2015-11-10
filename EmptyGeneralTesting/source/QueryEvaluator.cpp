@@ -40,6 +40,8 @@ std::list<string> QueryEvaluator::evaluate(QueryTree* tree) {
 
     vector <QNode*> children = tree->getRoot()->getChildren();
     bool isBoolean = false;
+
+
     for (int i = 0; i < (int) children.size(); i++) {
         if (children[i]->getQType() == RESULTLIST) {
             if (children[i]->getChildren().size() == 1 && children[i]->getChildren()[0]->getQType() == BOOLEAN) {
@@ -52,12 +54,19 @@ std::list<string> QueryEvaluator::evaluate(QueryTree* tree) {
         }
     }
 
+    vector <string> existingSynonym;
+    for (vector<string>::iterator it = resultSynonym.begin(); it != resultSynonym.end(); it++) {
+        if (result.getIndex(*it) != -1) {
+            existingSynonym.push_back(*it);
+        }
+    }
+
     if (!isBoolean) {
+        result = result.filter(existingSynonym);
 
         for (int i = 0; i < (int) resultFilters.size(); i++) {
             result = result.merge(resultFilters[i]);
         }
-
         result = result.filter(resultSynonym);
     }
 
