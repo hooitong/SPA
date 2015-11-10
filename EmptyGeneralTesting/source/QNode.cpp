@@ -32,19 +32,21 @@ void QNode::addChild(QNode* node) {
     this->childrenNodes.push_back(node);
 }
 
-bool QNode::isEqualSubtree(QNode* node) const {
-    /*std::cout << node->name << " " << this->name << "            ";
+bool QNode::isEqualSubtree(QNode* node, bool print_debugging_message) const {
+  if (print_debugging_message) {
+    std::cout << node->name << " " << this->name << "            ";
     std::cout << node->type << " " << this->type << "            ";
-    std::cout << node->childrenNodes.size() << " " << this->childrenNodes.size() << endl;*/
-	if (node == NULL) {
+    std::cout << node->childrenNodes.size() << " " << this->childrenNodes.size() << endl;
+  }
+  if (node == NULL) {
 		return false;
 	}
-    if (this->name != node->name || this->type != node->type) {
-        return false;
-    }
-    if (this->childrenNodes.size() != node->childrenNodes.size()) {
-        return false;
-    }
+  if (this->name != node->name || this->type != node->type) {
+      return false;
+  }
+  if (this->childrenNodes.size() != node->childrenNodes.size()) {
+      return false;
+  }
 
 	std::vector<bool> chosen((int)node->childrenNodes.size(), false);
 
@@ -54,7 +56,7 @@ bool QNode::isEqualSubtree(QNode* node) const {
 			if (chosen[j]) {
 				continue;
 			}
-			if (this->childrenNodes[i]->isEqualSubtree(node->childrenNodes[j])) {
+			if (this->childrenNodes[i]->isEqualSubtree(node->childrenNodes[j], print_debugging_message)) {
 				found = true;
 				chosen[j] = true;
 				break;
@@ -66,12 +68,12 @@ bool QNode::isEqualSubtree(QNode* node) const {
 	}
 	return true;
 
-    for (int i = 0; i < (int)node->childrenNodes.size(); ++i) {
-        if (!(this->childrenNodes[i])->isEqualSubtree(node->childrenNodes[i])) {
-            return false;
-        }
-    }
-    return true;
+  for (int i = 0; i < (int)node->childrenNodes.size(); ++i) {
+      if (!(this->childrenNodes[i])->isEqualSubtree(node->childrenNodes[i])) {
+          return false;
+      }
+  }
+  return true;
 }
 
 bool QNode::printTree() {

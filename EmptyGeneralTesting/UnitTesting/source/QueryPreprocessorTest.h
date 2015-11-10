@@ -61,6 +61,7 @@ class QueryPreprocessorTest : public CPPUNIT_NS::TestFixture {
   CPPUNIT_TEST(testMultipleReturnAndPatternAndSuchThat);
   CPPUNIT_TEST(testOptimisation);
   CPPUNIT_TEST(testContains);
+  CPPUNIT_TEST(testContains2);
   CPPUNIT_TEST(testContainsInvalid);
   CPPUNIT_TEST(testSibling);
   CPPUNIT_TEST(testSiblingInvalid);
@@ -129,6 +130,7 @@ public:
   void testMultipleReturnAndPatternAndSuchThat();
   void testOptimisation();
   void testContains();
+  void testContains2();
   void testSibling();
   void testContainsInvalid();
   void testSiblingInvalid();
