@@ -91,10 +91,13 @@ void NextBip::getNextStarRecursive(vector<PROGLINE> &result, stack<PROGLINE> dep
     }
 
     /* Check Cyclic Trap*/
-    if (find(result.begin(), result.end(), nextVec[0]) == result.end()) {
-      result.push_back(nextVec[0]);
-      getNextStarRecursive(result, depth, nextVec[0]);
-    }
+	if(nextVec.size() != 0){
+		if (find(result.begin(), result.end(), nextVec[0]) == result.end()) {
+		  result.push_back(nextVec[0]);
+		  getNextStarRecursive(result, depth, nextVec[0]);
+		}
+	}
+    
   }
 
   else if (isEndStatement && !depth.empty()) {

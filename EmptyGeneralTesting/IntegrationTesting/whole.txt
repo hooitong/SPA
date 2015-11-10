@@ -57,6 +57,7 @@ procedure C {
 procedure D{
 	p = q - r * z; //31
 	r = r - z * p; //32
+	call A; //33
 	call B; //34
 }
 // BB - 23
