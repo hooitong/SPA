@@ -117,6 +117,11 @@ vector<QueryResult> QueryEvaluator::getResultFilters(QNode* node) {
             result = pkbInstance->getAst()->getStmtLines(IFN);
         } else if (children[i]->getQType() == CONSTSYNONYM) {
             result = pkbInstance->getConstTable()->getAllConstValue();
+        } else if (children[i]->getQType() == STMTLSTSYNONYM) {
+            vector <TNode*> nodes = pkbInstance->getAllStmtLstNodes();
+            for (vector<TNode*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
+                result.push_back((*it)->getChildren()[0]->getStmtLine());
+            }
         }
         vector<string> synonyms;
         resultList.push_back(QueryResult(result, children[i]->getString()));
