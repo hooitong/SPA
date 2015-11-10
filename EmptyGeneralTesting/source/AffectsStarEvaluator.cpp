@@ -2,6 +2,7 @@
 #include <stack>
 #include <set>
 #include <map>
+#include <iostream>
 
 AffectsStarEvaluator::AffectsStarEvaluator(PKB* p) { pkb = p; }
 
