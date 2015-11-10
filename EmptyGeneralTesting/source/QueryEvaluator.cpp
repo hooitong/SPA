@@ -18,6 +18,8 @@
 #include "AffectsBipStarEvaluator.h"
 #include "NextBipEvaluator.h"
 #include "NextBipStarEvaluator.h"
+#include "ContainsEvaluator.h"
+#include <iostream>
 
 QueryEvaluator::QueryEvaluator(PKB* pkb) {
     pkbInstance = pkb;
@@ -25,9 +27,12 @@ QueryEvaluator::QueryEvaluator(PKB* pkb) {
 
 std::list<string> QueryEvaluator::evaluate(QueryTree* tree) {
     if (tree == NULL) {
+        cout << "NULL" << endl;
         return std::list<string>();
     }
+    cout << "Starting evaluate" << endl;
     QueryResult result = evaluate(tree->getRoot());
+    cout << "Evaluate finished" << endl;
 
     vector <string> resultSynonym;
     map <string, TType> synonymMap;
@@ -234,6 +239,8 @@ QueryResult QueryEvaluator::solveRelation(QNode* node) {
       return solveNextBip(node);
     } else if (node->getString() == "NextBip*") {
       return solveNextBipStar(node);
+    } else if (node->getString() == "Contains") {
+      return solveContains(node);
     } else {
         return QueryResult(false);
     }
@@ -311,6 +318,8 @@ QueryResult QueryEvaluator::solveAffects(QNode* node) {
 
 QueryResult QueryEvaluator::solveAffectsStar(QNode* node) {
   AffectsStarEvaluator eval(pkbInstance);
+  cout << "Evaluator created" << endl;
+
   return eval.evaluate(node);
 }
 
@@ -329,6 +338,11 @@ QueryResult QueryEvaluator::solveNextBip(QNode* node) {
   return eval.evaluate(node);
 }
 
+QueryResult QueryEvaluator::solveContains(QNode* node) {
+  ContainsEvaluator eval(pkbInstance);
+  return eval.evaluate(node);
+}
+
 QueryResult QueryEvaluator::solveNextBipStar(QNode* node) {
   NextBipStarEvaluator eval(pkbInstance);
   return eval.evaluate(node);
@@ -337,119 +351,83 @@ QueryResult QueryEvaluator::solveNextBipStar(QNode* node) {
 QueryResult QueryEvaluator::solvePatternIf(QNode* node) {
     QNode* ifNode = node->getChildren()[0];
     QNode* varNode = node->getChildren()[1];
-    if (varNode->getQType() == ANY && ifNode->getQType() == ANY) {
-        vector <int> stmtLines =  pkbInstance->getAst()->getStmtLines(IFN);
-        if (stmtLines.size() > 0) {
-            return QueryResult(true);
-        }
-    } else if (varNode->getQType() == ANY) {
-        vector <int> stmtLines = pkbInstance->getAst()->getStmtLines(IFN);
-        return QueryResult(stmtLines, ifNode->getString());
-    } else if (ifNode->getQType() == ANY) {
-        vector <int> stmtLines = pkbInstance->getAst()->getStmtLines(IFN);
-        set <int> resultSet;
-        for (vector<int>::iterator it = stmtLines.begin();
-            it != stmtLines.end(); it++) {
-            TNode* tnode = pkbInstance->getAst()->getTNode(*it);
-            string var = tnode->getChildren()[0]->getValue();
-            resultSet.insert(pkbInstance->getVarTable()->getVarIndex(var));
-        }
-        if (varNode->getQType() == VARIABLESYNONYM) {
-            vector <int> resultVector(resultSet.begin(), resultSet.end());
-            QueryResult result(resultVector, varNode->getString());
-            return result;
-        } else {
-            int varIndex = pkbInstance->getVarTable()->getVarIndex(varNode->getString());
-            if (resultSet.find(varIndex) == resultSet.end()) {
-                return QueryResult(false);
-            } else {
-                return QueryResult(true);
-            }
-        }
-    } else {
-        vector <int> stmtLines = pkbInstance->getAst()->getStmtLines(IFN);
-        if (varNode->getQType() == VARIABLESYNONYM) {
-            vector <pair<int,int> > resultVector;
-            for (vector<int>::iterator it = stmtLines.begin();
-                it != stmtLines.end(); it++) {
-                TNode* tnode = pkbInstance->getAst()->getTNode(*it);
-                string var = tnode->getChildren()[0]->getValue();
-                resultVector.push_back(make_pair(*it, pkbInstance->getVarTable()->getVarIndex(var)));
-            }
-            QueryResult result(resultVector, ifNode->getString(), varNode->getString());
-            return result;
-        } else {
-            vector <int> resultVector;
-            for (vector<int>::iterator it = stmtLines.begin();
-                it != stmtLines.end(); it++) {
-                TNode* tnode = pkbInstance->getAst()->getTNode(*it);
-                string var = tnode->getChildren()[0]->getValue();
-                if (var == varNode->getString()) {
-                    resultVector.push_back(*it);
-                }
-            }
-            return QueryResult(resultVector, ifNode->getString());
-        }
+    QNode* thenNode = node->getChildren()[2];
+    QNode* elseNode = node->getChildren()[3];
+    vector <int> stmtLines = pkbInstance->getAst()->getStmtLines(IFN);
+    vector <string> synonyms;
+    synonyms.push_back(ifNode->getString());
+    if (varNode->getQType() == VARIABLESYNONYM) {
+        synonyms.push_back(varNode->getString());
     }
+    if (thenNode->getQType() == STMTLSTSYNONYM) {
+        synonyms.push_back(thenNode->getString());
+    }
+    if (elseNode->getQType() == STMTLSTSYNONYM) {
+        synonyms.push_back(elseNode->getString());
+    }
+    QueryResult result(synonyms);
+    for (vector<int>::iterator it = stmtLines.begin(); it != stmtLines.end(); it++) {
+        int stmt = *it;
+        TNode* stmtTNode = pkbInstance->getAst()->getTNode(stmt);
+        TNode* varTNode = stmtTNode->getChildren()[0];
+        TNode* thenStmtTNode = stmtTNode->getChildren()[1]->getChildren()[0];
+        TNode* elseStmtTNode = stmtTNode->getChildren()[2]->getChildren()[0];
+        if (varNode->getQType() == ANY ||
+            varNode->getQType() == VARIABLESYNONYM || 
+            varNode->getString() == varTNode->getValue()) {
+            continue;
+        }
+        vector <int> thisResult;
+        thisResult.push_back(stmtTNode->getStmtLine());
+        if (varNode->getQType() == VARIABLESYNONYM) {
+            thisResult.push_back(pkbInstance->getVarTable()->getVarIndex(varTNode->getValue()));
+        }
+        if (thenNode->getQType() == STMTLSTSYNONYM) {
+            thisResult.push_back(thenStmtTNode->getStmtLine());
+        }
+        if (elseNode->getQType() == STMTLSTSYNONYM) {
+            thisResult.push_back(elseStmtTNode->getStmtLine());
+        }
+        result.addSolution(thisResult);
+    }
+    return result;
 }
 
 QueryResult QueryEvaluator::solvePatternWhile(QNode* node) {
     QNode* whileNode = node->getChildren()[0];
     QNode* varNode = node->getChildren()[1];
-    if (varNode->getQType() == ANY && whileNode->getQType() == ANY) {
-        vector <int> stmtLines =  pkbInstance->getAst()->getStmtLines(WHILEN);
-        if (stmtLines.size() > 0) {
-            return QueryResult(true);
-        }
-    } else if (varNode->getQType() == ANY) {
-        vector <int> stmtLines = pkbInstance->getAst()->getStmtLines(WHILEN);
-        return QueryResult(stmtLines, whileNode->getString());
-    } else if (whileNode->getQType() == ANY) {
-        vector <int> stmtLines = pkbInstance->getAst()->getStmtLines(WHILEN);
-        set <int> resultSet;
-        for (vector<int>::iterator it = stmtLines.begin();
-            it != stmtLines.end(); it++) {
-            TNode* tnode = pkbInstance->getAst()->getTNode(*it);
-            string var = tnode->getChildren()[0]->getValue();
-            resultSet.insert(pkbInstance->getVarTable()->getVarIndex(var));
-        }
-        if (varNode->getQType() == VARIABLESYNONYM) {
-            vector <int> resultVector(resultSet.begin(), resultSet.end());
-            QueryResult result(resultVector, varNode->getString());
-            return result;
-        } else {
-            int varIndex = pkbInstance->getVarTable()->getVarIndex(varNode->getString());
-            if (resultSet.find(varIndex) == resultSet.end()) {
-                return QueryResult(false);
-            } else {
-                return QueryResult(true);
-            }
-        }
-    } else {
-        vector <int> stmtLines = pkbInstance->getAst()->getStmtLines(WHILEN);
-        if (varNode->getQType() == VARIABLESYNONYM) {
-            vector <pair<int,int> > resultVector;
-            for (vector<int>::iterator it = stmtLines.begin();
-                it != stmtLines.end(); it++) {
-                TNode* tnode = pkbInstance->getAst()->getTNode(*it);
-                string var = tnode->getChildren()[0]->getValue();
-                resultVector.push_back(make_pair(*it, pkbInstance->getVarTable()->getVarIndex(var)));
-            }
-            QueryResult result(resultVector, whileNode->getString(), varNode->getString());
-            return result;
-        } else {
-            vector <int> resultVector;
-            for (vector<int>::iterator it = stmtLines.begin();
-                it != stmtLines.end(); it++) {
-                TNode* tnode = pkbInstance->getAst()->getTNode(*it);
-                string var = tnode->getChildren()[0]->getValue();
-                if (var == varNode->getString()) {
-                    resultVector.push_back(*it);
-                }
-            }
-            return QueryResult(resultVector, whileNode->getString());
-        }
+    QNode* bodyNode = node->getChildren()[2];
+    vector <int> stmtLines = pkbInstance->getAst()->getStmtLines(IFN);
+    vector <string> synonyms;
+    synonyms.push_back(whileNode->getString());
+    if (varNode->getQType() == VARIABLESYNONYM) {
+        synonyms.push_back(varNode->getString());
     }
+    if (bodyNode->getQType() == STMTLSTSYNONYM) {
+        synonyms.push_back(bodyNode->getString());
+    }
+    QueryResult result(synonyms);
+    for (vector<int>::iterator it = stmtLines.begin(); it != stmtLines.end(); it++) {
+        int stmt = *it;
+        TNode* stmtTNode = pkbInstance->getAst()->getTNode(stmt);
+        TNode* varTNode = stmtTNode->getChildren()[0];
+        TNode* bodyStmtTNode = stmtTNode->getChildren()[1]->getChildren()[0];
+        if (varNode->getQType() == ANY ||
+            varNode->getQType() == VARIABLESYNONYM || 
+            varNode->getString() == varTNode->getValue()) {
+            continue;
+        }
+        vector <int> thisResult;
+        thisResult.push_back(stmtTNode->getStmtLine());
+        if (varNode->getQType() == VARIABLESYNONYM) {
+            thisResult.push_back(pkbInstance->getVarTable()->getVarIndex(varTNode->getValue()));
+        }
+        if (bodyNode->getQType() == STMTLSTSYNONYM) {
+            thisResult.push_back(bodyStmtTNode->getStmtLine());
+        }
+        result.addSolution(thisResult);
+    }
+    return result;
 }
 
 QueryResult QueryEvaluator::solvePattern(QNode* node) {
