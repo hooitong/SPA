@@ -201,6 +201,9 @@
     <ClCompile Include="..\source\ContainsStarEvaluator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\NextBip.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\QueryEvaluator.h">
@@ -386,8 +389,11 @@
     <ClInclude Include="..\source\NextBipStarEvaluator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\NextBip.h">
+    <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\source\ContainsEvaluator.h">
-      <Filter>Header Files</Filter>
+    <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\source\ContainsStarEvaluator.h">
       <Filter>Header Files</Filter>

@@ -12,7 +12,7 @@ class ParserNextBipTest : public CPPUNIT_NS::TestFixture {
   CPPUNIT_TEST_SUITE_END();
 
 private:
-  Next* nTest;
+  NextBip* nTest;
 
 public:
   void setUp();

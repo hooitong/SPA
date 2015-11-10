@@ -1,6 +1,7 @@
 #include "AffectsBipEvaluator.h"
 #include <algorithm>
 #include <iterator>
+#include <iostream>
 
 AffectsBipEvaluator::AffectsBipEvaluator(PKB* p) { pkb = p; }
 
@@ -73,8 +74,8 @@ vector<int> AffectsBipEvaluator::solveConstSyn(const int left) {
   VARINDEX contextVar = pkb->getModifies()->getModifiedByStmt(left)[0];
 
   /* Retrieve all statements reached by left */
-  vector<STMTLINE> possibleRight = pkb->getNext()->getNextStar(left);
-
+  vector<STMTLINE> possibleRight = pkb->getNextBip()->getNextStar(left);
+  
   /* Filter the reachable statements to valid assignment statements */
   set<STMTLINE> validCandidates, returnedCandidates;
   for (int i = 0; i < possibleRight.size(); i++) {
@@ -85,7 +86,8 @@ vector<int> AffectsBipEvaluator::solveConstSyn(const int left) {
   }
 
   /* Execute path searching algorithm for Affects */
-  findSynonymFromConst(left, contextVar, &returnedCandidates, std::vector<STMTLINE>(), false, std::stack<STMTLINE>());
+  findSynonymFromConst(left, contextVar, &returnedCandidates, std::vector<STMTLINE>(), false, std::stack<STMTLINE>(), false);
+
 
   /* Find the difference between the sets */
   vector<STMTLINE> results;
@@ -103,7 +105,7 @@ vector<int> AffectsBipEvaluator::solveSynConst(const int right) {
   vector<VARINDEX> contextVars = pkb->getUses()->getUsedByStmt(right);
 
   /* Retrieve all statements that can reach to right */
-  vector<STMTLINE> possibleLeft = pkb->getNext()->getBeforeStar(right);
+  vector<STMTLINE> possibleLeft = pkb->getNextBip()->getBeforeStar(right);
 
   /* Filter the reachable statements to valid assignment statements */
   set<STMTLINE> validCandidates, returnedCandidates;
@@ -174,7 +176,7 @@ bool AffectsBipEvaluator::solveAnyConst(const int right) {
   vector<VARINDEX> contextVars = pkb->getUses()->getUsedByStmt(right);
 
   /* Retrieve all statements that can reach to right */
-  vector<STMTLINE> possibleLeft = pkb->getNext()->getBeforeStar(right);
+  vector<STMTLINE> possibleLeft = pkb->getNextBip()->getBeforeStar(right);
 
   /* Filter the reachable statements to valid assignment statements */
   set<STMTLINE> validCandidates, returnedCandidates;
@@ -184,6 +186,7 @@ bool AffectsBipEvaluator::solveAnyConst(const int right) {
       returnedCandidates.insert(possibleLeft[i]);
     }
   }
+
 
   /* Execute path searching algorithm for Affects */
   return findSynonymToConst(right, set<STMTLINE>(contextVars.begin(), contextVars.end()), &returnedCandidates, 
@@ -198,7 +201,7 @@ bool AffectsBipEvaluator::solveConstAny(const int left) {
   VARINDEX contextVar = pkb->getModifies()->getModifiedByStmt(left)[0];
 
   /* Retrieve all statements reached by left */
-  vector<STMTLINE> possibleRight = pkb->getNext()->getNextStar(left);
+  vector<STMTLINE> possibleRight = pkb->getNextBip()->getNextStar(left);
 
   /* Filter the reachable statements to valid assignment statements */
   set<STMTLINE> validCandidates, returnedCandidates;
@@ -210,7 +213,7 @@ bool AffectsBipEvaluator::solveConstAny(const int left) {
   }
 
   /* Execute path searching algorithm for Affects */
-  return findSynonymFromConst(left, contextVar, &returnedCandidates, std::vector<STMTLINE>(), true, std::stack<STMTLINE>());
+  return findSynonymFromConst(left, contextVar, &returnedCandidates, std::vector<STMTLINE>(), true, std::stack<STMTLINE>(), false);
 }
 
 bool AffectsBipEvaluator::solveAnyAny() {
@@ -225,7 +228,7 @@ bool AffectsBipEvaluator::solveAnyAny() {
 
 bool AffectsBipEvaluator::findConstToConst(STMTLINE current, STMTLINE end, VARINDEX contextVar, vector<STMTLINE> path, std::stack<STMTLINE> previousCalls) {
   /* Base Case */
-  if (current == end) return true;
+  if (current == end && !path.empty()) return true;
 
   /* Early terminate if this stmtline cannot reach end path */
   if (!pkb->getNextBip()->isNextStar(current, end)) return false;
@@ -268,54 +271,86 @@ bool AffectsBipEvaluator::findConstToConst(STMTLINE current, STMTLINE end, VARIN
   return pathsStatus;
 }
 
-bool AffectsBipEvaluator::findSynonymFromConst(STMTLINE current, VARINDEX contextVar, set<STMTLINE> *candidates, vector<STMTLINE> path, bool takeAny, std::stack<STMTLINE> previousCalls) {
+bool AffectsBipEvaluator::findSynonymFromConst(STMTLINE current, VARINDEX contextVar, set<STMTLINE> *candidates, vector<STMTLINE> path, bool takeAny, std::stack<STMTLINE> previousCalls, bool end) {
   /* If no more candidates, return to reduce computation */
   if (candidates->size() == 0) return false;
-
-  /* Assertion: Assume that candidates are all valid ones (Assign Statements/Same Context) */
-  /* Remove current line from candidates if exist */
-  bool isCandidate = candidates->erase(current);
-  /* Short circuited statement to reduce computation */
-  if (isCandidate && takeAny) return true;
-
-  /* Check cyclic in path */
-  if (std::find(path.begin(), path.end(), current) != path.end()) return false;
-
-  /* Check if path can be progressed */
-  /* Check current stmtline whether it modifies variable */
-  TType currentType = pkb->getAst()->getTNode(current)->getTType();
-  if (path.size() != 0 && currentType == ASSIGNN
-    && pkb->getModifies()->isModifiesForStmt(current, contextVar)) return false;
-
-  /* Get all possible next path and navigate recursively */
-  vector<STMTLINE> allNext = pkb->getNext()->getNext(current);
-  bool isEndStatement = pkb->getNext()->getNext(current).empty();
+  cout << current << endl;
+  /* If short circuited, this statement is already been evaluated and skip */
   bool pathsStatus = false;
-  path.push_back(current);
-
-  /* If current statement is a CALL statement then traverse with next line in stack to next procedure */
-  if (currentType == CALLN) {
-    if (!isEndStatement) previousCalls.push(pkb->getNext()->getNext(current)[0]);
-    if (findSynonymFromConst(allNext[0], contextVar, candidates, path, takeAny, previousCalls)) {
-      pathsStatus = true;
-    }
-  }
-
-  /* This denotes that it reaches end of the procedure, time to return to correct procedure stack */
-  else if (isEndStatement && !previousCalls.empty()) {
-    STMTLINE returnIndex = previousCalls.top();
-    previousCalls.pop();
-    if (findSynonymFromConst(returnIndex, contextVar, candidates, path, takeAny, previousCalls)) {
-      pathsStatus = true;
-    }
-  }
-
-  /* Traverse to all possible paths and navigate recursively that are within same procedure */
-  else {
-    for (int i = 0; i < allNext.size(); i++) {
-      if (findSynonymFromConst(allNext[i], contextVar, candidates, path, takeAny, previousCalls)) {
-        if (takeAny) return true;
+  if (end) {
+    /* Get all possible next path and navigate recursively */
+    vector<STMTLINE> allNext = pkb->getNextBip()->getNext(current);
+    cout << "matrix" << endl;
+    if (!previousCalls.empty()) {
+      STMTLINE returnIndex = previousCalls.top();
+      previousCalls.pop();
+      bool isNextEnd = false;
+      if (returnIndex < 0) { returnIndex = -returnIndex; isNextEnd = true; }
+      if (findSynonymFromConst(returnIndex, contextVar, candidates, path, takeAny, previousCalls, isNextEnd)) {
         pathsStatus = true;
+      }
+    }
+
+    /* Traverse to all possible paths and navigate recursively that are within same procedure */
+    else {
+      for (int i = 0; i < allNext.size(); i++) {
+        cout << allNext[i] << endl;
+        cout << "stop" << endl;
+        if (findSynonymFromConst(allNext[i], contextVar, candidates, path, takeAny, previousCalls, false)) {
+          if (takeAny) return true;
+          pathsStatus = true;
+        }
+      }
+    }
+  } else {
+    /* Assertion: Assume that candidates are all valid ones (Assign Statements/Same Context) */
+    /* Remove current line from candidates if exist */
+    bool isCandidate = !path.empty() && candidates->erase(current);
+    /* Short circuited statement to reduce computation */
+    if (isCandidate && takeAny) return true;
+
+    /* Check cyclic in path */
+    if (std::find(path.begin(), path.end(), current) != path.end()) return false;
+
+    /* Check if path can be progressed */
+    /* Check current stmtline whether it modifies variable */
+    TType currentType = pkb->getAst()->getTNode(current)->getTType();
+    if (path.size() != 0 && currentType == ASSIGNN
+      && pkb->getModifies()->isModifiesForStmt(current, contextVar)) return false;
+
+    /* Get all possible next path and navigate recursively */
+    vector<STMTLINE> allNext = pkb->getNextBip()->getNext(current);
+    bool isEndStatement = pkb->getNext()->getNext(current).empty();
+
+    path.push_back(current);
+
+    /* If current statement is a CALL statement then traverse with next line in stack to next procedure */
+    if (currentType == CALLN) {
+      if (!isEndStatement) previousCalls.push(pkb->getNext()->getNext(current)[0]);
+      else previousCalls.push(-current);
+      if (findSynonymFromConst(allNext[0], contextVar, candidates, path, takeAny, previousCalls, false)) {
+        pathsStatus = true;
+      }
+    }
+
+    /* This denotes that it reaches end of the procedure, time to return to correct procedure stack */
+    else if (isEndStatement && !previousCalls.empty()) {
+      STMTLINE returnIndex = previousCalls.top();
+      previousCalls.pop();
+      bool isNextEnd = false;
+      if (returnIndex < 0) { returnIndex = -returnIndex; isNextEnd = true; }
+      if (findSynonymFromConst(returnIndex, contextVar, candidates, path, takeAny, previousCalls, isNextEnd)) {
+        pathsStatus = true;
+      }
+    }
+
+    /* Traverse to all possible paths and navigate recursively that are within same procedure */
+    else {
+      for (int i = 0; i < allNext.size(); i++) {
+        if (findSynonymFromConst(allNext[i], contextVar, candidates, path, takeAny, previousCalls, false)) {
+          if (takeAny) return true;
+          pathsStatus = true;
+        }
       }
     }
   }
@@ -328,7 +363,7 @@ bool AffectsBipEvaluator::findSynonymToConst(STMTLINE current, set<VARINDEX> con
   if (candidates->size() == 0) return false;
 
   /* Assertion: Assume that candidates are all assign statements */
-  if (candidates->find(current) != candidates->end()) {
+  if (candidates->find(current) != candidates->end() && !path.empty()) {
     /* Check whether the candidate is still a valid one found in contextVar */
     VARINDEX modifiedVar = pkb->getModifies()->getModifiedByStmt(current)[0];
     if (contextVar.find(modifiedVar) != contextVar.end()) {
@@ -361,7 +396,7 @@ bool AffectsBipEvaluator::findSynonymToConst(STMTLINE current, set<VARINDEX> con
   }
 
   /* Get all possible before path and navigate recursively */
-  vector<STMTLINE> allBefore = pkb->getNext()->getBefore(current);
+  vector<STMTLINE> allBefore = pkb->getNextBip()->getBefore(current);
   bool isStartStatement = pkb->getNext()->getBefore(current).empty();
   bool pathsStatus = false;
   path.push_back(current);
