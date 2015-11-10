@@ -61,7 +61,7 @@ Select a such that Next(a, b) and Follows(a,b) and Next*(b,a) and Follows*(a,b) 
 13 - Last Line of nest
 stmt s;while w; 
 Select s such that Next(s,w)
-1,102,103,106,12,127,13,133,20,23,3,36,40,41,42,45,47,50,61,73,74,88,93
+1,102,103,106,12,127,13,133,20,23,3,36,40,41,42,45,47,50,61,73,74,88,93,159
 5000 
 14 - last line of nest
 stmt s;if i;
@@ -71,10 +71,10 @@ Select s such that Next(s,i)
 15 - Next
 stmt s,s1,s2;while w;
 Select s such that Parent(w,s) and Follows(s, s1) and Follows(s1,s2) and Next(s2, w)
-121,131,18,26,38,78
+121,131,18,26,38,78,157
 5000
 16 - Next
 assign a,a1,a2,a3;
 Select <a,a1,a2,a3> such that Next(a,a1) and Next(a1,a2) and Next(a2,a3)
-117 118 119 120,118 119 120 121,123 124 125 127,147 148 149 150,15 16 17 18,16 17 18 19,17 18 19 20,51 57 58 59,64 65 66 67,65 66 67 75
+117 118 119 120,118 119 120 121,123 124 125 127,147 148 149 150,15 16 17 18,16 17 18 19,17 18 19 20,51 57 58 59,64 65 66 67,65 66 67 75,156 157 158 159
 5000

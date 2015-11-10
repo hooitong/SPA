@@ -91,7 +91,7 @@ Select a such that Affects*(19,a) and Modifies(a,"elephant") and Parent(14,a)
 19 - Affects* Modifies Parent
 assign a; while w;
 Select a such that Affects*(133,a) and Modifies(a,"empty") and Parent(w,a) 
-133
+none
 5000
 20 - Affects* Modifies Parent Calls 
 assign a; call c; while w; 
@@ -105,6 +105,21 @@ none
 5000
 22 - Affects* Recursive Self
 assign a;prog_line p; 
-Select a such that Affects*(133,133)
-none
+Select BOOLEAN such that Affects*(133,133)
+FALSE
+5000
+23 - Affects* Recursive Self - Classic Example 1
+assign a;prog_line p; 
+Select BOOLEAN such that Affects*(159 ,156)
+TRUE
+5000
+24 - Affects* Recursive Self - Classic Example
+assign a12;
+Select a12 such that Affects*(159 ,a12)
+156,157,158,159
+5000
+25 - Affects* Recursive Self - Classic Example
+assign a142;
+Select BOOLEAN such that Affects*(159 ,159)
+TRUE
 5000

@@ -1,10 +1,10 @@
 1 - Tuple
 assign a;procedure p,q;
 Select <p,a> such that Calls(p,q) with p.procName ="beta" pattern a("a",_)
-beta 22,beta 35,beta 4,beta 51
+beta 22,beta 35,beta 4,beta 51,beta 157
 5000
 2 - Tuple
 variable v;procedure p,q;assign a;
 Select <p,q,v> such that Uses(p,v) and Calls(p,q) and Uses(q,v) pattern a(v,_"f"_)
-beta alpha a,beta alpha f,beta alpha h,beta alpha j,charlie alpha a,charlie alpha f,charlie alpha h,charlie alpha j,charlie beta a,charlie beta f,charlie beta h,charlie beta j,charlie beta k,echo alpha a,echo alpha f,echo alpha h,echo alpha j,echo beta a,echo beta f,echo beta h,echo beta j,echo beta k,echo charlie a,echo charlie f,echo charlie h,echo charlie j,echo charlie k
+iNsAnIty123 KappaClub k,iNsAnIty123 KappaClub a,beta alpha a,beta alpha f,beta alpha h,beta alpha j,charlie alpha a,charlie alpha f,charlie alpha h,charlie alpha j,charlie beta a,charlie beta f,charlie beta h,charlie beta j,charlie beta k,echo alpha a,echo alpha f,echo alpha h,echo alpha j,echo beta a,echo beta f,echo beta h,echo beta j,echo beta k,echo charlie a,echo charlie f,echo charlie h,echo charlie j,echo charlie k
 5000
