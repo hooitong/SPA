@@ -98,4 +98,7 @@ void QueryPreprocessorDeclaration::fillNodeTypeTable(void) {
   string_type_to_node_type["procedure"] = PROCEDURESYNONYM;
   string_type_to_node_type["if"] = IFSYNONYM;
   string_type_to_node_type["call"] = CALLSYNONYM;
+  string_type_to_node_type["plus"] = QPLUS;
+  string_type_to_node_type["minus"] = QMINUS;
+  string_type_to_node_type["times"] = QTIMES;
 }
