@@ -303,6 +303,36 @@ assign a,a1,a2,a3;
 Select <a,a1,a2,a3> such that Next(a,a1) and Next(a1,a2) and Next(a2,a3)
 117 118 119 120,118 119 120 121,123 124 125 127,147 148 149 150,15 16 17 18,16 17 18 19,17 18 19 20,51 57 58 59,64 65 66 67,65 66 67 75,156 157 158 159
 5000
+17 - Next and with clause
+assign a,a1,a2,a3;
+Select <a,a1,a2,a3> such that Next(a,a1) and Next(a1,a2) and Next(a2,a3) with a1.stmt#=18
+17 18 19 20
+5000
+18 - Next and pattern clause
+assign a,a1,a2,a3;
+Select <a,a1,a2,a3> such that Next(a,a1) and Next(a1,a2) and Next(a2,a3) pattern a3("food", "fish + chips")
+64 65 66 67
+5000
+19 - Next and with clause and pattern clause
+assign a,a1,a2,a3;
+Select <a,a1,a2,a3> such that Next(a,a1) and Next(a1,a2) and Next(a2,a3) with a2.stmt#=18 pattern a3("elephant", _"dog"_)
+16 17 18 19
+5000
+20 - Next and with clause and pattern clause and Affects* clause
+assign a,a1,a2,a3;
+Select <a,a1,a2,a3> such that Next(a,a1) and Next(a1,a2) and Next(a2,a3) with a.stmt#=117 such that Affects*(a3, 120)
+117 118 119 120
+5000
+21 - Next Performance Test
+prog_line p1,p2,ppd,ppmd;
+Select <p1, p2> such that Next(ppmd, p1) and Next(ppd, p2) and Next(ppmd, ppd)  
+none
+5000
+22 - Next* Performance Test
+prog_line p1,p2;
+Select p1 such that Next*(p2, p1) and Next*(_, p2)
+none
+5000
 1 - Parent if Parent w;
 assign a; if i;while w;
 Select a such that Parent(i,a) such that Parent*(w,a)
