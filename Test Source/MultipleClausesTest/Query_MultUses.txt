@@ -21,5 +21,5 @@ beta,charlie,drink,echo,friends,order,work
 5 - uses 
 procedure p,q;assign a; variable v;while w;
 Select <p,v> such that Uses(p,v) and Calls(p,q) and Uses(q,v) and Parent(w,a) pattern a(v,_)
-beta c,beta d,beta f,beta h,charlie boy,charlie c,charlie cat,charlie d,charlie dog,charlie elephant,charlie f,charlie h,drink beer,drink empty,echo beer,echo boy,echobuffaloWings,echoc,echocat,echo cookedList,echo customerCount,echo d,echo dog,echo elephant,echo empty,echo f,echo garlicBread,echo h,echo happiness,echo pizza,friends beer,friends empty,friends happiness,order beer,order empty,orderhappiness,workbeer,workbuffaloWings,workcookedList,work customer Count,work empty,work garlicBread,work happiness,work pizza
+beta c,beta d,beta f,beta h,charlie boy,charlie c,charlie cat,charlie d,charlie dog,charlie elephant,charlie f,charlie h,drink beer,drink empty,echo beer,echo boy,echo buffaloWings,echo c,echo cat,echo cookedList,echo customerCount,echo d,echo dog,echo elephant,echo empty,echo f,echo garlicBread,echo h,echo happiness,echo pizza,friends beer,friends empty,friends happiness,order beer,order empty,order happiness,work beer,work buffaloWings,work cookedList,work customerCount,work empty,work garlicBread,work happiness,work pizza
 5000
