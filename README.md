@@ -15,7 +15,10 @@ If there is error such as
 Right click SPA > Properties > C/C++ > General > Additonal Include Directories > select the respective directory to the source folder.
 
 ###How to Build and Test
-In VS2010, check whether you want to build in debug mode or release mode. After that, proceed to build the solution. You should find the .exe in the Debug/Release folder.
+In VS2010/VS2015, check whether you want to build in debug mode or release mode. After that, proceed to build the solution. You should find the .exe in the Debug/Release folder.
 
-Ensure that you have sample_source.txt for unit testing and integration.txt for integration testing in the same folder before you run.
-For the AutoTester, follow the guide provided to pass in the source and query file and specify the output file.
+To run the compiled AutoTester.exe found in Debug/Release, use the following syntax in your terminal `AutoTester.exe <SourceFilePath> <QueryFilePath> <OutputFilePath>`.
+
+To run the integration and unit tests found in our project, set `IntegrationTesting` or `UnitTesting` as the default startup project from the context menu and press the play button at the top to run the tests. 
+
+Lastly, to run our system tests found in `Test Source`, simply go into the sub-folders and perform a 2-step process. First, press the `mergeAllQueries.bat` to merge all the individual queries to a single file. Secondly, simply run the `runAutoTesterOnMerged.bat` to start running the system tests in that subfolder.
