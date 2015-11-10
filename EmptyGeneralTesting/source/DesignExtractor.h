@@ -22,7 +22,7 @@ class DesignExtractor {
 	static void getNodeEndPoints(TNode* node, vector<TNode*> &result);
 	static void insertCFPAndCFGBip(STMTLINE from, STMTLINE to, PROCINDEX procIndex);
 	static bool isPrimaryNode(TNode* node);
-
+	static void getNextBipOfLastNode(TNode* node, vector<GNode*> &result);
 
   public:
     DesignExtractor();
