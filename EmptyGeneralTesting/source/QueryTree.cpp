@@ -29,8 +29,8 @@ QNode* QueryTree::getRoot(void) {
     return this->queryRoot;
 }
 
-bool QueryTree::isEqual(QueryTree* anotherTree) {
-    return this->getRoot()->isEqualSubtree(anotherTree->getRoot());
+bool QueryTree::isEqual(QueryTree* anotherTree, bool print_debugging_message) {
+    return this->getRoot()->isEqualSubtree(anotherTree->getRoot(), print_debugging_message);
 }
 
 void QueryTree::printTree(void) {

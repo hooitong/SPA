@@ -387,7 +387,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\source\NextBip.h">
-      <Filter>Header Files</Filter>
+    <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ContainsEvaluator.h">
+    <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

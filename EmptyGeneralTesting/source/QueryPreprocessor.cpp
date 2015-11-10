@@ -46,15 +46,15 @@ QueryTree* QueryPreprocessor::parseQuery(string query) {
     queryTree->addChild(root, conditionListNode);
 
     if (!declaration->isValidDeclaration()) {
-      //cout << "declaration fails" << endl;
+      // cout << "declaration fails" << endl;
       return NULL;
     }
     if (!result->isValidResult()) {
-      //cout << "result fails" << endl;
+      // cout << "result fails" << endl;
       return NULL;
     }
     if (!condition->isValidCondition()) {
-      //cout << "condition fails" << endl;
+      // cout << "condition fails" << endl;
       return NULL;
     }
 

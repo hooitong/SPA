@@ -58,7 +58,7 @@ QueryResult ContainsEvaluator::solveSynSyn(QNode* node) {
     vector <int> progIndex = pkb->getProcTable()->getAllProcIndex();
 
     for (vector<int>::iterator it = progIndex.begin(); it != progIndex.end(); it++) {
-        //getAllTNodesFrom(pkb->getAst()->getProcTNodeByIndex(*it));
+        getAllTNodesFrom(pkb->getAst()->getProcTNodeByIndex(*it), nodes);
     }
     vector <pair<int,int> > results;
     for (vector<TNode*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
@@ -97,6 +97,14 @@ TType ContainsEvaluator::toTType(QNodeType type) {
         return WHILEN;
     } else if (type == IFSYNONYM) {
         return IFN;   
+    } else if (type == CONSTSYNONYM) {
+        return CONSTN;
+    } else if (type == QPLUS) {
+        return PLUSN;
+    } else if (type == QTIMES) {
+        return TIMESN;
+    } else if (type == QMINUS) {
+        return MINUSN;
     }
 }
 
@@ -110,6 +118,11 @@ int ContainsEvaluator::toInt(TNode* node) {
         return node->getStmtLine();
     } else if (node->getTType() == STMTLSTN) {
         return node->getChildren()[0]->getStmtLine();
+    } else if (node->getTType() == CONSTN) {
+        istringstream iss(node->getValue());
+        int result;
+        iss >> result;
+        return result;
     } else {
         return (int) node;
     }
@@ -125,3 +138,19 @@ bool ContainsEvaluator::matchType(QNodeType qtype, TType ttype) {
         return toTType(qtype) == ttype;
     }
 }
+
+QueryResult ContainsEvaluator::evaluate(QNode* node) {
+    if (node->getChildren()[0]->getQType() == CONST) {
+        if (node->getChildren()[1]->getQType() == CONST) {
+            return solveConstConst(node);
+        } else {
+            return solveConstSyn(node);
+        }
+    } else {
+        if (node->getChildren()[1]->getQType() == CONST) {
+            return solveSynConst(node);
+        } else {
+            return solveSynSyn(node);
+        }
+    }
+}   

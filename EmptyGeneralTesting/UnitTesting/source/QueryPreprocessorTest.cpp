@@ -1389,6 +1389,36 @@ void QueryPreprocessorTest::testContains() {
   CPPUNIT_ASSERT(achieved->isEqual(expected));
 }
 
+void QueryPreprocessorTest::testContains2() {
+  queryTest = new QueryPreprocessor();
+  QueryTree* achieved = queryTest->parseQuery("if ifstat; variable v; Select ifstat such that Contains(ifstat,v) with v.varName=\"x\"");
+  CPPUNIT_ASSERT(achieved != NULL);
+  QueryTree* expected = new QueryTree();
+  QNode* expectedRoot = expected->createNode(QUERY, "");
+  QNode* expectedResultList = expected->createNode(RESULTLIST, "");
+  QNode* expectedConditionList = expected->createNode(CONDITIONLIST, "");
+  expected->setAsRoot(expectedRoot);
+  expected->addChild(expectedRoot, expectedResultList);
+  expected->addChild(expectedRoot, expectedConditionList);
+  QNode* expectedResult = expected->createNode(IFSYNONYM, "ifstat");
+  expected->addChild(expectedResultList, expectedResult);
+  QNode* expectedSuchThat1 = expected->createNode(RELATION, "Contains");
+  QNode* expectedSuchThatChild11 = expected->createNode(IFSYNONYM, "ifstat");
+  QNode* expectedSuchThatChild12 = expected->createNode(VARIABLESYNONYM, "v");
+  QNode* expectedSuchThat2 = expected->createNode(WITH, "");
+  QNode* expectedSuchThatChild21 = expected->createNode(VARIABLESYNONYM, "v");
+  QNode* expectedSuchThatChild211 = expected->createNode(ATTRIBUTE, "varName");
+  QNode* expectedSuchThatChild22 = expected->createNode(VAR, "x");
+  expected->addChild(expectedSuchThat1, expectedSuchThatChild11);
+  expected->addChild(expectedSuchThat1, expectedSuchThatChild12);
+  expected->addChild(expectedSuchThat2, expectedSuchThatChild21);
+  expected->addChild(expectedSuchThatChild21, expectedSuchThatChild211);
+  expected->addChild(expectedSuchThat2, expectedSuchThatChild22);
+  expected->addChild(expectedConditionList, expectedSuchThat1);
+  expected->addChild(expectedConditionList, expectedSuchThat2);
+  CPPUNIT_ASSERT(achieved->isEqual(expected));
+}
+
 void QueryPreprocessorTest::testSibling() {
   queryTest = new QueryPreprocessor();
   QueryTree* achieved = queryTest->parseQuery("while w; stmt s; Select w such that Sibling(w,s)");

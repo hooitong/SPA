@@ -24,6 +24,7 @@
     <ClInclude Include="..\source\CFGBip.h" />
     <ClInclude Include="..\source\ConstTable.h" />
     <ClInclude Include="..\source\Contains.h" />
+    <ClInclude Include="..\source\ContainsEvaluator.h" />
     <ClInclude Include="..\source\DesignExtractor.h" />
     <ClInclude Include="..\source\Exception.h" />
     <ClInclude Include="..\source\Follows.h" />
