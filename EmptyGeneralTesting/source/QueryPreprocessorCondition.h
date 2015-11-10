@@ -28,7 +28,7 @@ private:
 	void processSuchThat(string such_that_string);
 	void processWith(string with_string);
 	pair<QNode*, RefType> processWithReference(string reference_string);
-	void processPattern(string pattern_string);
+	void processPattern(string pattern_string, bool allow_extension);
 	bool isValidExpression(string expression);
 	string removeExpressionQuote(string expression);
 	QNode* parseRef(string argument);
