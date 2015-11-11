@@ -1,5 +1,75 @@
-1 - Contains Basic Multiple
-assign a,a2,a3,a4; 
-Select a such that Follows(a, a2) and Follows(a2, a3) and Follows(a3, a4)
-15,16,17,64,117,118,147,156
+1 - Contains Basic
+
+Select BOOLEAN such that Contains(63, 65)
+FALSE
+5000
+2 - Contains Basic
+
+Select BOOLEAN such that Contains(70, 71)
+FALSE
+5000
+3 - Contains Basic
+
+Select BOOLEAN such that Contains(70, 73)
+FALSE
+5000
+4 - Contains* Basic
+
+Select BOOLEAN such that Contains*(70, 73)
+TRUE
+5000
+5 - Contains* Basic
+
+Select BOOLEAN such that Contains*(92, 106)
+TRUE
+5000
+6 - Contains* Basic
+
+Select BOOLEAN such that Contains*(1, 76)
+FALSE
+5000
+7 - Contains Basic Variable
+variable v;
+Select v such that Contains*(105, v)
+take, one, more
+5000
+8 - Contains* Basic Variable
+variable v;
+Select v such that Contains*(105, v)
+take, one, more
+5000
+9 - Contains Cross Multiple
+call c1, c2; procedure p;
+Select <c1,c2> such that Sibling (c1, c2) and Contains*(p, c1) with p.procName="charlie"
+53 55, 55 56, 56 55, 55 53, 53 56, 56 53
+5000
+10 - Contains Cross Multiple
+procedure p; constant c;
+Select p such that Contains*(p,c) with c.value=50
+work, order
+5000
+11 - Contains Cross Multiple
+plus add; assign a; variable v;
+Select a such that Contains*(a, add) and Contains*(add, v) with v.varName="chips"
+67, 104
+5000
+12 - Contains* Negative Case - Illegal Placeholder
+stmt s;
+Select s such that Contains*(_,_)
+none
+5000
+13 - Contains* Negative Case - Illegal Placeholder
+stmt s;
+Select s such that Contains*(_,s)
+none
+5000
+14 - Contains Negative Case - Illegal Placeholder
+stmt s;
+Select s such that Contains(s,_)
+none
+5000
+15 - Contains Negative Case - Illegal Placeholder
+stmt s;
+Select s such that Contains(_,_)
+none
 5000
