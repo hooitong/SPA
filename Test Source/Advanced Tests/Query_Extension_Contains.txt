@@ -1,0 +1,5 @@
+1 - Contains Basic Multiple
+assign a,a2,a3,a4; 
+Select a such that Follows(a, a2) and Follows(a2, a3) and Follows(a3, a4)
+15,16,17,64,117,118,147,156
+5000
