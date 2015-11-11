@@ -54,8 +54,16 @@ void CFGBip::insertBip(STMTLINE from, STMTLINE to, vector<STMTLINE> toProcEndNod
   else {
     nodeTo = getGNode(to);
   }
+    
+  GNode* forwardNode = nodeFrom->getForwardNodes()[0];
+  for(int i = 0; i< nodeFrom->getForwardNodes().size(); i ++){
+	  if(nodeFrom->getForwardNodes()[i]->getLineNumber()!=-1){
+		forwardNode = nodeFrom->getForwardNodes()[i];
+		break;
+	  }
+  }
 
-	GNode* forwardNode = nodeFrom->getForwardNodes()[0];		//after CALLN can only be one forward node
+			//after CALLN can only be one forward node
 	nodeFrom->clearForwardNode();
 	nodeFrom->addForwardNode(nodeTo);
 	nodeFrom->setBranchBackNode(forwardNode);

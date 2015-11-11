@@ -215,7 +215,7 @@ QueryResult QueryResult::filter(vector<string> newSynonyms) {
             matchingInThis.push_back(matchingIndex.second[i]);
         }
     }
-
+    
     for (int i = 0; i < (int) solutions.size(); i++) {
         R_TUPLE subResult = getSubResult(solutions[i], matchingInThis);
         newResult.addSolution(subResult);

@@ -25,6 +25,7 @@
     <ClInclude Include="..\source\ConstTable.h" />
     <ClInclude Include="..\source\Contains.h" />
     <ClInclude Include="..\source\ContainsEvaluator.h" />
+    <ClInclude Include="..\source\ContainsStarEvaluator.h" />
     <ClInclude Include="..\source\DesignExtractor.h" />
     <ClInclude Include="..\source\Exception.h" />
     <ClInclude Include="..\source\Follows.h" />
@@ -63,6 +64,7 @@
     <ClInclude Include="..\source\QueryTree.h" />
     <ClInclude Include="..\source\RelationEvaluator.h" />
     <ClInclude Include="..\source\Sibling.h" />
+    <ClInclude Include="..\source\SiblingEvaluator.h" />
     <ClInclude Include="..\source\SPAFrontEnd.h" />
     <ClInclude Include="..\source\TNode.h" />
     <ClInclude Include="..\source\Tokenizer.h" />
@@ -89,6 +91,7 @@
     <ClCompile Include="..\source\ConstTable.cpp" />
     <ClCompile Include="..\source\Contains.cpp" />
     <ClCompile Include="..\source\ContainsEvaluator.cpp" />
+    <ClCompile Include="..\source\ContainsStarEvaluator.cpp" />
     <ClCompile Include="..\source\DesignExtractor.cpp" />
     <ClCompile Include="..\source\Exception.cpp" />
     <ClCompile Include="..\source\Follows.cpp" />
@@ -126,6 +129,7 @@
     <ClCompile Include="..\source\QueryTree.cpp" />
     <ClCompile Include="..\source\RelationEvaluator.cpp" />
     <ClCompile Include="..\source\Sibling.cpp" />
+    <ClCompile Include="..\source\SiblingEvaluator.cpp" />
     <ClCompile Include="..\source\SPAFrontEnd.cpp" />
     <ClCompile Include="..\source\TNode.cpp" />
     <ClCompile Include="..\source\Tokenizer.cpp" />

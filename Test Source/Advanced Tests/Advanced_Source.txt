@@ -194,3 +194,18 @@ procedure drawMoney {
 	abc = abc## + def#gh + def;						//148
 	money = money + 100;							//149		
 	balance = balance - 100;}						//150
+	
+procedure iNsAnIty123 {
+	call KappaClub;						//151
+	call KappaClub;						//152
+	call KappaClub;						//153
+	call KappaClub;						//154
+}	
+
+procedure KappaClub {
+while k {                               //155
+	d = a;								//156
+	a = b;								//157
+	b = c;								//158
+	c = d;								//159
+}}

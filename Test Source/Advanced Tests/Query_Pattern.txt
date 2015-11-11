@@ -1,7 +1,7 @@
 1 - Pattern - basic
 assign a;
 Select a pattern a("a",_)
-4,22,35,51
+4,22,35,51,157
 5000
 2 - Pattern 2 - test within bracket
 assign a; 

@@ -46,7 +46,7 @@ Select a such that Affects(7,a) and Follows(7,8) and Parent(94,95)
 10 - Affects* Follows Parent (true, true, true)
 assign a;
 Select a such that Affects*(7,a) and Follows(7,8) and Parent(94,95)
-8
+8,9
 5000
 11 - Affects* Follows Parent (true, false, true)
 assign a; 
@@ -61,27 +61,27 @@ none
 13 - Affects* Follows Parent Calls (true, true, true, true)
 assign a;
 Select a such that Affects*(22,a) and Follows(15,16) and Parent(21,22) and Calls("beta","alpha")
-25,26,28,32,33,35,41
+25,26,28,32,33,35,41,29,36,38,40
 5000
 14 - Affects* Follows Parent Calls Next (t,t,t,t,t)
 assign a;
 Select a such that Affects*(22,a) and Follows(15,16) and Parent(21,22) and Calls("beta","alpha") and Next(15,16)
-25,26,28,32,33,35,41
+25,26,28,32,33,35,41,29,36,38,40
 5000
 15 - Affects* Modifies (t,t) //procedure
 assign a; 
 Select a such that Affects*(22,a) and Modifies("beta","dog")
-25,26,28,32,33,35,41
+25,26,28,32,33,35,41,29,36,38,40
 5000
 16 - Affects* Modifies (t,t) //container statement
 assign a; 
 Select a such that Affects*(22,a) and Modifies(14,"dog")
-25,26,28,32,33,35,41
+25,26,28,32,33,35,41,29,36,38,40
 5000
 17 - Affects* Modifies (t,t) //call statement
 assign a;
 Select a such that Affects*(22,a) and Modifies(53,"dog")
-25,26,28,32,33,35,41
+25,26,28,32,33,35,41,29,36,38,40
 5000
 18 - Affects* Modifies Parent
 assign a; 
@@ -91,7 +91,7 @@ Select a such that Affects*(19,a) and Modifies(a,"elephant") and Parent(14,a)
 19 - Affects* Modifies Parent
 assign a; while w;
 Select a such that Affects*(133,a) and Modifies(a,"empty") and Parent(w,a) 
-133
+none
 5000
 20 - Affects* Modifies Parent Calls 
 assign a; call c; while w; 
@@ -101,5 +101,25 @@ none
 21 - Affects* Modifies Parent Calls 
 assign a;prog_line p; 
 Select a such that Affects*(26,a) and Modifies(a,"d") and Parent(p,a) and Calls(p,"alpha")
-33
+none
+5000
+22 - Affects* Recursive Self
+assign a;prog_line p; 
+Select BOOLEAN such that Affects*(133,133)
+FALSE
+5000
+23 - Affects* Recursive Self - Classic Example 1
+assign a;prog_line p; 
+Select BOOLEAN such that Affects*(159 ,156)
+TRUE
+5000
+24 - Affects* Recursive Self - Classic Example
+assign a12;
+Select a12 such that Affects*(159 ,a12)
+156,157,158,159
+5000
+25 - Affects* Recursive Self - Classic Example
+assign a142;
+Select BOOLEAN such that Affects*(159 ,159)
+TRUE
 5000

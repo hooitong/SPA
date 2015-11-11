@@ -63,6 +63,12 @@ void DesignExtractor::extractVariousRelationship(TNode* node) {
 
     TNode* leftNode = node->getChildren()[i];
     TNode* rightNode = leftNode->getRightSibling();
+
+	if (isPrimaryNode(leftNode) && !isPrimaryNode(rightNode)) {
+		insertCFPAndCFGBip(leftNode->getStmtLine(), -1,
+							PKB::getPKB()->getProcTable()->getProcIndex(leftNode->getParentByTType(PROCEDUREN)->getValue()));
+	}
+	
     if (isPrimaryNode(leftNode) && isPrimaryNode(rightNode)) {
       ///////////////////////
       //follow
@@ -428,6 +434,26 @@ void DesignExtractor::constructCFGBip(){
 	PKB::getPKB()->getAst()->getRoot()->getAllChildrenIncludeSubByTType(callNodes, CALLN);
 	vector<TNode*> procs; 
 	PKB::getPKB()->getAst()->getRoot()->getAllChildrenIncludeSubByTType(procs, PROCEDUREN);
+	
+	
+
+	for(int i = 0; i <procs.size(); i++){
+		vector<TNode*> procEndNodes;
+		procs[i]->getAllLastChildNode(procEndNodes);
+		for(int z = 0; z<procEndNodes.size(); z++){
+			if(procEndNodes[z]->getTType() == CALLN){
+				vector<GNode*> result;
+				getNextBipOfLastNode(procEndNodes[z], result);
+				GNode* gNode = PKB::getPKB()->getCfgBip()->getGNode(procEndNodes[z]->getStmtLine());
+				for(int k = 0; k < result.size(); k++){
+					gNode->addForwardNode(result[k]);
+				}
+			}
+		}
+	}
+
+	
+	PROCINDEX entryIndex = PKB::getPKB()->getProcTable()->getAllProcIndex()[0];
 
 	for(int i = 0; i <callNodes.size(); i++){
 		PROCINDEX procIndex = PKB::getPKB()->getProcTable()->getProcIndex(callNodes[i]->getValue());
@@ -439,11 +465,18 @@ void DesignExtractor::constructCFGBip(){
 				for(int z = 0; z<procEndNodes.size(); z++){
 					procEndNodeLineNumbers.push_back(procEndNodes[z]->getStmtLine());
 				}
-				PKB::getPKB()->getCfgBip()->insertBip(callNodes[i]->getStmtLine(), 
+				if(entryIndex == PKB::getPKB()->getProcTable()->getProcIndex(callNodes[i]->getParentByTType(PROCEDUREN)->getValue()) ||
+						PKB::getPKB()->getCalls()->isCallStar(entryIndex, 
+								PKB::getPKB()->getProcTable()->getProcIndex(callNodes[i]->getParentByTType(PROCEDUREN)->getValue()))){
+					PKB::getPKB()->getCfgBip()->insertBip(callNodes[i]->getStmtLine(), 
 								procs[q]->getChildren()[0]->getFirstStmtLine(), procEndNodeLineNumbers);
+				}
+				
 			}
 		}
 	}
+
+
 
 }
 
@@ -453,6 +486,7 @@ void DesignExtractor::extractNextBip() {
   for (int i = 0; i < gNodes.size(); i++) {
     vector<GNode*> nodes = gNodes[i]->getForwardNodes();
     for (int q = 0; q < nodes.size(); q++) {
+		if(nodes[q]->getLineNumber() == -1) continue;
 		vector<STMTLINE> result;
 		nextBipSkipDummyGetAllToLinesRec(nodes[q], result);
 		for(int z = 0; z < result.size(); z++){
@@ -514,6 +548,32 @@ void DesignExtractor::getNodeEndPoints(TNode* node, vector<TNode*> &result) {
 }
 
 void DesignExtractor::insertCFPAndCFGBip(STMTLINE from, STMTLINE to, PROCINDEX procIndex){
-	PKB::getPKB()->getCfg()->insert(from, to, procIndex);
+	if(to != -1) PKB::getPKB()->getCfg()->insert(from, to, procIndex);
+
 	PKB::getPKB()->getCfgBip()->insert(from, to, procIndex);
+}
+
+
+void DesignExtractor::getNextBipOfLastNode(TNode* node, vector<GNode*> &result){
+	vector<TNode*> callNodes;
+	PKB::getPKB()->getAst()->getRoot()->getAllChildrenIncludeSubByTType(callNodes, CALLN);
+	vector<TNode*> procs; 
+	PKB::getPKB()->getAst()->getRoot()->getAllChildrenIncludeSubByTType(procs, PROCEDUREN);
+
+	PROCNAME procName = node->getParentByTType(PROCEDUREN)->getValue();
+	
+	for(int i = 0; i < callNodes.size(); i++){
+		if(callNodes[i]->getValue() == procName){
+			GNode* nextGNode = PKB::getPKB()->getCfgBip()->getGNode(
+					callNodes[i]->getStmtLine())->getForwardNodes()[0];
+			if(nextGNode->getLineNumber() == -1){
+				getNextBipOfLastNode(callNodes[i], result);
+			}
+			else{
+				result.push_back(nextGNode);
+			}
+		}
+	}
+
+
 }
