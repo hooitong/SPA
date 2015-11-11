@@ -33,3 +33,18 @@ assign a,a2,a3; if i;
 Select <a,a2,a3> such that Follows(a, a2) and Follows(a2,a3) and Next(a3,i)
 119 120 121,80 81 82
 5000
+8 - Follows Next
+assign a,a2,a3;while w;
+Select <a,a2,a3> such that Follows(a, a2) and Follows(a2,a3) and Next(a3,w)
+18 19 20,38 39 40,104 105 106,157 158 159
+5000
+9 - Follows Contains Uses
+assign a,a2;procedure p; variable v;
+Select p such that Follows(a,a2) and Contains(a2,v) and Uses(p,v)
+KappaClub,alpha,beta,charlie,delta,drawMoney,drink,echo,friends,iNsAnIty123,order,pour,work
+5000
+10 - Follows Uses Next
+assign a, a2; procedure p;stmtLst s; variable v;
+Select s such that Uses(p,v) and Follows(s,a) pattern a(v, _"+"_)
+none
+5000
