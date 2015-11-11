@@ -1,0 +1,95 @@
+1 - Sibling Basic
+stmt s;
+Select s such that Sibling (s, 49)
+50
+5000
+2 - Sibling Basic
+stmt s;
+Select s such that Sibling (49, s)
+50
+5000
+3 - Sibling Basic
+stmt s;
+Select s such that Sibling (50, s)
+49
+5000
+4 - Sibling Basic
+stmt s;
+Select s such that Sibling (s, 50)
+49
+5000
+5 - Sibling Basic
+stmt s;
+Select s such that Sibling (49, s)
+50
+5000
+6 - Sibling Basic
+stmt s;
+Select s such that Sibling (60, s)
+61, 75
+5000
+7 - Sibling Basic
+stmt s;
+Select s such that Sibling (s, 75)
+60, 61
+5000
+8 - Sibling Basic
+while w;
+Select w such that Sibling (w, 75)
+none
+5000
+9 - Sibling Basic
+if ifstat;
+Select ifstat such that Sibling (ifstat, 25)
+27
+5000
+10 - Sibling Basic
+call c;
+Select c such that Sibling (c, 53)
+55, 56
+5000
+11 - Sibling Multiple
+stmt s;
+Select s such that Sibling (49, s)
+50
+5000
+2 - Sibling Multiple
+stmt s;
+Select s such that Sibling (49, s)
+50
+5000
+2 - Sibling Multiple
+stmt s;
+Select s such that Sibling (49, s)
+50
+5000
+2 - Sibling Multiple
+stmt s;
+Select s such that Sibling (49, s)
+50
+5000
+2 - Sibling Multiple
+stmt s;
+Select s such that Sibling (49, s)
+50
+5000
+2 - Sibling Cross Multiple
+stmt s;
+Select s such that Sibling (49, s)
+50
+5000
+2 - Sibling Cross Multiple
+stmt s;
+Select s such that Sibling (49, s)
+50
+5000
+2 - Sibling Cross Multiple
+stmt s;
+Select s such that Sibling (49, s)
+50
+5000
+2 - Sibling Cross Multiple
+stmt s;
+Select s such that Sibling (49, s)
+50
+5000
