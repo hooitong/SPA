@@ -276,7 +276,18 @@ bool AffectsBipEvaluator::findConstToConst(STMTLINE current, STMTLINE end, VARIN
         if (previousCalls.empty()) {
           /* Traverse to all possible back branch */
           for (int j = 0; j < v.size(); i++) {
-            vector<STMTLINE> nextNexts = pkb->getNextBip()->getNext(v[j]);
+            vector<STMTLINE> nextNexts = pkb->getNext()->getNext(v[j]);
+            if (nextNexts.empty()) {
+              TType vType = pkb->getAst()->getTNode(v[j])->getTType();
+              if (vType == CALLN) {
+                PROCNAME vName = pkb->getAst()->getTNode(v[j])->getParentByTType(PROCEDUREN)->getValue();
+                PROCINDEX vProc = pkb->getProcTable()->getProcIndex(vName);
+                toBeProcessedProcedures.push(vProc);
+              }
+              else {
+                nextNexts = pkb->getNextBip()->getNext(v[j]);
+              }
+            }
             for (int z = 0; z < nextNexts.size(); i++) {
               pathsStatus = findConstToConst(nextNexts[z], end, contextVar, path, previousCalls);
             }
@@ -285,7 +296,7 @@ bool AffectsBipEvaluator::findConstToConst(STMTLINE current, STMTLINE end, VARIN
         else if (previousCalls.top() < 0) {
           /* Push procedure index into stack */
           toBeProcessedProcedures.push(-previousCalls.top());
-          toBeProcessedProcedures.pop();
+          previousCalls.pop();
         }
         else if (previousCalls.top() > 0) {
           /* Pop and proceed to the corresponding matched else just end (denotes exception) */
@@ -367,7 +378,17 @@ bool AffectsBipEvaluator::findSynonymFromConst(STMTLINE current, VARINDEX contex
         if (previousCalls.empty()) {
           /* Traverse to all possible back branch */
           for (int j = 0; j < v.size(); j++) {
-            vector<STMTLINE> nextNexts = pkb->getNextBip()->getNext(v[j]);
+            vector<STMTLINE> nextNexts = pkb->getNext()->getNext(v[j]);
+            TType vType = pkb->getAst()->getTNode(v[j])->getTType();
+            if(nextNexts.empty()) {
+              if(vType == CALLN) {
+                PROCNAME vName = pkb->getAst()->getTNode(v[j])->getParentByTType(PROCEDUREN)->getValue();
+                PROCINDEX vProc = pkb->getProcTable()->getProcIndex(vName);
+                toBeProcessedProcedures.push(vProc);
+              } else {
+                nextNexts = pkb->getNextBip()->getNext(v[j]);
+              }
+            }
             for (int z = 0; z < nextNexts.size(); z++) {
               if (findSynonymFromConst(nextNexts[z], contextVar, candidates, path, takeAny, previousCalls)) {
                 if (takeAny) return true;
@@ -379,7 +400,7 @@ bool AffectsBipEvaluator::findSynonymFromConst(STMTLINE current, VARINDEX contex
         else if (previousCalls.top() < 0) {
           /* Push procedure index into stack */
           toBeProcessedProcedures.push(-previousCalls.top());
-          toBeProcessedProcedures.pop();
+          previousCalls.pop();
         }
         else if (previousCalls.top() > 0) {
           /* Pop and proceed to the corresponding matched else just end (denotes exception) */
@@ -484,7 +505,18 @@ bool AffectsBipEvaluator::findSynonymToConst(STMTLINE current, set<VARINDEX> con
         if (previousCalls.empty()) {
           /* Traverse to all possible back branch */
           for (int j = 0; j < v.size(); j++) {
-            vector<STMTLINE> newBefores = pkb->getNextBip()->getBefore(v[j]);
+            vector<STMTLINE> newBefores = pkb->getNext()->getBefore(v[j]);
+            TType vType = pkb->getAst()->getTNode(v[j])->getTType();
+            if (newBefores.empty()) {
+              if (vType == CALLN) {
+                PROCNAME vName = pkb->getAst()->getTNode(v[j])->getParentByTType(PROCEDUREN)->getValue();
+                PROCINDEX vProc = pkb->getProcTable()->getProcIndex(vName);
+                toBeProcessedProcedures.push(vProc);
+              }
+              else {
+                newBefores = pkb->getNextBip()->getBefore(v[j]);
+              }
+            }
             for (int z = 0; z < newBefores.size(); z++) {
               if (findSynonymToConst(newBefores[z], contextVar, candidates, path, takeAny, previousCalls)) {
                 if (takeAny) return true;
@@ -496,7 +528,7 @@ bool AffectsBipEvaluator::findSynonymToConst(STMTLINE current, set<VARINDEX> con
         else if (previousCalls.top() < 0) {
           /* Push procedure index into stack */
           toBeProcessedProcedures.push(-previousCalls.top());
-          toBeProcessedProcedures.pop();
+          previousCalls.pop();
         }
         else if (previousCalls.top() > 0) {
           /* Pop and proceed to the corresponding matched else just end (denotes exception) */
