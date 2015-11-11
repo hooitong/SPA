@@ -428,7 +428,7 @@ QueryResult QueryEvaluator::solvePatternWhile(QNode* node) {
     QNode* whileNode = node->getChildren()[0];
     QNode* varNode = node->getChildren()[1];
     QNode* bodyNode = node->getChildren()[2];
-    vector <int> stmtLines = pkbInstance->getAst()->getStmtLines(IFN);
+    vector <int> stmtLines = pkbInstance->getAst()->getStmtLines(WHILEN);
     vector <string> synonyms;
     synonyms.push_back(whileNode->getString());
     if (varNode->getQType() == VARIABLESYNONYM) {
@@ -443,9 +443,9 @@ QueryResult QueryEvaluator::solvePatternWhile(QNode* node) {
         TNode* stmtTNode = pkbInstance->getAst()->getTNode(stmt);
         TNode* varTNode = stmtTNode->getChildren()[0];
         TNode* bodyStmtTNode = stmtTNode->getChildren()[1]->getChildren()[0];
-        if (varNode->getQType() == ANY &&
-            varNode->getQType() == VARIABLESYNONYM && 
-            varNode->getString() == varTNode->getValue()) {
+        if (varNode->getQType() != ANY &&
+            varNode->getQType() != VARIABLESYNONYM && 
+            varNode->getString() != varTNode->getValue()) {
             continue;
         }
         vector <int> thisResult;
