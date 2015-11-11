@@ -139,6 +139,7 @@ bool AST::matchRightPattern(STMTLINE stmtRoot, std::string expression, bool stri
   Parser parser = Parser::Parser(tokens);
 
   TNode* astNode = parser.buildNodeProcess(G_ASSIGN, 0).first;
+    cout << astNode->getChildren().size() << endl;
 
   if (!strict) {
     if (!(astNode->getChildren().size() < 2 || getTNode(stmtRoot)->getChildren().size() < 2)) {
@@ -151,7 +152,6 @@ bool AST::matchRightPattern(STMTLINE stmtRoot, std::string expression, bool stri
 
   }
   else {
-
     if (!(astNode->getChildren().size() < 2 || getTNode(stmtRoot)->getChildren().size() < 2)) {
       TNode* node = getTNode(stmtRoot);
       vector<TNode*> children1;

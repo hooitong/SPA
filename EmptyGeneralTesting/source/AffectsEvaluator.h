@@ -1,8 +1,8 @@
 #pragma once
 
-#include <PKB.h>
-#include <QueryResult.h>
-#include <QNode.h>
+#include "PKB.h"
+#include "QueryResult.h"
+#include "QNode.h"
 
 class AffectsEvaluator {
 public:

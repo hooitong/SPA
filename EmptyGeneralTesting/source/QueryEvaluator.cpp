@@ -494,6 +494,7 @@ QueryResult QueryEvaluator::solvePattern(QNode* node) {
         //non-strict
         expression = expression.substr(1, expression.length() - 2);
         strict = false;
+        cout << expression << endl;
     } else if (expression[0] == '_') {
         any = true;
     }
@@ -504,10 +505,13 @@ QueryResult QueryEvaluator::solvePattern(QNode* node) {
         for (int i = 0; i < (int) assignments.size(); i++) {
             vector<VARINDEX> variables = pkbInstance->getVarTable()->getAllVarIndex();
             for (int j = 0; j < (int) variables.size(); j++) {
+                cout << j << endl;
+                cout << assignments[i] << " " << variables[j] << endl;
                 if (pkbInstance->getAst()->matchLeftPattern(assignments[i], variables[j]) &&
                         (any || pkbInstance->getAst()->matchRightPattern(assignments[i], expression, strict))) {
                     resultPairs.push_back(make_pair(assignments[i], variables[j]));
                 }
+                cout << j << endl;
             }
         }
         return QueryResult(resultPairs, assignNode->getString(), varNode->getString());

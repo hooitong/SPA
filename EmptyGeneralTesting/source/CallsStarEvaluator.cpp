@@ -1,4 +1,4 @@
-#include <CallsStarEvaluator.h>
+#include "CallsStarEvaluator.h"
 
 CallsStarEvaluator::CallsStarEvaluator(PKB* pkb) : RelationEvaluator(pkb){}
 bool CallsStarEvaluator::solveConstConst(const int left, const int right, const QueryResult& result) const

@@ -1,4 +1,4 @@
-#include <FollowsEvaluator.h>
+#include "FollowsEvaluator.h"
 
 FollowsEvaluator::FollowsEvaluator(PKB* pkb) : RelationEvaluator(pkb){}
 bool FollowsEvaluator::solveConstConst(const int left, const int right, const QueryResult& result) const

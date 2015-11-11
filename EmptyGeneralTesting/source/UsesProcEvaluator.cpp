@@ -1,4 +1,4 @@
-#include <UsesProcEvaluator.h>
+#include "UsesProcEvaluator.h"
 
 
 UsesProcEvaluator::UsesProcEvaluator(PKB* pkb) : RelationEvaluator(pkb){}

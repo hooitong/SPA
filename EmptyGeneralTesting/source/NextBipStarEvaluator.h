@@ -1,9 +1,9 @@
 #pragma once
 
-#include <PKB.h>
-#include <QueryResult.h>
-#include <QNode.h>
-#include <RelationEvaluator.h>
+#include "PKB.h"
+#include "QueryResult.h"
+#include "QNode.h"
+#include "RelationEvaluator.h"
 
 class NextBipStarEvaluator : public RelationEvaluator
 {

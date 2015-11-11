@@ -1,4 +1,4 @@
-#include <NextEvaluator.h>
+#include "NextEvaluator.h"
 
 NextEvaluator::NextEvaluator(PKB* pkb) : RelationEvaluator(pkb){}
 bool NextEvaluator::solveConstConst(const int left, const int right, const QueryResult& result) const

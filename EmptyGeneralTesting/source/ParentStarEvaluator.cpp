@@ -1,4 +1,4 @@
-#include <ParentStarEvaluator.h>
+#include "ParentStarEvaluator.h"
 
 ParentStarEvaluator::ParentStarEvaluator(PKB* pkb) : RelationEvaluator(pkb){}
 bool ParentStarEvaluator::solveConstConst(const int left, const int right, const QueryResult& result) const

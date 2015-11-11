@@ -1,8 +1,8 @@
 #pragma once
 
-#include <QNode.h>
-#include <QueryResult.h>
-#include <PKB.h>
+#include "QNode.h"
+#include "QueryResult.h"
+#include "PKB.h"
 
 class RelationEvaluator
 {

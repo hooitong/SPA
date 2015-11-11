@@ -1,4 +1,4 @@
-#include <NextBipEvaluator.h>
+#include "NextBipEvaluator.h"
 
 NextBipEvaluator::NextBipEvaluator(PKB* pkb) : RelationEvaluator(pkb){}
 bool NextBipEvaluator::solveConstConst(const int left, const int right, const QueryResult& result) const

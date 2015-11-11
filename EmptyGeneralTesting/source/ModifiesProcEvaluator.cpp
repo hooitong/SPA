@@ -1,4 +1,4 @@
-#include <ModifiesProcEvaluator.h>
+#include "ModifiesProcEvaluator.h"
 
 ModifiesProcEvaluator::ModifiesProcEvaluator(PKB* pkb) : RelationEvaluator(pkb){}
 bool ModifiesProcEvaluator::solveConstConst(const int left, const int right, const QueryResult& result) const
