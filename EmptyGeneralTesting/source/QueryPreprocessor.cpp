@@ -130,7 +130,7 @@ bool QueryPreprocessor::checkVarReference(string varReference) {
   return (isIdent(varReference));
 }
 bool QueryPreprocessor::isDesignEntityType(string entity) {
-  for(int i = 0; i < sizeof(designEntity); i++) {
+  for(int i = 0; i < 13; i++) {
     if(entity == designEntity[i])
       return true;
 
