@@ -13,3 +13,38 @@ variable v; while w;stmt s;procedure p;
 Select s such that Modifies("order", v) and Uses(s,v) and Parent(w,s) and Modifies(p, v) and Calls(p,"pour")
 78,84,95,96,97,113,114,115,116,117,118,119,120,121,122,127,131,132,133
 5000
+4 - Modifies
+variable v; procedure p,q;
+Select v such that Calls(p,q) and Modifies(q,v) and Uses(p,v)
+a,anger,b,beer,boy,buffaloWings,c,cabby,cat,chips,cookedList,customerCount,d,dog,e,efficiency,elephant,empty,f,friend,garlicBread,h,happiness,j,k,money,pizza,sleep,take,tiredness,walk
+5000
+5 - Modifies
+variable v;procedure p;
+Select p such that Uses(p,v) and Modifies(p,v)
+KappaClub,alpha,beta,cab,charlie,delta,drawMoney,drink,echo,friends,iNsAnIty123,order,pour,work
+5000
+6 - Modifies
+assign a; variable v; procedure p;
+Select a such that Uses(p,v) and Modifies(p,v) pattern a(v, _"a+b"_)
+50
+5000
+7 - Modifies
+if i;variable v;while w;
+Select v such that Modifies(i,v) and Modifies(w,v)
+a,anger,animal,beer,boy,buffaloWings,c,cabby,cat,chips,code,cookedList,customerBlacklist,customerCount,d,dog,e,efficiency,elephant,empty,f,fish,garlicBread,h,happiness,hungry,i,j,k,money,pizza,sleep,take,tiredness,walk
+5000
+8 - Modifies
+procedure p,q,r; variable v;
+Select <p,q,r> such that Modifies(p, v) and Modifies(q,v) and Modifies(r,v) and Calls(p,q)
+beta alpha KappaClub,beta alpha alpha,beta alpha beta,beta alpha charlie,beta alpha delta,beta alpha echo,beta alpha iNsAnIty123,charlie alpha KappaClub,charlie alpha alpha,charlie alpha beta,charlie alpha charlie,charlie alpha delta,charlie alpha echo,charlie alpha iNsAnIty123,charlie beta KappaClub,charlie beta alpha,charlie beta beta,charlie beta charlie,charlie beta delta,charlie beta echo,charlie beta iNsAnIty123,drink pour drawMoney,drink pour drink,drink pour echo,drink pour friends,drink pour order,drink pour pour,drink pour work,echo alpha KappaClub,echo alpha alpha,echo alpha beta,echo alpha charlie,echo alpha delta,echo alpha echo,echo alpha iNsAnIty123,echo beta KappaClub,echo beta alpha,echo beta beta,echo beta charlie,echo beta delta,echo beta echo,echo beta iNsAnIty123,echo charlie KappaClub,echo charlie alpha,echo charlie beta,echo charlie charlie,echo charlie delta,echo charlie echo,echo charlie iNsAnIty123,echo friends cab,echo friends drawMoney,echo friends drink,echo friends echo,echo friends friends,echo friends order,echo friends pour,echo friends work,echo order drawMoney,echo order drink,echo order echo,echo order friends,echo order order,echo order pour,echo order work,friends cab cab,friends cab echo,friends cab friends,friends cab work,friends drink drawMoney,friends drink drink,friends drink echo,friends drink friends,friends drink order,friends drink pour,friends drink work,friends pour drawMoney,friends pour drink,friends pour echo,friends pour friends,friends pour order,friends pour pour,friends pour work,iNsAnIty123 KappaClub KappaClub,iNsAnIty123 KappaClub alpha,iNsAnIty123 KappaClub beta,iNsAnIty123 KappaClub charlie,iNsAnIty123 KappaClub echo,iNsAnIty123 KappaClub iNsAnIty123,order drink drawMoney,order drink drink,order drink echo,order drink friends,order drink order,order drink pour,order drink work,order pour drawMoney,order pour drink,order pour echo,order pour friends,order pour order,order pour pour,order pour work,work drink drawMoney,work drink drink,work drink echo,work drink friends,work drink order,work drink pour,work drink work,work friends cab,work friends drawMoney,work friends drink,work friends echo,work friends friends,work friends order,work friends pour,work friends work,work order drawMoney,work order drink,work order echo,work order friends,work order order,work order pour,work order work,work pour drawMoney,work pour drink,work pour echo,work pour friends,work pour order,work pour pour,work pour work
+5000
+9 - Modifies
+variable v;if i; while w;assign a;
+Select i such that Modifes(i,v) and Modifies(w,v) pattern a(v,_"a+b"_)
+none
+5000
+10 - Modifies
+variable v; if i; while w; assign a; procedure p,q;
+Select p such that Calls(p,q) and Modifies(p,v) and Modifies(q,v) and Modifies(w,v) and Modifies(i,v)
+beta,charlie,drink,echo,friends,iNsAnIty123,order,work
+5000

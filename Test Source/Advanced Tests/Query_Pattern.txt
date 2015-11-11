@@ -43,3 +43,53 @@ assign a;
 Select a pattern a(_,_"abc##"_)
 148
 5000
+10 - Pattern - While varRef w/ StmtLst Ref
+while w; stmt s;
+Select w pattern w("b", s)
+2
+5000
+11 - Pattern - While Wildcard w/ StmtLst Ref
+while w; stmt s;
+Select w pattern w("b", s)
+2
+5000
+12 - Pattern - While varRef w/ Wildcard
+while w; stmt s;
+Select w pattern w("b", s)
+2
+5000
+13 - Pattern - While Wildcard w/ Wildcard
+while w;
+Select w pattern w(_, _)
+2
+5000
+14 - Pattern - If varRef + stmtLstRef + stmtLstRef
+if ifstat; while w; call c; 
+Select ifstat pattern ifstat("a", w, c)
+2
+5000
+15 - Pattern - If varRef + stmtLstRef + WildCard
+if ifstat; call c;
+Select ifstat pattern ifstat("c", c, _)
+2
+5000
+16 - Pattern - If varRef + Wildcard + Wildcard
+if ifstat;
+Select ifstat pattern ifstat(hungry, _, _)
+2
+5000
+17 - Pattern - If Wildcard + stmtLstRef + Wildcard
+if ifstat, joker;
+Select ifstat pattern ifstat(_, joker, _)
+2
+5000
+18 - Pattern - If Wildcard + Wildcard + stmtLstRef
+if ifstat; call c;
+Select ifstat pattern ifstat(_, _, c)
+2
+5000
+19 - Pattern - If Wildcard + Wildcard + Wildcard
+if ifstat;
+Select ifstat pattern ifstat(_, _, _)
+2
+5000

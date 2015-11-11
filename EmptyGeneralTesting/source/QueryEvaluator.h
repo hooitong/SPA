@@ -50,7 +50,7 @@ class QueryEvaluator {
     QueryResult solveContainsStar(QNode* node);
     QueryResult solveSibling(QNode* node);
     bool isSynonym(QNodeType type);
-    vector<QueryResult> getResultFilters(QNode* node);
+    vector<QueryResult> getResultFilters(QNode* node, QueryResult& result);
     vector<string> getResultSynonyms(QNode* node);
     map<string, TType> getSynonymMap(QNode* node);
 };
