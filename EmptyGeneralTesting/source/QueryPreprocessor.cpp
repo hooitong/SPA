@@ -8,6 +8,7 @@
 #include "QueryTree.h"
 
 static string designEntity[] = {"procedure","stmtLst", "stmt", "assign", "call", "while", "if", "variable", "constant", "prog_line", "plus", "minus", "times"};
+static const int NUMBER_OF_DESIGN_ENTITIES = 13;
 static QueryTree* tree;
 
 QueryPreprocessor::QueryPreprocessor(void) {
@@ -130,7 +131,7 @@ bool QueryPreprocessor::checkVarReference(string varReference) {
   return (isIdent(varReference));
 }
 bool QueryPreprocessor::isDesignEntityType(string entity) {
-  for(int i = 0; i < sizeof(designEntity); i++) {
+  for(int i = 0; i < NUMBER_OF_DESIGN_ENTITIES; i++) {
     if(entity == designEntity[i])
       return true;
 
