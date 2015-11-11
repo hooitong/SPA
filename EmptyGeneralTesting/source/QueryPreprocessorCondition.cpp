@@ -306,6 +306,12 @@ bool QueryPreprocessorCondition::isValidExpression(string expression) {
     if (expression.at(1) != '"' || expression.at(expression.length() - 2) != '"') {
       return false;
     }
+    if (expression.length() < 5) {
+      return false;
+    }
+    if (expression.at(2) == '*' || expression.at(2) == '+' || expression.at(2) == '-') {
+      return false;
+    }
     for (int i = 2; i < expression.length() - 3; ++i) {
       if (expression.at(i) == '"' || expression.at(i) == '_') {
         return false;
