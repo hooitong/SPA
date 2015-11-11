@@ -465,12 +465,12 @@ void DesignExtractor::constructCFGBip(){
 				for(int z = 0; z<procEndNodes.size(); z++){
 					procEndNodeLineNumbers.push_back(procEndNodes[z]->getStmtLine());
 				}
-				if(entryIndex == PKB::getPKB()->getProcTable()->getProcIndex(callNodes[i]->getParentByTType(PROCEDUREN)->getValue()) ||
+				/*if(entryIndex == PKB::getPKB()->getProcTable()->getProcIndex(callNodes[i]->getParentByTType(PROCEDUREN)->getValue()) ||
 						PKB::getPKB()->getCalls()->isCallStar(entryIndex, 
-								PKB::getPKB()->getProcTable()->getProcIndex(callNodes[i]->getParentByTType(PROCEDUREN)->getValue()))){
+								PKB::getPKB()->getProcTable()->getProcIndex(callNodes[i]->getParentByTType(PROCEDUREN)->getValue()))){*/
 					PKB::getPKB()->getCfgBip()->insertBip(callNodes[i]->getStmtLine(), 
 								procs[q]->getChildren()[0]->getFirstStmtLine(), procEndNodeLineNumbers);
-				}
+				//}
 				
 			}
 		}

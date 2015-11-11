@@ -1,11 +1,11 @@
 procedure A {
  	m = 5; //1
- 	x = 2; // 2
+ 	call B; // 2
  	while looper{ //3
 		if looper then{ //4
 			p = p * (x+y-z); //5
-			y = 2; //6
- 			p = p + q; //7
+ 			call B; //6
+			p = p + q; //7
 			
 		}
 		else{
@@ -14,7 +14,7 @@ procedure A {
 		}
 	}
  	z = x * y + 2; } //10
-// BB - 20
+// BB - 34
 procedure B {
 	if p then{  // 11
 		y = z; // 12
@@ -95,3 +95,4 @@ procedure Foxtrot{
 		x = r; //52
 	}
 }
+//BB - 17, 20, 36, 38
