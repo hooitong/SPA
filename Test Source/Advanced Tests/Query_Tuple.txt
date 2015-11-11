@@ -48,8 +48,3 @@ procedure p,q,r;variable v;
 Select <p,q,r> such that Calls(p,q) and Calls(q,r) and Uses(p,v) and Uses(q,v)
 charlie beta alpha,echo beta alpha,echo charlie alpha,echo charlie beta,echo friends cab,echo friends drink,echo friends pour,echo order drink,echo order pour,friends drink pour,order drink pour,work drink pour,work friends cab,work friends drink,work friends pour,work order drink,work order pour
 5000
-11 - Error Tuple  
-assign a;procedure p;variable v;
-Select <p,v> such that Uses(p,v) pattern a(v, _"+"_)
-alpha f,beta f,charlie f,delta f,echo f
-5000
