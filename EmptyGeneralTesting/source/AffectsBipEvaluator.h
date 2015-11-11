@@ -26,9 +26,9 @@ private:
   bool solveAnyAny();
 
   /* Helper recursive methods to confirm Affects relations */
-  bool findConstToConst(STMTLINE current, STMTLINE end, VARINDEX contextVar, vector<STMTLINE> path, std::stack<STMTLINE> previousCalls);
-  bool findSynonymFromConst(STMTLINE current, VARINDEX contextVar, set<STMTLINE> *candidates, vector<STMTLINE> path, bool takeAny, std::stack<STMTLINE> previousCalls, bool end);
-  bool findSynonymToConst(STMTLINE current, set<VARINDEX> contextVar, set<STMTLINE> *candidates, vector<STMTLINE> path, bool takeAny, std::stack<STMTLINE> previousCalls);
+  bool findConstToConst(STMTLINE current, STMTLINE end, VARINDEX contextVar, vector<STMTLINE> path, std::stack<STMTLINE> previousCalls, bool isExecuted);
+  bool findSynonymFromConst(STMTLINE current, VARINDEX contextVar, set<STMTLINE> *candidates, vector<STMTLINE> path, bool takeAny, std::stack<STMTLINE> previousCalls, bool isExecuted);
+  bool findSynonymToConst(STMTLINE current, set<VARINDEX> contextVar, set<STMTLINE> *candidates, vector<STMTLINE> path, bool takeAny, std::stack<STMTLINE> previousCalls, bool isExecuted);
 
   int getInteger(QNode* node);
   bool isSynonym(QNodeType type);

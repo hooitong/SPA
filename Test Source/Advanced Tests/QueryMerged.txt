@@ -1,0 +1,495 @@
+1 - Affects Follows (affects true - additional clauses true)
+assign a;
+Select BOOLEAN such that Affects(7,8) and Follows (7,8)
+TRUE
+5000
+2 - Affects Follows (affects true - additional clauses false)
+assign a; 
+Select BOOLEAN such that Affects(7,8) and Follows (8,7)
+FALSE
+5000
+3 - Affects Follows (affects false - additional true)
+assign a; 
+Select BOOLEAN such that Affects(8,7) and Follows(7,8)
+FALSE
+5000
+4 - Affects Follows (affects false - additional false)
+assign a; 
+Select BOOLEAN such that Affects(8,7) and Follows(8,7)
+FALSE
+5000
+5 - Affects* Follows (affects* true - additional true)
+assign a; 
+Select BOOLEAN such that Affects*(40, 38) and Follows(49,50)
+TRUE
+5000
+6 - Affects* Follows (affects* true - additional false)
+assign a; 
+Select BOOLEAN such that Affects*(40, 38) and Follows(67,68)
+FALSE
+5000
+7 - Affects* Follows (affects* false - additional true)
+assign a; 
+Select BOOLEAN such that Affects*(38,39) and Follows(49,50)
+FALSE
+5000
+8 - Affects* Follows (affects* false - additional false)
+assign a; 
+Select BOOLEAN such that Affects*(38,39) and Follows(67,68)
+FALSE
+5000
+9 - Affects Follows Parent (true, true , true)
+assign a;
+Select a such that Affects(7,a) and Follows(7,8) and Parent(94,95)
+8,9
+5000
+10 - Affects* Follows Parent (true, true, true)
+assign a;
+Select a such that Affects*(7,a) and Follows(7,8) and Parent(94,95)
+8,9
+5000
+11 - Affects* Follows Parent (true, false, true)
+assign a; 
+Select a such that Affects*(7,a) and Follows(8,7) and Parent(5,7)
+none
+5000
+12 - Affects* Follows Parent (true, true, false)
+assign a;
+Select a such that Affects*(7,a) and Follows(7,8) and Parent(1,7)
+none
+5000
+13 - Affects* Follows Parent Calls (true, true, true, true)
+assign a;
+Select a such that Affects*(22,a) and Follows(15,16) and Parent(21,22) and Calls("beta","alpha")
+25,26,28,32,33,35,41,29,36,38,40
+5000
+14 - Affects* Follows Parent Calls Next (t,t,t,t,t)
+assign a;
+Select a such that Affects*(22,a) and Follows(15,16) and Parent(21,22) and Calls("beta","alpha") and Next(15,16)
+25,26,28,32,33,35,41,29,36,38,40
+5000
+15 - Affects* Modifies (t,t) //procedure
+assign a; 
+Select a such that Affects*(22,a) and Modifies("beta","dog")
+25,26,28,32,33,35,41,29,36,38,40
+5000
+16 - Affects* Modifies (t,t) //container statement
+assign a; 
+Select a such that Affects*(22,a) and Modifies(14,"dog")
+25,26,28,32,33,35,41,29,36,38,40
+5000
+17 - Affects* Modifies (t,t) //call statement
+assign a;
+Select a such that Affects*(22,a) and Modifies(53,"dog")
+25,26,28,32,33,35,41,29,36,38,40
+5000
+18 - Affects* Modifies Parent
+assign a; 
+Select a such that Affects*(19,a) and Modifies(a,"elephant") and Parent(14,a)
+19
+5000
+19 - Affects* Modifies Parent
+assign a; while w;
+Select a such that Affects*(133,a) and Modifies(a,"empty") and Parent(w,a) 
+none
+5000
+20 - Affects* Modifies Parent Calls 
+assign a; call c; while w; 
+Select a such that Affects*(17,a) and Modifies(a, "animal") and Parent(w,a) and Calls(w,beta)
+none
+5000
+21 - Affects* Modifies Parent Calls 
+assign a;prog_line p; 
+Select a such that Affects*(26,a) and Modifies(a,"d") and Parent(p,a) and Calls(p,"alpha")
+none
+5000
+22 - Affects* Recursive Self
+assign a;prog_line p; 
+Select BOOLEAN such that Affects*(133,133)
+FALSE
+5000
+23 - Affects* Recursive Self - Classic Example 1
+assign a;prog_line p; 
+Select BOOLEAN such that Affects*(159 ,156)
+TRUE
+5000
+24 - Affects* Recursive Self - Classic Example
+assign a12;
+Select a12 such that Affects*(159 ,a12)
+156,157,158,159
+5000
+25 - Affects* Recursive Self - Classic Example
+assign a142;
+Select BOOLEAN such that Affects*(159 ,159)
+TRUE
+5000
+1 - Call Modifies (true , true)
+assign a; 
+Select BOOLEAN such that Calls("drink","pour") and Modifies(4,"a")
+TRUE
+5000
+2 - Call Modifies (true , false)
+assign a; 
+Select BOOLEAN such that Calls("drink","beer") and Modifies(12,"j")
+FALSE
+5000
+3 - Call Modifies (false, true)
+assign a; 
+Select BOOLEAN such that Calls("alpha","beta") and Modifies(4,"a")
+FALSE
+5000
+4 - Call Modifies (false , false)
+assign a; 
+Select BOOLEAN such that Calls("alpha","echo") and Modifies(23,"d")
+FALSE
+5000
+5 - Call* Modifies (true , true)
+assign a; 
+Select BOOLEAN such that Calls*("echo","cab") and Modifies(4,"a")
+TRUE
+5000
+6 - Call* Modifies (true , false)
+assign a; 
+Select BOOLEAN such that Calls*("work","cab") and Modifies(12,"j")
+FALSE
+5000
+7 - Call* Modifies (false, true)
+assign a; 
+Select BOOLEAN such that Calls*("cab","beta") and Modifies(4,"a")
+FALSE
+5000
+8 - Call* Modifies (false , false)
+assign a; 
+Select BOOLEAN such that Calls*("drink","echo") and Modifies(23,"d")
+FALSE
+5000
+9 - Call 
+procedure p,p1,p2,p3;
+Select p such that Calls(p, p1) and Calls(p1,p2) and Calls(p2,p3)
+echo, work
+5000
+10 - Call*
+procedure p,p1,p2,p3;
+Select <p,p1,p2,p3> such that Calls*(p,p1) and Calls*(p1,p2) and Calls*(p2,p3)
+echo charlie beta alpha,echo friends drink pour,echo order drink pour,work friends drink pour,work order drink pour
+5000
+1 - Follow
+assign a,a2,a3,a4; 
+Select a such that Follows(a, a2) and Follows(a2, a3) and Follows(a3, a4)
+15,16,17,64,117,118,147,156
+5000
+2 - Follow
+assign a,a2,a3,a4,a5; 
+Select a such that Follows(a, a2) and Follows(a2, a3) and Follows(a3, a4) and Follows*(a,a4)
+15,16,17,64,117,118,147,156
+5000
+3 - Follow
+assign a,a2, a3, a4;
+Select <a,a2,a3,a4> such that Follows(a, a2) and Follows(a2,a3) and Follows(a3,a4)
+15 16 17 18,16 17 18 19,17 18 19 20,64 65 66 67,117 118 119 120,118 119 120 121,147 148 149 150,156 157 158 159
+5000
+4 - Follow
+stmt s;
+Select s such that Follows(17,18) and Follows(18,19) and Next(20,s)
+14
+5000
+5 - Follow
+assign a,a2,a3;
+Select <a,a2,a3> such that Follows(a,a2) and Follows(a2,a3)
+104 105 106,112 113 114,117 118 119,118 119 120,119 120 121,123 124 125,136 137 138,147 148 149,148 149 150,15 16 17,16 17 18,17 18 19,18 19 20,38 39 40,57 58 59,64 65 66,65 66 67,80 81 82,157 158 159,156 157 158
+5000
+6 - Follow
+assign a,a2; while w;
+Select <a,a2> such that Follows(a,a2) and Next(a2,w)
+101 102,105 106,11 12,132 133,19 20,22 23,39 40,49 50,158 159
+5000
+7 - Follow
+assign a,a2,a3; if i;
+Select <a,a2,a3> such that Follows(a, a2) and Follows(a2,a3) and Next(a3,i)
+119 120 121,80 81 82
+5000
+1 - Modifies Modifies Modifies
+variable v; 
+Select v such that Modifies("beta",v) such that Modifies("delta",v) such that Modifies("alpha",v)
+k,f
+5000
+2 - Modifies
+variable v;while w;procedure p;
+Select v such that Modifies("charlie", v) and Uses(p,v) and Calls(p,"beta")
+a,boy,c,cat,d,dog,e,elephant,f,h,j,k
+5000
+3 - Modifies
+variable v; while w;stmt s;procedure p;
+Select s such that Modifies("order", v) and Uses(s,v) and Parent(w,s) and Modifies(p, v) and Calls(p,"pour")
+78,84,95,96,97,113,114,115,116,117,118,119,120,121,122,127,131,132,133
+5000
+1 - Next Call (next true, call true)
+assign a; 
+Select BOOLEAN such that Next(25, 26) and Calls("beta","alpha")
+TRUE
+5000
+2 - Next Call (next true, call false)
+assign a; 
+Select BOOLEAN such that Next(25, 26) and Calls("alpha", "charlie")
+FALSE
+5000
+3 - Next Call (next false, call true)
+assign a; 
+Select BOOLEAN such that Next(9,10) and Calls("alpha", "charlie")
+FALSE
+5000
+4 - Next Call (next false, call false)
+assign a; 
+Select BOOLEAN such that Next(102,103) and Calls("cab","echo")
+FALSE
+5000
+5 - Next* Call (next true, call false)
+assign a;
+Select BOOLEAN such that Next*(79,82) and Calls("cab", "echo")
+FALSE
+5000
+6 - Next* Call (next true, call true)
+assign a; 
+Select BOOLEAN such that Next*(95,97) and Calls("echo","cab")
+FALSE
+5000
+7 - Next* Call (next false, call false)
+assign a;
+Select BOOLEAN such that Next*(127,128) and Calls("pour", "drink")
+FALSE
+5000
+8 - Next* Call (next false, call true)
+assign a;
+Select BOOLEAN such that Next*(125,126) and Calls("drawMoney", "cab")
+FALSE
+5000
+9 - Next* 
+assign a,b,c;prog_line p; if i;while w; 
+Select a such that Next*(a,b) and Next(b,c) and Parent(i,c) and Uses(i, "a") and Parent(w,i) and Modifies(w, "d") and Modifies(a, "h")
+25,32,38,40,41
+5000
+10 - Next* 
+assign a;while w; 
+Select a such that Next(_,a) and Next(a, w) and Uses(w,"ant")
+12,13,20
+5000
+11 - Next*
+assign a,b; prog_line pn;while w;if i;
+Select a such that Next(a,b) and Next(_,a) and Follows(a,_) and Follows(_,a) such that Parent(w,a) and Parent*(i,a)
+39
+5000
+12 - Next*
+assign a,b; prog_line pn;while w;if i;
+Select a such that Next(a, b) and Follows(a,b) and Next*(b,a) and Follows*(a,b) and Parent(w,a) and Parent*(i,a)
+25,38,39,49
+5000
+13 - Last Line of nest
+stmt s;while w; 
+Select s such that Next(s,w)
+1,102,103,106,12,127,13,133,20,23,3,36,40,41,42,45,47,50,61,73,74,88,93,159
+5000 
+14 - last line of nest
+stmt s;if i;
+Select s such that Next(s,i)
+121,14,2,26,27,30,4,46,60,61,62,71,77,82,83,97,99
+5000
+15 - Next
+stmt s,s1,s2;while w;
+Select s such that Parent(w,s) and Follows(s, s1) and Follows(s1,s2) and Next(s2, w)
+121,131,18,26,38,78,157
+5000
+16 - Next
+assign a,a1,a2,a3;
+Select <a,a1,a2,a3> such that Next(a,a1) and Next(a1,a2) and Next(a2,a3)
+117 118 119 120,118 119 120 121,123 124 125 127,147 148 149 150,15 16 17 18,16 17 18 19,17 18 19 20,51 57 58 59,64 65 66 67,65 66 67 75,156 157 158 159
+5000
+17 - Next and with clause
+assign a,a1,a2,a3;
+Select <a,a1,a2,a3> such that Next(a,a1) and Next(a1,a2) and Next(a2,a3) with a1.stmt#=18
+17 18 19 20
+5000
+18 - Next and pattern clause
+assign a,a1,a2,a3;
+Select <a,a1,a2,a3> such that Next(a,a1) and Next(a1,a2) and Next(a2,a3) pattern a3("food", "fish + chips")
+64 65 66 67
+5000
+19 - Next and with clause and pattern clause
+assign a,a1,a2,a3;
+Select <a,a1,a2,a3> such that Next(a,a1) and Next(a1,a2) and Next(a2,a3) with a2.stmt#=18 pattern a3("elephant", _"dog"_)
+16 17 18 19
+5000
+20 - Next and with clause and pattern clause and Affects* clause
+assign a,a1,a2,a3;
+Select <a,a1,a2,a3> such that Next(a,a1) and Next(a1,a2) and Next(a2,a3) with a.stmt#=117 such that Affects*(a3, 120)
+117 118 119 120
+5000
+21 - Next Performance Test
+prog_line p1,p2,ppd,ppmd;
+Select <p1, p2> such that Next(ppmd, p1) and Next(ppd, p2) and Next(ppmd, ppd)  
+none
+5000
+22 - Next* Performance Test
+prog_line p1,p2;
+Select p1 such that Next*(p2, p1) and Next*(_, p2)
+none
+5000
+1 - Parent if Parent w;
+assign a; if i;while w;
+Select a such that Parent(i,a) such that Parent*(w,a)
+28,29,32,33,35,36,73,74,80,81,82,83,87,101,102,103,104,105,106,123,124,125,126
+5000
+2 - Parent w Parent i;
+assign a; if i;while w;
+Select a such that Parent(w,a) such that Parent*(i,a)
+3,25,26,38,39,40,41,44,49,50,71,97
+5000
+3 - Parent w Parent w
+assign a;while w1,w2;
+Select a such that Parent(w1,a) such that Parent*(w2,a)
+3,15,16,17,18,19,20,25,26,38,39,40,41,44,49,50,71,77,88,97,112,113,114,117,118,119,120,121,127,132,133,156,157,158,159
+5000
+4 - Parent if Parent if
+assign a;if i1, i2;
+Select a such that Parent(i1,a) such that Parent*(i2,a)
+4,6,7,11,12,13,22,23,28,29,32,33,35,36,42,51,52,54,64,65,66,67,68,69,73,74,8,80,81,82,83,87,93,101,102,103,104,105,106,123,124,125,126,145,146
+5000
+5 - Parent number
+assign a; 
+Select BOOLEAN such that Parent(31,a) and Parent*(30,a) and Parent*(27,a) and Parent*(24,a) and Parent*(21,a)
+TRUE
+5000
+1 - Uses
+variable v;while w; 
+Select v such that Uses("work",v) and Modifies(w,v) and Uses(85,v)
+money,empty,beer
+5000
+2 - Uses
+variable v;procedure p,q,r;
+Select p such that Uses(p,v) and Calls(p,q) and Calls(q,r) and Uses(r,v) and Uses(p,"completionStatus")
+work
+5000
+3 - Uses
+procedure p,q; assign a;while w;if i;
+Select a such that Uses(p,"beer") and Calls(p,q) and Parent(i,a) and Follows(_,a) and Follows(a,_)
+23,33,54,65,66,80,81,105,124
+5000
+4 - Uses
+procedure p,q;assign a;variable v;
+Select p such that Uses(p,v) and Calls(p,q) and Uses(q,v)
+beta,charlie,drink,echo,friends,order,work,iNsAnIty123
+5000
+5 - Uses 
+procedure p,q;assign a; variable v;while w;
+Select <p,v> such that Uses(p,v) and Calls(p,q) and Uses(q,v) and Parent(w,a) pattern a(v,_)
+beta a,beta b,charlie a,charlie b,echo a,echo b,iNsAnIty123 a,iNsAnIty123 b,iNsAnIty123 c,iNsAnIty123 d,beta c,beta d,beta f,beta h,charlie boy,charlie c,charlie cat,charlie d,charlie dog,charlie elephant,charlie f,charlie h,drink beer,drink empty,echo beer,echo boy,echo buffaloWings,echo c,echo cat,echo cookedList,echo customerCount,echo d,echo dog,echo elephant,echo empty,echo f,echo garlicBread,echo h,echo happiness,echo pizza,friends beer,friends empty,friends happiness,order beer,order empty,order happiness,work beer,work buffaloWings,work cookedList,work customerCount,work empty,work garlicBread,work happiness,work pizza
+5000
+1 - Pattern - basic
+assign a;
+Select a pattern a("a",_)
+4,22,35,51,157
+5000
+2 - Pattern 2 - test within bracket
+assign a; 
+Select a pattern a(_, _"d+3"_)
+41
+5000
+3 - Pattern 3 - does not break parenthesis rule
+assign a; 
+Select a pattern a(_,_"3*5"_)
+none
+5000
+4 - Pattern 4 - does not break parenthesis rule
+assign a; 
+Select a pattern a(_"c*a"_)
+none
+5000
+5 - Pattern 5 - * priority come first
+assign a; 
+Select a pattern a("a",_"d*e"_)
+4,22
+5000
+6 - Pattern 6- * priority come first
+assign a;
+Select a pattern a("a",_"h+e"_)
+none
+5000
+7 - Pattern 7- exact match test
+assign a; 
+Select a pattern a(_,"e-h*5")
+29
+5000
+8 - Pattern - string concattest
+assign a; 
+Select a pattern a(_,_"abc"_)
+none
+5000
+9 - Pattern - string concattest should not be captured
+assign a; 
+Select a pattern a(_,_"abc##"_)
+148
+5000
+1 - Tuple
+assign a;procedure p,q;
+Select <p,a> such that Calls(p,q) with p.procName ="beta" pattern a("a",_)
+beta 22,beta 35,beta 4,beta 51,beta 157
+5000
+2 - Tuple
+variable v;procedure p,q;assign a;
+Select <p,q,v> such that Uses(p,v) and Calls(p,q) and Uses(q,v) pattern a(v,_"f"_)
+iNsAnIty123 KappaClub k,iNsAnIty123 KappaClub a,beta alpha a,beta alpha f,beta alpha h,beta alpha j,charlie alpha a,charlie alpha f,charlie alpha h,charlie alpha j,charlie beta a,charlie beta f,charlie beta h,charlie beta j,charlie beta k,echo alpha a,echo alpha f,echo alpha h,echo alpha j,echo beta a,echo beta f,echo beta h,echo beta j,echo beta k,echo charlie a,echo charlie f,echo charlie h,echo charlie j,echo charlie k
+5000
+1 - Assign
+assign a;
+Select a.stmt#
+159,156,157,158,3,4,11,13,15,150,16,17,18,19,20,22,23,25,26,28,29,32,33,35,36,38,39,40,41,42,44,49,50,51,52,54,57,58,59,6,60,64,65,66,67,68,69,7,71,73,74,75,77,8,80,81,82,83,87,88,9,91,93,97,101,102,103,104,105,106,112,113,114,117,118,119,12,120,121,123,124,125,126,127,132,133,134,135,136,137,138,145,146,147,148,149
+5000
+2- While
+while w;
+Select w.stmt#
+2,14,24,37,43,48,70,76,94,111,130,155
+5000
+3 - If
+if i;
+Select i.stmt#
+1,10,21,27,30,31,47,5,61,62,63,72,78,84,92,98,100,122,144
+5000
+4 - Call
+call c;
+Select c.stmt#
+34,45,46,53,55,56,79,85,86,89,90,95,96,99,107,108,109,110,115,116,128,129,131,139,140,141,142,143,151,152,153,154
+5000
+5 - Procedure with Attribute
+procedure p;
+Select p.procName
+alpha, beta, charlie, delta, work, friends, order, drink, pour, echo, cab, drawMoney, KappaClub,iNsAnIty123
+5000
+6 - Procedure
+procedure p;
+Select p
+alpha, beta, charlie, delta, work, friends, order, drink, pour, echo, cab, drawMoney, KappaClub,iNsAnIty123
+5000
+7 - Prog_Line
+prog_line p;
+Select p
+159,151,152,153,154,155,156,157,158,1,10,100,101,102,103,104,105,106,107,108,109,11,110,111,112,113,114,115,116,117,118,119,12,120,121,122,123,124,125,126,127,128,129,13,130,131,132,133,134,135,136,137,138,139,14,140,141,142,143,144,145,146,147,148,149,15,150,16,17,18,19,2,20,21,22,23,24,25,26,27,28,29,3,30,31,32,33,34,35,36,37,38,39,4,40,41,42,43,44,45,46,47,48,49,5,50,51,52,53,54,55,56,57,58,59,6,60,61,62,63,64,65,66,67,68,69,7,70,71,72,73,74,75,76,77,78,79,8,80,81,82,83,84,85,86,87,88,89,9,90,91,92,93,94,95,96,97,98,99
+5000
+8 - Constant
+constant p;
+Select p
+0,1,10,100,2,3,4,5,50,6,7,8
+5000
+9 - Variable
+variable p;
+Select p
+a,abc,abc#,abc##,alone,anger,animal,ant,b,balance,beer,boy,breakfast,buffaloWings,c,cabCount,cabby,cat,chips,code,coding,coffee,completionStatus,cookedList,cookedlist,customerBlacklist,customerCount,customerRun,d,def,def##,def#gh,dog,drinking,drunk,e,efficiency,elephant,empty,f,fish,food,friend,g,garlicBread,gotCustomer,grabTaxi,h,hapiness,happiness,hungry,i,j,k,l,m,money,more,mouse,muffin,one,pin,pizza,sleep,take,thirsty,tiredness,walk
+5000
+10 - StmtLst
+stmtLst p;
+Select p
+TO BE ADDED
+5000
+11 - Stmt
+stmt p;
+Select p
+159,151,152,153,154,155,156,157,158,1,10,100,101,102,103,104,105,106,107,108,109,11,110,111,112,113,114,115,116,117,118,119,12,120,121,122,123,124,125,126,127,128,129,13,130,131,132,133,134,135,136,137,138,139,14,140,141,142,143,144,145,146,147,148,149,15,150,16,17,18,19,2,20,21,22,23,24,25,26,27,28,29,3,30,31,32,33,34,35,36,37,38,39,4,40,41,42,43,44,45,46,47,48,49,5,50,51,52,53,54,55,56,57,58,59,6,60,61,62,63,64,65,66,67,68,69,7,70,71,72,73,74,75,76,77,78,79,8,80,81,82,83,84,85,86,87,88,89,9,90,91,92,93,94,95,96,97,98,99
+5000

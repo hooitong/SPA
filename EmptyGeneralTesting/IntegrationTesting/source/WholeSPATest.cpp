@@ -24,5 +24,7 @@ void WholeSPATest::test() {
     QueryEvaluator evaluator(PKB::getPKB());
 
     results = evaluator.evaluate(tree);
+
+	bool r = PKB::getPKB()->getNextBip()->isNextStar(2, 1);
 }
 
