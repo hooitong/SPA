@@ -49,7 +49,7 @@ std::list<string> QueryEvaluator::evaluate(QueryTree* tree) {
             } else {
                 resultSynonym = getResultSynonyms(children[i]);
                 synonymMap = getSynonymMap(children[i]);
-                resultFilters = getResultFilters(children[i]);
+                resultFilters = getResultFilters(children[i], result);
             }
         }
     }
@@ -102,12 +102,15 @@ std::list<string> QueryEvaluator::evaluate(QueryTree* tree) {
     return resultList;
 }
 
-vector<QueryResult> QueryEvaluator::getResultFilters(QNode* node) {
+vector<QueryResult> QueryEvaluator::getResultFilters(QNode* node, QueryResult& result) {
     assert(node->getQType() == RESULTLIST);
 
     vector <QNode*> children = node->getChildren();
     vector <QueryResult> resultList;
     for (int i = 0; i < (int) children.size(); i++) {
+        if (result.getIndex(children[i]->getString()) != -1) {
+            continue;
+        }
         vector <int> result;
         if (children[i]->getQType() == WHILESYNONYM) {
             result = pkbInstance->getAst()->getStmtLines(WHILEN);
@@ -400,9 +403,9 @@ QueryResult QueryEvaluator::solvePatternIf(QNode* node) {
         TNode* varTNode = stmtTNode->getChildren()[0];
         TNode* thenStmtTNode = stmtTNode->getChildren()[1]->getChildren()[0];
         TNode* elseStmtTNode = stmtTNode->getChildren()[2]->getChildren()[0];
-        if (varNode->getQType() == ANY ||
-            varNode->getQType() == VARIABLESYNONYM || 
-            varNode->getString() == varTNode->getValue()) {
+        if (varNode->getQType() != ANY &&
+            varNode->getQType() != VARIABLESYNONYM && 
+            varNode->getString() != varTNode->getValue()) {
             continue;
         }
         vector <int> thisResult;
@@ -440,8 +443,8 @@ QueryResult QueryEvaluator::solvePatternWhile(QNode* node) {
         TNode* stmtTNode = pkbInstance->getAst()->getTNode(stmt);
         TNode* varTNode = stmtTNode->getChildren()[0];
         TNode* bodyStmtTNode = stmtTNode->getChildren()[1]->getChildren()[0];
-        if (varNode->getQType() == ANY ||
-            varNode->getQType() == VARIABLESYNONYM || 
+        if (varNode->getQType() == ANY &&
+            varNode->getQType() == VARIABLESYNONYM && 
             varNode->getString() == varTNode->getValue()) {
             continue;
         }
